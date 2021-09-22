@@ -1,10 +1,15 @@
 # PI Ingenieria/Bases Grupo-3
 
-Estudiantes: \n
+Estudiantes: 
  
-Daniel Monge Arce B85017 \n
-Eduardo Fernández Baldizón B92911 \n
-Víctor Chacón Barahona B81988 \n
-Asdrúbal Villegas Molina B88583 \n
-Diego Díaz Fonseca B92602 \n
-Bryan Umaña Morales B87997 \n
+Daniel Monge Arce B85017 
+
+Eduardo Fernández Baldizón B92911 
+
+Víctor Chacón Barahona B81988 
+
+Asdrúbal Villegas Molina B88583 
+
+Diego Díaz Fonseca B92602 
+
+Bryan Umaña Morales B87997 
