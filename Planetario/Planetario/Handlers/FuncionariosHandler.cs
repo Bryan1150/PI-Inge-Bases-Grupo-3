@@ -35,7 +35,9 @@ namespace Planetario.Handlers
         public List<FuncionarioModel> ObtenerTodosLosFuncionarios()
         {
             List<FuncionarioModel> ListaFuncionarios = new List<FuncionarioModel>();
-            string Consulta = "SELECT * FROM Funcionarios";
+            string Consulta = "SELECT cedula,nombre,apellido1,apellido2," +
+                "fechaIncorporacion,titulo,rolTrabajo,correoContacto " +
+                "FROM Funcionarios";
             DataTable tablaResultado = CrearTablaConsulta(Consulta);
 
             foreach (DataRow columna in tablaResultado.Rows)
@@ -56,6 +58,25 @@ namespace Planetario.Handlers
             }
 
             return ListaFuncionarios;
+        }
+
+        public Tuple<byte[], string> ObtenerFoto(int Cedula)
+        {
+            byte[] bytes;
+            string contentType;
+            string consulta = "SELECT foto, tipoArchivoFoto FROM Funcionario WHERE cedula = @cedula"; 
+            SqlCommand comandoParaConsulta = new SqlCommand(consulta, Conexion);
+            comandoParaConsulta.Parameters.AddWithValue("@cedula", Cedula);
+            Conexion.Open();
+
+            SqlDataReader lectorDeDatos = comandoParaConsulta.ExecuteReader();
+            lectorDeDatos.Read();
+
+            bytes = (byte[])lectorDeDatos["foto"];
+            contentType = lectorDeDatos["tipoArchivoFoto"].ToString();
+
+            Conexion.Close();
+            return new Tuple<byte[], string>(bytes, contentType);
         }
 
     }
