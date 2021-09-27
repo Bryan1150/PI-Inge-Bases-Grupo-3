@@ -32,5 +32,31 @@ namespace Planetario.Handlers
             return consultaFormatoTabla;
         }
 
+        public List<FuncionarioModel> ObtenerTodosLosFuncionarios()
+        {
+            List<FuncionarioModel> ListaFuncionarios = new List<FuncionarioModel>();
+            string Consulta = "SELECT * FROM Funcionarios";
+            DataTable tablaResultado = CrearTablaConsulta(Consulta);
+
+            foreach (DataRow columna in tablaResultado.Rows)
+            {
+                ListaFuncionarios.Add(
+                    new FuncionarioModel
+                    {
+                        Cedula = Convert.ToInt32(columna["cedula"]),
+                        Nombre = Convert.ToString(columna["nombre"]),
+                        Apellido1 = Convert.ToString(columna["apellido1"]),
+                        Apellido2 = Convert.ToString(columna["apellido2"]),
+                        FechaIncorporacion = Convert.ToString(columna["fechaIncorporacion"]),
+                        Titulo = Convert.ToString(columna["titulo"]),
+                        RolTrabajo = Convert.ToString(columna["rolTrabajo"]),
+                        CorreoContacto = Convert.ToString(columna["correoContacto"])
+                    }
+                );
+            }
+
+            return ListaFuncionarios;
+        }
+
     }
 }
