@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Web;
+﻿using System.Web;
+using System.ComponentModel.DataAnnotations;
 
 namespace Planetario.Models
 {
@@ -7,37 +7,37 @@ namespace Planetario.Models
     {
         [Display(Name = "Cedula")]
         [Required(ErrorMessage = "Es necesario que ingrese una cedula")]
-        public int cedula { get; set; }
+        public int Cedula { get; set; }
 
         [Display(Name = "Nombre")]
         [Required(ErrorMessage = "Es necesario que ingrese una nombre")]
-        public string nombre { get; set; }
+        public string Nombre { get; set; }
 
         [Display(Name = "Primer apellido")]
         [Required(ErrorMessage = "Es necesario que ingrese al menos un apellido")]
-        public string apellido1 { get; set; }
+        public string Apellido1 { get; set; }
 
         [Display(Name = "Segundo apellido")]
-        public string apellido2 { get; set; }
+        public string Apellido2 { get; set; }
 
         [Display(Name = "Fecha de incorporación")]
         [Required(ErrorMessage = "Es necesario que ingrese la fecha en la que empezó a trabajar el funcionario")]
-        public string fechaIncorporacion { get; set; }
+        public string FechaIncorporacion { get; set; }
 
         [Display(Name = "Titulo")]
-        public string titulo { get; set; }
+        public string Titulo { get; set; }
 
         [Display(Name = "Rol")]
         [Required(ErrorMessage = "Es necesario que ingrese el rol del funcionario")]
-        public string rolString { get; set; }
+        public string RolTrabajo { get; set; }
 
         [Display(Name = "Correo")]
-        public string correoContacto { get; set; }
+        public string CorreoContacto { get; set; }
 
         [Display(Name = "Foto del funcionario")]
-        public HttpPostedFileBase foto { get; set; }
+        public HttpPostedFileBase Foto { get; set; }
 
-        public string tipoArchivoFoto { get; set; }
+        public string TipoArchivoFoto { get; set; }
 
     }
 }
