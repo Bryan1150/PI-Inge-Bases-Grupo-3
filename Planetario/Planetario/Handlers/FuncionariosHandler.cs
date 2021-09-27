@@ -11,7 +11,14 @@ namespace Planetario.Handlers
 {
     public class FuncionariosHandler
     {
-        
+        private readonly SqlConnection Conexion;
+        private readonly string RutaConexion;
+
+        public FuncionariosHandler()
+        {
+            RutaConexion = ConfigurationManager.ConnectionStrings["ConexionBaseDatosServidor"].ToString();
+            Conexion = new SqlConnection(RutaConexion);
+        }
 
     }
 }
