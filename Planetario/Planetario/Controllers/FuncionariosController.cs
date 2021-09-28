@@ -10,6 +10,11 @@ namespace Planetario.Controllers
 {
     public class FuncionariosController : Controller
     {
-        
+        public ActionResult ListaFuncionarios()
+        {
+            FuncionariosHandler AcessoDatos = new FuncionariosHandler();
+            ViewBag.ListaFuncionarios = AcessoDatos.ObtenerTodosLosFuncionarios();
+            return View();
+        }
     }
 }
