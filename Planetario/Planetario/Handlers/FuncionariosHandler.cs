@@ -35,9 +35,10 @@ namespace Planetario.Handlers
         public List<FuncionarioModel> ObtenerTodosLosFuncionarios()
         {
             List<FuncionarioModel> ListaFuncionarios = new List<FuncionarioModel>();
-            string Consulta = "SELECT cedula,nombre,apellido1,apellido2," +
-                "fechaIncorporacion,titulo,rolTrabajo,correoContacto " +
-                "FROM Funcionarios";
+            string Consulta = " SELECT F.correoFK AS 'correo', F.cedula AS 'cedula'," +
+                " CONVERT(VARCHAR(20), fechaIncorporacion, 1) AS fechaIncorporacion," +
+                " F.rolTrabajo, F.titulo, U.nombre + ' ' + U.apellido1 + ' ' + U.apellido2 AS 'nombre' " +
+                "FROM Funcionario F JOIN Usuario U ON F.correoFK = U.correoPK; ";
             DataTable tablaResultado = CrearTablaConsulta(Consulta);
 
             foreach (DataRow columna in tablaResultado.Rows)
@@ -47,12 +48,10 @@ namespace Planetario.Handlers
                     {
                         Cedula = Convert.ToInt32(columna["cedula"]),
                         Nombre = Convert.ToString(columna["nombre"]),
-                        Apellido1 = Convert.ToString(columna["apellido1"]),
-                        Apellido2 = Convert.ToString(columna["apellido2"]),
                         FechaIncorporacion = Convert.ToString(columna["fechaIncorporacion"]),
                         Titulo = Convert.ToString(columna["titulo"]),
                         RolTrabajo = Convert.ToString(columna["rolTrabajo"]),
-                        CorreoContacto = Convert.ToString(columna["correoContacto"])
+                        CorreoContacto = Convert.ToString(columna["correo"])
                     }
                 );
             }
