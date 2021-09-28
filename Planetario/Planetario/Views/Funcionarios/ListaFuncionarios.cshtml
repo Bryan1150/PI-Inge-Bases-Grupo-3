@@ -1,1 +1,37 @@
 ﻿@model Planetario.Models.FuncionarioModel
+@{
+    var listaFuncionarios = ViewBag.listaFuncionarios;
+    var cantidadFuncionarios = ViewBag.listaFuncionarios.Count;
+}
+
+<h1>Funcionarios</h1>
+<table class="table-bordered" style="width:100%">
+    @for (var indexFuncionario = 0; indexFuncionario < cantidadFuncionarios;)
+    {
+        <tr>
+            @for (var maxIndexFila = indexFuncionario + 2; indexFuncionario <= maxIndexFila; ++indexFuncionario)
+            {
+                if (indexFuncionario < cantidadFuncionarios)
+                {
+                    <td>
+                        @{
+                            var Funcionario = listaFuncionarios[indexFuncionario];
+                            var NombreAMostrar = Funcionario.Titulo + " " + Funcionario.Nombre;
+                        }
+                        <p> <strong>@Funcionario.RolTrabajo           </strong> </p>
+                        <p> <strong>@NombreAMostrar                   </strong> </p>
+                        <p> <strong>@Funcionario.CorreoContacto       </strong> </p>
+                        <p>
+                            Trabaja aquí desde:
+                            <strong>@Funcionario.FechaIncorporacion   </strong>
+                        </p>
+                        <img src=@Url.Action("ObtenerImagen", "Funcionarios", new { cedula = Funcionario.Cedula }) style="width:327px;height:420px;">
+                    </td>
+                }
+            }
+        </tr>
+    }
+</table>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
