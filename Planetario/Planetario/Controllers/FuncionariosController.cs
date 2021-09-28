@@ -16,5 +16,14 @@ namespace Planetario.Controllers
             ViewBag.ListaFuncionarios = AcessoDatos.ObtenerTodosLosFuncionarios();
             return View();
         }
+
+        [HttpGet]
+        public ActionResult ObtenerImagen(int cedula)
+        {
+            FuncionariosHandler productHandler = new FuncionariosHandler();
+            var tuple = productHandler.ObtenerFoto(cedula);
+            return File(tuple.Item1, tuple.Item2);
+        }
+
     }
 }
