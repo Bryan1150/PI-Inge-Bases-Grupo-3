@@ -2,19 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
-namespace Planetario.Models
+namespace Planetario.Controllers
 {
-    public class PreguntasFrecuentesModel
+    public class PreguntasFrecuentesController : Controller
     {
-        public int idPregunta { get; set; }
-
-        public string categoriaPregunta { get; set; }
-
-        public string topicoPregunta { get; set; }
-
-        public string pregunta { get; set; }
-
-        public string respuesta { get; set; }
+        // GET: PreguntasFrecuentes
+        public ActionResult PreguntasFrecuentes()
+        {
+            return View();
+        }
     }
 }
