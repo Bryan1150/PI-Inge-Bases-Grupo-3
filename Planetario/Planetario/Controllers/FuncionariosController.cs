@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Planetario.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -24,6 +25,32 @@ namespace Planetario.Controllers
             var tuple = productHandler.ObtenerFoto(cedula);
             return File(tuple.Item1, tuple.Item2);
         }
+
+        [HttpPost]
+        public ActionResult agregadoDeProducto(FuncionarioModel funcionario)
+        {
+            ViewBag.ExitoAlCrear = false;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    FuncionariosHandler accesoDatos = new FuncionariosHandler();
+                    ViewBag.ExitoAlCrear = accesoDatos.crearFuncionario(funcionario);
+                    if (ViewBag.ExitoAlCrear)
+                    {
+                        ViewBag.Message = "El funcionario" + " " + funcionario.Nombre + " fue agregado con éxito:)";
+                        ModelState.Clear();
+                    }
+                }
+                return View();
+            }
+            catch
+            {
+                ViewBag.Message = "Algo salió mal ";
+                return View();
+            }
+        }
+
 
     }
 }
