@@ -5,6 +5,8 @@ namespace Planetario.Models
 {
     public class MaterialEducativoModel
     {
+        public int Id { get; set; }
+
         [Display(Name = "Titulo")]
         [Required(ErrorMessage = "Es necesario indicar un titulo para el material")]
         public string Titulo { get; set; }
