@@ -1,56 +1,77 @@
 ﻿@model Planetario.Models.MaterialEducativoModel
+@{ 
+    var listaMateriales = ViewBag.listaMateriales;
+    var cantidadDeMateriales = listaMateriales.Count;
+    var MensajeCantidadMateriales = "Hay " + cantidadDeMateriales + " ";
+    if(cantidadDeMateriales > 1 || cantidadDeMateriales == 0)
+    {
+        MensajeCantidadMateriales += "materiales disponibles";
+    } 
+    else
+    {
+        MensajeCantidadMateriales += "material disponible";
+    }
+}
 
+<h4>Material educativo Disponible</h4>
+<h6>@MensajeCantidadMateriales </h6>
+<hr />
 <div>
-    <h4>MaterialEducativoModel</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Titulo)
-        </dt>
+    @for (var index = 0; index < cantidadDeMateriales; ++index)
+    {
 
-        <dd>
-            @Html.DisplayFor(model => model.Titulo)
-        </dd>
+        var material = listaMateriales[index];
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Fecha)
-        </dt>
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Titulo)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Fecha)
-        </dd>
+            <dd>
+                @material.Titulo
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CorreoResponsable)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.CorreoResponsable)
-        </dd>
+            <dd>
+                @material.Fecha
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Idioma)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.CorreoResponsable)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Idioma)
-        </dd>
+            <dd>
+                @material.CorreoResponsable
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Autor)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Idioma)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Autor)
-        </dd>
+            <dd>
+                @material.Idioma
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.NombreResponsable)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Autor)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.NombreResponsable)
-        </dd>
+            <dd>
+                @material.Autor
+            </dd>
 
-    </dl>
+            <dt>
+                @Html.DisplayNameFor(model => model.NombreResponsable)
+            </dt>
+
+            <dd>
+                @material.NombreResponsable
+            </dd>
+
+        </dl>
+        <img src=@Url.Action("ObtenerImagenVistaPrevia", "MaterialEducativo", new { id = material.Id }) style="width:150px;height:300px;">
+    }
 </div>
