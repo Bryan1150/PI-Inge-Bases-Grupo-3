@@ -46,7 +46,12 @@ namespace Planetario.Handlers
                 ListaMateriales.Add(
                     new MaterialEducativoModel
                     {
-                        Titulo = 
+                        Titulo = Convert.ToString(columna["titulo"]),
+                        Fecha  = Convert.ToString(columna["fechaSubida"]),
+                        CorreoResponsable = Convert.ToString(columna["correoResponsable"]),
+                        Idioma = Convert.ToString(columna["idioma"]),
+                        Autor = Convert.ToString(columna["autor"]),
+                        NombreResponsable = Convert.ToString(columna["nombreResponsable"]),
                     }
                 );
             }
