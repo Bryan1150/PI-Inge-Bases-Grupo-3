@@ -26,8 +26,14 @@ namespace Planetario.Controllers
             return File(tuple.Item1, tuple.Item2);
         }
 
+        public ActionResult AgregarFuncionario()
+        {
+            return View("AgregarFuncionario");
+        }
+
+
         [HttpPost]
-        public ActionResult agregadoDeProducto(FuncionarioModel funcionario)
+        public ActionResult AgregarFuncionario(FuncionarioModel funcionario)
         {
             ViewBag.ExitoAlCrear = false;
             try

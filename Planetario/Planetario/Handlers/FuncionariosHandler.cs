@@ -6,6 +6,7 @@ using System.Web;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 
 namespace Planetario.Handlers
 {
@@ -73,7 +74,7 @@ namespace Planetario.Handlers
             comandoParaConsulta.Parameters.AddWithValue("@titulo", funcionario.Titulo);
             comandoParaConsulta.Parameters.AddWithValue("@trabajo", funcionario.RolTrabajo);
             comandoParaConsulta.Parameters.AddWithValue("@foto", obtenerBytes(funcionario.Foto));
-            comandoParaConsulta.Parameters.AddWithValue("@tipoArchivo", funcionario.TipoArchivoFoto.ContentType);
+            comandoParaConsulta.Parameters.AddWithValue("@tipoArchivo", funcionario.Foto.ContentType);
 
             Conexion.Open();
             bool exito = comandoParaConsulta.ExecuteNonQuery() >= 1; // indica que se agregO una tupla (cuando es mayor o igual que 1)
