@@ -128,6 +128,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Handlers\FuncionariosHandler.cs" />
+    <Compile Include="Handlers\MaterialesEducativosHandler.cs" />
     <Compile Include="Models\FuncionarioModel.cs" />
     <Compile Include="Models\MaterialesEducativosModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
