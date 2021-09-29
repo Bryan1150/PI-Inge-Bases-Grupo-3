@@ -35,7 +35,7 @@ namespace Planetario.Handlers
         public List<MaterialEducativoModel> ObtenerInfoTodosLosMateriales()
         {
             List<MaterialEducativoModel> ListaMateriales = new List<MaterialEducativoModel>();
-            string Consulta = "SELECT M.titulo, CONVERT(VARCHAR(20), M.fechaSubida, 1) AS fechaSubida , M.correoResponsableFK, " +
+            string Consulta = "SELECT M.idMaterialPk, M.titulo, CONVERT(VARCHAR(20), M.fechaSubida, 1) AS fechaSubida , M.correoResponsableFK, " +
                 "M.idioma, M.autor, U.nombre + ' ' + U.apellido1 + ' ' + U.apellido2 AS 'nombreResponsable' " +
                 "FROM MaterialEducativo M " +
                 "JOIN Usuario U ON M.correoResponsableFK = U.correoPK;";
@@ -46,6 +46,7 @@ namespace Planetario.Handlers
                 ListaMateriales.Add(
                     new MaterialEducativoModel
                     {
+                        Id = Convert.ToInt32(columna["idMaterial"]),
                         Titulo = Convert.ToString(columna["titulo"]),
                         Fecha  = Convert.ToString(columna["fechaSubida"]),
                         CorreoResponsable = Convert.ToString(columna["correoResponsable"]),
@@ -57,6 +58,25 @@ namespace Planetario.Handlers
             }
 
             return ListaMateriales;
+        }
+
+        public Tuple<byte[], string> ObtenerVistaPrevia(int id)
+        {
+            byte[] bytes;
+            string contentType;
+            string consulta = "SELECT imagenVistaPrevia, tipoArchivoVistaPrevia FROM MaterialEducativo WHERE idMaterialPk = @id";
+            SqlCommand comandoParaConsulta = new SqlCommand(consulta, Conexion);
+            comandoParaConsulta.Parameters.AddWithValue("@id", id);
+            Conexion.Open();
+
+            SqlDataReader lectorDeDatos = comandoParaConsulta.ExecuteReader();
+            lectorDeDatos.Read();
+
+            bytes = (byte[])lectorDeDatos["foto"];
+            contentType = lectorDeDatos["tipoArchivoFoto"].ToString();
+
+            Conexion.Close();
+            return new Tuple<byte[], string>(bytes, contentType);
         }
 
     }
