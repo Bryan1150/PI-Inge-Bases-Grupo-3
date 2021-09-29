@@ -64,7 +64,7 @@ namespace Planetario.Handlers
         {
             byte[] bytes;
             string contentType;
-            string consulta = "SELECT imagenVistaPrevia, tipoArchivoVistaPrevia FROM MaterialEducativo WHERE idMaterialPk = @id";
+            string consulta = "SELECT imagenVistaPrevia, tipoArchivoVistaPrevia FROM MaterialEducativo WHERE idMaterialPK = @id";
             SqlCommand comandoParaConsulta = new SqlCommand(consulta, Conexion);
             comandoParaConsulta.Parameters.AddWithValue("@id", id);
             Conexion.Open();
