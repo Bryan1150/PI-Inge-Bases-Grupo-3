@@ -9,6 +9,15 @@ namespace Planetario.Handlers
 {
     public class MaterialesEducativosHandler
     {
+        private readonly SqlConnection Conexion;
+        private readonly string RutaConexion;
+
+        public MaterialesEducativosHandler()
+        {
+            RutaConexion = ConfigurationManager.ConnectionStrings["ConexionBaseDatosServidor"].ToString();
+            Conexion = new SqlConnection(RutaConexion);
+        }
+
         
 
     }
