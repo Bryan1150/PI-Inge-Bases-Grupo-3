@@ -16,5 +16,14 @@ namespace Planetario.Controllers
             ViewBag.listaMateriales = AccesoDatos.ObtenerInfoTodosLosMateriales();
             return View();
         }
+
+        [HttpGet]
+        public ActionResult ObtenerImagenVistaPrevia(int id)
+        {
+            MaterialesEducativosHandler productHandler = new MaterialesEducativosHandler();
+            var tuple = productHandler.ObtenerVistaPrevia(id);
+            return File(tuple.Item1, tuple.Item2);
+        }
+
     }
 }
