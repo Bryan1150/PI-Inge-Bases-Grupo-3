@@ -34,7 +34,7 @@ namespace Planetario.Models
 
         [Display(Name = "Archivo")]
         [Required(ErrorMessage = "Es necesario subir un archivo")]
-        public HttpPostedFileBase Foto { get; set; }
+        public HttpPostedFileBase Archivo { get; set; }
 
         public string TipoArchivo { get; set; }
 
