@@ -10,19 +10,9 @@ namespace Planetario.Controllers
 {
     public class MaterialEducativoController : Controller
     {
-        public ActionResult ListaMaterialesEducativos()
+        public ActionResult AlmacenarNuevoMaterialEducativo()
         {
-            MaterialesEducativosHandler AccesoDatos = new MaterialesEducativosHandler();
-            ViewBag.listaMateriales = AccesoDatos.ObtenerInfoTodosLosMateriales();
             return View();
-        }
-
-        [HttpGet]
-        public ActionResult ObtenerImagenVistaPrevia(int id)
-        {
-            MaterialesEducativosHandler productHandler = new MaterialesEducativosHandler();
-            var tuple = productHandler.ObtenerVistaPrevia(id);
-            return File(tuple.Item1, tuple.Item2);
         }
 
     }
