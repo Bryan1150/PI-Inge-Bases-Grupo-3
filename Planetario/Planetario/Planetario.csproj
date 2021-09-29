@@ -171,7 +171,7 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Funcionarios\ListaFuncionarios.cshtml" />
-    <Content Include="Views\MaterialEducativo\ListaMaterialesEducativos.cshtml" />
+    <Content Include="Views\MaterialEducativo\AlmacenarNuevoMaterialEducativo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
