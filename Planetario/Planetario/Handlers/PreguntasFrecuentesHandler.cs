@@ -48,12 +48,29 @@ namespace Planetario.Handlers
                         topicoPregunta = Convert.ToString(columna["topicoPregunta"]),
                         pregunta = Convert.ToString(columna["pregunta"]),
                         respuesta = Convert.ToString(columna["respuesta"]),
-                    });           
+                    });
             }
 
             return preguntasFrecuentes;
         }
-    }   
+
+        public bool agregarNuevaPregunta(PreguntasFrecuentesModel nuevaPregunta)
+        {
+            string consulta = "INSERT INTO dbo.PreguntasFrecuentes VALUES (categoriaPregunta, topicoPregunta, pregunta, respuesta) " +
+                "VALUES (@categoriaPregunta, @topicoPregunta, @pregunta, @respuesta) ";
+            SqlCommand comandoParaConsulta = new SqlCommand(consulta, conexion);
+            SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
+
+            comandoParaConsulta.Parameters.AddWithValue("@categoriaPregunta", nuevaPregunta.categoriaPregunta);
+            comandoParaConsulta.Parameters.AddWithValue("@topicoPregunta", nuevaPregunta.topicoPregunta);
+            comandoParaConsulta.Parameters.AddWithValue("@pregunta", nuevaPregunta.pregunta);
+            comandoParaConsulta.Parameters.AddWithValue("@respuesta", nuevaPregunta.respuesta);
+            conexion.Open();
+            bool exito = comandoParaConsulta.ExecuteNonQuery() >= 1;
+            conexion.Close();
+            return exito;
+        }
+    }
 }
 
     
