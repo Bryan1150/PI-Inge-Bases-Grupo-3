@@ -1,4 +1,98 @@
-﻿@Model Planetario.Models.PreguntasFrecuentesModel 
+﻿@model Planetario.Models.PreguntasFrecuentesModel 
 @{ 
     ViewBag.Title = "Añadir Pregunta";
 }
+
+<html>
+<head>
+
+</head>
+
+<body>
+
+    @if (ViewBag.Message != null)
+    {
+        if (ViewBag.ExitoAlCrear)
+        {
+            <div class="alert-success">
+                <h3> @ViewBag.Message </h3>
+            </div>
+        }
+        else
+        {
+            <div class="alert-danger">
+                <h3> @ViewBag.Message</h3>
+            </div>
+        }
+    }
+
+    @using (Html.BeginForm("AgregarNuevaPregunta", "PreguntasFrecuentes", FormMethod.Post, new
+    {
+        enctype = "multipart/form-data"
+    }))
+    {
+        @Html.AntiForgeryToken()
+
+        <h1>Agregar Nueva Pregunta</h1>
+
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(model => model.categoriaPregunta)
+                @Html.TextBoxFor(model => model.categoriaPregunta, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.categoriaPregunta, "", new
+                {
+                    @class =
+               "text-danger"
+                })
+            </div>
+        </div>
+
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(model => model.topicoPregunta)
+                @Html.TextBoxFor(model => model.topicoPregunta, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.topicoPregunta, "", new
+                {
+                    @class =
+               "text-danger"
+                })
+            </div>
+        </div>
+
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(model => model.pregunta)
+                @Html.TextBoxFor(model => model.pregunta, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.pregunta, "", new
+                {
+                    @class =
+               "text-danger"
+                })
+            </div>
+        </div>
+
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(model => model.respuesta)
+                @Html.TextBoxFor(model => model.respuesta, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.respuesta, "", new
+                {
+                    @class =
+               "text-danger"
+                })
+            </div>
+
+            <input type="submit" class="btn btn-success" value="Crear"/>
+
+        </div>
+
+    }
+
+
+</body>
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval"))
+    }
+
+</html>
