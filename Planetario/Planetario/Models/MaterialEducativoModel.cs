@@ -18,8 +18,8 @@ namespace Planetario.Models
         [Required(ErrorMessage = "Es necesario indicar le correo del usuario")]
         public string CorreoResponsable { get; set; }
 
-        [Display(Name = "Idioma")]
-        public string Idioma { get; set; }
+        [Display(Name = "Publico dirigido")]
+        public string PublicoDirigido { get; set; }
         
         [Display(Name = "Autor")]
         public string Autor { get; set; }
@@ -37,6 +37,11 @@ namespace Planetario.Models
         public HttpPostedFileBase Archivo { get; set; }
 
         public string TipoArchivo { get; set; }
+
+        public bool HayVistaPrevia()
+        {
+            return ImagenVistaPrevia != null;
+        }
 
     }
 }
