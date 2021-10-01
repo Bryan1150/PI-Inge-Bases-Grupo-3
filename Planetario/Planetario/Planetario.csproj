@@ -124,9 +124,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\FuncionariosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\NoticiasController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Handlers\NoticiasHandler.cs" />
+    <Compile Include="Models\NoticiaModel.cs" />
     <Compile Include="Handlers\FuncionariosHandler.cs" />
     <Compile Include="Models\FuncionarioModel.cs" />
     <Compile Include="Models\ActividadModel.cs" />
@@ -171,6 +174,8 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\HorariosParqueoTransporte.cshtml" />
     <Content Include="Views\Funcionarios\ListaFuncionarios.cshtml" />
+    <Content Include="Views\Noticias\listadoDeNoticias.cshtml" />
+    <Content Include="Views\Noticias\verNoticia.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
