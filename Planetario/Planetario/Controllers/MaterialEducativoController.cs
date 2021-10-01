@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -17,26 +18,30 @@ namespace Planetario.Controllers
         }
 
         [HttpPost]
-        public ActionResult AlmacenarNuevoMaterialEducativo(MaterialEducativoModel Material)
+        public ActionResult AlmacenarNuevoMaterialEducativo(MaterialEducativoModel MaterialEducativo)
         {
             ViewBag.ExitoAlmacenar = false;
             try
             {
-                if(ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
                     MaterialesEducativosHandler AccesoADatos = new MaterialesEducativosHandler();
-                    ViewBag.ExitoAlmacenar = AccesoADatos.AlmacenarMaterialEducativo(Material);
+                    ViewBag.ExitoAlmacenar = AccesoADatos.AlmacenarMaterialEducativo(MaterialEducativo);
                     if(ViewBag.ExitoAlmacenar)
                     {
-                        ViewBag.Mensaje = "El material " + Material.Titulo + "fue almacenado con exito 😉";
+                        ViewBag.Mensaje = "El material " + MaterialEducativo.Titulo + " fue almacenado con exito 😉";
                         ModelState.Clear();
+                    } 
+                    else
+                    {
+                        ViewBag.Mensaje = "Hubo un error en la base de datos ☹";
                     }
                 }
                 return View();
             }
             catch
             {
-                ViewBag.Messasge = "Algo salió mal y no fue posible crear el planeta 😐";
+                ViewBag.Mensaje = "Algo salió mal y no fue posible almacenar el material 😐";
                 return View();
             }
         }
