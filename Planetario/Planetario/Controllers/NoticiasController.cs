@@ -15,5 +15,12 @@ namespace Planetario.Controllers
             ViewBag.noticias = accesoDatos.obtenerTodasLasNoticias();
             return View();
         }
+
+        public ActionResult verNoticia(string stringId)
+        {
+            NoticiasHandler accesoDatos = new NoticiasHandler();
+            ViewBag.noticia = accesoDatos.buscarNoticia(stringId);
+            return View();
+        }
     }
 }

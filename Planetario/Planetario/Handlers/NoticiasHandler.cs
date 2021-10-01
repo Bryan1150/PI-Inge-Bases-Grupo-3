@@ -51,5 +51,24 @@ namespace Planetario.Handlers
             }
             return noticias;
         }
+
+        public NoticiaModel buscarNoticia(string stringId)
+        {
+            string consulta = "SELECT * FROM Noticia WHERE idNoticiaPK = " + stringId + ";";
+            DataTable tablaResultado = crearTablaConsulta(consulta);
+            NoticiaModel resultado = null;
+            if(tablaResultado.Rows[0] != null)
+            {
+                resultado = new NoticiaModel
+                {
+                    id = Convert.ToInt32(tablaResultado.Rows[0]["idNoticiaPK"]),
+                    titulo = Convert.ToString(tablaResultado.Rows[0]["titulo"]),
+                    cuerpo = Convert.ToString(tablaResultado.Rows[0]["cuerpo"]),
+                    fecha = Convert.ToDateTime(tablaResultado.Rows[0]["fecha"]),
+                    correoAutor = Convert.ToString(tablaResultado.Rows[0]["correoFuncionarioAutorFK"]),
+                };
+            }
+            return resultado;
+        }
     }
 }

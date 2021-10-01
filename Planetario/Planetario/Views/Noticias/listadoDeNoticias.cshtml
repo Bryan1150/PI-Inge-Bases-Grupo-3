@@ -19,8 +19,8 @@
         @foreach(Planetario.Models.NoticiaModel noticia in ViewBag.noticias)
             {
                 <tr>
-                    <td>@noticia.id</td>
-                    <td>@noticia.titulo</td>
+                    <td>@noticia.id  </td>
+                    <td>@Html.ActionLink(noticia.titulo, "verNoticia", "Noticias", new {stringId = @noticia.id.ToString()}, null)</td>
                     <td>@noticia.correoAutor</td>
                 </tr>
             }
