@@ -22,8 +22,8 @@ namespace Planetario.Controllers
         public ActionResult ObtenerImagen(int cedula)
         {
             FuncionariosHandler productHandler = new FuncionariosHandler();
-            var tuple = productHandler.ObtenerFoto(cedula);
-            return File(tuple.Item1, tuple.Item2);
+            var tupla = productHandler.ObtenerFoto(cedula);
+            return File(tupla.Item1, tupla.Item2);
         }
 
         public ActionResult AgregarFuncionario()
@@ -44,7 +44,7 @@ namespace Planetario.Controllers
                     ViewBag.ExitoAlCrear = accesoDatos.crearFuncionario(funcionario);
                     if (ViewBag.ExitoAlCrear)
                     {
-                        ViewBag.Message = "El funcionario" + " " + funcionario.Nombre + " fue agregado con éxito:)";
+                        ViewBag.Message = "El funcionario "  + funcionario.Nombre + " fue agregado con éxito.";
                         ModelState.Clear();
                     }
                 }
