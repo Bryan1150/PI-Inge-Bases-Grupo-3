@@ -31,19 +31,36 @@ namespace Planetario.Handlers
 
         public bool AlmacenarMaterialEducativo(MaterialEducativoModel material)
         {
+            bool HayVistaPrevia = material.HayVistaPrevia();
             string Consulta = "INSERT INTO MaterialEducativo " +
-                "VALUES (@titulo, DATE(), @correoResponsable, @idioma, " +
-                "@autor, @imagenVistaPrevia, @tipoArchivoVistaPrevia, " +
-                "@archivo, @tipoArchivo );";
+                "( titulo, fechaSubida, correoResponsableFK, publicoDirigido, autor, ";
+            if(HayVistaPrevia)
+            {
+                Consulta += "vistaPrevia, tipoArchivoVistaPrevia, ";
+            }
+
+            Consulta += "archivo, tipoArchivo ) " +
+            "VALUES ( @titulo, GETDATE(), @correoResponsable, @publicoDirigido, @autor, ";
+            
+            if(HayVistaPrevia)
+            {
+                Consulta += "@imagenVistaPrevia, @tipoArchivoVistaPrevia, ";
+            }
+            Consulta += "@archivo, @tipoArchivo );";
 
             SqlCommand ComandoParaConsulta = new SqlCommand(Consulta, Conexion);
 
             ComandoParaConsulta.Parameters.AddWithValue("@titulo", material.Titulo);
-            ComandoParaConsulta.Parameters.AddWithValue("@correo", material.CorreoResponsable);
-            ComandoParaConsulta.Parameters.AddWithValue("@idioma", material.Idioma);
+            ComandoParaConsulta.Parameters.AddWithValue("@correoResponsable", material.CorreoResponsable);
+            ComandoParaConsulta.Parameters.AddWithValue("@publicoDirigido", material.PublicoDirigido);
             ComandoParaConsulta.Parameters.AddWithValue("@autor", material.Autor);
-            ComandoParaConsulta.Parameters.AddWithValue("@imagenVistaPrevia", ObtenerBytes(material.ImagenVistaPrevia));
-            ComandoParaConsulta.Parameters.AddWithValue("@tipoArchivoVistaPrevia", material.ImagenVistaPrevia.ContentType);
+            
+            if(HayVistaPrevia)
+            {
+                ComandoParaConsulta.Parameters.AddWithValue("@imagenVistaPrevia", ObtenerBytes(material.ImagenVistaPrevia));
+                ComandoParaConsulta.Parameters.AddWithValue("@tipoArchivoVistaPrevia", material.ImagenVistaPrevia.ContentType);
+            }
+
             ComandoParaConsulta.Parameters.AddWithValue("@archivo", ObtenerBytes(material.Archivo));
             ComandoParaConsulta.Parameters.AddWithValue("@tipoArchivo", material.Archivo.ContentType);
 
