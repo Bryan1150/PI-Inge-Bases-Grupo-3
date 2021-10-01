@@ -33,14 +33,14 @@ namespace Planetario.Handlers
         {
             bool HayVistaPrevia = material.HayVistaPrevia();
             string Consulta = "INSERT INTO MaterialEducativo " +
-                "( titulo, fechaSubida, correoResponsableFK, publicoDirigido, autor, ";
+                "( titulo, fechaSubida, correoResponsableFK, publicoDirigido, ";
             if(HayVistaPrevia)
             {
                 Consulta += "vistaPrevia, tipoArchivoVistaPrevia, ";
             }
 
             Consulta += "archivo, tipoArchivo ) " +
-            "VALUES ( @titulo, GETDATE(), @correoResponsable, @publicoDirigido, @autor, ";
+            "VALUES ( @titulo, GETDATE(), @correoResponsable, @publicoDirigido, ";
             
             if(HayVistaPrevia)
             {
@@ -53,7 +53,6 @@ namespace Planetario.Handlers
             ComandoParaConsulta.Parameters.AddWithValue("@titulo", material.Titulo);
             ComandoParaConsulta.Parameters.AddWithValue("@correoResponsable", material.CorreoResponsable);
             ComandoParaConsulta.Parameters.AddWithValue("@publicoDirigido", material.PublicoDirigido);
-            ComandoParaConsulta.Parameters.AddWithValue("@autor", material.Autor);
             
             if(HayVistaPrevia)
             {

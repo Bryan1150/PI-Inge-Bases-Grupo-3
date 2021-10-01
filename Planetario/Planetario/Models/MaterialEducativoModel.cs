@@ -20,9 +20,6 @@ namespace Planetario.Models
 
         [Display(Name = "Publico dirigido")]
         public string PublicoDirigido { get; set; }
-        
-        [Display(Name = "Autor")]
-        public string Autor { get; set; }
 
         [Display(Name = "Nombre del responsable")]
         public string NombreResponsable { get; set; }
