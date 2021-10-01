@@ -77,7 +77,7 @@ namespace Planetario.Handlers
             comandoParaConsulta.Parameters.AddWithValue("@tipoArchivo", funcionario.Foto.ContentType);
 
             Conexion.Open();
-            bool exito = comandoParaConsulta.ExecuteNonQuery() >= 1; // indica que se agregO una tupla (cuando es mayor o igual que 1)
+            bool exito = comandoParaConsulta.ExecuteNonQuery() >= 1; 
             Conexion.Close();
             return exito;
         }
