@@ -5,16 +5,16 @@ namespace Planetario.Models
 {
     public class FuncionarioModel
     {
-        [Display(Name = "Cedula")]
-        [Required(ErrorMessage = "Es necesario que ingrese una cedula")]
+        [Display(Name = "Cédula")]
+        [Required(ErrorMessage = "Es necesario que ingrese el número de una cédula")]
         public int Cedula { get; set; }
 
         [Display(Name = "Nombre")]
-        [Required(ErrorMessage = "Es necesario que ingrese una nombre")]
+        [Required(ErrorMessage = "Es necesario que ingrese un nombre")]
         public string Nombre { get; set; }
 
         [Display(Name = "Primer apellido")]
-        [Required(ErrorMessage = "Es necesario que ingrese al menos un apellido")]
+        [Required(ErrorMessage = "Es necesario que ingrese al menos el primer apellido")]
         public string Apellido1 { get; set; }
 
         [Display(Name = "Segundo apellido")]
@@ -24,7 +24,7 @@ namespace Planetario.Models
         [Required(ErrorMessage = "Es necesario que ingrese la fecha en la que empezó a trabajar el funcionario")]
         public string FechaIncorporacion { get; set; }
 
-        [Display(Name = "Titulo")]
+        [Display(Name = "Título")]
         public string Titulo { get; set; }
 
         [Display(Name = "Rol")]
@@ -38,6 +38,5 @@ namespace Planetario.Models
         public HttpPostedFileBase Foto { get; set; }
 
         public string TipoArchivoFoto { get; set; }
-
     }
 }

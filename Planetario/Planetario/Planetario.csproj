@@ -171,6 +171,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\HorariosParqueoTransporte.cshtml" />
     <Content Include="Views\Funcionarios\ListaFuncionarios.cshtml" />
+    <Content Include="Views\Funcionarios\AgregarFuncionario.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
