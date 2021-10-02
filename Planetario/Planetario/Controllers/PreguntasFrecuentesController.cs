@@ -8,28 +8,34 @@ using Planetario.Models;
 
 namespace Planetario.Controllers
 {
-    public class PreguntasFrecuentesController : Controller {
-        public ActionResult PreguntasFrecuentes() {
+    public class PreguntasFrecuentesController : Controller
+    {
+        public ActionResult PreguntasFrecuentes()
+        {
             PreguntasFrecuentesHandler accesoDatos = new PreguntasFrecuentesHandler();
             ViewBag.preguntasFecuentes = accesoDatos.ObtenerPreguntasFrecuentes();
             return View();
         }
 
         [HttpGet]
-        public ActionResult AgregarNuevaPregunta() {
+        public ActionResult AgregarNuevaPregunta()
+        {
             return View();
         }
 
         [HttpPost]
-        public ActionResult AgregarNuevaPregunta(PreguntasFrecuentesModel nuevaPregunta) {
+        public ActionResult AgregarNuevaPregunta(PreguntasFrecuentesModel nuevaPregunta)
+        {
             ViewBag.ExitoAlCrear = false;
             try
             {
-                if (ModelState.IsValid) {
+                if (ModelState.IsValid)
+                {
                     PreguntasFrecuentesHandler accesoDatos = new PreguntasFrecuentesHandler();
                     ViewBag.ExitoAlCrear = accesoDatos.agregarNuevaPregunta(nuevaPregunta);
 
-                    if(ViewBag.ExitoAlCrear) { 
+                    if(ViewBag.ExitoAlCrear)
+                    {
                         ViewBag.Message = "La pregunta fue añadida satisfactoriamente!";
                         ModelState.Clear();
                     }

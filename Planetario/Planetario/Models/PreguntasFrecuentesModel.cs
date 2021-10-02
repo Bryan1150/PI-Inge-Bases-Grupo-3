@@ -6,7 +6,8 @@ using System.Web;
 
 namespace Planetario.Models
 {
-    public class PreguntasFrecuentesModel {
+    public class PreguntasFrecuentesModel
+    {
         public int idPregunta { get; set; }
 
         [Display(Name = "Ingrese la categoria de la pregunta")]
