@@ -33,5 +33,12 @@ namespace Planetario.Controllers
 
             return View();
         }
+
+        public ActionResult HorariosParqueoTransporte()
+        {
+            ViewBag.Message = "Informacion sobre horarios, parqueo  transporte";
+
+            return View();
+        }
     }
 }
