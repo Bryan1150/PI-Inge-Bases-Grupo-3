@@ -20,7 +20,7 @@ namespace Planetario.Controllers
 
         [HttpGet]
         public ActionResult AgregarNuevaPregunta()
-        {
+        {                   
             return View();
         }
 
@@ -49,6 +49,5 @@ namespace Planetario.Controllers
                 return View();
             }
         }
-
     } 
 }

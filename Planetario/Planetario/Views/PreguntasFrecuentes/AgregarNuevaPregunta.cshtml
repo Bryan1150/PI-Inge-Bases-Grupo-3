@@ -2,41 +2,22 @@
 @{ 
     ViewBag.Title = "Añadir Pregunta";
     List<SelectListItem> categorias = new List<SelectListItem>() {
-    new SelectListItem { Text = "Cuerpos del Sistema Solar" },
-    new SelectListItem { Text = "Objetos de Cielo Profundo" },
-    new SelectListItem { Text = "Astronomia" },    new SelectListItem { Text = "General" }
-    };
-
-    List<SelectListItem> topicos = new List<SelectListItem>() {
-    new SelectListItem { Text = "Planetas" },
-    new SelectListItem { Text = "Satelites" },
-    new SelectListItem { Text = "Asteroides" },    new SelectListItem { Text = "Cometas" },
-    new SelectListItem { Text = "Galaxias" },
-    new SelectListItem { Text = "Estrellas" },
-    new SelectListItem { Text = "Nebulosas" },
-    new SelectListItem { Text = "Planetarias" },
-    new SelectListItem { Text = "Astronomia Observacional" },
-    new SelectListItem { Text = "Astronomia Teorica" },
-    new SelectListItem { Text = "Mecanica Celeste" },
-    new SelectListItem { Text = "Astrofisica" },
-    new SelectListItem { Text = "Astroquimica" },
-    new SelectListItem { Text = "Astrobiologia" },
-    new SelectListItem { Text = "Astrofotografia" },
-    new SelectListItem { Text = "Instrumentos" },
-    new SelectListItem { Text = "Pregunta Sencilla" },
-    };
+            new SelectListItem { Text = "Cuerpos del Sistema Solar" },
+            new SelectListItem { Text = "Objetos de Cielo Profundo" },
+            new SelectListItem { Text = "Astronomia" },
+            new SelectListItem { Text = "General" }
+            };
 }
 
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-
-    <style>
-        h1 {
-            font-size: 40px;
-            font-family: verdana;
-        }
+<meta charset="utf-8" />
+<style>
+h1 {
+        font-size: 40px;
+        font-family: verdana;
+    }
     </style>
 </head>
 
@@ -70,7 +51,7 @@
         <div class="form-horizontal">
             <div class="form-group">
                 @Html.LabelFor(model => model.categoriaPregunta)
-                @Html.DropDownListFor(model => model.categoriaPregunta, categorias, "-Sin selección - ", new { @class = "form - control" })
+                @Html.DropDownListFor(model => model.categoriaPregunta, categorias, "--Categoría--", new { @id = "categoriasPregunta", @class = "form - control" })
                 @Html.ValidationMessageFor(model => model.categoriaPregunta, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -78,8 +59,26 @@
         <div class="form-horizontal">
             <div class="form-group">
                 @Html.LabelFor(model => model.topicoPregunta)
-                @Html.DropDownListFor(model => model.topicoPregunta, new SelectList(" "), "-Sin selección - ", new { @class = "form - control" })
+                @Html.TextBoxFor(model => model.topicoPregunta, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.topicoPregunta, "", new { @class = "text-danger" })
+                <p>
+                    &nbsp
+                    <i>
+                        <b>Guia de Topicos</b><br>
+                        *Categoria: Cuerpos del Sistema Solar <br>
+                        Topicos: Planetas, Satelites, Cometas, Asteroides. <br>
+
+                        *Categoria: Objetos de Cielo Profundo <br>
+                        Topicos: Galaxias, Estrellas, Nebulosas, Planetarias. <br>
+
+                        *Categoria: Astronomia <br>
+                        Topicos: Astronomia Observacional, Astronomia Teorica, Mecanica Celeste, Astrofisica, Astroquimica, Astrobiologia. <br>
+
+                        *Categoria: General <br>
+                        Topicos: Astrofotografia, Instrumentos, Pregunta Sencilla.
+                    </i>
+
+                </p>
             </div>
         </div>
 
@@ -103,12 +102,12 @@
             <input type="submit" class="btn btn-success" value="Crear" />
             @Html.ActionLink("Volver", "PreguntasFrecuentes", null, new { @class = "btn btn-danger" })
         </div>
-    }
 
+    }
 </body>
 
 @section Scripts
 {
     @Scripts.Render("~/bundles/jqueryval"))
-                }
+}
 </html>

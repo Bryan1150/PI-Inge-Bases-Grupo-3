@@ -13,10 +13,10 @@
 
 <body>
     <div class="container">
-        <h1>Preguntas Frecuentes</h1>
+        <h1><b>Preguntas Frecuentes</b></h1>
         <p>
-            En este lugar estarán todas las preguntas qué nuestros colaboradores han añadido atraves del tiempo.
-            Están dividas por topico y por categoria.
+            En este lugar estarán todas las preguntas qué nuestros colaboradores han añadido atraves del tiempo. <br />
+            Están dividas por categoria y por tópico.
         </p>
     </div>
 
@@ -46,11 +46,10 @@
                                                 </div>
                                                 <div id="inside_@preguntaFrecuente.idPregunta" class="panel-collapse collapse">
                                                     <div class="panel-body">
-
-                                                        <p>@preguntaFrecuente.respuesta</p>
-
                                                         <p><i>Tópico(s): @preguntaFrecuente.topicoPregunta.</i></p>
-
+                                                        &nbsp
+                                                        <p><b>Respuesta:</b></p>
+                                                        <p>@preguntaFrecuente.respuesta</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -63,8 +62,6 @@
             }
         </div>
     </div>
-
     @Html.ActionLink("Agregar Pregunta", "AgregarNuevaPregunta", null , new { @class = "btn btn-success" })
-
 </body>
 </html>
