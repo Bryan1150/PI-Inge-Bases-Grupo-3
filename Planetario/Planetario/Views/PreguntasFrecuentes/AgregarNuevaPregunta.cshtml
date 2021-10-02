@@ -23,10 +23,8 @@ h1 {
 
 <body>
 
-    @if (ViewBag.Message != null)
-    {
-        if (ViewBag.ExitoAlCrear)
-        {
+    @if (ViewBag.Message != null) {
+        if (ViewBag.ExitoAlCrear) {
             <div class="alert-success">
                 <h3> @ViewBag.Message </h3>
             </div>
