@@ -16,7 +16,7 @@ namespace Planetario.Handlers
 
         public PreguntasFrecuentesHandler()
         {
-            rutaConexion = ConfigurationManager.ConnectionStrings["PlanetarioConnection"].ToString();
+            rutaConexion = ConfigurationManager.ConnectionStrings["ConexionBaseDatosServidor"].ToString();
             conexion = new SqlConnection(rutaConexion);
         }
 
@@ -54,9 +54,23 @@ namespace Planetario.Handlers
             return preguntasFrecuentes;
         }
 
-        public bool agregarNuevaPregunta(PreguntasFrecuentesModel nuevaPregunta)
+        public List<String> ObtenerCategorias()
         {
-            string consulta = "INSERT INTO dbo.PreguntasFrecuentes VALUES (categoriaPregunta, topicoPregunta, pregunta, respuesta) " +
+            List<String> categorias = new List<String>();
+            string consulta = "SELECT DISTINCT categoriaPregunta FROM dbo.PreguntasFrecuentes";
+            DataTable tablaResultado = CrearTablaConsulta(consulta);
+
+            foreach (DataRow columna in tablaResultado.Rows)
+            {
+                categorias.Add(Convert.ToString(columna["categoriaPregunta"]));
+            }
+
+            return categorias;
+        }
+
+        public bool agregarNuevaPregunta(PreguntasFrecuentesModel nuevaPregunta)
+        {     
+            string consulta = "INSERT INTO dbo.PreguntasFrecuentes (categoriaPregunta, topicoPregunta, pregunta, respuesta) " +
                 "VALUES (@categoriaPregunta, @topicoPregunta, @pregunta, @respuesta) ";
             SqlCommand comandoParaConsulta = new SqlCommand(consulta, conexion);
             SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
@@ -65,6 +79,7 @@ namespace Planetario.Handlers
             comandoParaConsulta.Parameters.AddWithValue("@topicoPregunta", nuevaPregunta.topicoPregunta);
             comandoParaConsulta.Parameters.AddWithValue("@pregunta", nuevaPregunta.pregunta);
             comandoParaConsulta.Parameters.AddWithValue("@respuesta", nuevaPregunta.respuesta);
+          
             conexion.Open();
             bool exito = comandoParaConsulta.ExecuteNonQuery() >= 1;
             conexion.Close();

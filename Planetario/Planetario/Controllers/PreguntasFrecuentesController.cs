@@ -13,13 +13,14 @@ namespace Planetario.Controllers
         public ActionResult PreguntasFrecuentes()
         {
             PreguntasFrecuentesHandler accesoDatos = new PreguntasFrecuentesHandler();
-            ViewBag.preguntasFecuentes = accesoDatos.ObtenerPreguntasFrecuentes();
+            ViewBag.preguntasFrecuentes = accesoDatos.ObtenerPreguntasFrecuentes();
+            ViewBag.categorias = accesoDatos.ObtenerCategorias();
             return View();
         }
 
         [HttpGet]
         public ActionResult AgregarNuevaPregunta()
-        {
+        {                   
             return View();
         }
 
