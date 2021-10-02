@@ -15,7 +15,7 @@ namespace Planetario.Models
         public string Fecha { get; set; }
 
         [Display(Name = "Correo del responsable")]
-        [Required(ErrorMessage = "Es necesario indicar le correo del usuario")]
+        [Required(ErrorMessage = "Es necesario indicar el correo de un usuario registrado")]
         public string CorreoResponsable { get; set; }
 
         [Display(Name = "Publico dirigido")]
