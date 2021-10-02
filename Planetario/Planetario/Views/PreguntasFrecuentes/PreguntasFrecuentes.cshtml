@@ -1,4 +1,8 @@
-﻿
+﻿@{ 
+    ViewBag.Title = "preguntasFrecuentes";
+    ViewBag.Title = "categorias";
+    ViewBag.Title = "Crear Planeta";
+}
 <!DOCTYPE html>
 <html>
 
@@ -9,14 +13,58 @@
 
 <body>
     <div class="container">
-        <h1 style="color:#151C5A"><strong>Preguntas Frecuentes</strong></h1>
-        <div class="container">
-            <div id="preguntas" class="tab-pane fade in active">
-                <h4>Aquí podrá encontrar una lista de preguntas divididas por categoría y tópicos sobre temas de mayor curiosidad sobre la astronomía.</h4>
-                <h4>Planetario Halley se preocupa por que la información esté al alcance de todos.</h4>
-                <br />
-            </div>
+        <h1>Preguntas Frecuentes</h1>
+        <p>
+            En este lugar estarán todas las preguntas qué nuestros colaboradores han añadido atraves del tiempo.
+            Están dividas por topico y por categoria.
+        </p>
+    </div>
+
+    <div class="container">
+        <div class="panel-group" id="accordion">
+            @for (int numCategoria = 0; numCategoria < ViewBag.categorias.Count; numCategoria++)
+            {
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#title_@numCategoria">@ViewBag.categorias[numCategoria]</a>
+                        </h4>
+                    </div>
+                    <div id="title_@numCategoria" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="panel-group" id="accordion_@numCategoria">
+
+                                @foreach (var preguntaFrecuente in ViewBag.preguntasFrecuentes)
+                                    {
+                                        if (preguntaFrecuente.categoriaPregunta == @ViewBag.categorias[numCategoria])
+                                        {
+                                            <div class="panel">
+                                                <div class="panel-heading">
+                                                    <h4 class="panel-title">
+                                                        <a data-toggle="collapse" data-parent="#accordion_@numCategoria" href="#inside_@preguntaFrecuente.idPregunta">@preguntaFrecuente.pregunta</a>
+                                                    </h4>
+                                                </div>
+                                                <div id="inside_@preguntaFrecuente.idPregunta" class="panel-collapse collapse">
+                                                    <div class="panel-body">
+
+                                                        <p>@preguntaFrecuente.respuesta</p>
+
+                                                        <p><i>Tópico(s): @preguntaFrecuente.topicoPregunta.</i></p>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
     </div>
+
+    @Html.ActionLink("Agregar Pregunta", "AgregarNuevaPregunta", null , new { @class = "btn btn-success" })
+
 </body>
 </html>
