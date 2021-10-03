@@ -26,9 +26,10 @@ namespace Planetario.Controllers
             return File(tupla.Item1, tupla.Item2);
         }
 
+        [HttpGet]
         public ActionResult AgregarFuncionario()
         {
-            return View("AgregarFuncionario");
+            return View();
         }
 
 

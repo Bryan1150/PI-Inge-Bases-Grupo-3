@@ -27,6 +27,15 @@
                     <li>@Html.ActionLink("Preguntas Frecuentes", "PreguntasFrecuentes", "PreguntasFrecuentes")</li>
                     <li>@Html.ActionLink("Información básica", "InformacionBasica", "Home")</li>
                     <li>@Html.ActionLink("Noticias", "listadoDeNoticias", "Noticias")</li>
+
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Log Out", "cerrarSesion", "Usuario")</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Log In", "iniciarSesion", "Usuario")</li>
+                    }
                 </ul>
             </div>
         </div>
