@@ -27,6 +27,13 @@ namespace Planetario.Controllers
             return View();
         }
 
+        public ActionResult InformacionBasica()
+        {
+            ViewBag.Message = "La informacion basica del planetario.";
+
+            return View();
+        }
+
         public ActionResult HorariosParqueoTransporte()
         {
             ViewBag.Message = "Informacion sobre horarios, parqueo  transporte";

@@ -1,0 +1,73 @@
+﻿@model Planetario.Models.MaterialEducativoModel
+@{ 
+    ViewBag.Title = "Subir un material educativo";
+    List<SelectListItem> publicos = new List<SelectListItem>() { 
+        new SelectListItem { Text = "Niños", Value = "0"},
+        new SelectListItem { Text = "Adolesentes", Value = "1" },
+        new SelectListItem { Text = "Población universitaria", Value = "2" },
+        new SelectListItem { Text = "Adultos", Value = "3" }
+    };
+}
+
+<h2>Ofrecer nuevo material educativo</h2>
+@if (ViewBag.Mensaje != null)
+{
+    <h6>@ViewBag.mensaje</h6>
+}
+<hr />
+@using (Html.BeginForm("AlmacenarNuevoMaterialEducativo", "MaterialEducativo", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Titulo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Titulo, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Titulo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.CorreoResponsable, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.CorreoResponsable, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CorreoResponsable, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.PublicoDirigido, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.PublicoDirigido, publicos, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PublicoDirigido, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Archivo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Archivo, new { type = "file", @class = "btn btn alert-info" })
+                    @Html.ValidationMessageFor(model => model.Archivo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="form-group">
+                @Html.LabelFor(model => model.ImagenVistaPrevia, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.ImagenVistaPrevia, new { type = "file", @class = "btn btn alert-info" })
+                    @Html.ValidationMessageFor(model => model.ImagenVistaPrevia, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Crear" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

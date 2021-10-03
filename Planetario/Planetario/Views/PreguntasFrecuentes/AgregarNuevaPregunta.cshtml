@@ -1,0 +1,111 @@
+﻿@model Planetario.Models.PreguntasFrecuentesModel 
+@{ 
+    ViewBag.Title = "Añadir Pregunta";
+    List<SelectListItem> categorias = new List<SelectListItem>() {
+            new SelectListItem { Text = "Cuerpos del Sistema Solar" },
+            new SelectListItem { Text = "Objetos de Cielo Profundo" },
+            new SelectListItem { Text = "Astronomia" },
+            new SelectListItem { Text = "General" }
+            };
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<style>
+h1 {
+        font-size: 40px;
+        font-family: verdana;
+    }
+    </style>
+</head>
+
+<body>
+
+    @if (ViewBag.Message != null) {
+        if (ViewBag.ExitoAlCrear) {
+            <div class="alert-success">
+                <h3> @ViewBag.Message </h3>
+            </div>
+        }
+        else
+        {
+            <div class="alert-danger">
+                <h3> @ViewBag.Message</h3>
+            </div>
+        }
+    }
+
+    @using (Html.BeginForm("AgregarNuevaPregunta", "PreguntasFrecuentes", FormMethod.Post, new
+    {
+        enctype = "multipart/form-data"
+    }))
+    {
+        @Html.AntiForgeryToken()
+
+        <h1> <u> <b>Agregar nueva pregunta:</b> </u> </h1>
+
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(model => model.categoriaPregunta)
+                @Html.DropDownListFor(model => model.categoriaPregunta, categorias, "--Categoría--", new { @id = "categoriasPregunta", @class = "form - control" })
+                @Html.ValidationMessageFor(model => model.categoriaPregunta, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(model => model.topicoPregunta)
+                @Html.TextBoxFor(model => model.topicoPregunta, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.topicoPregunta, "", new { @class = "text-danger" })
+                <p>
+                    &nbsp
+                    <i>
+                        <b>Guia de Topicos</b><br>
+                        *Categoria: Cuerpos del Sistema Solar <br>
+                        Topicos: Planetas, Satelites, Cometas, Asteroides. <br>
+
+                        *Categoria: Objetos de Cielo Profundo <br>
+                        Topicos: Galaxias, Estrellas, Nebulosas, Planetarias. <br>
+
+                        *Categoria: Astronomia <br>
+                        Topicos: Astronomia Observacional, Astronomia Teorica, Mecanica Celeste, Astrofisica, Astroquimica, Astrobiologia. <br>
+
+                        *Categoria: General <br>
+                        Topicos: Astrofotografia, Instrumentos, Pregunta Sencilla.
+                    </i>
+
+                </p>
+            </div>
+        </div>
+
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(model => model.pregunta)
+                @Html.TextBoxFor(model => model.pregunta, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.pregunta, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(model => model.respuesta)
+                @Html.TextBoxFor(model => model.respuesta, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.respuesta, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div>
+            <input type="submit" class="btn btn-success" value="Crear" />
+            @Html.ActionLink("Volver", "PreguntasFrecuentes", null, new { @class = "btn btn-danger" })
+        </div>
+
+    }
+</body>
+
+@section Scripts
+{
+    @Scripts.Render("~/bundles/jqueryval"))
+}
+</html>
