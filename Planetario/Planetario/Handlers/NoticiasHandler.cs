@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.IO;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
@@ -13,7 +14,7 @@ namespace Planetario.Handlers
     {
         private SqlConnection conexion;
         private string rutaConexion;
-        
+
         public NoticiasHandler()
         {
             rutaConexion = ConfigurationManager.ConnectionStrings["ConexionBaseDatosServidor"].ToString();
@@ -70,5 +71,33 @@ namespace Planetario.Handlers
             }
             return resultado;
         }
+
+        private byte[] obtenerBytes(HttpPostedFileBase archivo)
+        {
+            byte[] bytes;
+            BinaryReader lector = new BinaryReader(archivo.InputStream); //
+            bytes = lector.ReadBytes(archivo.ContentLength);
+            return bytes;
+        }
+
+        public bool crearNoticia(NoticiaModel noticia)
+        {
+            string consulta = "INSERT INTO Noticia (titulo, cuerpo, fecha, correoFuncionarioAutorFK , imagen, tipoImagen)" +
+            "VALUES (@tituloN,@cuerpoN,@fechaN,@correoN,@imagenN,@tipoImagenN) ";
+            SqlCommand comandoParaConsulta = new SqlCommand(consulta, conexion);
+            SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
+            comandoParaConsulta.Parameters.AddWithValue("@tituloN", noticia.titulo);
+            comandoParaConsulta.Parameters.AddWithValue("@cuerpoN", noticia.cuerpo);
+            comandoParaConsulta.Parameters.AddWithValue("@fechaN", noticia.fecha); 
+            comandoParaConsulta.Parameters.AddWithValue("@correoN", noticia.correoAutor);
+            comandoParaConsulta.Parameters.AddWithValue("@imagenN", obtenerBytes(noticia.imagen));
+            comandoParaConsulta.Parameters.AddWithValue("@tipoImagenN", noticia.imagen.ContentType);
+            conexion.Open();
+            bool exito = comandoParaConsulta.ExecuteNonQuery() >= 1;
+            conexion.Close();
+            return exito;
+        }
+
+        
     }
 }

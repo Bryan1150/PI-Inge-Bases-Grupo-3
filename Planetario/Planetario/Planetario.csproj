@@ -176,6 +176,7 @@
     <Content Include="Views\Funcionarios\ListaFuncionarios.cshtml" />
     <Content Include="Views\Noticias\listadoDeNoticias.cshtml" />
     <Content Include="Views\Noticias\verNoticia.cshtml" />
+    <Content Include="Views\Noticias\crearNoticia.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,50 @@
+﻿@model Planetario.Models.NoticiaModel
+@{
+    ViewBag.Title = "Crear noticia";
+}
+<html>
+<head>
+</head>
+<body>
+    @if (ViewBag.Message != null)
+    {
+        if (ViewBag.ExitoAlCrear)
+        {
+            <div class="alert-success">
+                <h3> @ViewBag.Message </h3>
+            </div>
+        }
+        else
+        {
+            <div class="alert-danger">
+                <h3> @ViewBag.Message </h3>
+            </div>
+        }
+    }
+    @using (Html.BeginForm("crearNoticia", "Noticias", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {@Html.AntiForgeryToken()
+    <h1>Formulario de creación de noticias</h1>
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.LabelFor(model => model.titulo) @Html.TextBoxFor(model => model.titulo, new { @class = "form-control" }) @Html.ValidationMessageFor(model => model.titulo, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.cuerpo) @Html.TextBoxFor(model => model.cuerpo, new { @class = "form-control" }) @Html.ValidationMessageFor(model => model.cuerpo, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.correoAutor) @Html.TextBoxFor(model => model.correoAutor, new { @class = "form-control" }) @Html.ValidationMessageFor(model => model.correoAutor, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.imagen) @Html.TextBoxFor(model => model.imagen, new { type = "file", @class = "btn btn alert-info" }) @Html.ValidationMessageFor(model => model.imagen, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.fecha) @Html.TextBoxFor(model => model.fecha, new { @type = "date", @class = "form-​control datepicker" }) @Html.ValidationMessageFor(model => model.fecha, "", new { @class = "text-danger" })
+        </div>
+
+
+        <input type="submit" class="btn btn-success" value="Crear" />
+    </div>
+}
+</body>
+@section Scripts { @Scripts.Render("~/bundles/jqueryval") }
+</html>
