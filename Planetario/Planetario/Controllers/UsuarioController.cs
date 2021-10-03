@@ -45,5 +45,11 @@ namespace Planetario.Controllers
             }
             return View(usuario);
         }
+
+        public ActionResult cerrarSesion()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
