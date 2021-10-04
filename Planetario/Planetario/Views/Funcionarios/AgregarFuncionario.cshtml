@@ -46,7 +46,7 @@
 
             <div class="form-group">
                 @Html.LabelFor(model => model.FechaIncorporacion)
-                @Html.TextBoxFor(model => model.FechaIncorporacion, new { @class = "form-control" })
+                @Html.TextBoxFor(model => model.FechaIncorporacion, new { @type = "date", @class = "form-​control datepicker" })
                 @Html.ValidationMessageFor(model => model.FechaIncorporacion, "", new { @class = "text-danger" })
             </div>
 

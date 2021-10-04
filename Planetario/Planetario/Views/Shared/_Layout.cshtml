@@ -30,6 +30,11 @@
 
                     @if (Request.IsAuthenticated)
                     {
+                        <li>@Html.ActionLink("Agregar Funcionario", "AgregarFuncionario", "Funcionarios")</li>
+                    }
+
+                    @if (Request.IsAuthenticated)
+                    {
                         <li>@Html.ActionLink("Log Out", "cerrarSesion", "Usuario")</li>
                     }
                     else
