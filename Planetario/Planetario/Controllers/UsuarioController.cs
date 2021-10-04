@@ -51,5 +51,35 @@ namespace Planetario.Controllers
             FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
         }
+
+        public ActionResult agregarUsuario()
+        {
+            return View("agregarUsuario");
+        }
+
+        [HttpPost]
+        public ActionResult agregarUsuario(UsuarioModel usuario)
+        {
+            ViewBag.ExitoAlCrear = false;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    UsuarioHandler accesoDatos = new UsuarioHandler();
+                    ViewBag.ExitoAlCrear = accesoDatos.insertarUsuario(usuario);
+                    if (ViewBag.ExitoAlCrear)
+                    {
+                        ViewBag.Message = "El funcionario " + usuario.nombre + " fue agregado con éxito.";
+                        ModelState.Clear();
+                    }
+                }
+                return View();
+            }
+            catch
+            {
+                ViewBag.Message = "Algo salió mal ";
+                return View();
+            }
+        }
     }
 }

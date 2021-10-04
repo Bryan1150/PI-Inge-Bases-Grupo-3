@@ -64,7 +64,7 @@ namespace Planetario.Handlers
             comandoParaConsulta.Parameters.AddWithValue("@apellido1", usuarioNuevo.apellidoDos);
             comandoParaConsulta.Parameters.AddWithValue("@contrasena", usuarioNuevo.contrasena);
             comandoParaConsulta.Parameters.AddWithValue("@correoPK", usuarioNuevo.correo);
-            comandoParaConsulta.Parameters.AddWithValue("@rolIdFK", usuarioNuevo.rolId);
+            comandoParaConsulta.Parameters.AddWithValue("@rolIdFK", 4);
 
             conexion.Open();
             bool exito = comandoParaConsulta.ExecuteNonQuery() >= 1;

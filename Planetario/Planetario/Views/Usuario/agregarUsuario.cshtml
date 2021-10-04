@@ -1,7 +1,7 @@
 ﻿﻿@model Planetario.Models.UsuarioModel
 
 @{
-    ViewBag.Title = "InicioSesion";
+    ViewBag.Title = "agregarUsuario";
 }
 
 <!DOCTYPE html>
@@ -12,15 +12,39 @@
 <body>
     <h2>Inicio de Sesión</h2>
 
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("agregarUsuario", "Usuario", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         <div class="well bs-component">
             @Html.AntiForgeryToken()
 
             <div class="form-horizontal">
-                <h4>Ingrese los datos para iniciar sesión</h4>
+                <h4>Ingrese los datos para registrarse</h4>
                 <hr />
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.nombre, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.apellidoUno, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.apellidoUno, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.apellidoUno, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.apellidoDos, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.apellidoDos, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.apellidoDos, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
                 <div class="form-group">
                     @Html.LabelFor(model => model.correo, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -40,10 +64,6 @@
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
                         <input id="ingresar" type="submit" value="Ingresar" class="btn btn-default" />
-
-                        <a href="~/Usuario/agregarUsuario">
-                            <input id="registrar" type="button" value="Registrarse" class="btn btn-default" />    
-                        </a>       
                     </div>
                 </div>
                 <br />
