@@ -52,9 +52,10 @@ namespace Planetario.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpGet]
         public ActionResult agregarUsuario()
         {
-            return View("agregarUsuario");
+            return View();
         }
 
         [HttpPost]
@@ -69,7 +70,7 @@ namespace Planetario.Controllers
                     ViewBag.ExitoAlCrear = accesoDatos.insertarUsuario(usuario);
                     if (ViewBag.ExitoAlCrear)
                     {
-                        ViewBag.Message = "El funcionario " + usuario.nombre + " fue agregado con éxito.";
+                        ViewBag.Message = "El usuario " + usuario.nombre + " fue agregado con éxito.";
                         ModelState.Clear();
                     }
                 }

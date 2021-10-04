@@ -62,7 +62,7 @@ namespace Planetario.Handlers
 
         public bool crearFuncionario(FuncionarioModel funcionario)
         {
-            string consulta = "INSERT INTO Funcionario (correoFK, cedula, fechaIncorporacion, titulo, rolTrabajo, foto, tipoArchivoFoto) " +
+            string consulta = "INSERT INTO dbo.Funcionario (correoFK, cedula, fechaIncorporacion, titulo, rolTrabajo, foto, tipoArchivoFoto) " +
             "VALUES (@correo, @cedula, @fecha, @titulo, @trabajo, @foto, @tipoArchivo) ";
 
             SqlCommand comandoParaConsulta = new SqlCommand(consulta, Conexion);
