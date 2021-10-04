@@ -11,24 +11,24 @@ namespace Planetario.Models
     {
         public int id { get; set; }
 
-        [Required(ErrorMessage = "Es nesesario que indique el titulo de la noticia")]
-        [Display(Name = "Ingrese el titulo de la noticia")]
+        [Required(ErrorMessage = "Es necesario que indique el título de la noticia.")]
+        [Display(Name = "Ingrese el título de la noticia:")]
         public string titulo { get; set; }
 
-        [Required(ErrorMessage = "Es nesesario que indique el cuerpo de la noticia")]
-        [Display(Name = "Ingrese el cuerpo de la noticia")]
+        [Required(ErrorMessage = "Es necesario que indique el cuerpo de la noticia.")]
+        [Display(Name = "Ingrese el cuerpo de la noticia:")]
         public string cuerpo { get; set; }
 
-        [Required(ErrorMessage = "Es nesesario que indique la fecha de la noticia")]
-        [Display(Name = "Ingrese la fecha de la noticia")]
+        [Required(ErrorMessage = "Es necesario que indique la fecha de la noticia.")]
+        [Display(Name = "Ingrese la fecha de la noticia:")]
         public DateTime fecha { get; set; }
 
-        [Required(ErrorMessage = "Es nesesario que indique el correo del autor")]
-        [Display(Name = "Ingrese el correo del autor")]
+        [Required(ErrorMessage = "Es necesario que indique el correo del autor")]
+        [Display(Name = "Ingrese el correo del autor:")]
         public string correoAutor { get; set; }
 
-        [Required(ErrorMessage = "Es nesesario que indique la iagen de la noticia")]
-        [Display(Name = "Ingrese la imagen de la noticia")]
+        [Required(ErrorMessage = "Es necesario que indique la imagen de la noticia.")]
+        [Display(Name = "Ingrese la imagen de la noticia:")]
         public HttpPostedFileBase imagen { get; set; }
 
         public string tipoImagen { get; set; }

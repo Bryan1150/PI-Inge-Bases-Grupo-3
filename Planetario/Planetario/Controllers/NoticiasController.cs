@@ -41,7 +41,7 @@ namespace Planetario.Controllers
                     ViewBag.ExitoAlCrear = accesoDatos.crearNoticia(noticia); 
                     if (ViewBag.ExitoAlCrear)
                     {
-                        ViewBag.Message = "La noticia" + " " + noticia.titulo + " fue creado con éxito :)";
+                        ViewBag.Message = "La noticia" + " " + noticia.titulo + " fue creada con éxito :)";
                         ModelState.Clear();
                     }
                 }

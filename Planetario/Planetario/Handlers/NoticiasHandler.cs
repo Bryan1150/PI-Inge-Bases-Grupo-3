@@ -86,12 +86,14 @@ namespace Planetario.Handlers
             "VALUES (@tituloN,@cuerpoN,@fechaN,@correoN,@imagenN,@tipoImagenN) ";
             SqlCommand comandoParaConsulta = new SqlCommand(consulta, conexion);
             SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
+
             comandoParaConsulta.Parameters.AddWithValue("@tituloN", noticia.titulo);
             comandoParaConsulta.Parameters.AddWithValue("@cuerpoN", noticia.cuerpo);
             comandoParaConsulta.Parameters.AddWithValue("@fechaN", noticia.fecha); 
             comandoParaConsulta.Parameters.AddWithValue("@correoN", noticia.correoAutor);
             comandoParaConsulta.Parameters.AddWithValue("@imagenN", obtenerBytes(noticia.imagen));
             comandoParaConsulta.Parameters.AddWithValue("@tipoImagenN", noticia.imagen.ContentType);
+
             conexion.Open();
             bool exito = comandoParaConsulta.ExecuteNonQuery() >= 1;
             conexion.Close();
