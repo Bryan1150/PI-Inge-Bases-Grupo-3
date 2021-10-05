@@ -34,15 +34,15 @@ namespace Planetario.Handlers
             bool HayVistaPrevia = material.HayVistaPrevia();
             string Consulta = "INSERT INTO MaterialEducativo " +
                 "( titulo, fechaSubida, correoResponsableFK, publicoDirigido, ";
-            if (HayVistaPrevia)
+            if(HayVistaPrevia)
             {
                 Consulta += "vistaPrevia, tipoArchivoVistaPrevia, ";
             }
 
             Consulta += "archivo, tipoArchivo ) " +
             "VALUES ( @titulo, GETDATE(), @correoResponsable, @publicoDirigido, ";
-
-            if (HayVistaPrevia)
+            
+            if(HayVistaPrevia)
             {
                 Consulta += "@imagenVistaPrevia, @tipoArchivoVistaPrevia, ";
             }
@@ -53,8 +53,8 @@ namespace Planetario.Handlers
             ComandoParaConsulta.Parameters.AddWithValue("@titulo", material.Titulo);
             ComandoParaConsulta.Parameters.AddWithValue("@correoResponsable", material.CorreoResponsable);
             ComandoParaConsulta.Parameters.AddWithValue("@publicoDirigido", material.PublicoDirigido);
-
-            if (HayVistaPrevia)
+            
+            if(HayVistaPrevia)
             {
                 ComandoParaConsulta.Parameters.AddWithValue("@imagenVistaPrevia", ObtenerBytes(material.ImagenVistaPrevia));
                 ComandoParaConsulta.Parameters.AddWithValue("@tipoArchivoVistaPrevia", material.ImagenVistaPrevia.ContentType);
@@ -69,37 +69,5 @@ namespace Planetario.Handlers
             return exito;
         }
 
-
-
-        public List<MaterialEducativoModel> obtenerMateriales()
-        {
-            List<MaterialEducativoModel> material = new List<MaterialEducativoModel>();
-            string consulta = "SELECT * FROM MaterialEducativo";
-            DataTable tablaResultado = crearTablaConsulta(consulta);
-            foreach (DataRow columna in tablaResultado.Rows)
-            {
-                material.Add(
-                new MaterialEducativoModel
-                {
-                    Id = Convert.ToInt32(columna["idMaterialPK"]),
-                    Titulo = Convert.ToString(columna["titulo"]),
-                    Fecha = Convert.ToString(columna["fechaSubida"]),
-                    CorreoResponsable = Convert.ToString(columna["correoResponsableFK"]),
-                    PublicoDirigido = Convert.ToString(columna["publicoDirigido"]),
-                });
-            }
-            return material;
-        }
-
-        private DataTable crearTablaConsulta(string consulta)
-        {
-            SqlCommand comandoParaConsulta = new SqlCommand(consulta, Conexion);
-            SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
-            DataTable consultaFormatoTabla = new DataTable();
-            Conexion.Open();
-            adaptadorParaTabla.Fill(consultaFormatoTabla);
-            Conexion.Close();
-            return consultaFormatoTabla;
-        }
     }
 }
