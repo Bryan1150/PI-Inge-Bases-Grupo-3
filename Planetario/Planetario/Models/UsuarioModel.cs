@@ -29,6 +29,8 @@ namespace Planetario.Models
         [Display(Name = "Contraseña ")]
         public string contrasena { get; set; }
 
+        [Required(ErrorMessage = "Debe ingresar el rol")]
+        [Display(Name = "Rol ")]
         public int rolId { get; set; }
     }
 }
