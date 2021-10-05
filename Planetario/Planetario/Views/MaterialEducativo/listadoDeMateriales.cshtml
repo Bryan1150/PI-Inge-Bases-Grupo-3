@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "Materiales"; }
+<h1>Listado de materiales</h1>
+
+@foreach (var MaterialEducativo in ViewBag.Materiales)
+{
+    <hr />
+    <h4> <strong> Ficha del material: </strong> @MaterialEducativo.idMaterialPK </h4>
+    <p>
+        Titulo: @MaterialEducativo.titulo <br />
+        Fecha: @MaterialEducativo.fechaSubida <br />
+        Correo del Responsable: @MaterialEducativo.correoResponsableFK <br />
+        Número de anillos: @MaterialEducativo.correoResponsableFK <br />
+        PublicoDirigido: @MaterialEducativo.publicoDirigido <br />
+    </p>
+    <hr />
+}

@@ -122,7 +122,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\FuncionariosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-   
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -180,7 +179,6 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-
     <Content Include="Views\PreguntasFrecuentes\PreguntasFrecuentes.cshtml" />
     <Content Include="Views\PreguntasFrecuentes\AgregarNuevaPregunta.cshtml" />
     <Content Include="Views\Home\HorariosParqueoTransporte.cshtml" />
@@ -189,6 +187,7 @@
     <Content Include="Views\Noticias\verNoticia.cshtml" />
     <Content Include="Views\MaterialEducativo\AlmacenarNuevoMaterialEducativo.cshtml" />
     <Content Include="Views\Noticias\crearNoticia.cshtml" />
+    <Content Include="Views\MaterialEducativo\listadoDeMateriales.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
