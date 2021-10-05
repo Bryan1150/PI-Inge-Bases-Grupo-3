@@ -191,6 +191,7 @@
     <Content Include="Views\Noticias\verNoticia.cshtml" />
     <Content Include="Views\MaterialEducativo\AlmacenarNuevoMaterialEducativo.cshtml" />
     <Content Include="Views\Usuario\iniciarSesion.cshtml" />
+    <Content Include="Views\Noticias\crearNoticia.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
