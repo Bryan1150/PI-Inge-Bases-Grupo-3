@@ -6,6 +6,7 @@ using System.Web;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 
 namespace Planetario.Handlers
 {
@@ -58,6 +59,37 @@ namespace Planetario.Handlers
 
             return ListaFuncionarios;
         }
+
+        public bool crearFuncionario(FuncionarioModel funcionario)
+        {
+            string consulta = "INSERT INTO dbo.Funcionario (correoFK, cedula, fechaIncorporacion, titulo, rolTrabajo, foto, tipoArchivoFoto) " +
+            "VALUES (@correo, @cedula, @fecha, @titulo, @trabajo, @foto, @tipoArchivo) ";
+
+            SqlCommand comandoParaConsulta = new SqlCommand(consulta, Conexion);
+            SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
+
+            comandoParaConsulta.Parameters.AddWithValue("@correo", funcionario.CorreoContacto);
+            comandoParaConsulta.Parameters.AddWithValue("@cedula", funcionario.Cedula);
+            comandoParaConsulta.Parameters.AddWithValue("@fecha", funcionario.FechaIncorporacion);
+            comandoParaConsulta.Parameters.AddWithValue("@titulo", funcionario.Titulo);
+            comandoParaConsulta.Parameters.AddWithValue("@trabajo", funcionario.RolTrabajo);
+            comandoParaConsulta.Parameters.AddWithValue("@foto", obtenerBytes(funcionario.Foto));
+            comandoParaConsulta.Parameters.AddWithValue("@tipoArchivo", funcionario.Foto.ContentType);
+
+            Conexion.Open();
+            bool exito = comandoParaConsulta.ExecuteNonQuery() >= 1; 
+            Conexion.Close();
+            return exito;
+        }
+
+        private byte[] obtenerBytes(HttpPostedFileBase archivo)
+        {
+            byte[] bytes;
+            BinaryReader lector = new BinaryReader(archivo.InputStream); //
+            bytes = lector.ReadBytes(archivo.ContentLength);
+            return bytes;
+        }
+
 
         public Tuple<byte[], string> ObtenerFoto(int Cedula)
         {

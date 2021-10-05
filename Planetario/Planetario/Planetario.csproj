@@ -122,7 +122,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\FuncionariosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-   
+    <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -133,6 +133,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Handlers\PreguntasFrecuentesHandler.cs" />
+    <Compile Include="Handlers\UsuarioHandler.cs" />
     <Compile Include="Models\PreguntasFrecuentesModel.cs" />
     <Compile Include="Handlers\NoticiasHandler.cs" />
     <Compile Include="Models\NoticiaModel.cs" />
@@ -142,6 +143,7 @@
     <Compile Include="Models\ActividadModel.cs" />
     <Compile Include="Models\CharlaModel.cs" />
     <Compile Include="Models\MaterialEducativoModel.cs" />
+    <Compile Include="Models\UsuarioModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -180,14 +182,16 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-
     <Content Include="Views\PreguntasFrecuentes\PreguntasFrecuentes.cshtml" />
     <Content Include="Views\PreguntasFrecuentes\AgregarNuevaPregunta.cshtml" />
     <Content Include="Views\Home\HorariosParqueoTransporte.cshtml" />
     <Content Include="Views\Funcionarios\ListaFuncionarios.cshtml" />
+    <Content Include="Views\Funcionarios\AgregarFuncionario.cshtml" />
     <Content Include="Views\Noticias\listadoDeNoticias.cshtml" />
     <Content Include="Views\Noticias\verNoticia.cshtml" />
     <Content Include="Views\MaterialEducativo\AlmacenarNuevoMaterialEducativo.cshtml" />
+    <Content Include="Views\Usuario\iniciarSesion.cshtml" />
+    <Content Include="Views\Usuario\agregarUsuario.cshtml" />
     <Content Include="Views\Noticias\crearNoticia.cshtml" />
   </ItemGroup>
   <ItemGroup>
