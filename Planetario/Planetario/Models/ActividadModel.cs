@@ -23,9 +23,9 @@ namespace Planetario.Models
         [Display(Name = "Ingrese la descripcion de la actividad")]
         public string descripcion { get; set; }
 
-        [Required(ErrorMessage = "Es necesario que indique el contenido de la actividad")]
-        [Display(Name = "Ingrese el contenido de la actividad")]
-        public string contenido { get; set; }
+        [Required(ErrorMessage = "Es necesario que indique el tipo de la actividad")]
+        [Display(Name = "Ingrese el tipo de la actividad")]
+        public string tipo { get; set; }
 
         [Required(ErrorMessage = "Es necesario que indique a cual publico esta dirigida la actividad")]
         [Display(Name = "Ingrese a cual publico esta dirigida la actividad")]
@@ -37,12 +37,12 @@ namespace Planetario.Models
         public int duracion { get; set; }
 
         [Required(ErrorMessage = "Es necesario que ingrese aproximadamente cuanta gente se provee que va asistir")]
-        [Display(Name = "Ingrese el número de anillos de la actividad")]
+        [Display(Name = "Ingrese el número de asistentes que espera que asistan a la actividad")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Debe ingresar números")]
         public int cantidadAsistentes { get; set; }
 
-        [Required(ErrorMessage = "Es necesario que indique el tipo de la actividad")]
-        [Display(Name = "Ingrese el tipo de la actividad")]
+        [Required(ErrorMessage = "Es necesario que indique su correo")]
+        [Display(Name = "Ingrese su correo")]
         public string correoFK { get; set; }
     }
 }

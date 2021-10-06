@@ -120,6 +120,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ActividadesController.cs" />
     <Compile Include="Controllers\FuncionariosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
@@ -132,6 +133,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Handlers\ActividadHandler.cs" />
     <Compile Include="Handlers\PreguntasFrecuentesHandler.cs" />
     <Compile Include="Handlers\UsuarioHandler.cs" />
     <Compile Include="Models\PreguntasFrecuentesModel.cs" />
@@ -141,7 +143,6 @@
     <Compile Include="Handlers\MaterialesEducativosHandler.cs" />
     <Compile Include="Models\FuncionarioModel.cs" />
     <Compile Include="Models\ActividadModel.cs" />
-    <Compile Include="Models\CharlaModel.cs" />
     <Compile Include="Models\MaterialEducativoModel.cs" />
     <Compile Include="Models\UsuarioModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -197,6 +198,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Actividades\" />
     <Folder Include="Views\ActividadModel\" />
   </ItemGroup>
   <ItemGroup>
