@@ -36,7 +36,7 @@ namespace Planetario.Controllers
             if (usuarioHandler.esUsuarioValido(usuario.contrasena, usuario.correo))
             {
                 FormsAuthentication.SetAuthCookie(usuario.correo, false);
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("InformacionBasica", "Home");
 
             }
             else
@@ -49,7 +49,7 @@ namespace Planetario.Controllers
         public ActionResult cerrarSesion()
         {
             FormsAuthentication.SignOut();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("InformacionBasica", "Home");
         }
 
         [HttpGet]

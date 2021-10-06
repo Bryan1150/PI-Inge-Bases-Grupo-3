@@ -17,24 +17,28 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Nombre de la aplicación", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Planetario Halley", "InformacionBasica", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Acerca de", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Preguntas Frecuentes", "PreguntasFrecuentes", "PreguntasFrecuentes")</li>
-                    <li>@Html.ActionLink("Información básica", "InformacionBasica", "Home")</li>
+                    <li>@Html.ActionLink("Informacion", "HorariosParqueoTransporte", "Home")</li>
+                    <li>@Html.ActionLink("Funcionarios", "ListaFuncionarios", "Funcionarios")</li>
                     <li>@Html.ActionLink("Noticias", "listadoDeNoticias", "Noticias")</li>
+                    <li>@Html.ActionLink("Preguntas Frecuentes", "PreguntasFrecuentes", "PreguntasFrecuentes")</li>
+                    <li>@Html.ActionLink("Actividades", "listadoDeMateriales", "MaterialEducativo")</li>
+                    <li>@Html.ActionLink("Materiales Educativos", "listadoDeMateriales", "MaterialEducativo")</li>
 
                     @if (Request.IsAuthenticated)
                     {
-                        <li>@Html.ActionLink("Agregar Usuario", "agregarUsuario", "Usuario")</li>
-                    }
-
-                    @if (Request.IsAuthenticated)
-                    {
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                Administrar
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Agregar Usuario", "agregarUsuario", "Usuario")</li>
+                            </ul>
+                        </li>
                         <li>@Html.ActionLink("Log Out", "cerrarSesion", "Usuario")</li>
                     }
                     else
