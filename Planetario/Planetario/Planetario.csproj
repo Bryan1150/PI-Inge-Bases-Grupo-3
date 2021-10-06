@@ -193,6 +193,7 @@
     <Content Include="Views\Usuario\iniciarSesion.cshtml" />
     <Content Include="Views\Usuario\agregarUsuario.cshtml" />
     <Content Include="Views\Noticias\crearNoticia.cshtml" />
+    <Content Include="Views\MaterialEducativo\listadoDeMateriales.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

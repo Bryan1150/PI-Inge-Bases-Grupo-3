@@ -69,5 +69,36 @@ namespace Planetario.Handlers
             return exito;
         }
 
+        private DataTable crearTablaConsulta(string consulta)
+        {
+            SqlCommand comandoParaConsulta = new SqlCommand(consulta, Conexion);
+            SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
+            DataTable consultaFormatoTabla = new DataTable();
+            Conexion.Open();
+            adaptadorParaTabla.Fill(consultaFormatoTabla);
+            Conexion.Close();
+            return consultaFormatoTabla;
+        }
+
+        public List<MaterialEducativoModel> obtenerMateriales()
+        {
+            List<MaterialEducativoModel> material = new List<MaterialEducativoModel>();
+            string consulta = "SELECT * FROM MaterialEducativo ";
+            DataTable tablaResultado = crearTablaConsulta(consulta);
+            foreach (DataRow columna in tablaResultado.Rows)
+            {
+                material.Add(
+                new MaterialEducativoModel
+                {
+                    Titulo = Convert.ToString(columna["titulo"]),
+                    Fecha = Convert.ToString(columna["fechaSubida"]),
+                    Id = Convert.ToInt32(columna["idMaterialPK"]),
+                    CorreoResponsable = Convert.ToString(columna["correoResponsableFK"]),
+                    PublicoDirigido = Convert.ToString(columna["publicoDirigido"])
+                });
+            }
+            return material;
+        }
+
     }
 }
