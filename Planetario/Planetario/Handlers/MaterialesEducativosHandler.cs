@@ -36,7 +36,7 @@ namespace Planetario.Handlers
                 "( titulo, fechaSubida, correoResponsableFK, publicoDirigido, ";
             if(HayVistaPrevia)
             {
-                Consulta += "vistaPrevia, tipoArchivoVistaPrevia, ";
+                Consulta += "imagenVistaPrevia, tipoArchivoVistaPrevia, ";
             }
 
             Consulta += "archivo, tipoArchivo ) " +
@@ -62,7 +62,7 @@ namespace Planetario.Handlers
 
             ComandoParaConsulta.Parameters.AddWithValue("@archivo", ObtenerBytes(material.Archivo));
             ComandoParaConsulta.Parameters.AddWithValue("@tipoArchivo", material.Archivo.ContentType);
-
+            
             Conexion.Open();
             bool exito = ComandoParaConsulta.ExecuteNonQuery() >= 1;
             Conexion.Close();
