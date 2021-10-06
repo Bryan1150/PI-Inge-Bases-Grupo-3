@@ -36,7 +36,7 @@ namespace Planetario.Handlers
                 "( titulo, fechaSubida, correoResponsableFK, publicoDirigido, ";
             if(HayVistaPrevia)
             {
-                Consulta += "vistaPrevia, tipoArchivoVistaPrevia, ";
+                Consulta += "imagenVistaPrevia, tipoArchivoVistaPrevia, ";
             }
 
             Consulta += "archivo, tipoArchivo ) " +
