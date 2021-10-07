@@ -10,11 +10,9 @@ namespace Planetario.Models
         public int Cedula { get; set; }
 
         [Display(Name = "Nombre")]
-        [Required(ErrorMessage = "Es necesario que ingrese un nombre")]
         public string Nombre { get; set; }
 
         [Display(Name = "Primer apellido")]
-        [Required(ErrorMessage = "Es necesario que ingrese al menos el primer apellido")]
         public string Apellido1 { get; set; }
 
         [Display(Name = "Segundo apellido")]
