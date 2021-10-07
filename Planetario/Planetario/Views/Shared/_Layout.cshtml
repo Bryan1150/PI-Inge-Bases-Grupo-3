@@ -25,7 +25,7 @@
                     <li>@Html.ActionLink("Funcionarios", "ListaFuncionarios", "Funcionarios")</li>
                     <li>@Html.ActionLink("Noticias", "listadoDeNoticias", "Noticias")</li>
                     <li>@Html.ActionLink("Preguntas Frecuentes", "PreguntasFrecuentes", "PreguntasFrecuentes")</li>
-                    <li>@Html.ActionLink("Actividades", "listadoDeMateriales", "MaterialEducativo")</li>
+                    <li>@Html.ActionLink("Actividades", "listadoDeActividades", "Actividades")</li>
                     <li>@Html.ActionLink("Materiales Educativos", "listadoDeMateriales", "MaterialEducativo")</li>
 
                     @if (Request.IsAuthenticated)
@@ -37,6 +37,10 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li>@Html.ActionLink("Agregar Usuario", "agregarUsuario", "Usuario")</li>
+                                <li>@Html.ActionLink("Agregar Funcionario", "AgregarFuncionario", "Funcionarios")</li>
+                                <li>@Html.ActionLink("Agregar Material", "AlmacenarNuevoMaterialEducativo", "MaterialEducativo")</li>
+                                <li>@Html.ActionLink("Agregar Noticia", "crearNoticia", "Noticias")</li>
+                                <li>@Html.ActionLink("Agregar Pregunta", "AgregarNuevaPregunta", "PreguntasFrecuentes")</li>
                             </ul>
                         </li>
                         <li>@Html.ActionLink("Log Out", "cerrarSesion", "Usuario")</li>
