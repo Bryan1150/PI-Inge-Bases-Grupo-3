@@ -58,7 +58,7 @@ h1 {
     <div class="form-horizontal">
         <div class="form-group">
             @Html.LabelFor(model => model.topicoPregunta)
-            @Html.DropDownListFor(model => model.topicoPregunta, Enumerable.Empty<SelectListItem>(), "--Categoría--", new {@id = "topicoPregunta", @class = "form-control" })
+            @Html.DropDownListFor(model => model.topicoPregunta, Enumerable.Empty<SelectListItem>(), "--Topico--", new {@id = "topicoPregunta", @class = "form-control" })
             @Html.ValidationMessageFor(model => model.topicoPregunta, "", new { @class = "text-danger" })          
         </div>
     </div>

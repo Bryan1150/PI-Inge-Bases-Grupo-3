@@ -22,7 +22,8 @@
 
     <div class="container">
         <div class="panel-group" id="accordion">
-            @for (int numCategoria = 0; numCategoria < ViewBag.categorias.Count; numCategoria++) {
+            @for (int numCategoria = 0; numCategoria < ViewBag.categorias.Count; numCategoria++)
+            {
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
@@ -33,25 +34,27 @@
                         <div class="panel-body">
                             <div class="panel-group" id="accordion_@numCategoria">
 
-                                @foreach (var preguntaFrecuente in ViewBag.preguntasFrecuentes) {
-                                        if (preguntaFrecuente.categoriaPregunta == @ViewBag.categorias[numCategoria]) {
-                                            <div class="panel">
-                                                <div class="panel-heading">
-                                                    <h4 class="panel-title">
-                                                        <a data-toggle="collapse" data-parent="#accordion_@numCategoria" href="#inside_@preguntaFrecuente.idPregunta">@preguntaFrecuente.pregunta</a>
-                                                    </h4>
-                                                </div>
-                                                <div id="inside_@preguntaFrecuente.idPregunta" class="panel-collapse collapse">
-                                                    <div class="panel-body">
-                                                        <p><i>Tópico(s): @preguntaFrecuente.topicoPregunta.</i></p>
-                                                        &nbsp
-                                                        <p><b>Respuesta:</b></p>
-                                                        <p>@preguntaFrecuente.respuesta</p>
-                                                    </div>
+                                @foreach (var preguntaFrecuente in ViewBag.preguntasFrecuentes)
+                                {
+                                    if (preguntaFrecuente.categoriaPregunta == @ViewBag.categorias[numCategoria])
+                                    {
+                                        <div class="panel">
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title">
+                                                    <a data-toggle="collapse" data-parent="#accordion_@numCategoria" href="#inside_@preguntaFrecuente.idPregunta">@preguntaFrecuente.pregunta</a>
+                                                </h4>
+                                            </div>
+                                            <div id="inside_@preguntaFrecuente.idPregunta" class="panel-collapse collapse">
+                                                <div class="panel-body">
+                                                    <p><i>Tópico(s): @preguntaFrecuente.topicoPregunta.</i></p>
+                                                    &nbsp
+                                                    <p><b>Respuesta:</b></p>
+                                                    <p>@preguntaFrecuente.respuesta</p>
                                                 </div>
                                             </div>
-                                        }
+                                        </div>
                                     }
+                                }
                             </div>
                         </div>
                     </div>
@@ -59,6 +62,9 @@
             }
         </div>
     </div>
-    @Html.ActionLink("Agregar Pregunta", "AgregarNuevaPregunta", null , new { @class = "btn btn-success" })
-</body>
+    @if (Request.IsAuthenticated)
+    {
+        @Html.ActionLink("Agregar Pregunta", "AgregarNuevaPregunta", null, new { @class = "btn btn-success" })
+    }
+    </body>
 </html>
