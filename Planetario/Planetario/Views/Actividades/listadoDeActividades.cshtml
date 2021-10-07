@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "Actividades";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Actividades</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <h1>Actividades</h1>
+    <table class="table">
+        <tr>
+            <th>ID</th>
+            <th>Actividad</th>
+            <th>Tema</th>
+            <th>Tipo</th>
+            <th>Organizador</th>
+        </tr>
+        @foreach (Planetario.Models.ActividadModel actividad in ViewBag.actividades)
+        {
+            <tr>
+                <td>@actividad.id  </td>
+                <td>@actividad.nombre</td>
+                <td>@actividad.tema</td>
+                <td>@actividad.tipo</td>
+                <td>@actividad.correoFK</td>
+            </tr>
+        }
+    </table>
+
+    @if (Request.IsAuthenticated)
+    {
+        <p>Link para crear nueva actividad</p>
+    }
+
+</body>
+</html>

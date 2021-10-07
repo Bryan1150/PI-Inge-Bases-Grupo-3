@@ -52,5 +52,28 @@ namespace Planetario.Handlers
             conexion.Close();
             return exito;
         }
+
+        public List<ActividadModel> obtenerTodasLasActividades()
+        {
+            List<ActividadModel> actividades = new List<ActividadModel>();
+            string consulta = "SELECT * FROM Actividad ";
+            DataTable tablaResultado = crearTablaConsulta(consulta);
+
+            foreach(DataRow columna in tablaResultado.Rows)
+            {
+                actividades.Add(
+                    new ActividadModel
+                    {
+                        nombre = Convert.ToString(columna["nombre"]),
+                        tema = Convert.ToString(columna["tema"]),
+                        descripcion = Convert.ToString(columna["descripcion"]),
+                        tipo = Convert.ToString(columna["tipo"]),
+                        publicoDirigido = Convert.ToString(columna["publicoDirigido"]),
+                        duracion = Convert.ToInt32(columna["duracion"]),
+                        correoFK = Convert.ToString(columna["correoFK"])
+                    });
+            }
+            return actividades;
+        }
     }
 }
