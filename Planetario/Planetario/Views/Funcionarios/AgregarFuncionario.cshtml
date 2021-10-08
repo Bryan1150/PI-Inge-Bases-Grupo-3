@@ -86,12 +86,16 @@
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
                         <input type="submit" class="btn btn-success" value="Agregar" />
+                        @Html.ActionLink("Volver", "ListaFuncionarios", null, new { @class = "btn btn-danger" })
                     </div>
                 </div>
                 <br />
             </div>
         </div>
     }
+    <div>
+        @Html.ActionLink("Regresar a Inicio", "InformacionBasica", "Home")
+    </div>
 </body>
 
 @section Scripts
