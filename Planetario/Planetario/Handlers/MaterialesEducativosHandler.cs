@@ -100,5 +100,26 @@ namespace Planetario.Handlers
             return material;
         }
 
+        public Tuple<byte[], string> descargarContenido(int id)
+        {
+            byte[] bytes;
+            string contentType;
+            string consulta = "SELECT archivo, tipoArchivo FROM MaterialEducativo WHERE idMaterialPK = @materialId";
+
+            SqlCommand comandoParaConsulta = new SqlCommand(consulta, Conexion);
+            SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
+            comandoParaConsulta.Parameters.AddWithValue("@materialId", id);
+
+            Conexion.Open();
+            SqlDataReader lectorDeDatos = comandoParaConsulta.ExecuteReader();
+            lectorDeDatos.Read();
+
+            bytes = (byte[])lectorDeDatos["archivo"];
+            contentType = lectorDeDatos["tipoArchivo"].ToString();
+            Conexion.Close();
+            return new Tuple<byte[], string>(bytes, contentType);
+        }
+
+
     }
 }

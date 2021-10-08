@@ -49,9 +49,18 @@ namespace Planetario.Controllers
         public ActionResult listadoDeMateriales()
         {
             MaterialesEducativosHandler accesoDatos = new MaterialesEducativosHandler();
-            ViewBag.planetas = accesoDatos.obtenerMateriales();
+            ViewBag.materiales = accesoDatos.obtenerMateriales();
             return View();
         }
+
+        [HttpGet]
+        public FileResult accederArchivo(int identificador)
+        {
+            MaterialesEducativosHandler accesoDatos = new MaterialesEducativosHandler();
+            var tupla = accesoDatos.descargarContenido(identificador);
+            return File(tupla.Item1, tupla.Item2);
+        }
+
 
     }
 }

@@ -1,16 +1,42 @@
-﻿@{
-    ViewBag.Title = "Materiales"; }
-<h1>Listado de materiales</h1>
-
-@foreach (var MaterialEducativo in ViewBag.planetas)
-{
-    <hr />
-    <h4> <strong> Ficha del material: </strong> @MaterialEducativo.Id </h4>
-    <p>
-        Titulo: @MaterialEducativo.Titulo <br />
-        Fecha: @MaterialEducativo.Fecha <br />
-        Correo: @MaterialEducativo.CorreoResponsable <br />
-        Publico: @MaterialEducativo.PublicoDirigido <br />
-    </p>
-    <hr />
+﻿@model Planetario.Models.MaterialEducativoModel
+@{
+    ViewBag.Title = "Materiales";
 }
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Materiales Educativos</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <h1>Materiales Educativos</h1>
+    <table class="table">
+        <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Público</th>
+            <th>Educador</th>
+            <th>Fecha</th>
+            <th>Archivo</th>
+        </tr>
+        @foreach (var material in ViewBag.materiales)
+        {
+            <tr>
+                <td>@material.Id  </td>
+                <td>@material.Titulo </td>
+                <td>@material.PublicoDirigido</td>
+                <td>@material.CorreoResponsable</td>
+                <td>@material.Fecha</td>
+                <td>
+                    @Html.ActionLink("Descargar", "accederArchivo",
+                         new { identificador = material.Id },
+                         new { @class = "btn btm-link", @onclick = "return confirm('¿Quiere descargar el material? '); " }
+                     )
+                </td>
+            </tr>
+        }
+    </table>
+
+</body>
+</html>
