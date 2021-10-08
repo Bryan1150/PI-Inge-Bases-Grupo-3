@@ -24,51 +24,72 @@
         }
     }
 
+    <h2>Agregar un Funcionario</h2>
+
     @using (Html.BeginForm("AgregarFuncionario", "Funcionarios", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
-        @Html.AntiForgeryToken()
+        <div class="well bs-component">
+            @Html.AntiForgeryToken()
 
-        <h1>Formulario de agregar de funcionario</h1>
+            <div class="form-horizontal">
+                <h4>Formulario de agregar de funcionario</h4>
+                <hr />
 
-        <div class="form-horizontal">
-            
-            <div class="form-group">
-                @Html.LabelFor(model => model.CorreoContacto)
-                @Html.TextBoxFor(model => model.CorreoContacto, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.CorreoContacto, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CorreoContacto, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.CorreoContacto, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.CorreoContacto, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Cedula, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Cedula, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Cedula, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FechaIncorporacion, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.FechaIncorporacion, new { @type = "date", @class = "form-​control datepicker" })
+                        @Html.ValidationMessageFor(model => model.FechaIncorporacion, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Titulo, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Titulo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Titulo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RolTrabajo, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.RolTrabajo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.RolTrabajo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Foto, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Foto, new { type = "file", @class = "btn btn alert-info" })
+                        @Html.ValidationMessageFor(model => model.Foto, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" class="btn btn-success" value="Agregar" />
+                    </div>
+                </div>
+                <br />
             </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Cedula)
-                @Html.TextBoxFor(model => model.Cedula, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Cedula, "", new { @class = "text-danger" })
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.FechaIncorporacion)
-                @Html.TextBoxFor(model => model.FechaIncorporacion, new { @type = "date", @class = "form-​control datepicker" })
-                @Html.ValidationMessageFor(model => model.FechaIncorporacion, "", new { @class = "text-danger" })
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Titulo)
-                @Html.TextBoxFor(model => model.Titulo, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Titulo, "", new { @class = "text-danger" })
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.RolTrabajo)
-                @Html.TextBoxFor(model => model.RolTrabajo, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.RolTrabajo, "", new { @class = "text-danger" })
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Foto)
-                @Html.TextBoxFor(model => model.Foto, new { type = "file", @class = "btn btn alert-info" })
-                @Html.ValidationMessageFor(model => model.Foto, "", new { @class = "text-danger" })
-            </div>
-
-            <input type="submit" class="btn btn-success" value="Agregar" />
         </div>
     }
 </body>

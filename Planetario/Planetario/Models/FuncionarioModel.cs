@@ -29,10 +29,11 @@ namespace Planetario.Models
         [Required(ErrorMessage = "Es necesario que ingrese el rol del funcionario")]
         public string RolTrabajo { get; set; }
 
-        [Display(Name = "Correo")]
+        [Display(Name = "Correo Electrónico")]
         public string CorreoContacto { get; set; }
 
         [Display(Name = "Foto del funcionario")]
+        [Required(ErrorMessage = "Es necesario que ingrese una foto del funcionario")]
         public HttpPostedFileBase Foto { get; set; }
 
         public string TipoArchivoFoto { get; set; }

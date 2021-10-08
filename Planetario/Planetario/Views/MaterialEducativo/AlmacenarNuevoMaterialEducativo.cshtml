@@ -9,12 +9,13 @@
     };
 }
 
-<h2>Ofrecer nuevo material educativo</h2>
 @if (ViewBag.Mensaje != null)
 {
     <h6>@ViewBag.mensaje</h6>
 }
-<hr />
+
+<h2>Ofrecer nuevo material educativo</h2>
+
 @using (Html.BeginForm("AlmacenarNuevoMaterialEducativo", "MaterialEducativo", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
