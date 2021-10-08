@@ -27,7 +27,8 @@
                     <li>@Html.ActionLink("Preguntas Frecuentes", "PreguntasFrecuentes", "PreguntasFrecuentes")</li>
                     <li>@Html.ActionLink("Actividades", "listadoDeActividades", "Actividades")</li>
                     <li>@Html.ActionLink("Materiales Educativos", "listadoDeMateriales", "MaterialEducativo")</li>
-
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
                     @if (Request.IsAuthenticated)
                     {
                         <li class="dropdown">
@@ -43,13 +44,15 @@
                                 <li>@Html.ActionLink("Agregar Pregunta", "AgregarNuevaPregunta", "PreguntasFrecuentes")</li>
                             </ul>
                         </li>
-                        <li>@Html.ActionLink("Log Out", "cerrarSesion", "Usuario")</li>
+                        <li><a href="/Usuario/cerrarSesion"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
                     }
                     else
                     {
-                        <li>@Html.ActionLink("Log In", "iniciarSesion", "Usuario")</li>
+                        <li><a href="/Usuario/iniciarSesion"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+
                     }
                 </ul>
+
             </div>
         </div>
     </div>
