@@ -194,6 +194,7 @@
     <Content Include="Views\MaterialEducativo\listadoDeMateriales.cshtml" />
     <Content Include="Views\Home\InformacionBasica.cshtml" />
     <Content Include="Views\Actividades\listadoDeActividades.cshtml" />
+    <Content Include="Views\Actividades\verActividad.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

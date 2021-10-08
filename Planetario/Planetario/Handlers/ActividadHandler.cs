@@ -64,6 +64,7 @@ namespace Planetario.Handlers
                 actividades.Add(
                     new ActividadModel
                     {
+                        id = Convert.ToInt32(columna["idActividadPK"]),
                         nombre = Convert.ToString(columna["nombre"]),
                         tema = Convert.ToString(columna["tema"]),
                         descripcion = Convert.ToString(columna["descripcion"]),
@@ -75,5 +76,28 @@ namespace Planetario.Handlers
             }
             return actividades;
         }
+
+        public ActividadModel buscarActividad(string stringId)
+        {
+            string consulta = "SELECT * FROM Actividad WHERE idActividadPK = " + stringId + ";";
+            DataTable tablaResultado = crearTablaConsulta(consulta);
+            ActividadModel resultado = null;
+            if (tablaResultado.Rows[0] != null)
+            {
+                resultado = new ActividadModel
+                {
+                    id = Convert.ToInt32(tablaResultado.Rows[0]["idActividadPK"]),
+                    nombre = Convert.ToString(tablaResultado.Rows[0]["nombre"]),
+                    tema = Convert.ToString(tablaResultado.Rows[0]["tema"]),
+                    descripcion = Convert.ToString(tablaResultado.Rows[0]["descripcion"]),
+                    tipo = Convert.ToString(tablaResultado.Rows[0]["tipo"]),
+                    publicoDirigido = Convert.ToString(tablaResultado.Rows[0]["publicoDirigido"]),
+                    duracion = Convert.ToInt32(tablaResultado.Rows[0]["duracion"]),
+                    correoFK = Convert.ToString(tablaResultado.Rows[0]["correoFK"])
+                };
+            }
+            return resultado;
+        }
+
     }
 }

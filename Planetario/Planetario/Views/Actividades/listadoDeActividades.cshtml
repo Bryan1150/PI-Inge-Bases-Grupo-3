@@ -21,13 +21,13 @@
         </tr>
         @foreach (Planetario.Models.ActividadModel actividad in ViewBag.actividades)
         {
-            <tr>
-                <td>@actividad.id  </td>
-                <td>@actividad.nombre</td>
-                <td>@actividad.tema</td>
-                <td>@actividad.tipo</td>
-                <td>@actividad.correoFK</td>
-            </tr>
+    <tr>
+        <td>@actividad.id  </td>      
+        <td>@Html.ActionLink(actividad.nombre, "verActividad", "Actividades", new { stringId = actividad.id.ToString() }, null)</td>
+        <td>@actividad.tema</td>
+        <td>@actividad.tipo</td>
+        <td>@actividad.correoFK</td>
+    </tr>
         }
     </table>
 
