@@ -42,8 +42,9 @@ namespace Planetario.Controllers
             else
             {
                 ModelState.AddModelError("", "El correo o la contraseña es incorrecta");
+                ViewBag.Message = "El correo o la contraseña es incorrecta.";
             }
-            return View(usuario);
+            return View();
         }
 
         public ActionResult cerrarSesion()
