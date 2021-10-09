@@ -120,6 +120,33 @@ namespace Planetario.Handlers
             return new Tuple<byte[], string>(bytes, contentType);
         }
 
+        public List<MaterialEducativoModel> obtenerMaterialBuscado(string palabra)
+        {
+            List<MaterialEducativoModel> materialesUnicos = new List<MaterialEducativoModel>();
+            string consulta = "SELECT * FROM MaterialEducativo WHERE titulo LIKE '%" + palabra + "%'";
+
+            SqlCommand comandoParaConsulta = new SqlCommand(consulta, Conexion);
+            SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
+
+            DataTable TablaResultado = crearTablaConsulta(consulta);
+
+
+            foreach (DataRow columna in TablaResultado.Rows)
+            {
+                materialesUnicos.Add(
+                    new MaterialEducativoModel
+                    {
+                        Titulo = Convert.ToString(columna["titulo"]),
+                        Fecha = Convert.ToString(columna["fechaSubida"]),
+                        Id = Convert.ToInt32(columna["idMaterialPK"]),
+                        CorreoResponsable = Convert.ToString(columna["correoResponsableFK"]),
+                        PublicoDirigido = Convert.ToString(columna["publicoDirigido"])
+                    });
+            }
+            return materialesUnicos;
+        }
+
+
 
     }
 }

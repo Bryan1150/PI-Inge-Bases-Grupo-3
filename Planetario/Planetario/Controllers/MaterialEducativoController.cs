@@ -61,6 +61,20 @@ namespace Planetario.Controllers
             return File(tupla.Item1, tupla.Item2);
         }
 
+        [HttpGet]
+        public ActionResult buscarMaterialesEducativos()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult buscarMaterialesEducativos(string palabra)
+        {
+            MaterialesEducativosHandler accesoDatos = new MaterialesEducativosHandler();
+            ViewBag.materialesUnicos = accesoDatos.obtenerMaterialBuscado(palabra);
+            return View();
+        }
+
 
     }
 }

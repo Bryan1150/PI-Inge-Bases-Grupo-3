@@ -12,11 +12,8 @@
 <body>
     <h1>Actividades</h1>
 
-    <form method="post" class="navbar-form navbar-right" action="@Url.Action("buscarActividad", "Actividades")">
-        <div class="form-group">
-            <input type="text" name="palabra" class="form-control" placeholder="Buscar actividad">
-        </div>
-        <button type="submit" class="btn btn-secondary"> <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Buscar</button>
+    <form method="post" class="navbar-form navbar-right" action="@Url.Action("listadoDeActividades", "Actividades")">
+        <button type="submit" class="btn btn-secondary"> <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Volver</button>
     </form>
 
     <table class="table">
@@ -27,7 +24,7 @@
             <th>Tipo</th>
             <th>Organizador</th>
         </tr>
-        @foreach (Planetario.Models.ActividadModel actividad in ViewBag.actividades)
+        @foreach (Planetario.Models.ActividadModel actividad in ViewBag.actividadesUnicas)
         {
             <tr>
                 <td>@actividad.id  </td>

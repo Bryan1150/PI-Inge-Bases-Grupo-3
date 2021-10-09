@@ -99,5 +99,34 @@ namespace Planetario.Handlers
             return resultado;
         }
 
+        public List<ActividadModel> obtenerActividadBuscada(string palabra)
+        {
+            List<ActividadModel> actividadesUnicas = new List<ActividadModel>();
+            string consulta = "SELECT * FROM Actividad WHERE nombre LIKE '%" + palabra + "%'";
+
+            SqlCommand comandoParaConsulta = new SqlCommand(consulta, conexion);
+            SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
+
+            DataTable TablaResultado = crearTablaConsulta(consulta);
+
+
+            foreach (DataRow columna in TablaResultado.Rows)
+            {
+                actividadesUnicas.Add(
+                    new ActividadModel
+                    {
+                        id = Convert.ToInt32(columna["idActividadPK"]),
+                        nombre = Convert.ToString(columna["nombre"]),
+                        tema = Convert.ToString(columna["tema"]),
+                        descripcion = Convert.ToString(columna["descripcion"]),
+                        tipo = Convert.ToString(columna["tipo"]),
+                        publicoDirigido = Convert.ToString(columna["publicoDirigido"]),
+                        duracion = Convert.ToInt32(columna["duracion"]),
+                        correoFK = Convert.ToString(columna["correoFK"])
+                    });
+            }
+            return actividadesUnicas;
+        }
+
     }
 }

@@ -12,12 +12,10 @@
 <body>
     <h1>Materiales Educativos</h1>
 
-    <form method="post" class="navbar-form navbar-right" action="@Url.Action("buscarMaterialesEducativos", "MaterialEducativo")">
-        <div class="form-group">
-            <input type="text" name="palabra" class="form-control" placeholder="Buscar material">
-        </div>
-        <button type="submit" class="btn btn-secondary"> <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Buscar</button>
+    <form method="post" class="navbar-form navbar-right" action="@Url.Action("listadoDeMateriales", "MaterialEducativo")">
+        <button type="submit" class="btn btn-secondary"> <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Volver</button>
     </form>
+
 
     <table class="table">
         <tr>
@@ -28,7 +26,7 @@
             <th>Fecha</th>
             <th>Archivo</th>
         </tr>
-        @foreach (var material in ViewBag.materiales)
+        @foreach (var material in ViewBag.materialesUnicos)
         {
             <tr>
                 <td>@material.Id  </td>
