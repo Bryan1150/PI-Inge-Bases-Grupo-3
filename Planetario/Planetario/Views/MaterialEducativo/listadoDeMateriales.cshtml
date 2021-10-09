@@ -29,7 +29,7 @@
                 <td>@material.CorreoResponsable</td>
                 <td>@material.Fecha</td>
                 <td>
-                    @Html.ActionLink("Descargar", "accederArchivo",
+                    @Html.ActionLink("Ver", "accederArchivo",
                          new { identificador = material.Id },
                          new { @class = "btn btm-link", @onclick = "return confirm('¿Quiere descargar el material? '); " }
                      )
