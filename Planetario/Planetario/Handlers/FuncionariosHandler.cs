@@ -38,7 +38,7 @@ namespace Planetario.Handlers
             List<FuncionarioModel> ListaFuncionarios = new List<FuncionarioModel>();
             string Consulta = " SELECT F.correoFK AS 'correo', F.cedula AS 'cedula'," +
                 " CONVERT(VARCHAR(20), fechaIncorporacion, 1) AS fechaIncorporacion," +
-                " F.rolTrabajo, F.titulo, U.nombre + ' ' + U.apellido1 + ' ' + U.apellido2 AS 'nombre' " +
+                " F.rolTrabajo, F.titulo, U.nombre + ' ' + U.apellido1 AS 'nombre' " +
                 "FROM Funcionario F JOIN Usuario U ON F.correoFK = U.correoPK; ";
             DataTable tablaResultado = CrearTablaConsulta(Consulta);
 
