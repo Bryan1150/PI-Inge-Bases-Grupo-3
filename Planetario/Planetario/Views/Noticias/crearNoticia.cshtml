@@ -33,8 +33,10 @@
         <div class="well bs-component">
             @Html.AntiForgeryToken()
             <div class="form-horizontal">
+                <h4>Ingrese los datos para crear una Noticia</h4>
+                <hr />
                 <div class="form-group">
-                    @Html.LabelFor(model => model.titulo, htmlAttributes: new { @class = "control-label col-md-2" }) 
+                    @Html.LabelFor(model => model.titulo, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @Html.TextBoxFor(model => model.titulo, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.titulo, "", new { @class = "text-danger" })
@@ -43,7 +45,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.cuerpo, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.TextAreaFor(model => model.cuerpo, new { @class = "form-control", @rows = 10, @cols = 80})
+                        @Html.TextAreaFor(model => model.cuerpo, new { @class = "form-control", @rows = 10, @cols = 80 })
                         @Html.ValidationMessageFor(model => model.cuerpo, "", new { @class = "text-danger" })
                     </div>
                 </div>

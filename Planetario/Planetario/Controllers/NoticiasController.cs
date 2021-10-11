@@ -29,6 +29,15 @@ namespace Planetario.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult ObtenerImagen(string numNoticia)
+        {
+            NoticiasHandler noticiaHandler = new NoticiasHandler();
+            ViewBag.id = numNoticia;
+            var tupla = noticiaHandler.ObtenerFoto(numNoticia);
+            return File(tupla.Item1, tupla.Item2);
+        }
+
         [HttpPost]
         public ActionResult crearNoticia(NoticiaModel noticia)
         {

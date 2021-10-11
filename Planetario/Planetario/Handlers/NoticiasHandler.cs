@@ -111,6 +111,26 @@ namespace Planetario.Handlers
             return exito;
         }
 
-        
+        public Tuple<byte[], string> ObtenerFoto(string numNoticia)
+        {
+            byte[] bytes;
+            string contentType;
+            string consulta = "SELECT imagen, tipoImagen FROM Noticia WHERE idNoticiaPK = @id";
+            int id = Int32.Parse(numNoticia);
+            SqlCommand comandoParaConsulta = new SqlCommand(consulta, conexion);
+            comandoParaConsulta.Parameters.AddWithValue("@id", id);
+            conexion.Open();
+
+            SqlDataReader lectorDeDatos = comandoParaConsulta.ExecuteReader();
+            lectorDeDatos.Read();
+
+            bytes = (byte[])lectorDeDatos["imagen"];
+            contentType = lectorDeDatos["tipoImagen"].ToString();
+
+            conexion.Close();
+            return new Tuple<byte[], string>(bytes, contentType);
+        }
+
+
     }
 }

@@ -13,6 +13,7 @@
         Id: @ViewBag.noticia.id.ToString()</small>
         <hr />
         <p>@ViewBag.noticia.cuerpo</p>
+        <img src=@Url.Action("ObtenerImagen", "Noticias",  new { numNoticia = ViewBag.noticia.id.ToString() }) style="width:200px;height:200px;">
     </div>
 </body>
 </html>
