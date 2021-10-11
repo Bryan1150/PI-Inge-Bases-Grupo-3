@@ -37,7 +37,7 @@
                 <td>
                     @Html.ActionLink("Ver", "accederArchivo",
                          new { identificador = material.Id },
-                         new { @class = "btn btm-link", @onclick = "return confirm('¿Quiere ver/descargar el material? '); " }
+                         new { target = "_blank" }
                      )
                 </td>
             </tr>
