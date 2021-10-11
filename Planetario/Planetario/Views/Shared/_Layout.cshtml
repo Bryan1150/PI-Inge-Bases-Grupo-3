@@ -8,9 +8,20 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <style>
+        nav.navbar.navbar-light.navbar-fixed-top li a {
+            color: #fcdab7;
+        }
+        nav.navbar.navbar-light.navbar-fixed-top li :hover {
+            background-color: #1d2d50;
+        }
+        navbar-brand {
+            color: #fcdab7;
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-light navbar-fixed-top" role="navigation" style="background-color:#133b5c; color:#ff0000;">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -18,7 +29,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Planetario Halley", "InformacionBasica", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Planetario Halley", "InformacionBasica", "Home", new { area = "" }, new { @class = "navbar-brand", @style = "color:#fff" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
