@@ -21,7 +21,7 @@ namespace Planetario.Models
 
         [Required(ErrorMessage = "Es necesario que indique la fecha de la noticia.")]
         [Display(Name = "Fecha ")]
-        public DateTime fecha { get; set; }
+        public string fecha { get; set; }
 
         [Required(ErrorMessage = "Es necesario que indique el correo del autor")]
         [Display(Name = "Autor ")]

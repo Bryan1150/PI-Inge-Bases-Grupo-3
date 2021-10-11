@@ -9,11 +9,19 @@
 <body>
     <h1>@ViewBag.noticia.titulo</h1>
     <div class="well">
-        <small>Autor: @ViewBag.noticia.correoAutor<br />
-        Id: @ViewBag.noticia.id.ToString()</small>
+        <small>
+            Autor: @ViewBag.noticia.correoAutor<br />
+            Fecha: @ViewBag.noticia.fecha <br />
+            Id: @ViewBag.noticia.id.ToString()
+        </small>
         <hr />
         <p>@ViewBag.noticia.cuerpo</p>
         <img src=@Url.Action("ObtenerImagen", "Noticias",  new { numNoticia = ViewBag.noticia.id.ToString() }) style="width:200px;height:200px;">
+
+
+        <div>
+            @Html.ActionLink("Regresar", "listadoDeNoticias", "Noticias")
+        </div>
     </div>
 </body>
 </html>

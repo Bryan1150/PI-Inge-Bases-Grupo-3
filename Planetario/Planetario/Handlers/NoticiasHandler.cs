@@ -36,7 +36,7 @@ namespace Planetario.Handlers
         public List<NoticiaModel> obtenerTodasLasNoticias()
         {
             List<NoticiaModel> noticias = new List<NoticiaModel>();
-            string consulta = "SELECT * FROM Noticia ";
+            string consulta = "SELECT idNoticiaPK, titulo, cuerpo, CONVERT(VARCHAR(20), fecha, 1) AS 'fecha', correoFuncionarioAutorFK FROM Noticia ORDER BY fecha DESC";
             DataTable tablaResultado = crearTablaConsulta(consulta);
 
             foreach(DataRow columna in tablaResultado.Rows)
@@ -47,7 +47,7 @@ namespace Planetario.Handlers
                         id = Convert.ToInt32(columna["idNoticiaPK"]),
                         titulo = Convert.ToString(columna["titulo"]),
                         cuerpo = Convert.ToString(columna["cuerpo"]),
-                        fecha = Convert.ToDateTime(columna["fecha"]),
+                        fecha = Convert.ToString(columna["fecha"]),
                         correoAutor = Convert.ToString(columna["correoFuncionarioAutorFK"]),
                     });
             }
@@ -56,7 +56,7 @@ namespace Planetario.Handlers
 
         public NoticiaModel buscarNoticia(string stringId)
         {
-            string consulta = "SELECT * FROM Noticia WHERE idNoticiaPK = " + stringId + ";";
+            string consulta = "SELECT idNoticiaPK, titulo, cuerpo, CONVERT(VARCHAR(20), fecha, 1) AS 'fecha', correoFuncionarioAutorFK FROM Noticia WHERE idNoticiaPK = " + stringId + ";";
             DataTable tablaResultado = crearTablaConsulta(consulta);
             NoticiaModel resultado = null;
             if(tablaResultado.Rows[0] != null)
@@ -66,7 +66,7 @@ namespace Planetario.Handlers
                     id = Convert.ToInt32(tablaResultado.Rows[0]["idNoticiaPK"]),
                     titulo = Convert.ToString(tablaResultado.Rows[0]["titulo"]),
                     cuerpo = Convert.ToString(tablaResultado.Rows[0]["cuerpo"]),
-                    fecha = Convert.ToDateTime(tablaResultado.Rows[0]["fecha"]),
+                    fecha = Convert.ToString(tablaResultado.Rows[0]["fecha"]),
                     correoAutor = Convert.ToString(tablaResultado.Rows[0]["correoFuncionarioAutorFK"]),
                 };
             }
