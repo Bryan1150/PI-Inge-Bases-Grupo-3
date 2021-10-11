@@ -45,8 +45,8 @@
                                                 </h4>
                                             </div>
                                             <div id="inside_@preguntaFrecuente.idPregunta" class="panel-collapse collapse">
-                                                <div class="panel-body">
-                                                    <p><i>Tópico(s): @preguntaFrecuente.topicoPregunta.</i></p>
+                                                <div class="panel-body">                                                                                                                                             
+                                                    <p><i>Tópico(s): @preguntaFrecuente.topicoPregunta @if (preguntaFrecuente.topicoPregunta2 != "NULL") {@preguntaFrecuente.topicoPregunta2} else {} @if (preguntaFrecuente.topicoPregunta3 != "NULL") {@preguntaFrecuente.topicoPregunta3} else {}</i></p>                                                   
                                                     &nbsp
                                                     <p><b>Respuesta:</b></p>
                                                     <p>@preguntaFrecuente.respuesta</p>
