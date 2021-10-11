@@ -11,6 +11,7 @@
 
 <head>
     <link href="~/Utils/css/background.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
 </head>
 
 @if (ViewBag.Mensaje != null)
@@ -18,7 +19,9 @@
     <h6>@ViewBag.mensaje</h6>
 }
 
-<h2>Ofrecer nuevo material educativo</h2>
+<span class="titulo">
+    Agregar Material Educativo
+</span>
 
 @using (Html.BeginForm("AlmacenarNuevoMaterialEducativo", "MaterialEducativo", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
