@@ -35,7 +35,7 @@ namespace Planetario.Handlers
         public List<PreguntasFrecuentesModel> ObtenerPreguntasFrecuentes()
         {
             List<PreguntasFrecuentesModel> preguntasFrecuentes = new List<PreguntasFrecuentesModel>();
-            string consulta = "SELECT * FROM dbo.PreguntasFrecuentes";
+            string consulta = "SELECT * FROM dbo.PreguntasFrecuentes PF JOIN dbo.PreguntasFrecuentesTopicos PFT ON PF.topicoPreguntasFK = PFT.idTopicoPK";
             DataTable tablaResultado = CrearTablaConsulta(consulta);
 
             foreach (DataRow columna in tablaResultado.Rows)
@@ -44,10 +44,14 @@ namespace Planetario.Handlers
                     new PreguntasFrecuentesModel
                     {
                         idPregunta = Convert.ToInt32(columna["idPreguntaPK"]),
+                        idTopicos = Convert.ToInt32(columna["topicoPreguntasFK"]),
                         categoriaPregunta = Convert.ToString(columna["categoriaPregunta"]),
-                        topicoPregunta = Convert.ToString(columna["topicoPregunta"]),
                         pregunta = Convert.ToString(columna["pregunta"]),
                         respuesta = Convert.ToString(columna["respuesta"]),
+                        topicoPregunta = Convert.ToString(columna["topico1"]),
+                        topicoPregunta2 = Convert.ToString(columna["topico2"]),
+                        topicoPregunta3 = Convert.ToString(columna["topico3"]),
+
                     });
             }
 
@@ -70,13 +74,33 @@ namespace Planetario.Handlers
 
         public bool agregarNuevaPregunta(PreguntasFrecuentesModel nuevaPregunta)
         {     
-            string consulta = "INSERT INTO dbo.PreguntasFrecuentes (categoriaPregunta, topicoPregunta, pregunta, respuesta) " +
-                "VALUES (@categoriaPregunta, @topicoPregunta, @pregunta, @respuesta) ";
+            string consulta = "INSERT INTO dbo.PreguntasFrecuentesTopicos (topico1, topico2, topico3) VALUES (@topicoPregunta, @topicoPregunta2, @topicoPregunta3) " +
+                "INSERT INTO dbo.PreguntasFrecuentes (categoriaPregunta, pregunta, respuesta, topicoPreguntasFK) VALUES (@categoriaPregunta, @pregunta, @respuesta, scope_identity())";
+
             SqlCommand comandoParaConsulta = new SqlCommand(consulta, conexion);
             SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
 
-            comandoParaConsulta.Parameters.AddWithValue("@categoriaPregunta", nuevaPregunta.categoriaPregunta);
             comandoParaConsulta.Parameters.AddWithValue("@topicoPregunta", nuevaPregunta.topicoPregunta);
+
+            if(nuevaPregunta.topicoPregunta2 != "-Topico-")
+            {
+                comandoParaConsulta.Parameters.AddWithValue("@topicoPregunta2", nuevaPregunta.topicoPregunta2);
+            }
+            else
+            {
+                comandoParaConsulta.Parameters.AddWithValue("@topicoPregunta2", "NULL");
+            }
+
+            if (nuevaPregunta.topicoPregunta3 != "-Topico-")
+            {
+                comandoParaConsulta.Parameters.AddWithValue("@topicoPregunta3", nuevaPregunta.topicoPregunta3);
+            }
+            else
+            {
+                comandoParaConsulta.Parameters.AddWithValue("@topicoPregunta3", "NULL");
+            }
+
+            comandoParaConsulta.Parameters.AddWithValue("@categoriaPregunta", nuevaPregunta.categoriaPregunta);
             comandoParaConsulta.Parameters.AddWithValue("@pregunta", nuevaPregunta.pregunta);
             comandoParaConsulta.Parameters.AddWithValue("@respuesta", nuevaPregunta.respuesta);
           

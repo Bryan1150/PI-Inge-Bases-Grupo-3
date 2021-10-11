@@ -66,10 +66,27 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.topicoPregunta, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.DropDownListFor(model => model.topicoPregunta, Enumerable.Empty<SelectListItem>(), "--Topico--", new { @id = "topicoPregunta", @class = "form-control" })
+                        @Html.DropDownListFor(model => model.topicoPregunta, Enumerable.Empty<SelectListItem>(), "--Topico 1--", new { @id = "topicoPregunta", @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.topicoPregunta, "", new { @class = "text-danger" })
                     </div>
                 </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.topicoPregunta2, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.topicoPregunta2, Enumerable.Empty<SelectListItem>(), "--Topico 2--", new { @id = "topicoPregunta2", @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.topicoPregunta2, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.topicoPregunta3, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.topicoPregunta3, Enumerable.Empty<SelectListItem>(), "--Topico 3--", new { @id = "topicoPregunta3", @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.topicoPregunta3, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.pregunta, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -111,6 +128,26 @@
                         var topicoSeleccionado = $('#topicoPregunta');
                         topicoSeleccionado.empty();
                         $.each(topicos, function (index, topico) {
+                            if (index != 0) {
+                            topicoSeleccionado.append($('<option/>', {
+                                value: topico.Value,
+                                text: topico.Text
+                            }));
+                            }
+                        });
+                    });
+                }
+            });
+    </script>
+
+    <script type="text/javascript">
+            $('#categoriaPregunta').change(function () {
+                var categoriaSeleccionada = $(this).val();
+                if (categoriaSeleccionada != null && categoriaSeleccionada != '') {
+                    $.getJSON('@Url.Action("Topicos")', { categoria: categoriaSeleccionada }, function (topicos) {
+                        var topicoSeleccionado = $('#topicoPregunta2');
+                        topicoSeleccionado.empty();
+                        $.each(topicos, function (index, topico) {
                             topicoSeleccionado.append($('<option/>', {
                                 value: topico.Value,
                                 text: topico.Text
@@ -120,6 +157,25 @@
                 }
             });
     </script>
+
+    <script type="text/javascript">
+            $('#categoriaPregunta').change(function () {
+                var categoriaSeleccionada = $(this).val();
+                if (categoriaSeleccionada != null && categoriaSeleccionada != '') {
+                    $.getJSON('@Url.Action("Topicos")', { categoria: categoriaSeleccionada }, function (topicos) {
+                        var topicoSeleccionado = $('#topicoPregunta3');
+                        topicoSeleccionado.empty();
+                        $.each(topicos, function (index, topico) {
+                            topicoSeleccionado.append($('<option/>', {
+                                value: topico.Value,
+                                text: topico.Text
+                            }));
+                        });
+                    });
+                }
+            });
+    </script>
+
 </body>
 
 @section Scripts

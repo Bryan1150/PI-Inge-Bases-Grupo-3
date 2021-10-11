@@ -16,7 +16,7 @@
 <body>
     <div class="container">
         <h1><b>Preguntas Frecuentes</b></h1>
-        <p>
+        <p class="well">
             En este lugar estarán todas las preguntas qué nuestros colaboradores han añadido atraves del tiempo. <br />
             Están dividas por categoria y por tópico.
         </p>
@@ -47,8 +47,8 @@
                                                 </h4>
                                             </div>
                                             <div id="inside_@preguntaFrecuente.idPregunta" class="panel-collapse collapse">
-                                                <div class="panel-body">
-                                                    <p><i>Tópico(s): @preguntaFrecuente.topicoPregunta.</i></p>
+                                                <div class="panel-body">                                                                                                                                             
+                                                    <p><i>Tópico(s): @preguntaFrecuente.topicoPregunta @if (preguntaFrecuente.topicoPregunta2 != "NULL") {@preguntaFrecuente.topicoPregunta2} else {} @if (preguntaFrecuente.topicoPregunta3 != "NULL") {@preguntaFrecuente.topicoPregunta3} else {}</i></p>                                                   
                                                     &nbsp
                                                     <p><b>Respuesta:</b></p>
                                                     <p>@preguntaFrecuente.respuesta</p>
