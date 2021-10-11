@@ -27,7 +27,7 @@ namespace Planetario.Models
         [Display(Name = "Autor ")]
         public string correoAutor { get; set; }
 
-        [Required(ErrorMessage = "Es necesario que indique la imagen de la noticia.")]
+        
         [Display(Name = "Imagen ")]
         public HttpPostedFileBase imagen { get; set; }
 
