@@ -29,6 +29,9 @@ namespace Planetario.Models
         [Required(ErrorMessage = "Es necesario que ingrese el rol del funcionario")]
         public string RolTrabajo { get; set; }
 
+        [Display(Name = "Descripción")]
+        public string Descripcion { get; set; }
+
         [Display(Name = "Correo Electrónico")]
         public string CorreoContacto { get; set; }
 
