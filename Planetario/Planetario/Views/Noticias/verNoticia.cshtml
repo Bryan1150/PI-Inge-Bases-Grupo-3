@@ -3,12 +3,15 @@
 <head>
     <title>@ViewBag.noticia.titulo</title>
     <meta charset="utf-8" />
+    <link href="~/Utils/css/background.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
     <h1>@ViewBag.noticia.titulo</h1>
-    <small>Autor: @ViewBag.noticia.correoAutor<br />
-    Id: @ViewBag.noticia.id.ToString()</small>
-    <hr />
-    <p>@ViewBag.noticia.cuerpo</p>
+    <div class="well">
+        <small>Autor: @ViewBag.noticia.correoAutor<br />
+        Id: @ViewBag.noticia.id.ToString()</small>
+        <hr />
+        <p>@ViewBag.noticia.cuerpo</p>
+    </div>
 </body>
 </html>

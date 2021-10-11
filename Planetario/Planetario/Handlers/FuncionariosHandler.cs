@@ -38,7 +38,7 @@ namespace Planetario.Handlers
             List<FuncionarioModel> ListaFuncionarios = new List<FuncionarioModel>();
             string Consulta = " SELECT F.correoFK AS 'correo', F.cedula AS 'cedula'," +
                 " CONVERT(VARCHAR(20), fechaIncorporacion, 1) AS fechaIncorporacion," +
-                " F.rolTrabajo, F.titulo, U.nombre + ' ' + U.apellido1 AS 'nombre' " +
+                " F.rolTrabajo, F.titulo, U.nombre + ' ' + U.apellido1 AS 'nombre', F.descripcion AS 'descripcion' " +
                 "FROM Funcionario F JOIN Usuario U ON F.correoFK = U.correoPK; ";
             DataTable tablaResultado = CrearTablaConsulta(Consulta);
 
@@ -52,7 +52,8 @@ namespace Planetario.Handlers
                         FechaIncorporacion = Convert.ToString(columna["fechaIncorporacion"]),
                         Titulo = Convert.ToString(columna["titulo"]),
                         RolTrabajo = Convert.ToString(columna["rolTrabajo"]),
-                        CorreoContacto = Convert.ToString(columna["correo"])
+                        CorreoContacto = Convert.ToString(columna["correo"]),
+                        Descripcion = Convert.ToString(columna["descripcion"])
                     }
                 );
             }
@@ -62,8 +63,8 @@ namespace Planetario.Handlers
 
         public bool crearFuncionario(FuncionarioModel funcionario)
         {
-            string consulta = "INSERT INTO dbo.Funcionario (correoFK, cedula, fechaIncorporacion, titulo, rolTrabajo, foto, tipoArchivoFoto) " +
-            "VALUES (@correo, @cedula, @fecha, @titulo, @trabajo, @foto, @tipoArchivo) ";
+            string consulta = "INSERT INTO dbo.Funcionario (correoFK, cedula, fechaIncorporacion, titulo, rolTrabajo, foto, tipoArchivoFoto, descripcion) " +
+            "VALUES (@correo, @cedula, @fecha, @titulo, @trabajo, @foto, @tipoArchivo, @descripcion) ";
 
             SqlCommand comandoParaConsulta = new SqlCommand(consulta, Conexion);
             SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
@@ -75,6 +76,7 @@ namespace Planetario.Handlers
             comandoParaConsulta.Parameters.AddWithValue("@trabajo", funcionario.RolTrabajo);
             comandoParaConsulta.Parameters.AddWithValue("@foto", obtenerBytes(funcionario.Foto));
             comandoParaConsulta.Parameters.AddWithValue("@tipoArchivo", funcionario.Foto.ContentType);
+            comandoParaConsulta.Parameters.AddWithValue("@descripcion", funcionario.Descripcion);
 
             Conexion.Open();
             bool exito = comandoParaConsulta.ExecuteNonQuery() >= 1; 

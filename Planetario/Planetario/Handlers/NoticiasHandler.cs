@@ -7,6 +7,7 @@ using System.IO;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Data.SqlTypes;
 
 namespace Planetario.Handlers
 {
@@ -91,8 +92,18 @@ namespace Planetario.Handlers
             comandoParaConsulta.Parameters.AddWithValue("@cuerpoN", noticia.cuerpo);
             comandoParaConsulta.Parameters.AddWithValue("@fechaN", noticia.fecha); 
             comandoParaConsulta.Parameters.AddWithValue("@correoN", noticia.correoAutor);
-            comandoParaConsulta.Parameters.AddWithValue("@imagenN", obtenerBytes(noticia.imagen));
-            comandoParaConsulta.Parameters.AddWithValue("@tipoImagenN", noticia.imagen.ContentType);
+
+            if (noticia.imagen == null)
+            {
+                comandoParaConsulta.Parameters.AddWithValue("@imagenN", SqlBinary.Null);
+                comandoParaConsulta.Parameters.AddWithValue("@tipoImagenN", SqlBinary.Null);
+            }
+            else 
+            {
+                comandoParaConsulta.Parameters.AddWithValue("@imagenN", obtenerBytes(noticia.imagen));
+                comandoParaConsulta.Parameters.AddWithValue("@tipoImagenN", noticia.imagen.ContentType);
+            }
+            
 
             conexion.Open();
             bool exito = comandoParaConsulta.ExecuteNonQuery() >= 1;

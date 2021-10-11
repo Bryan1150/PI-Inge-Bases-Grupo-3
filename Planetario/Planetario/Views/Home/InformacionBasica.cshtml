@@ -1,73 +1,49 @@
-﻿<!DOCTYPE html>
+﻿@{ 
+    ViewBag.title = "Información Basica Planetario";
+}
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Informacion Basica Planetario</title>
+    <title>@ViewBag.title</title>
     <meta charset="utf-8" />
+    <link href="~/Styles/InformacionBasica.css" rel="stylesheet" type="text/css" />
+    <link href="~/Utils/css/background.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-    <h1> Informacion del planetario: </h1>
-
-    <div class="seccion_1" id="s1">
-        <ul>
-            <li>
-                <b>Nombre:</b>
-                <p>Planetario Halley</p>
-            </li>
-
-            <li>
-                <b>Mision:</b>
-                <p align="justify">
-                    Construir comunidades alrededor del
-                    conocimiento científico, artístico y tecnológico,
-                    donde la diversidad de saberes y la comunicación con
-                    nuestros públicos incidan en la transformación de la
-                    sociedad por medio de un diálogo horizontal e incluyente.
-                </p>
-            </li>
-
-            <li>
-                <b>Vision:</b>
-                <p align="justify">
-                    En el Planetario Halley buscamos estimular los procesos creativos y el interés por el quehacer científico en el país,
-                    a través de la exploración de diversos lenguajes de comunicación.
-                    Con este propósito, queremos construir una red interdisciplinaria en las áreas de divulgación y educación a través del fortalecimiento de los espacios y canales que posibilitan el diálogo y el intercambio a nivel local e internacional.
-                </p>
-            </li>
-
-            <li>
-                <b>Actividades:</b>
-                <p align="justify">
-                    El Planetario Halley ofrece una gran variedad de actividades a sus visitantes, algunas de ellas son las siguientes:
-                </p>
-            </li>
-        </ul>
-    </div>
-
-    <div class="seccion_2" id="s2">
-
-        <table class="table-borderes">
-
-            <tr style="height: 18px;">
-
-                <th style="height: 18px; width: 260px;">Nombre de la actividad</th>
-                <th style="height: 18px; width: 260px;">Edad necesaria para participar</th>
-
-            </tr>
-
-            <tr style="height: 18px;">
-
-                <td style="height: 18px; width: 260px;">Actividades educativas para ni&ntilde;os</td>
-                <td style="height: 18px; width: 260px;">Todo público</td>
-            </tr>
-
-            <tr style="height: 18px;">
-
-                <td style="height: 18px; width: 260px;">Clases de astronomía</td>
-                <td style="height: 18px; width: 260px;">Todo público</td>
-
-            </tr>
-
-        </table>
+    <div class="row">
+        <div class="row text-center">
+            <img src="~/Utils/images/img-01.png" alt="Logo planetario">
+        </div>
+        <hr />
+        <div class="flex">
+            <div class="col">
+                <div class="well well-lg">
+                    <b>Mision</b>
+                    <p align="justify">
+                        Construir comunidades alrededor del
+                        conocimiento científico, artístico y tecnológico,
+                        donde la diversidad de saberes y la comunicación con
+                        nuestros públicos incidan en la transformación de la
+                        sociedad por medio de un diálogo horizontal e incluyente.
+                    </p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="well well-lg">
+                    <b>Vision</b>
+                    <p align="justify">
+                        En el Planetario Halley buscamos estimular los procesos creativos
+                        y el interés por el quehacer científico en el país,
+                        a través de la exploración de diversos lenguajes de comunicación.
+                        Con este propósito, queremos construir una red interdisciplinaria 
+                        en las áreas de divulgación y educación a través del fortalecimiento 
+                        de los espacios y canales que posibilitan el diálogo y el intercambio 
+                        a nivel local e internacional.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <hr />
     </div>
 </body>
 </html>

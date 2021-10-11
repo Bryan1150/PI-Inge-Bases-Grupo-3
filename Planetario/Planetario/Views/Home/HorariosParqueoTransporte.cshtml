@@ -1,8 +1,8 @@
 ﻿<!DOCTYPE html>
-<html>
 <head>
     <title>Horarios, parqueos y trasnporte del Planetario</title>
     <meta charset="utf-8" />
+    <link href="~/Utils/css/background.css" rel="stylesheet" type="text/css" />
 
     <style>
         #map {
@@ -27,76 +27,81 @@
     </script>
 </head>
 <body>
-    <h1>Horario:</h1>
-    <div id="s1" class="seccion_1">
-        <table class="table-bordered" style="height: 54px;">
-            <tbody>
-                <tr style="height: 18px;">
+    <div class="row text-center" style="width: 99%;">
+        <div class="col-md-6">
+            <h1>Horario</h1>
+            <table class="table table-hover well" style="height: 54px;">
+                <tbody>
+                    <tr style="height: 18px;">
 
-                    <td style="height: 18px; width: 180px; text-align: center;">Lunes - Viernes</td>
-                    <td style="height: 18px; width: 180px; text-align: center;">8:00 &ndash; 16:00</td>
+                        <td style="height: 18px; width: 180px; text-align: center;">Lunes - Viernes</td>
+                        <td style="height: 18px; width: 180px; text-align: center;">8:00 &ndash; 16:00</td>
 
-                </tr>
-                <tr style="height: 18px;">
+                    </tr>
+                    <tr style="height: 18px;">
 
-                    <td style="height: 18px; width: 180px; text-align: center;">S&aacute;bado</td>
-                    <td style="height: 18px; width: 180px; text-align: center;">10:00  &ndash; 19:00</td>
+                        <td style="height: 18px; width: 180px; text-align: center;">S&aacute;bado</td>
+                        <td style="height: 18px; width: 180px; text-align: center;">10:00  &ndash; 19:00</td>
 
-                </tr>
-                <tr style="height: 18px;">
+                    </tr>
+                    <tr style="height: 18px;">
 
-                    <td style="height: 18px; width: 180px; text-align: center;">Domingo</td>
-                    <td style="height: 18px; width: 180px; text-align: center;">Cerrado todo el d&iacute;a</td>
+                        <td style="height: 18px; width: 180px; text-align: center;">Domingo</td>
+                        <td style="height: 18px; width: 180px; text-align: center;">Cerrado todo el d&iacute;a</td>
 
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <br />
-    <div id="s2" class="seccion_2">
-        <h1>Transporte:</h1>
-        <p>El transporte consistirá de un microbus que recorrerá la zona cercana al planetario</p>
-        <table class="table-bordered" style="height: 54px;">
-            <tbody>
-                <tr style="height: 18px;">
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-                    <td style="height: 18px; width: 180px; text-align: center;">Lunes - Viernes</td>
-                    <td style="height: 18px; width: 410px; text-align: center; ">8:00, 9:00, 10:00, 11:00, 12:00, 13:00, 14:00</td>
+        <div class="col-md-6">
+            <h1>Transporte</h1>
+            <table class="table table-hover well" style="height: 54px;">
+                <tbody>
+                    <tr style="height: 18px;">
 
-                </tr>
-                <tr style="height: 18px;">
+                        <td style="height: 18px; width: 180px; text-align: center;">Lunes - Viernes</td>
+                        <td style="height: 18px; width: 410px; text-align: center; ">8:00, 9:00, 10:00, 11:00, 12:00, 13:00, 14:00</td>
 
-                    <td style="height: 18px; width: 180px; text-align: center;">S&aacute;bado</td>
-                    <td style="height: 18px; width: 410px; text-align: center; ">10:00, 11:00, 12:00, 13:00, 14:00, 15:00, 16:00, 17:00</td>
+                    </tr>
+                    <tr style="height: 18px;">
 
-                </tr>
-                <tr style="height: 18px;">
+                        <td style="height: 18px; width: 180px; text-align: center;">S&aacute;bado</td>
+                        <td style="height: 18px; width: 410px; text-align: center; ">10:00, 11:00, 12:00, 13:00, 14:00, 15:00, 16:00, 17:00</td>
 
-                    <td style="height: 18px; width: 180px; text-align: center;">Domingo</td>
-                    <td style="height: 18px; width: 410px; text-align: center; ">No funciona el transporte</td>
+                    </tr>
+                    <tr style="height: 18px;">
 
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <br />
-    <div id="s3" class="seccion_3">
+                        <td style="height: 18px; width: 180px; text-align: center;">Domingo</td>
+                        <td style="height: 18px; width: 410px; text-align: center; ">No funciona el transporte</td>
 
-        <h1>Estacionamiento:</h1>
-        <p>
-            El estacionamiento consistirá de 50 parqueos para carros que se encuentran al aire libre. 5 de estos son para gente con discapacidad.
-            Tambien se cuentan con 10 parqueos para motos.<br />El estacionamiento a la misma hora que abre el planetario y cierra una hora después
-            de que el planetario haya cerrado.
-        </p>
-
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
-    <div id="s4" class="seccion_4">
-        <h1>Ubicación:</h1>
-        <p>Nos ubicamos en la Ciudad de la Investigación de la UCR, San Pedro de Montes de Oca. Del supermercado Muñoz y Nanne 400 metros Norte (entrada principal a la Ciudad de la Investigación).</p>
+    <hr />
+
+    <div class="row text-center" style="width: 99%;">
+        <h1>Estacionamiento</h1>
+        <div class="container">
+            <p class="text-center well well-lg">
+                El estacionamiento consistirá de 50 parqueos para carros que se encuentran al aire libre.
+                Cinco de estos son para gente con discapacidad. Tambien se cuentan con 10 parqueos para motos.
+                El estacionamiento a la misma hora que abre el planetario y cierra una hora después de que el planetario haya cerrado.
+            </p>
+        </div>
+    </div>
+
+    <div class="row text-center">
+        <h1>Ubicación</h1>
+        <div class="well">
+            <p>Nos ubicamos en la Ciudad de la Investigación de la UCR, San Pedro de Montes de Oca. Del supermercado Muñoz y Nanne 400 metros Norte (entrada principal a la Ciudad de la Investigación).</p>
+        </div>
         <div id="map"></div>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLElcIYt5Tjb1rNAuONwwL8AXOkskFkak&callback=initMap" async defer></script>
         <hr />
     </div>
 </body>
-</html>
+

@@ -8,6 +8,7 @@
 <head>
     <title>Materiales Educativos</title>
     <meta charset="utf-8" />
+    <link href="~/Utils/css/background.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
     <h1>Materiales Educativos</h1>
@@ -17,7 +18,7 @@
     </form>
 
 
-    <table class="table">
+    <table class="table table-hover well">
         <tr>
             <th>ID</th>
             <th>Título</th>
@@ -37,7 +38,7 @@
                 <td>
                     @Html.ActionLink("Ver", "accederArchivo",
                          new { identificador = material.Id },
-                         new { @class = "btn btm-link", @onclick = "return confirm('¿Quiere ver/descargar el material? '); " }
+                         new { target = "_blank" }
                      )
                 </td>
             </tr>
