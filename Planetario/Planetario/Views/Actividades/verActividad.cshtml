@@ -8,22 +8,23 @@
 </head>
 <body>
     <h1>@ViewBag.actividad.nombre</h1>
-    <small>
-        <i>Autor: @ViewBag.actividad.correoFK</i><br />
-        <i>Id: @ViewBag.actividad.id</i>
-    </small>
-    <hr />
+    <div class="well">
+        <small>
+            <i>Autor: @ViewBag.actividad.correoFK</i><br />
+            <i>Id: @ViewBag.actividad.id</i>
+        </small>
+        <hr />
 
-    <h5><b>Tema:</b> @ViewBag.actividad.tema</h5>
+        <h5><b>Tema:</b> @ViewBag.actividad.tema</h5>
 
-    <h5><b>Tipo:</b> @ViewBag.actividad.tipo</h5>
+        <h5><b>Tipo:</b> @ViewBag.actividad.tipo</h5>
 
-    <h5><b>Publico Dirigido:</b> @ViewBag.actividad.publicoDirigido</h5>
+        <h5><b>Publico Dirigido:</b> @ViewBag.actividad.publicoDirigido</h5>
 
-    <h5><b>Duracion:</b> @ViewBag.actividad.duracion minutos.</h5>
+        <h5><b>Duracion:</b> @ViewBag.actividad.duracion minutos.</h5>
 
-    <h4><b>Descripcion:</b></h4>
-    @ViewBag.actividad.descripcion
-
+        <h4><b>Descripcion:</b></h4>
+        @ViewBag.actividad.descripcion
+    </div>
 </body>
 </html>
