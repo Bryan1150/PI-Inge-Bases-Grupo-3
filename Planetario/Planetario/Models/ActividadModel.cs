@@ -36,11 +36,6 @@ namespace Planetario.Models
         [RegularExpression("^[0-9]*$", ErrorMessage = "Debe ingresar números")]
         public int duracion { get; set; }
 
-        [Required(ErrorMessage = "Es necesario que ingrese aproximadamente cuanta gente se provee que va asistir.")]
-        [Display(Name = "Ingrese el número de asistentes que espera que asistan a la actividad:")]
-        [RegularExpression("^[0-9]*$", ErrorMessage = "Debe ingresar números")]
-        public int cantidadAsistentes { get; set; }
-
         [Required(ErrorMessage = "Es necesario que indique su correo.")]
         [Display(Name = "Ingrese su correo:")]
         public string correoFK { get; set; }

@@ -302,6 +302,7 @@
     <Content Include="Utils\vendor\bootstrap\css\bootstrap-reboot.min.css.map" />
     <Content Include="Utils\vendor\bootstrap\css\bootstrap.css.map" />
     <Content Include="Utils\vendor\bootstrap\css\bootstrap.min.css.map" />
+    <Content Include="Views\Actividades\crearActividad.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

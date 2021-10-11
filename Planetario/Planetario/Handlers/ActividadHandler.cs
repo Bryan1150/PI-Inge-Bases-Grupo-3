@@ -35,8 +35,8 @@ namespace Planetario.Handlers
 
         public bool crearActividad(ActividadModel actividad)
         {
-            string consulta = "INSERT INTO Actividad (nombre, tema, descripcion, tipo, publicoDirigido, duracion, cantidadAsistentes, correo) "
-                + "VALUES (@nombre, @tema, @descripcion, @tipo, @publicoDirigido, @duracion, @cantidadAsistentes, @correoFK) ";
+            string consulta = "INSERT INTO Actividad (nombre, tema, descripcion, tipo, publicoDirigido, duracion, correoFK) "
+                + "VALUES (@nombre, @tema, @descripcion, @tipo, @publicoDirigido, @duracion, @correoFK) ";
             SqlCommand comandoParaConsulta = new SqlCommand(consulta, conexion);
             SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
             comandoParaConsulta.Parameters.AddWithValue("@nombre", actividad.nombre);
@@ -45,7 +45,6 @@ namespace Planetario.Handlers
             comandoParaConsulta.Parameters.AddWithValue("@tipo", actividad.tipo);
             comandoParaConsulta.Parameters.AddWithValue("@publicoDirigido", actividad.publicoDirigido);
             comandoParaConsulta.Parameters.AddWithValue("@duracion", actividad.duracion);
-            comandoParaConsulta.Parameters.AddWithValue("@cantidadAsistentes", actividad.cantidadAsistentes);
             comandoParaConsulta.Parameters.AddWithValue("@correoFK", actividad.correoFK);
             conexion.Open();
             bool exito = comandoParaConsulta.ExecuteNonQuery() >= 1;
