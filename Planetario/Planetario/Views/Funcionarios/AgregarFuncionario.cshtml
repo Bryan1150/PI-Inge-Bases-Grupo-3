@@ -6,6 +6,7 @@
 <html>
 <head>
     <link href="~/Utils/css/background.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
 </head>
 <body>
     @if (ViewBag.Message != null)
@@ -24,7 +25,9 @@
         }
     }
 
-    <h2>Agregar un Funcionario</h2>
+    <span class="titulo">
+        Agregar Funcionario
+    </span>
 
     @using (Html.BeginForm("AgregarFuncionario", "Funcionarios", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {

@@ -61,10 +61,6 @@ a:hover {
   color: #1E5F74;
 }
 
-/*---------------------------------------------*/
-h1,h2,h3,h4,h5,h6 {
-	margin: 0px;
-}
 
 p {
 	font-family: Poppins-Regular;
@@ -217,6 +213,18 @@ iframe {
   width: 100%;
   display: block;
   padding-bottom: 54px;
+}
+
+.titulo{
+	font-family: Poppins-Bold;
+	font-size: 40px;
+	color: #333333;
+	line-height: 1.2;
+	text-align: center;
+	width: 100%;
+	display: block;
+	padding-bottom: 54px;
+	padding-top: 40px;
 }
 
 

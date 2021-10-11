@@ -5,6 +5,7 @@
 <html>
 <head>
     <link href="~/Utils/css/background.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
 </head>
 <body>
     @if (ViewBag.Message != null)
@@ -23,7 +24,9 @@
         }
     }
 
-    <h2>Agregar Noticia</h2>
+    <span class="titulo">
+        Agregar Noticia
+    </span>
 
     @using (Html.BeginForm("crearNoticia", "Noticias", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {

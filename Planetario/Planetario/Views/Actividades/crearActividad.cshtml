@@ -13,6 +13,7 @@
 <head>
     <meta charset="utf-8" />
     <link href="~/Utils/css/background.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
 </head>
 <body>
     @if (ViewBag.Message != null)
@@ -31,7 +32,9 @@
         }
     }
 
-    <h2>Agregar Actividad</h2>
+    <span class="titulo">
+        Agregar Actividad
+    </span>
 
     @using (Html.BeginForm("crearActividad", "Actividades", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
