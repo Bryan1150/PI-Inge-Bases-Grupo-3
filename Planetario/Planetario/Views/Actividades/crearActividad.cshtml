@@ -29,55 +29,80 @@
             </div>
         }
     }
+
+    <h2>Agregar Actividad</h2>
+
     @using (Html.BeginForm("crearActividad", "Actividades", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
-        <h1>Formulario para proponer actividades</h1>
+        <div class="well bs-component">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.nombre, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
+                    </div>
+                </div>
 
-        <div class="form-horizontal">
-            <div class="form-group">
-                @Html.LabelFor(model => model.nombre)
-                @Html.TextBoxFor(model => model.nombre, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.tema, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.tema, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.tema, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.descripcion, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.tipo, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.tipo, tipos, "-Sin selección-", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.tipo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.publicoDirigido, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.publicoDirigido, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.publicoDirigido, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.duracion, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.duracion, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.duracion, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.correoFK, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.correoFK, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.correoFK, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" class="btn btn-success" value="Crear" />
+                        @Html.ActionLink("Volver", "listadoDeActividades", null, new { @class = "btn btn-danger" })
+                    </div>
+                </div>
             </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.tema)
-                @Html.TextBoxFor(model => model.tema, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.tema, "", new { @class = "text-danger" })
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.descripcion)
-                @Html.TextBoxFor(model => model.descripcion, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.descripcion, "", new { @class = "text-danger" })
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.tipo)
-                @Html.DropDownListFor(model => model.tipo, tipos, "-Sin selección-", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.tipo, "", new { @class = "text-danger" })
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.publicoDirigido)
-                @Html.TextBoxFor(model => model.publicoDirigido, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.publicoDirigido, "", new { @class = "text-danger" })
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.duracion)
-                @Html.TextBoxFor(model => model.duracion, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.duracion, "", new { @class = "text-danger" })
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.correoFK)
-                @Html.TextBoxFor(model => model.correoFK, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.correoFK, "", new { @class = "text-danger" })
-            </div>
-
-            <input type="submit" class="btn btn-success" value="Crear" />
         </div>
     }
+    <div>
+        @Html.ActionLink("Regresar a Inicio", "InformacionBasica", "Home")
+    </div>
 </body>
 </html>
