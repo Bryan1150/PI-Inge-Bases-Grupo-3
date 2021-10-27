@@ -1,46 +1,29 @@
 ﻿using Planetario.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.IO;
 
 namespace Planetario.Handlers
 {
     public class FuncionariosHandler
     {
-        private readonly SqlConnection Conexion;
-        private readonly string RutaConexion;
+        private readonly BaseDatosHandler BaseDatos;
+        private string Consulta;
 
         public FuncionariosHandler()
         {
-            RutaConexion = ConfigurationManager.ConnectionStrings["ConexionBaseDatosServidor"].ToString();
-            Conexion = new SqlConnection(RutaConexion);
-        }
-
-        private DataTable CrearTablaConsulta(string consulta)
-        {
-            SqlCommand comandoParaConsulta = new SqlCommand(consulta, Conexion);
-            SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
-            DataTable consultaFormatoTabla = new DataTable();
-
-            Conexion.Open();
-            adaptadorParaTabla.Fill(consultaFormatoTabla);
-            Conexion.Close();
-            return consultaFormatoTabla;
+            BaseDatos = new BaseDatosHandler();
         }
 
         public List<FuncionarioModel> ObtenerTodosLosFuncionarios()
         {
             List<FuncionarioModel> ListaFuncionarios = new List<FuncionarioModel>();
-            string Consulta = " SELECT F.correoFK AS 'correo', F.cedula AS 'cedula'," +
+            Consulta = " SELECT F.correoFK AS 'correo', F.cedula AS 'cedula'," +
                 " CONVERT(VARCHAR(20), fechaIncorporacion, 1) AS fechaIncorporacion," +
                 " F.rolTrabajo, F.titulo, U.nombre + ' ' + U.apellido1 AS 'nombre', F.descripcion AS 'descripcion' " +
                 "FROM Funcionario F JOIN Usuario U ON F.correoFK = U.correoPK; ";
-            DataTable tablaResultado = CrearTablaConsulta(Consulta);
+            DataTable tablaResultado = BaseDatos.LeerBaseDeDatos(Consulta);
 
             foreach (DataRow columna in tablaResultado.Rows)
             {
@@ -63,53 +46,40 @@ namespace Planetario.Handlers
 
         public bool crearFuncionario(FuncionarioModel funcionario)
         {
-            string consulta = "INSERT INTO dbo.Funcionario (correoFK, cedula, fechaIncorporacion, titulo, rolTrabajo, foto, tipoArchivoFoto, descripcion) " +
+            FileHandler manejadorArchivos = new FileHandler();
+            bool exito;
+            Consulta = "INSERT INTO dbo.Funcionario (correoFK, cedula, fechaIncorporacion, titulo, rolTrabajo, foto, tipoArchivoFoto, descripcion) " +
             "VALUES (@correo, @cedula, @fecha, @titulo, @trabajo, @foto, @tipoArchivo, @descripcion) ";
 
-            SqlCommand comandoParaConsulta = new SqlCommand(consulta, Conexion);
-            SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
+            Dictionary<string, object> valoresParametros = new Dictionary<string, object>
+            {
+                { "@correo",      funcionario.CorreoContacto },
+                { "@cedula",      funcionario.Cedula },
+                { "@fecha",       funcionario.FechaIncorporacion },
+                { "@titulo",      funcionario.Titulo },
+                { "@trabajo",     funcionario.RolTrabajo },
+                { "@tipoArchivo", funcionario.Foto.ContentType },
+                { "@descripcion", funcionario.Descripcion }
+            };
 
-            comandoParaConsulta.Parameters.AddWithValue("@correo", funcionario.CorreoContacto);
-            comandoParaConsulta.Parameters.AddWithValue("@cedula", funcionario.Cedula);
-            comandoParaConsulta.Parameters.AddWithValue("@fecha", funcionario.FechaIncorporacion);
-            comandoParaConsulta.Parameters.AddWithValue("@titulo", funcionario.Titulo);
-            comandoParaConsulta.Parameters.AddWithValue("@trabajo", funcionario.RolTrabajo);
-            comandoParaConsulta.Parameters.AddWithValue("@foto", obtenerBytes(funcionario.Foto));
-            comandoParaConsulta.Parameters.AddWithValue("@tipoArchivo", funcionario.Foto.ContentType);
-            comandoParaConsulta.Parameters.AddWithValue("@descripcion", funcionario.Descripcion);
+            valoresParametros.Add("@foto", manejadorArchivos.ConvertirArchivoABytes(funcionario.Foto));
 
-            Conexion.Open();
-            bool exito = comandoParaConsulta.ExecuteNonQuery() >= 1; 
-            Conexion.Close();
+            exito = BaseDatos.InsertarEnBaseDatos(Consulta, valoresParametros); 
+
             return exito;
         }
 
-        private byte[] obtenerBytes(HttpPostedFileBase archivo)
-        {
-            byte[] bytes;
-            BinaryReader lector = new BinaryReader(archivo.InputStream); //
-            bytes = lector.ReadBytes(archivo.ContentLength);
-            return bytes;
-        }
-
-
         public Tuple<byte[], string> ObtenerFoto(int Cedula)
         {
-            byte[] bytes;
-            string contentType;
-            string consulta = "SELECT foto, tipoArchivoFoto FROM Funcionario WHERE cedula = @cedula"; 
-            SqlCommand comandoParaConsulta = new SqlCommand(consulta, Conexion);
-            comandoParaConsulta.Parameters.AddWithValue("@cedula", Cedula);
-            Conexion.Open();
+            string nombreArchivo = "foto", tipoArchivo = "tipoArchivoFoto";
+            string consulta = "SELECT " + nombreArchivo + ", "+ tipoArchivo + " FROM Funcionario WHERE cedula = @cedula";
+            
+            Dictionary<string, object> valoresParametros = new Dictionary<string, object>
+            {
+                { "@cedula", Cedula }
+            };
 
-            SqlDataReader lectorDeDatos = comandoParaConsulta.ExecuteReader();
-            lectorDeDatos.Read();
-
-            bytes = (byte[])lectorDeDatos["foto"];
-            contentType = lectorDeDatos["tipoArchivoFoto"].ToString();
-
-            Conexion.Close();
-            return new Tuple<byte[], string>(bytes, contentType);
+            return BaseDatos.ObtenerArchivo(consulta, valoresParametros, nombreArchivo, tipoArchivo);
         }
 
     }

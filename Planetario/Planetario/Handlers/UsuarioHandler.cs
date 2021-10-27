@@ -13,32 +13,19 @@ namespace Planetario.Handlers
 
     public class UsuarioHandler
     {
-        private SqlConnection conexion;
-        private readonly string rutaConexion;
+        private readonly BaseDatosHandler BaseDatos;
+        private string Consulta;
 
         public UsuarioHandler()
         {
-            rutaConexion = ConfigurationManager.ConnectionStrings["ConexionBaseDatosServidor"].ToString();
-            conexion = new SqlConnection(rutaConexion);
-        }
-
-        private DataTable crearTablaConsulta(string consulta)
-        {
-            SqlCommand comandoParaConsulta = new SqlCommand(consulta, conexion);
-            SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
-            DataTable consultaFormatoTabla = new DataTable();
-
-            conexion.Open();
-            adaptadorParaTabla.Fill(consultaFormatoTabla);
-            conexion.Close();
-            return consultaFormatoTabla;
+            BaseDatos = new BaseDatosHandler();
         }
 
         public List<UsuarioModel> obtenerUsuarios()
         {
             List<UsuarioModel> usuarios = new List<UsuarioModel>();
-            string consulta = "SELECT * FROM Usuario";
-            DataTable tablaResultado = crearTablaConsulta(consulta);
+            Consulta = "SELECT * FROM Usuario";
+            DataTable tablaResultado = BaseDatos.LeerBaseDeDatos(Consulta);
             foreach (DataRow columna in tablaResultado.Rows)
             {
                 usuarios.Add(
@@ -56,29 +43,28 @@ namespace Planetario.Handlers
 
         public bool insertarUsuario(UsuarioModel usuarioNuevo)
         {
-            string consulta = "INSERT INTO dbo.Usuario (nombre, apellido1, apellido2, contrasena, correoPK, rolIdFK) " +
+            bool exito;
+            Consulta = "INSERT INTO dbo.Usuario (nombre, apellido1, apellido2, contrasena, correoPK, rolIdFK) " +
                 "VALUES (@nombre, @apellido1, @apellido2, @contrasena, @correoPK, @rolIdFK) ";
-            SqlCommand comandoParaConsulta = new SqlCommand(consulta, conexion);
-            SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
 
-            comandoParaConsulta.Parameters.AddWithValue("@nombre", usuarioNuevo.nombre);
-            comandoParaConsulta.Parameters.AddWithValue("@apellido1", usuarioNuevo.apellidoUno);
+            Dictionary<string, object> valoresParametros = new Dictionary<string, object>
+            {
+                { "@nombre",     usuarioNuevo.nombre },
+                { "@apellido1",  usuarioNuevo.apellidoUno },
+                { "@contrasena", usuarioNuevo.contrasena },
+                { "@correoPK",   usuarioNuevo.correo },
+                { "@rolIdFK",    usuarioNuevo.rolId }
+            };
             if (usuarioNuevo.apellidoDos == null)
             {
-                comandoParaConsulta.Parameters.AddWithValue("@apellido2", SqlBinary.Null);
+                valoresParametros.Add("@apellido2", "");
             }
             else
             {
-                comandoParaConsulta.Parameters.AddWithValue("@apellido2", usuarioNuevo.apellidoDos);
+                valoresParametros.Add("@apellido2", usuarioNuevo.apellidoDos);
             }
-            comandoParaConsulta.Parameters.AddWithValue("@contrasena", usuarioNuevo.contrasena);
-            comandoParaConsulta.Parameters.AddWithValue("@correoPK", usuarioNuevo.correo);
-            comandoParaConsulta.Parameters.AddWithValue("@rolIdFK", usuarioNuevo.rolId);
 
-            conexion.Open();
-            bool exito = comandoParaConsulta.ExecuteNonQuery() >= 1;
-            conexion.Close();
-
+            exito = BaseDatos.InsertarEnBaseDatos(Consulta, valoresParametros);
             return exito;
         }
 
@@ -87,9 +73,9 @@ namespace Planetario.Handlers
             bool esValido = false;
             string contrasenaUsuario;
 
-            string consulta = "SELECT * FROM Usuario WHERE correoPK = '" + correo + "'";
+            Consulta = "SELECT * FROM Usuario WHERE correoPK = '" + correo + "'";
 
-            DataTable tablaResultados = crearTablaConsulta(consulta);
+            DataTable tablaResultados = BaseDatos.LeerBaseDeDatos(Consulta);
 
             if (tablaResultados.Rows.Count > 0)
             {

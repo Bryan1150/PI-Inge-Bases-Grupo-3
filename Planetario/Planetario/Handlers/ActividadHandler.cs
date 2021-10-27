@@ -1,62 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.IO;
 using Planetario.Models;
 
 namespace Planetario.Handlers
 {
     public class ActividadHandler
     {
-        private SqlConnection conexion;
-        private string rutaConexion;
+        private readonly BaseDatosHandler BaseDatos;
+        private string Consulta;
 
         public ActividadHandler()
         {
-            rutaConexion = ConfigurationManager.ConnectionStrings["ConexionBaseDatosServidor"].ToString();
-            conexion = new SqlConnection(rutaConexion);
-        }
-
-        private DataTable crearTablaConsulta(string consulta)
-        {
-            SqlCommand comandoParaConsulta = new SqlCommand(consulta, conexion);
-            SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
-            DataTable consultaFormatoTabla = new DataTable();
-
-            conexion.Open();
-            adaptadorParaTabla.Fill(consultaFormatoTabla);
-            conexion.Close();
-            return consultaFormatoTabla;
+            BaseDatos = new BaseDatosHandler();
         }
 
         public bool crearActividad(ActividadModel actividad)
         {
-            string consulta = "INSERT INTO Actividad (nombre, tema, descripcion, tipo, publicoDirigido, duracion, correoFK) "
+            bool exito;
+            Consulta = "INSERT INTO Actividad (nombre, tema, descripcion, tipo, publicoDirigido, duracion, correoFK) "
                 + "VALUES (@nombre, @tema, @descripcion, @tipo, @publicoDirigido, @duracion, @correoFK) ";
-            SqlCommand comandoParaConsulta = new SqlCommand(consulta, conexion);
-            SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
-            comandoParaConsulta.Parameters.AddWithValue("@nombre", actividad.nombre);
-            comandoParaConsulta.Parameters.AddWithValue("@tema", actividad.tema);
-            comandoParaConsulta.Parameters.AddWithValue("@descripcion", actividad.descripcion);
-            comandoParaConsulta.Parameters.AddWithValue("@tipo", actividad.tipo);
-            comandoParaConsulta.Parameters.AddWithValue("@publicoDirigido", actividad.publicoDirigido);
-            comandoParaConsulta.Parameters.AddWithValue("@duracion", actividad.duracion);
-            comandoParaConsulta.Parameters.AddWithValue("@correoFK", actividad.correoFK);
-            conexion.Open();
-            bool exito = comandoParaConsulta.ExecuteNonQuery() >= 1;
-            conexion.Close();
+            
+            Dictionary<string, object> valoresParametros = new Dictionary<string, object> {
+                {"@nombre", actividad.nombre },
+                {"@tema", actividad.tema },
+                {"@descripcion", actividad.descripcion },
+                {"@tipo", actividad.tipo },
+                {"@publicoDirigido", actividad.publicoDirigido },
+                {"@duracion", actividad.duracion },
+                {"@correoFK", actividad.correoFK }
+            };
+            
+            exito = BaseDatos.InsertarEnBaseDatos(Consulta, valoresParametros);
+
             return exito;
         }
 
         public List<ActividadModel> obtenerTodasLasActividades()
         {
             List<ActividadModel> actividades = new List<ActividadModel>();
-            string consulta = "SELECT * FROM Actividad ";
-            DataTable tablaResultado = crearTablaConsulta(consulta);
+            Consulta= "SELECT * FROM Actividad ";
+            DataTable tablaResultado = BaseDatos.LeerBaseDeDatos(Consulta);
 
             foreach(DataRow columna in tablaResultado.Rows)
             {
@@ -78,8 +64,8 @@ namespace Planetario.Handlers
 
         public ActividadModel buscarActividad(string stringId)
         {
-            string consulta = "SELECT * FROM Actividad WHERE idActividadPK = " + stringId + ";";
-            DataTable tablaResultado = crearTablaConsulta(consulta);
+            Consulta = "SELECT * FROM Actividad WHERE idActividadPK = " + stringId + ";";
+            DataTable tablaResultado = BaseDatos.LeerBaseDeDatos(Consulta);
             ActividadModel resultado = null;
             if (tablaResultado.Rows[0] != null)
             {
@@ -101,13 +87,9 @@ namespace Planetario.Handlers
         public List<ActividadModel> obtenerActividadBuscada(string palabra)
         {
             List<ActividadModel> actividadesUnicas = new List<ActividadModel>();
-            string consulta = "SELECT * FROM Actividad WHERE nombre LIKE '%" + palabra + "%'";
+            Consulta = "SELECT * FROM Actividad WHERE nombre LIKE '%" + palabra + "%'";
 
-            SqlCommand comandoParaConsulta = new SqlCommand(consulta, conexion);
-            SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
-
-            DataTable TablaResultado = crearTablaConsulta(consulta);
-
+            DataTable TablaResultado = BaseDatos.LeerBaseDeDatos(Consulta);
 
             foreach (DataRow columna in TablaResultado.Rows)
             {

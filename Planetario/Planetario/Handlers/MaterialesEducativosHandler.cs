@@ -1,90 +1,58 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.IO;
-
 using Planetario.Models;
 
 namespace Planetario.Handlers
 {
     public class MaterialesEducativosHandler
     {
-        private readonly SqlConnection Conexion;
-        private readonly string RutaConexion;
+        private readonly BaseDatosHandler BaseDatos;
+        private string Consulta;
 
         public MaterialesEducativosHandler()
         {
-            RutaConexion = ConfigurationManager.ConnectionStrings["ConexionBaseDatosServidor"].ToString();
-            Conexion = new SqlConnection(RutaConexion);
-        }
-
-        private byte[] ObtenerBytes(HttpPostedFileBase archivo)
-        {
-            byte[] bytes;
-            BinaryReader lector = new BinaryReader(archivo.InputStream);
-            bytes = lector.ReadBytes(archivo.ContentLength);
-            return bytes;
+            BaseDatos = new BaseDatosHandler();
         }
 
         public bool AlmacenarMaterialEducativo(MaterialEducativoModel material)
         {
-            bool HayVistaPrevia = material.HayVistaPrevia();
-            string Consulta = "INSERT INTO MaterialEducativo " +
-                "( titulo, fechaSubida, correoResponsableFK, publicoDirigido, ";
-            if(HayVistaPrevia)
+            FileHandler manejadorArchivo = new FileHandler();
+            string columnas, valores;
+
+            Dictionary<string, object> valoresParametros = new Dictionary<string, object>
             {
-                Consulta += "imagenVistaPrevia, tipoArchivoVistaPrevia, ";
-            }
-
-            Consulta += "archivo, tipoArchivo ) " +
-            "VALUES ( @titulo, GETDATE(), @correoResponsable, @publicoDirigido, ";
+                { "@titulo", material.Titulo },
+                { "@correoResponsable", material.CorreoResponsable },
+                { "@publicoDirigido", material.PublicoDirigido },
+                { "@tipoArchivo", material.Archivo.ContentType }
+            };
+            valoresParametros.Add("@archivo", manejadorArchivo.ConvertirArchivoABytes(material.Archivo));
             
-            if(HayVistaPrevia)
+            columnas = "( titulo, fechaSubida, correoResponsableFK, publicoDirigido, ";
+            valores  = "( @titulo, GETDATE(), @correoResponsable, @publicoDirigido, ";
+            if(material.HayVistaPrevia())
             {
-                Consulta += "@imagenVistaPrevia, @tipoArchivoVistaPrevia, ";
+                columnas += "imagenVistaPrevia, tipoArchivoVistaPrevia, ";
+                valores += "@imagenVistaPrevia, @tipoArchivoVistaPrevia, ";
+                valoresParametros.Add("@imagenVistaPrevia", manejadorArchivo.ConvertirArchivoABytes(material.ImagenVistaPrevia));
+                valoresParametros.Add("@tipoArchivoVistaPrevia", material.ImagenVistaPrevia.ContentType);
             }
-            Consulta += "@archivo, @tipoArchivo );";
+            columnas += "archivo, tipoArchivo ) ";
+            valores  += "@archivo, @tipoArchivo );";
 
-            SqlCommand ComandoParaConsulta = new SqlCommand(Consulta, Conexion);
+            Consulta = "INSERT INTO MaterialEducativo " + columnas + " VALUES " + valores;
+            bool exito = BaseDatos.InsertarEnBaseDatos(Consulta, valoresParametros);
 
-            ComandoParaConsulta.Parameters.AddWithValue("@titulo", material.Titulo);
-            ComandoParaConsulta.Parameters.AddWithValue("@correoResponsable", material.CorreoResponsable);
-            ComandoParaConsulta.Parameters.AddWithValue("@publicoDirigido", material.PublicoDirigido);
-            
-            if(HayVistaPrevia)
-            {
-                ComandoParaConsulta.Parameters.AddWithValue("@imagenVistaPrevia", ObtenerBytes(material.ImagenVistaPrevia));
-                ComandoParaConsulta.Parameters.AddWithValue("@tipoArchivoVistaPrevia", material.ImagenVistaPrevia.ContentType);
-            }
-
-            ComandoParaConsulta.Parameters.AddWithValue("@archivo", ObtenerBytes(material.Archivo));
-            ComandoParaConsulta.Parameters.AddWithValue("@tipoArchivo", material.Archivo.ContentType);
-            
-            Conexion.Open();
-            bool exito = ComandoParaConsulta.ExecuteNonQuery() >= 1;
-            Conexion.Close();
             return exito;
-        }
-
-        private DataTable crearTablaConsulta(string consulta)
-        {
-            SqlCommand comandoParaConsulta = new SqlCommand(consulta, Conexion);
-            SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
-            DataTable consultaFormatoTabla = new DataTable();
-            Conexion.Open();
-            adaptadorParaTabla.Fill(consultaFormatoTabla);
-            Conexion.Close();
-            return consultaFormatoTabla;
         }
 
         public List<MaterialEducativoModel> obtenerMateriales()
         {
             List<MaterialEducativoModel> material = new List<MaterialEducativoModel>();
-            string consulta = "SELECT * FROM MaterialEducativo ";
-            DataTable tablaResultado = crearTablaConsulta(consulta);
+            Consulta = "SELECT * FROM MaterialEducativo ";
+            DataTable tablaResultado = BaseDatos.LeerBaseDeDatos(Consulta);
             foreach (DataRow columna in tablaResultado.Rows)
             {
                 material.Add(
@@ -102,34 +70,23 @@ namespace Planetario.Handlers
 
         public Tuple<byte[], string> descargarContenido(int id)
         {
-            byte[] bytes;
-            string contentType;
-            string consulta = "SELECT archivo, tipoArchivo FROM MaterialEducativo WHERE idMaterialPK = @materialId";
+            string nombreArchivo = "archivo", tipoArchivo = "tipoArchivo";
+            Consulta = "SELECT "+ nombreArchivo +", "+ tipoArchivo + ", titulo FROM MaterialEducativo WHERE idMaterialPK = @materialId";
 
-            SqlCommand comandoParaConsulta = new SqlCommand(consulta, Conexion);
-            SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
-            comandoParaConsulta.Parameters.AddWithValue("@materialId", id);
+            Dictionary<string, object> valoresParametros = new Dictionary<string, object>
+            {
+                { "@materialId",  id }
+            };
 
-            Conexion.Open();
-            SqlDataReader lectorDeDatos = comandoParaConsulta.ExecuteReader();
-            lectorDeDatos.Read();
-
-            bytes = (byte[])lectorDeDatos["archivo"];
-            contentType = lectorDeDatos["tipoArchivo"].ToString();
-            Conexion.Close();
-            return new Tuple<byte[], string>(bytes, contentType);
+            return BaseDatos.ObtenerArchivo(Consulta, valoresParametros, nombreArchivo, tipoArchivo);
         }
 
         public List<MaterialEducativoModel> obtenerMaterialBuscado(string palabra)
         {
             List<MaterialEducativoModel> materialesUnicos = new List<MaterialEducativoModel>();
-            string consulta = "SELECT * FROM MaterialEducativo WHERE titulo LIKE '%" + palabra + "%'";
+            Consulta = "SELECT * FROM MaterialEducativo WHERE titulo LIKE '%" + palabra + "%'";
 
-            SqlCommand comandoParaConsulta = new SqlCommand(consulta, Conexion);
-            SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
-
-            DataTable TablaResultado = crearTablaConsulta(consulta);
-
+            DataTable TablaResultado = BaseDatos.LeerBaseDeDatos(Consulta);
 
             foreach (DataRow columna in TablaResultado.Rows)
             {
@@ -143,10 +100,8 @@ namespace Planetario.Handlers
                         PublicoDirigido = Convert.ToString(columna["publicoDirigido"])
                     });
             }
+
             return materialesUnicos;
         }
-
-
-
     }
 }
