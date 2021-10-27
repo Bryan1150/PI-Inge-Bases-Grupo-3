@@ -16,6 +16,18 @@ namespace Planetario.Handlers
             Conexion = new SqlConnection(RutaConexion);
         }
 
+        public DataTable LeerBaseDeDatos(string consulta)
+        {
+            SqlCommand comandoParaConsulta = new SqlCommand(consulta, Conexion);
+            SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
+            DataTable consultaFormatoTabla = new DataTable();
+
+            Conexion.Open();
+            adaptadorParaTabla.Fill(consultaFormatoTabla);
+            Conexion.Close();
+            return consultaFormatoTabla;
+        }
+
         
 
     }
