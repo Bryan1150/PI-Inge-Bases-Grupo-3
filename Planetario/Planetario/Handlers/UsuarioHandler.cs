@@ -14,6 +14,7 @@ namespace Planetario.Handlers
     public class UsuarioHandler
     {
         private readonly BaseDatosHandler BaseDatos;
+        private string Consulta;
 
         public UsuarioHandler()
         {
@@ -23,8 +24,8 @@ namespace Planetario.Handlers
         public List<UsuarioModel> obtenerUsuarios()
         {
             List<UsuarioModel> usuarios = new List<UsuarioModel>();
-            string consulta = "SELECT * FROM Usuario";
-            DataTable tablaResultado = BaseDatos.LeerBaseDeDatos(consulta);
+            Consulta = "SELECT * FROM Usuario";
+            DataTable tablaResultado = BaseDatos.LeerBaseDeDatos(Consulta);
             foreach (DataRow columna in tablaResultado.Rows)
             {
                 usuarios.Add(
@@ -43,7 +44,7 @@ namespace Planetario.Handlers
         public bool insertarUsuario(UsuarioModel usuarioNuevo)
         {
             bool exito;
-            string consulta = "INSERT INTO dbo.Usuario (nombre, apellido1, apellido2, contrasena, correoPK, rolIdFK) " +
+            Consulta = "INSERT INTO dbo.Usuario (nombre, apellido1, apellido2, contrasena, correoPK, rolIdFK) " +
                 "VALUES (@nombre, @apellido1, @apellido2, @contrasena, @correoPK, @rolIdFK) ";
 
             Dictionary<string, object> valoresParametros = new Dictionary<string, object>
@@ -63,7 +64,7 @@ namespace Planetario.Handlers
                 valoresParametros.Add("@apellido2", usuarioNuevo.apellidoDos);
             }
 
-            exito = BaseDatos.InsertarEnBaseDatos(consulta, valoresParametros);
+            exito = BaseDatos.InsertarEnBaseDatos(Consulta, valoresParametros);
             return exito;
         }
 
@@ -72,9 +73,9 @@ namespace Planetario.Handlers
             bool esValido = false;
             string contrasenaUsuario;
 
-            string consulta = "SELECT * FROM Usuario WHERE correoPK = '" + correo + "'";
+            Consulta = "SELECT * FROM Usuario WHERE correoPK = '" + correo + "'";
 
-            DataTable tablaResultados = BaseDatos.LeerBaseDeDatos(consulta);
+            DataTable tablaResultados = BaseDatos.LeerBaseDeDatos(Consulta);
 
             if (tablaResultados.Rows.Count > 0)
             {
