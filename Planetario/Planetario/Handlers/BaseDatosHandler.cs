@@ -2,12 +2,13 @@
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 
 namespace Planetario.Handlers
 {
     public class BaseDatosHandler
     {
-        public SqlConnection Conexion { get; }
+        private SqlConnection Conexion;
         private readonly string RutaConexion;
 
         public BaseDatosHandler()
@@ -43,6 +44,30 @@ namespace Planetario.Handlers
             Conexion.Close();
 
             return exito;
+        }
+
+        public System.Tuple<byte[], string> ObtenerArchivo (string consulta, Dictionary<string, object> valoresParametros, string nombreColumnaArchivo, string nombreColumnaTipo)
+        {
+            byte[] bytes;
+            string contentType;
+            SqlCommand comandoParaConsulta = new SqlCommand(consulta, Conexion);
+            
+            foreach (KeyValuePair<string, object> parejaValores in valoresParametros)
+            {
+                comandoParaConsulta.Parameters.AddWithValue(parejaValores.Key, parejaValores.Value);
+            }
+            
+            Conexion.Open();
+
+            SqlDataReader lectorDeDatos = comandoParaConsulta.ExecuteReader();
+            lectorDeDatos.Read();
+
+            bytes = (byte[])lectorDeDatos[nombreColumnaArchivo];
+            contentType = lectorDeDatos[nombreColumnaTipo].ToString();
+
+            Conexion.Close();
+
+            return new System.Tuple<byte[], string>(bytes, contentType);
         }
 
     }
