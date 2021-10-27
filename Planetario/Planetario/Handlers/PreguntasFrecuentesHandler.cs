@@ -11,32 +11,19 @@ namespace Planetario.Handlers
 {
     public class PreguntasFrecuentesHandler
     {
-        private SqlConnection conexion;
-        private readonly string rutaConexion;
+        private readonly BaseDatosHandler BaseDatos;
+        private string Consulta;
 
         public PreguntasFrecuentesHandler()
         {
-            rutaConexion = ConfigurationManager.ConnectionStrings["ConexionBaseDatosServidor"].ToString();
-            conexion = new SqlConnection(rutaConexion);
-        }
-
-        private DataTable CrearTablaConsulta(string consulta)
-        {
-            SqlCommand comandoParaConsulta = new SqlCommand(consulta, conexion);
-            SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
-            DataTable consultaFormatoTabla = new DataTable();
-
-            conexion.Open();
-            adaptadorParaTabla.Fill(consultaFormatoTabla);
-            conexion.Close();
-            return consultaFormatoTabla;
+            BaseDatos = new BaseDatosHandler();
         }
 
         public List<PreguntasFrecuentesModel> ObtenerPreguntasFrecuentes()
         {
             List<PreguntasFrecuentesModel> preguntasFrecuentes = new List<PreguntasFrecuentesModel>();
-            string consulta = "SELECT * FROM dbo.PreguntasFrecuentes PF JOIN dbo.PreguntasFrecuentesTopicos PFT ON PF.topicoPreguntasFK = PFT.idTopicoPK";
-            DataTable tablaResultado = CrearTablaConsulta(consulta);
+            Consulta = "SELECT * FROM dbo.PreguntasFrecuentes PF JOIN dbo.PreguntasFrecuentesTopicos PFT ON PF.topicoPreguntasFK = PFT.idTopicoPK";
+            DataTable tablaResultado = BaseDatos.LeerBaseDeDatos(Consulta);
 
             foreach (DataRow columna in tablaResultado.Rows)
             {
@@ -62,7 +49,7 @@ namespace Planetario.Handlers
         {
             List<String> categorias = new List<String>();
             string consulta = "SELECT DISTINCT categoriaPregunta FROM dbo.PreguntasFrecuentes";
-            DataTable tablaResultado = CrearTablaConsulta(consulta);
+            DataTable tablaResultado = BaseDatos.LeerBaseDeDatos(Consulta);
 
             foreach (DataRow columna in tablaResultado.Rows)
             {
@@ -74,39 +61,38 @@ namespace Planetario.Handlers
 
         public bool agregarNuevaPregunta(PreguntasFrecuentesModel nuevaPregunta)
         {     
+            bool exito;
             string consulta = "INSERT INTO dbo.PreguntasFrecuentesTopicos (topico1, topico2, topico3) VALUES (@topicoPregunta, @topicoPregunta2, @topicoPregunta3) " +
                 "INSERT INTO dbo.PreguntasFrecuentes (categoriaPregunta, pregunta, respuesta, topicoPreguntasFK) VALUES (@categoriaPregunta, @pregunta, @respuesta, scope_identity())";
+            Dictionary<string, object> valoresParametros = new Dictionary<string, object>
+            {
+                { "@topicoPregunta",    nuevaPregunta.topicoPregunta },
+                { "@categoriaPregunta", nuevaPregunta.categoriaPregunta },
+                { "@pregunta",          nuevaPregunta.pregunta },
+                { "@respuesta",         nuevaPregunta.respuesta }
 
-            SqlCommand comandoParaConsulta = new SqlCommand(consulta, conexion);
-            SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
-
-            comandoParaConsulta.Parameters.AddWithValue("@topicoPregunta", nuevaPregunta.topicoPregunta);
+            };
 
             if(nuevaPregunta.topicoPregunta2 != "-Topico-")
             {
-                comandoParaConsulta.Parameters.AddWithValue("@topicoPregunta2", nuevaPregunta.topicoPregunta2);
+                valoresParametros.Add("@topicoPregunta2", nuevaPregunta.topicoPregunta2);
             }
             else
             {
-                comandoParaConsulta.Parameters.AddWithValue("@topicoPregunta2", "NULL");
+                valoresParametros.Add("@topicoPregunta2", "NULL");
             }
 
             if (nuevaPregunta.topicoPregunta3 != "-Topico-")
             {
-                comandoParaConsulta.Parameters.AddWithValue("@topicoPregunta3", nuevaPregunta.topicoPregunta3);
+                valoresParametros.Add("@topicoPregunta3", nuevaPregunta.topicoPregunta3);
             }
             else
             {
-                comandoParaConsulta.Parameters.AddWithValue("@topicoPregunta3", "NULL");
+                valoresParametros.Add("@topicoPregunta3", "NULL");
             }
 
-            comandoParaConsulta.Parameters.AddWithValue("@categoriaPregunta", nuevaPregunta.categoriaPregunta);
-            comandoParaConsulta.Parameters.AddWithValue("@pregunta", nuevaPregunta.pregunta);
-            comandoParaConsulta.Parameters.AddWithValue("@respuesta", nuevaPregunta.respuesta);
-          
-            conexion.Open();
-            bool exito = comandoParaConsulta.ExecuteNonQuery() >= 1;
-            conexion.Close();
+            exito = BaseDatos.InsertarEnBaseDatos(consulta, valoresParametros);
+
             return exito;
         }
     }
