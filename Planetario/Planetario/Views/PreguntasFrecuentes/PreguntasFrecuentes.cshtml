@@ -9,56 +9,59 @@
 <head>
     <title>Preguntas Frecuentes</title>
     <meta charset="utf-8" />
-    <link href="~/Utils/css/background.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
 </head>
 
 <body>
     <div class="container">
-        <h1><b>Preguntas Frecuentes</b></h1>
-        <p class="well">
+        <span class="titulo">Preguntas Frecuentes</span>
+        <p class="card">
             En este lugar estarán todas las preguntas qué nuestros colaboradores han añadido atraves del tiempo. <br />
             Están dividas por categoria y por tópico.
         </p>
     </div>
 
     <div class="container">
-        <div class="panel-group" id="accordion">
+        <div class="accordion accordion-flush" id="accordionCategories">
             @for (int numCategoria = 0; numCategoria < ViewBag.categorias.Count; numCategoria++)
             {
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#title_@numCategoria">@ViewBag.categorias[numCategoria]</a>
-                        </h4>
+                <div class="accordion-item">
+                    <div class="accordion-header" id="heading_@numCategoria">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_@numCategoria" aria-expanded="true" aria-controls="collapse_@numCategoria">
+                            @ViewBag.categorias[numCategoria]
+                        </button>
                     </div>
-                    <div id="title_@numCategoria" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            <div class="panel-group" id="accordion_@numCategoria">
-
-                                @foreach (var preguntaFrecuente in ViewBag.preguntasFrecuentes)
+                    <div id="collapse_@numCategoria" class="accordion-collapse collapse" aria-labelledby="heading_@numCategoria" data-bs-parent="#accordionCategories">
+                        <div class="accordion accordion-flush" id="accordionPregunta">
+                            @foreach (var preguntaFrecuente in ViewBag.preguntasFrecuentes)
+                            {
+                                if (preguntaFrecuente.categoriaPregunta == @ViewBag.categorias[numCategoria])
                                 {
-                                    if (preguntaFrecuente.categoriaPregunta == @ViewBag.categorias[numCategoria])
-                                    {
-                                        <div class="panel">
-                                            <div class="panel-heading">
-                                                <h4 class="panel-title">
-                                                    <a data-toggle="collapse" data-parent="#accordion_@numCategoria" href="#inside_@preguntaFrecuente.idPregunta">@preguntaFrecuente.pregunta</a>
-                                                </h4>
-                                            </div>
-                                            <div id="inside_@preguntaFrecuente.idPregunta" class="panel-collapse collapse">
-                                                <div class="panel-body">                                                                                                                                             
-                                                    <p><i>Tópico(s): @preguntaFrecuente.topicoPregunta @if (preguntaFrecuente.topicoPregunta2 != "NULL") {@preguntaFrecuente.topicoPregunta2} else {} @if (preguntaFrecuente.topicoPregunta3 != "NULL") {@preguntaFrecuente.topicoPregunta3} else {}</i></p>                                                   
-                                                    &nbsp
-                                                    <p><b>Respuesta:</b></p>
-                                                    <p>@preguntaFrecuente.respuesta</p>
-                                                </div>
-                                            </div>
+                                    <div class="accordion-item">
+                                        <div class="accordion-header" id="header_@preguntaFrecuente.idPregunta">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_@preguntaFrecuente.idPregunta" aria-expanded="true" aria-controls="collapse_@preguntaFrecuente.idPregunta">
+                                                @preguntaFrecuente.pregunta
+                                            </button>
                                         </div>
-                                    }
+                                        <div id="collapse_@preguntaFrecuente.idPregunta" class="accordion-collapse collapse" aria-labelledby="header_@preguntaFrecuente.idPregunta" data-bs-parent="#accordionPregunta">
+                                            <p>
+                                                <i>
+                                                    Tópico(s): @preguntaFrecuente.topicoPregunta @if (preguntaFrecuente.topicoPregunta2 != "NULL")
+                                                    {@preguntaFrecuente.topicoPregunta2}
+                                                else { } @if (preguntaFrecuente.topicoPregunta3 != "NULL")
+                                                    {@preguntaFrecuente.topicoPregunta3}
+                                                else { }
+                                            </i>
+                                        </p>
+                                        &nbsp
+                                        <p><b>Respuesta:</b></p>
+                                        <p>@preguntaFrecuente.respuesta</p>
+                                        </div>
+                                    </div>
                                 }
+                            }
                             </div>
-                        </div>
+                        
                     </div>
                 </div>
             }

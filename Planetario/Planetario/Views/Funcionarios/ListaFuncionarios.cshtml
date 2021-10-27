@@ -5,47 +5,50 @@
 }
 <head>
     <link href="~/Styles/ListaFuncionarios.css" rel="stylesheet" type="text/css" />
-    <link href="~/Utils/css/background.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
 </head>
 <span class="titulo">
     Funcionarios
 </span>
-<table class="table" style="width:100%">
+<div class="container-fluid" style="width:100%">
     @for (var indexFuncionario = 0; indexFuncionario < cantidadFuncionarios;)
     {
-        <tr>
+        <div class="row">
             @for (var maxIndexFila = indexFuncionario + 1; indexFuncionario <= maxIndexFila; ++indexFuncionario)
             {
                 if (indexFuncionario < cantidadFuncionarios)
                 {
-                    <td style="padding-left: 7%; padding-right: 7%;">
-                        <div class="jumbotron text-center" style="box-shadow: 10px 10px 8px #888888">
+                    <div class="col" style="padding: 7%;">
+                        <div class="card text-center" style="box-shadow: 10px 10px 8px #888888">
                             @{
                                 var Funcionario = listaFuncionarios[indexFuncionario];
                                 var NombreAMostrar = Funcionario.Titulo + " " + Funcionario.Nombre;
                             }
-
-                            <p> <strong>@Funcionario.RolTrabajo           </strong> </p>
-                            <p> <strong>@NombreAMostrar                   </strong> </p>
-                            <p> <strong>@Funcionario.CorreoContacto       </strong> </p>
-                            <p>
-                                Trabaja aquí desde:
-                                <strong>@Funcionario.FechaIncorporacion   </strong>
-                            </p>
-                            
-                            <img src=@Url.Action("ObtenerImagen", "Funcionarios", new { cedula = Funcionario.Cedula }) style="width:200px;height:200px;">
+                            <img src=@Url.Action("ObtenerImagen", "Funcionarios", new { cedula = Funcionario.Cedula }) class="mx-auto" style="display:block;width:200px;height:200px;">
+                            <div class="card-body">
+                                <div class="card-title">
+                                    <p> <strong>@NombreAMostrar                   </strong> </p>
+                                </div>
+                                
+                                <p class="card-text"> <strong>@Funcionario.RolTrabajo           </strong> </p>
+                                <p class="card-text"> <strong>@Funcionario.CorreoContacto       </strong> </p>
+                                <p class="card-text">
+                                    Trabaja aquí desde:
+                                    <strong>@Funcionario.FechaIncorporacion   </strong>
+                                </p>
+                            </div>
                         </div>
-                    </td>
+                    </div>
                 }
                 else
-                { 
-                    <td></td>
+                {
+                    <div class="row"></div>
+                
                 }
             }
-        </tr>
+        </div>
     }
-</table>
+</div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

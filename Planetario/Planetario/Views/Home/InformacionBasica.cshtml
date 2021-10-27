@@ -6,48 +6,48 @@
 <head>
     <title>@ViewBag.title</title>
     <meta charset="utf-8" />
-    <link href="~/Styles/InformacionBasica.css" rel="stylesheet" type="text/css" />
-    <link href="~/Utils/css/background.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
 </head>
 <body>
     <div class="row">
-        <div class="row text-center">
-            <span class="titulo">
-                Planetario Halley
-            </span>
-            <img src="~/Utils/images/img-01.png" alt="Logo planetario">
-        </div>
-        <hr />
-        <div class="flex">
+        <div class="row">
             <div class="col">
-                <div class="well well-lg">
-                    <b>Mision</b>
-                    <p align="justify">
-                        Construir comunidades alrededor del
-                        conocimiento científico, artístico y tecnológico,
-                        donde la diversidad de saberes y la comunicación con
-                        nuestros públicos incidan en la transformación de la
-                        sociedad por medio de un diálogo horizontal e incluyente.
-                    </p>
-                </div>
+                <span class="titulo">
+                    Planetario Halley
+                </span>
             </div>
-            <div class="col">
-                <div class="well well-lg">
-                    <b>Vision</b>
-                    <p align="justify">
-                        En el Planetario Halley buscamos estimular los procesos creativos
-                        y el interés por el quehacer científico en el país,
-                        a través de la exploración de diversos lenguajes de comunicación.
-                        Con este propósito, queremos construir una red interdisciplinaria 
-                        en las áreas de divulgación y educación a través del fortalecimiento 
-                        de los espacios y canales que posibilitan el diálogo y el intercambio 
-                        a nivel local e internacional.
-                    </p>
-                </div>
+            <div col="col">
+                <img src="~/Utils/images/img-01.png" alt="Logo planetario" style="width:20%;height:40%;">
             </div>
         </div>
         <hr />
+        <div class="col">
+            <div class="card">
+                <b>Mision</b>
+                <p align="justify">
+                    Construir comunidades alrededor del
+                    conocimiento científico, artístico y tecnológico,
+                    donde la diversidad de saberes y la comunicación con
+                    nuestros públicos incidan en la transformación de la
+                    sociedad por medio de un diálogo horizontal e incluyente.
+                </p>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <b>Vision</b>
+                <p align="justify">
+                    En el Planetario Halley buscamos estimular los procesos creativos
+                    y el interés por el quehacer científico en el país,
+                    a través de la exploración de diversos lenguajes de comunicación.
+                    Con este propósito, queremos construir una red interdisciplinaria 
+                    en las áreas de divulgación y educación a través del fortalecimiento 
+                    de los espacios y canales que posibilitan el diálogo y el intercambio 
+                    a nivel local e internacional.
+                </p>
+            </div>
+        </div>
     </div>
+    <hr />
 </body>
 </html>
