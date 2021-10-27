@@ -28,7 +28,22 @@ namespace Planetario.Handlers
             return consultaFormatoTabla;
         }
 
-        
+        public bool InsertarEnBaseDatos(string consulta, Dictionary<string, object> valoresParametros)
+        {
+            bool exito;
+            SqlCommand comandoParaConsulta = new SqlCommand(consulta, Conexion);
+
+            foreach (KeyValuePair<string, object> parejaValores in valoresParametros)
+            {
+                comandoParaConsulta.Parameters.AddWithValue(parejaValores.Key, parejaValores.Value);
+            }
+
+            Conexion.Open();
+            exito = comandoParaConsulta.ExecuteNonQuery() >= 1;
+            Conexion.Close();
+
+            return exito;
+        }
 
     }
 }
