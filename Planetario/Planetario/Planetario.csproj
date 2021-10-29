@@ -345,6 +345,7 @@
     <Content Include="Utils\vendor\bootstrap\css\bootstrap.css.map" />
     <Content Include="Utils\vendor\bootstrap\css\bootstrap.min.css.map" />
     <Content Include="Views\Actividades\crearActividad.cshtml" />
+    <Content Include="Views\Home\PanelDeAdministracion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

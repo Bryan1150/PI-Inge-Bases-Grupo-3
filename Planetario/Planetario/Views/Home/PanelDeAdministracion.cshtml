@@ -1,0 +1,77 @@
+﻿@{
+    ViewBag.title = "Panel de administración";
+}
+<head>
+    <title>@ViewBag.title</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
+    <style>
+        .col {
+            margin-bottom: 1em;
+        }
+        .card {
+            margin: 1%;
+            border-radius: 15%;
+            border-color: #133b5c;
+            border-width: .15em;
+            box-shadow: 3px 7px  #133b5c;
+        }
+    </style>
+</head>
+<body>
+    <span class="titulo">Panel de administración</span>
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 text-center">
+            <div class="col">
+                <div class="card">
+                    <span class="titulo">
+                        <i class="fa fa-book" aria-hidden="true"></i>
+                        <br />
+                        Materiales
+                    </span>
+                    <p class="card-text">@Html.ActionLink("Agregar Material", "AlmacenarNuevoMaterialEducativo", "MaterialEducativo", new { area = "" }, new { @class = "dropdown-item" })</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <span class="titulo">
+                        <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+                        <br />
+                        Noticias
+                    </span>
+                    <p class="card-text">@Html.ActionLink("Agregar Noticia", "crearNoticia", "Noticias", new { area = "" }, new { @class = "dropdown-item" })</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <span class="titulo">
+                        <i class="fa fa-question-circle" aria-hidden="true"></i>
+                        <br />
+                        Preguntas
+                    </span>
+                    <p class="card-text">@Html.ActionLink("Agregar Pregunta", "AgregarNuevaPregunta", "PreguntasFrecuentes", new { area = "" }, new { @class = "dropdown-item" })</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <span class="titulo">
+                        <i class="fa fa-rocket" aria-hidden="true"></i>
+                        <br />
+                        Actividades
+                    </span>
+                    <p class="card-text">@Html.ActionLink("Agregar Actividad", "crearActividad", "Actividades", new { area = "" }, new { @class = "dropdown-item" })</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <span class="titulo">
+                        <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                        <br />
+                        Funcionarios
+                    </span>
+                    <p class="card-text">@Html.ActionLink("Agregar Funcionario", "AgregarFuncionario", "Funcionarios", new { area = "" }, new { @class = "dropdown-item" })</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
