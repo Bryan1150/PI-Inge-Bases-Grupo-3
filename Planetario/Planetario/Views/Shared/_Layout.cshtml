@@ -63,23 +63,12 @@
                     <li class="nav-item">
                         @Html.ActionLink("Materiales Educativos", "listadoDeMateriales", "MaterialEducativo", new { area = "" }, new { @class = "nav-link" })
                     </li>
-                    
                 </ul>
                 <ul class="navbar-nav ms-auto">
                     @if (Request.IsAuthenticated)
                     {
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Administrar
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <li>@Html.ActionLink("Agregar Usuario", "agregarUsuario", "Usuario", new { area = "" }, new { @class = "dropdown-item" })</li>
-                                <li>@Html.ActionLink("Agregar Funcionario", "AgregarFuncionario", "Funcionarios", new { area = "" }, new { @class = "dropdown-item" })</li>
-                                <li>@Html.ActionLink("Agregar Material", "AlmacenarNuevoMaterialEducativo", "MaterialEducativo", new { area = "" }, new { @class = "dropdown-item" })</li>
-                                <li>@Html.ActionLink("Agregar Noticia", "crearNoticia", "Noticias", new { area = "" }, new { @class = "dropdown-item" })</li>
-                                <li>@Html.ActionLink("Agregar Pregunta", "AgregarNuevaPregunta", "PreguntasFrecuentes", new { area = "" }, new { @class = "dropdown-item" })</li>
-                                <li>@Html.ActionLink("Agregar Actividad", "crearActividad", "Actividades", new { area = "" }, new { @class = "dropdown-item" })</li>
-                            </ul>
+                        <li class="nav-item">
+                            @Html.ActionLink("Panel de administración", "PanelDeAdministracion", "Home", new { area = "" }, new { @class = "nav-link" })
                         </li>
                         <li class="nav-item"><a class="nav-link" href="/Usuario/cerrarSesion"><i class="fa fa-sign-out"></i> Logout</a></li>
                     }
