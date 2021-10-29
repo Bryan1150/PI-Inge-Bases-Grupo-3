@@ -22,5 +22,10 @@ namespace Planetario.Controllers
 
             return View();
         }
+
+        public ActionResult PanelDeAdministracion()
+        {
+            return View();
+        }
     }
 }
