@@ -92,7 +92,7 @@ namespace Planetario.Handlers
         {     
             bool exito;
             Consulta =
-            "INSERT INTO dbo.PreguntasFrecuentes(pregunta, respuesta, correoFuncionarioFK, categoriaPreguntasFrecuentes) VALUES('¿La tierra es plana?', 'No.', 'danielmonge25@hotmail.com', 'Cuerpos del sistema solar');" +
+            "INSERT INTO dbo.PreguntasFrecuentes(pregunta, respuesta, correoFuncionarioFK, categoriaPreguntasFrecuentes) VALUES(@pregunta, @respuesta, @correoFuncionario, @categoriaPregunta);" +
             "DECLARE @identity int = scope_identity();" +
             "INSERT INTO dbo.PreguntasFrecuentesTopicos(idPreguntaFK, topicosPreguntasFrecuentes) VALUES(@identity, @topicoPregunta);";
             Dictionary<string, object> valoresParametros = new Dictionary<string, object>
@@ -100,7 +100,8 @@ namespace Planetario.Handlers
                 { "@topicoPregunta",    nuevaPregunta.topicoPregunta },
                 { "@categoriaPregunta", nuevaPregunta.categoriaPregunta },
                 { "@pregunta",          nuevaPregunta.pregunta },
-                { "@respuesta",         nuevaPregunta.respuesta }
+                { "@respuesta",         nuevaPregunta.respuesta },
+                { "@correoFuncionario", HttpContext.Current.User.Identity.Name} 
 
             };
 
