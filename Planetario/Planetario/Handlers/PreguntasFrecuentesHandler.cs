@@ -22,7 +22,7 @@ namespace Planetario.Handlers
         public List<PreguntasFrecuentesModel> ObtenerPreguntasFrecuentes()
         {
             List<PreguntasFrecuentesModel> preguntasFrecuentes = new List<PreguntasFrecuentesModel>();
-            Consulta = "SELECT * FROM dbo.PreguntasFrecuentes PF JOIN dbo.PreguntasFrecuentesTopicos PFT ON PF.topicoPreguntasFK = PFT.idTopicoPK";
+            Consulta = "SELECT * FROM dbo.PreguntasFrecuentes PF JOIN dbo.PreguntasFrecuentesTopicos PFT ON PF.topicoPreguntasFK = PFT.idPreguntaPK";
             DataTable tablaResultado = BaseDatos.LeerBaseDeDatos(Consulta);
 
             foreach (DataRow columna in tablaResultado.Rows)
@@ -48,7 +48,7 @@ namespace Planetario.Handlers
         public List<String> ObtenerCategorias()
         {
             List<String> categorias = new List<String>();
-            string consulta = "SELECT DISTINCT categoriaPregunta FROM dbo.PreguntasFrecuentes";
+            string consulta = "SELECT DISTINCT categoriaPreguntasFrecuentes FROM dbo.PreguntasFrecuentes";
             DataTable tablaResultado = BaseDatos.LeerBaseDeDatos(Consulta);
 
             foreach (DataRow columna in tablaResultado.Rows)
@@ -62,8 +62,10 @@ namespace Planetario.Handlers
         public bool agregarNuevaPregunta(PreguntasFrecuentesModel nuevaPregunta)
         {     
             bool exito;
-            string consulta = "INSERT INTO dbo.PreguntasFrecuentesTopicos (topico1, topico2, topico3) VALUES (@topicoPregunta, @topicoPregunta2, @topicoPregunta3) " +
-                "INSERT INTO dbo.PreguntasFrecuentes (categoriaPregunta, pregunta, respuesta, topicoPreguntasFK) VALUES (@categoriaPregunta, @pregunta, @respuesta, scope_identity())";
+            string consulta =
+            "INSERT INTO dbo.PreguntasFrecuentes(pregunta, respuesta, correoFuncionarioFK, categoriaPreguntasFrecuentes) VALUES('¿La tierra es plana?', 'No.', 'danielmonge25@hotmail.com', 'Cuerpos del sistema solar');" +
+            "DECLARE @identity int = scope_identity();" +
+            "INSERT INTO dbo.PreguntasFrecuentesTopicos(idPreguntaFK, topicosPreguntasFrecuentes) VALUES(@identity, @topicoPregunta);";
             Dictionary<string, object> valoresParametros = new Dictionary<string, object>
             {
                 { "@topicoPregunta",    nuevaPregunta.topicoPregunta },
@@ -76,6 +78,7 @@ namespace Planetario.Handlers
             if(nuevaPregunta.topicoPregunta2 != "-Topico-")
             {
                 valoresParametros.Add("@topicoPregunta2", nuevaPregunta.topicoPregunta2);
+                consulta += "INSERT INTO dbo.PreguntasFrecuentesTopicos(idPreguntaFK, topicosPreguntasFrecuentes) VALUES(@identity, @topicoPregunta2);";
             }
             else
             {
@@ -85,6 +88,7 @@ namespace Planetario.Handlers
             if (nuevaPregunta.topicoPregunta3 != "-Topico-")
             {
                 valoresParametros.Add("@topicoPregunta3", nuevaPregunta.topicoPregunta3);
+                consulta += "INSERT INTO dbo.PreguntasFrecuentesTopicos(idPreguntaFK, topicosPreguntasFrecuentes) VALUES(@identity, @topicoPregunta3);";
             }
             else
             {
