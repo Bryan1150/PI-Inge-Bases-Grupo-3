@@ -10,8 +10,6 @@ namespace Planetario.Models
     {
         public int idPregunta { get; set; }
 
-        public int idTopicos { get; set; }
-
         public string correoFuncionario { get; set; }
 
         [Display(Name = "Categoría: ")]
