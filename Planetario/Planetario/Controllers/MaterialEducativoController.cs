@@ -54,10 +54,18 @@ namespace Planetario.Controllers
         }
 
         [HttpGet]
-        public FileResult accederArchivo(int identificador)
+        public FileResult descargarArchivo(string titulo)
         {
             MaterialesEducativosHandler accesoDatos = new MaterialesEducativosHandler();
-            var tupla = accesoDatos.descargarContenido(identificador);
+            var tupla = accesoDatos.descargarContenido(titulo);
+            return File(tupla.Item1, tupla.Item2);
+        }
+
+        [HttpGet]
+        public FileResult descargarVistaPrevia(string titulo)
+        {
+            MaterialesEducativosHandler accesoDatos = new MaterialesEducativosHandler();
+            var tupla = accesoDatos.descargarVistaPrevia(titulo);
             return File(tupla.Item1, tupla.Item2);
         }
 

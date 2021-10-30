@@ -4,9 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Planetario.Models
 {
     public class MaterialEducativoModel
-    {
-        public int Id { get; set; }
-
+    { 
         [Display(Name = "Titulo")]
         [Required(ErrorMessage = "Es necesario indicar un titulo para el material")]
         public string Titulo { get; set; }
@@ -32,6 +30,9 @@ namespace Planetario.Models
 
         [Display(Name = "Nombre del responsable")]
         public string NombreResponsable { get; set; }
+
+        [Display(Name = "Publico dirigido")]
+        public string PublicoDirigido { get; set; }
 
         public bool HayVistaPrevia()
         {
