@@ -22,11 +22,41 @@ namespace Planetario.Handlers
         public List<PreguntasFrecuentesModel> ObtenerPreguntasFrecuentes()
         {
             List<PreguntasFrecuentesModel> preguntasFrecuentes = new List<PreguntasFrecuentesModel>();
+            List<string> preguntasFrecuentesTopicos;
             Consulta = "SELECT DISTINCT * FROM dbo.PreguntasFrecuentes";
             DataTable tablaResultado = BaseDatos.LeerBaseDeDatos(Consulta);
+            DataTable tablaResultadoTopicos;
 
             foreach (DataRow columna in tablaResultado.Rows)
             {
+                Consulta = "SELECT DISTINCT * FROM dbo.PreguntasFrecuentesTopicos WHERE idPreguntaFK = " + Convert.ToInt32(columna["idPreguntaPK"]);
+                tablaResultadoTopicos = BaseDatos.LeerBaseDeDatos(Consulta);
+                preguntasFrecuentesTopicos = new List<string>();
+                string topico1 = "NULL";
+                string topico2 = "NULL";
+                string topico3 = "NULL";
+
+                foreach (DataRow columna2 in tablaResultadoTopicos.Rows)
+                {
+                    preguntasFrecuentesTopicos.Add(Convert.ToString(columna2["topicosPreguntasFrecuentes"]));
+                }
+
+                for(int i = 0; i < preguntasFrecuentesTopicos.Count; i++)
+                {
+                    switch (i)
+                    {
+                        case 0:
+                            topico1 = preguntasFrecuentesTopicos[i];
+                            break;
+                        case 1:
+                            topico2 = preguntasFrecuentesTopicos[i];
+                            break;
+                        case 2:
+                            topico3 = preguntasFrecuentesTopicos[i];
+                            break;
+                    }              
+                }
+
                 preguntasFrecuentes.Add(
                     new PreguntasFrecuentesModel
                     {
@@ -34,7 +64,10 @@ namespace Planetario.Handlers
                         categoriaPregunta = Convert.ToString(columna["categoriaPreguntasFrecuentes"]),
                         pregunta = Convert.ToString(columna["pregunta"]),
                         respuesta = Convert.ToString(columna["respuesta"]),
-                        correoFuncionario = Convert.ToString(columna["correoFuncionarioFK"]),                
+                        correoFuncionario = Convert.ToString(columna["correoFuncionarioFK"]),
+                        topicoPregunta = topico1,
+                        topicoPregunta2 = topico2,
+                        topicoPregunta3 = topico3,               
                     });
             }
 
