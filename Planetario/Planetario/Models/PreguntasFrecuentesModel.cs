@@ -12,6 +12,8 @@ namespace Planetario.Models
 
         public int idTopicos { get; set; }
 
+        public string correoFuncionario { get; set; }
+
         [Display(Name = "Categoría: ")]
         [Required(ErrorMessage = "Es necesario que ingrese la categoría de la pregunta")]
         [MaxLength(100, ErrorMessage = "Se tiene un máximo de 100 cáracteres")]
