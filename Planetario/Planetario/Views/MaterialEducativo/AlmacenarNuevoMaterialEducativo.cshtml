@@ -1,13 +1,4 @@
 ﻿@model Planetario.Models.MaterialEducativoModel
-@{
-    ViewBag.Title = "Subir un material educativo";
-    List<SelectListItem> publicos = new List<SelectListItem>() {
-        new SelectListItem { Text = "Niños"},
-        new SelectListItem { Text = "Adolesentes"},
-        new SelectListItem { Text = "Población universitaria"},
-        new SelectListItem { Text = "Adultos"}
-    };
-}
 
 <head>
     <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
@@ -24,66 +15,56 @@
 
 @using (Html.BeginForm("AlmacenarNuevoMaterialEducativo", "MaterialEducativo", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    <div class="well bs-component">
-        @Html.AntiForgeryToken()
+    @Html.AntiForgeryToken()
 
-        <div class="form-horizontal">
-            <h4>Ingrese los datos y Material educativo</h4>
-            <hr />
-            <div class="form-group">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Titulo, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(model => model.Titulo, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.Titulo, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.CorreoResponsable, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(model => model.CorreoResponsable, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.CorreoResponsable, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.PublicoDirigido, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.DropDownListFor(model => model.PublicoDirigido, publicos, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.PublicoDirigido, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Archivo, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(model => model.Archivo, new { type = "file", @class = "btn btn alert-info" })
-                        @Html.ValidationMessageFor(model => model.Archivo, "", new { @class = "text-danger" })
-                    </div>
-                </div>
+    <h4>Ingrese los datos y Material educativo</h4>
+    <hr />
+    <div class="row">
+
+        <div class="col-6 col-md-6 col-sm-12">
+            @Html.LabelFor(model => model.Titulo, htmlAttributes: new { @class = "control-label" })
+            <div >
+                @Html.TextBoxFor(model => model.Titulo, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Titulo, "", new { @class = "text-danger" })
             </div>
-
-            <div class="form-group">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.ImagenVistaPrevia, new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(model => model.ImagenVistaPrevia, new { type = "file", @class = "btn btn alert-info" })
-                        @Html.ValidationMessageFor(model => model.ImagenVistaPrevia, "", new { @class = "text-danger" })
-                    </div>
-                </div>
+            @Html.LabelFor(model => model.Categoria, htmlAttributes: new { @class = "control-label" })
+            <div >
+                @Html.TextBoxFor(model => model.Categoria, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Categoria, "", new { @class = "text-danger" })
             </div>
+            @Html.LabelFor(model => model.CorreoResponsable, htmlAttributes: new { @class = "control-label" })
+            <div >
+                @Html.TextBoxFor(model => model.CorreoResponsable, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CorreoResponsable, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" class="btn btn-success" value="Crear" />
-                    @Html.ActionLink("Volver", "listadoDeMateriales", null, new { @class = "btn btn-danger" })
-                </div>
+        <div class="col-6 col-md-6 col-sm-12">
+            @Html.LabelFor(model => model.MaterialArchivo, htmlAttributes: new { @class = "control-label" })
+            <br />
+            <div >
+                @Html.TextBoxFor(model => model.MaterialArchivo, new { type = "file", @class = "alert alert-info" })
+                @Html.ValidationMessageFor(model => model.MaterialArchivo, "", new { @class = "text-danger" })
+            </div>
+            @Html.LabelFor(model => model.ImagenVistaPrevia, new { @class = "control-label" })
+            <div >
+                @Html.TextBoxFor(model => model.ImagenVistaPrevia, new { type = "file", @class = "alert alert-info" })
+                @Html.ValidationMessageFor(model => model.ImagenVistaPrevia, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
-    }
 
-    <div>
-        @Html.ActionLink("Regresar a Inicio", "InformacionBasica", "Home")
+    <div class="row">
+        <div>
+            <input type="submit" class="btn btn-success" value="Crear" />
+            @Html.ActionLink("Volver", "listadoDeMateriales", null, new { @class = "btn btn-secondary" })
+        </div>
     </div>
+}
+
+<div>
+    @Html.ActionLink("Regresar a Inicio", "InformacionBasica", "Home")
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

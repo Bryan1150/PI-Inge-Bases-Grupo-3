@@ -16,7 +16,7 @@
     </span>
 
     <form method="post" class="navbar-form navbar-right" action="@Url.Action("listadoDeMateriales", "MaterialEducativo")">
-        <button type="submit" class="btn btn-secondary"> <span class="glyphicon glyphicon-home" aria-hidden="true"></span> Volver</button>
+        <button type="submit" class="btn btn-secondary"> <span class="fa fa-home" aria-hidden="true"></span> Volver</button>
     </form>
 
 
@@ -29,13 +29,13 @@
             <th>Fecha</th>
             <th>Archivo</th>
         </tr>
-        @foreach (var material in ViewBag.materialesUnicos)
+        @foreach (var material in ViewBag.materiales)
         {
             <tr>
-                <td>@material.Id  </td>
                 <td>@material.Titulo </td>
+                <td>@material.Categoria </td>
                 <td>@material.PublicoDirigido</td>
-                <td>@material.CorreoResponsable</td>
+                <td>@material.NombreResponsable (@material.CorreoResponsable)</td>
                 <td>@material.Fecha</td>
                 <td>
                     @Html.ActionLink("Ver", "accederArchivo",
