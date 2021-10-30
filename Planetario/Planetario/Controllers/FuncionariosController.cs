@@ -14,17 +14,30 @@ namespace Planetario.Controllers
         public ActionResult ListaFuncionarios()
         {
             FuncionariosHandler AcessoDatos = new FuncionariosHandler();
-            ViewBag.ListaFuncionarios = AcessoDatos.ObtenerTodosLosFuncionarios();
+            ViewBag.ListaFuncionarios = AcessoDatos.obtenerFuncionariosSimple();
             return View();
         }
 
         [HttpGet]
-        public ActionResult ObtenerImagen(int cedula)
+        public ActionResult ObtenerImagen(string correo)
         {
             FuncionariosHandler productHandler = new FuncionariosHandler();
-            var tupla = productHandler.ObtenerFoto(cedula);
+            var tupla = productHandler.ObtenerFoto(correo);
             return File(tupla.Item1, tupla.Item2);
         }
+
+
+        public ActionResult VerFuncionario(string correo)
+        {
+            FuncionariosHandler AcessoDatos = new FuncionariosHandler();
+            ViewBag.Funcionario = AcessoDatos.buscarFuncionario(correo);
+            ViewBag.Idiomas = AcessoDatos.obtenerIdiomasFuncionario(correo);
+            ViewBag.Titulos = AcessoDatos.obtenerTitulosFuncionario(correo);
+            ViewBag.Roles = AcessoDatos.obtenerRolesFuncionario(correo);
+
+            return View();
+        }
+        /**
 
         [HttpGet]
         public ActionResult AgregarFuncionario()
@@ -57,7 +70,7 @@ namespace Planetario.Controllers
                 return View();
             }
         }
-
+        */
 
     }
 }

@@ -1,0 +1,46 @@
+﻿@model Planetario.Models.FuncionarioModel
+@{
+    var listaFuncionarios = ViewBag.listaFuncionarios;
+}
+<head>
+    <link href="~/Styles/ListaFuncionarios.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
+</head>
+<body>
+    <span class="titulo">
+        Funcionarios
+    </span>
+
+    <h1>Nombre: @ViewBag.Funcionario.Nombre @ViewBag.Funcionario.Apellido1 @ViewBag.Funcionario.Apellido2</h1>
+    <p>Correo: @ViewBag.Funcionario.CorreoContacto</p>
+    <p>Descripcion: @ViewBag.Funcionario.Descripcion</p>
+    <p>Pais: @ViewBag.Funcionario.Pais</p>
+    <p>Fecha Incorporacion: @ViewBag.Funcionario.FechaIncorporacion</p>
+    <p>Genero: @ViewBag.Funcionario.Genero</p>
+    <p>Area Expertis: @ViewBag.Funcionario.AreaExpertis</p>
+
+    <br />
+    <p>Idioma(s): </p>
+
+    @foreach (var idioma in ViewBag.Idiomas)
+    {
+        <p>-@idioma</p>
+    }
+
+    <br />
+    <p>Titulo(s): </p>
+
+    @foreach (var titulo in ViewBag.Titulos)
+    {
+        <p>-@titulo</p>
+    }
+
+    <br />
+    <p>Rol(es): </p>
+
+    @foreach (var roles in ViewBag.Roles)
+    {
+        <p>-@roles</p>
+    }
+
+</body>
