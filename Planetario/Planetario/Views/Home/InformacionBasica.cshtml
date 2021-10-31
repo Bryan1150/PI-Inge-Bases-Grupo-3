@@ -6,7 +6,7 @@
 <head>
     <title>@ViewBag.title</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
+    @Styles.Render("~/Utils/css")
 </head>
 <body>
     <span class="titulo">
@@ -28,7 +28,7 @@
         </div>
         <div class="col-sm-6 col-md-4">
             <span class="titulo">Vision</span>
-            <p align="justify">
+            <p align="justify" class="parrafo">
                 En el Planetario Halley buscamos estimular los procesos creativos
                 y el interés por el quehacer científico en el país,
                 a través de la exploración de diversos lenguajes de comunicación.
