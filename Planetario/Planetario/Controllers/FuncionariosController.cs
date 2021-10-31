@@ -1,11 +1,11 @@
-﻿using Planetario.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using System.Web.Security;
 using Planetario.Handlers;
+using Planetario.Models;
 
 namespace Planetario.Controllers
 {
@@ -37,6 +37,42 @@ namespace Planetario.Controllers
 
             return View();
         }
+
+        [HttpGet]
+        public ActionResult iniciarSesion()
+        {
+            String contrasena = " ";
+            ViewBag.contrasena = contrasena;
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult iniciarSesion(FuncionarioModel funcionario)
+        {
+            FuncionariosHandler funcionarioHandler = new FuncionariosHandler();
+
+
+            if (funcionarioHandler.esFuncionarioValido(funcionario.Contrasena, funcionario.CorreoContacto))
+            {
+                FormsAuthentication.SetAuthCookie(funcionario.CorreoContacto, false);
+                return RedirectToAction("InformacionBasica", "Home");
+
+            }
+            else
+            {
+                ModelState.AddModelError("", "El correo o la contraseña es incorrecta");
+                ViewBag.Message = "El correo o la contraseña es incorrecta.";
+            }
+            return View();
+        }
+
+        public ActionResult cerrarSesion()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("InformacionBasica", "Home");
+        }
+
         /**
 
         [HttpGet]

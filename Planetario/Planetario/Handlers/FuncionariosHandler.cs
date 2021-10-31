@@ -101,7 +101,7 @@ namespace Planetario.Handlers
             bool esValido = false;
             string contrasenaFuncionario;
 
-            string consulta = "SELECT correoFK, contrasena FROM Credenciales WHERE correoFuncionarioFK = '" + correo + "'";
+            string consulta = "SELECT correoFuncionarioFK, contraseña FROM Credenciales WHERE correoFuncionarioFK = '" + correo + "'";
 
             DataTable tablaResultados = LeerBaseDeDatos(consulta);
 
@@ -109,7 +109,7 @@ namespace Planetario.Handlers
             {
                 foreach (DataRow columna in tablaResultados.Rows)
                 {
-                    contrasenaFuncionario = Convert.ToString(columna["contrasena"]);
+                    contrasenaFuncionario = Convert.ToString(columna["contraseña"]);
 
                     if (contrasenaFuncionario == contrasena) { esValido = true; }
                 }
