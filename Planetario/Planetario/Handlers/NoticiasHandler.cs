@@ -24,73 +24,115 @@ namespace Planetario.Handlers
         public List<NoticiaModel> obtenerTodasLasNoticias()
         {
             List<NoticiaModel> noticias = new List<NoticiaModel>();
-            Consulta = "SELECT idNoticiaPK, titulo, cuerpo, CONVERT(VARCHAR(20), fecha, 1) AS 'fecha', correoFuncionarioAutorFK FROM Noticia ORDER BY fecha DESC";
+            List<string> NoticiaTopicos;
+            Consulta = "SELECT idNoticiaPK, titulo, cuerpo, CONVERT(VARCHAR(20), fecha, 1) AS 'fecha', correoFuncionarioAutorFK, categoriaNoticia FROM Noticia ORDER BY fecha DESC";
             DataTable tablaResultado = BaseDatos.LeerBaseDeDatos(Consulta);
+            DataTable tablaResultadoTopicos;
 
-            foreach(DataRow columna in tablaResultado.Rows)
+            foreach (DataRow columna in tablaResultado.Rows)
             {
+                Consulta = "SELECT DISTINCT * FROM dbo.NoticiaTopicos WHERE idNoticiaFK = " + Convert.ToInt32(columna["idNoticiaPK"]);
+                tablaResultadoTopicos = BaseDatos.LeerBaseDeDatos(Consulta);
+                NoticiaTopicos = new List<string>();
+                string topico1 = "NULL";
+                string topico2 = "NULL";
+                string topico3 = "NULL";
+
+                foreach (DataRow columna2 in tablaResultadoTopicos.Rows)
+                {
+                    NoticiaTopicos.Add(Convert.ToString(columna2["topicosNoticia"]));
+                }
+
+                for (int i = 0; i < NoticiaTopicos.Count; i++)
+                {
+                    switch (i)
+                    {
+                        case 0:
+                            topico1 = NoticiaTopicos[i];
+                            break;
+                        case 1:
+                            topico2 = NoticiaTopicos[i];
+                            break;
+                        case 2:
+                            topico3 = NoticiaTopicos[i];
+                            break;
+                    }
+                }
+
                 noticias.Add(
                     new NoticiaModel
                     {
                         id = Convert.ToInt32(columna["idNoticiaPK"]),
+                        categoriaNoticia = Convert.ToString(columna["categoriaNoticia"]),
                         titulo = Convert.ToString(columna["titulo"]),
                         cuerpo = Convert.ToString(columna["cuerpo"]),
-                        fecha = Convert.ToString(columna["fecha"]),
                         correoAutor = Convert.ToString(columna["correoFuncionarioAutorFK"]),
+                        fecha = Convert.ToString(tablaResultado.Rows[0]["fecha"]),
+                        topicoNoticia = topico1,
+                        topicoNoticia2 = topico2,
+                        topicoNoticia3 = topico3,
                     });
             }
             return noticias;
         }
 
-        public NoticiaModel buscarNoticia(string stringId)
+        public List<String> ObtenerCategorias()
         {
-            Consulta = "SELECT idNoticiaPK, titulo, cuerpo, CONVERT(VARCHAR(20), fecha, 1) AS 'fecha', correoFuncionarioAutorFK FROM Noticia WHERE idNoticiaPK = " + stringId + ";";
+            List<String> categorias = new List<String>();
+            Consulta = "SELECT DISTINCT categoriaNoticia FROM dbo.Noticia";
             DataTable tablaResultado = BaseDatos.LeerBaseDeDatos(Consulta);
-            NoticiaModel resultado = null;
-            if(tablaResultado.Rows[0] != null)
+
+            foreach (DataRow columna in tablaResultado.Rows)
             {
-                resultado = new NoticiaModel
-                {
-                    id = Convert.ToInt32(tablaResultado.Rows[0]["idNoticiaPK"]),
-                    titulo = Convert.ToString(tablaResultado.Rows[0]["titulo"]),
-                    cuerpo = Convert.ToString(tablaResultado.Rows[0]["cuerpo"]),
-                    fecha = Convert.ToString(tablaResultado.Rows[0]["fecha"]),
-                    correoAutor = Convert.ToString(tablaResultado.Rows[0]["correoFuncionarioAutorFK"]),
-                };
+                categorias.Add(Convert.ToString(columna["categoriaNoticia"]));
             }
-            return resultado;
+
+            return categorias;
         }
 
         public bool crearNoticia(NoticiaModel noticia)
         {
-            FileHandler manejadorDeArchivos = new FileHandler();
             bool exito;
-            Consulta = "INSERT INTO Noticia (titulo, cuerpo, fecha, correoFuncionarioAutorFK , imagen, tipoImagen)" +
-            "VALUES (@tituloN,@cuerpoN,@fechaN,@correoN,@imagenN,@tipoImagenN) ";
-
+            Consulta =
+            "INSERT INTO dbo.Noticia(titulo, cuerpo, fecha, correoFuncionarioAutorFK, categoriaNoticia) VALUES(@titulo, @cuerpo, @fecha, @correo, @categoria);" +
+            "DECLARE @identity int = scope_identity();" +
+            "INSERT INTO dbo.NoticiaTopicos(idNoticiaFK, topicosNoticia) VALUES(@identity, @topicoNoticia);";
             Dictionary<string, object> valoresParametros = new Dictionary<string, object>
             {
-                { "@tituloN", noticia.titulo },
-                { "@cuerpoN", noticia.cuerpo },
-                { "@fechaN", noticia.fecha },
-                { "@correoN", noticia.correoAutor }
+                { "@topicoNoticia",     noticia.topicoNoticia },
+                { "@categoriaNoticia",  noticia.categoriaNoticia },
+                { "@titulo",            noticia.titulo },
+                { "@cuerpo",            noticia.cuerpo },
+                { "@correo",            HttpContext.Current.User.Identity.Name},
+                { "@fecha",             noticia.fecha}
+
             };
 
-            if (noticia.imagen == null)
+            if (noticia.topicoNoticia2 != "-Topico-")
             {
-                valoresParametros.Add("@imagenN", SqlBinary.Null);
-                valoresParametros.Add("@tipoImagenN", SqlBinary.Null);
+                valoresParametros.Add("@topicoNoticia2", noticia.topicoNoticia2);
+                Consulta += "INSERT INTO dbo.NoticiaTopicos(idNoticiaFK, topicosNoticia) VALUES(@identity, @topicoNoticia2);";
             }
-            else 
+            else
             {
-                valoresParametros.Add("@imagenN", manejadorDeArchivos.ConvertirArchivoABytes(noticia.imagen));
-                valoresParametros.Add("@tipoImagenN", noticia.imagen.ContentType);
+                valoresParametros.Add("@topicoNoticia2", "NULL");
+            }
+
+            if (noticia.topicoNoticia3 != "-Topico-")
+            {
+                valoresParametros.Add("@topicoNoticia3", noticia.topicoNoticia3);
+                Consulta += "INSERT INTO dbo.NoticiaTopicos(idNoticiaFK, topicosNoticia) VALUES(@identity, @topicoNoticia3);";
+            }
+            else
+            {
+                valoresParametros.Add("@topicoNoticia3", "NULL");
             }
 
             exito = BaseDatos.InsertarEnBaseDatos(Consulta, valoresParametros);
 
             return exito;
         }
+
 
         public Tuple<byte[], string> ObtenerFoto(string numNoticia)
         {
@@ -106,6 +148,24 @@ namespace Planetario.Handlers
             return BaseDatos.ObtenerArchivo(Consulta, valoresParametros, nombreArchivo, tipoArchivo);
         }
 
+        public NoticiaModel buscarNoticia(string stringId)
+        {
+            Consulta = "SELECT idNoticiaPK, titulo, cuerpo, CONVERT(VARCHAR(20), fecha, 1) AS 'fecha', correoFuncionarioAutorFK FROM Noticia WHERE idNoticiaPK = " + stringId + ";";
+            DataTable tablaResultado = BaseDatos.LeerBaseDeDatos(Consulta);
+            NoticiaModel resultado = null;
+            if (tablaResultado.Rows[0] != null)
+            {
+                resultado = new NoticiaModel
+                {
+                    id = Convert.ToInt32(tablaResultado.Rows[0]["idNoticiaPK"]),
+                    titulo = Convert.ToString(tablaResultado.Rows[0]["titulo"]),
+                    cuerpo = Convert.ToString(tablaResultado.Rows[0]["cuerpo"]),
+                    fecha = Convert.ToString(tablaResultado.Rows[0]["fecha"]),
+                    correoAutor = Convert.ToString(tablaResultado.Rows[0]["correoFuncionarioAutorFK"]),
+                };
+            }
+            return resultado;
+        }
 
     }
 }
