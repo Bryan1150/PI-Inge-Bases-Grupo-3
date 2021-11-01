@@ -7,48 +7,63 @@
     <title>@ViewBag.title</title>
     <meta charset="utf-8" />
     @Styles.Render("~/Utils/css")
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
 </head>
 <body>
+
     <span class="titulo">
         Planetario Halley
     </span>
 
-
     <style>
         .carousel-item {
             height: 32em;
-            background: #777;
-            color: white;
-
         }
-
-        .container {
-
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding-bottom: 50px;
+        .carousel-caption {
+            color:white;
         }
     </style>
 
+    <div id="demo" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
+        </div>
 
-    <div id="myCarousel" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <div class="container">
-                    <h1>Ejemplo titulo 1</h1>
-                    <p>texto texto texto texto texto</p>
-                    <a href="#" class="btn btn-lg btn-primary">Boton</a>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/A_small_cup_of_coffee.JPG/800px-A_small_cup_of_coffee.JPG" alt="Los Angeles" class="d-block w-100">
+                <div class="carousel-caption">
+                    <h3>Noticia 1</h3>
+                    <p>Texto ejemplo 1</p>
                 </div>
             </div>
             <div class="carousel-item">
-                <div class="container">
-                    <h1>Ejemplo titulo 1</h1>
-                    <p>texto texto texto texto texto</p>
-                    <a href="#" class="btn btn-lg btn-primary">Boton</a>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Coffee_beans_unroasted.jpg/800px-Coffee_beans_unroasted.jpg" alt="Chicago" class="d-block w-100">
+                <div class="carousel-caption">
+                    <h3>Noticia 2</h3>
+                    <p>Texto ejemplo 2</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Coffee_beans2.jpg/800px-Coffee_beans2.jpg" alt="New York" class="d-block w-100">
+                <div class="carousel-caption">
+                    <h3>Noticia 3</h3>
+                    <p>Texto ejemplo 3</p>
                 </div>
             </div>
         </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
     </div>
 
     <div class="row d-flex flex-wrap align-items-center">
@@ -78,6 +93,12 @@
             </p>
         </div>
     </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
 
 </body>
 </html>
