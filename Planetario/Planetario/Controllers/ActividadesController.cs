@@ -26,7 +26,7 @@ namespace Planetario.Controllers
                     ViewBag.ExitoAlCrear = accesoDatos.crearActividad(actividad);
                     if(ViewBag.ExitoAlCrear)
                     {
-                        ViewBag.Message = "La actividad " + actividad.nombre + " fue creada con éxito.";
+                        ViewBag.Message = "La actividad " + actividad.NombreActividad + " fue creada con éxito.";
                         ModelState.Clear();
                     }
                 }
@@ -46,10 +46,10 @@ namespace Planetario.Controllers
             return View();
         }
 
-        public ActionResult verActividad(string stringId)
+        public ActionResult verActividad(string nombre)
         {
             ActividadHandler accesoDatos = new ActividadHandler();
-            ViewBag.actividad = accesoDatos.buscarActividad(stringId);
+            ViewBag.actividad = accesoDatos.buscarActividad(nombre);
             return View();
         }
 

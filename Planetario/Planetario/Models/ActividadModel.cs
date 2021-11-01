@@ -9,35 +9,49 @@ namespace Planetario.Models
 {
     public class ActividadModel
     {
-        public int id { get; set; }
-
         [Required(ErrorMessage = "Es necesario que le indique el nombre que va a tener la actividad.")]
         [Display(Name = "Nombre de la actividad:")]
-        public string nombre { get; set; }
-
-        [Required(ErrorMessage = "Es necesario que indique el tema de la actividad.")]
-        [Display(Name = "Tema de la actividad:")]
-        public string tema { get; set; }
+        [MaxLength(100, ErrorMessage = "Se tiene un máximo de 100 cáracteres")]
+        public string NombreActividad { get; set; }
 
         [Required(ErrorMessage = "Es necesario que indique la descripcion de la actividad.")]
         [Display(Name = "Descripcion de la actividad:")]
-        public string descripcion { get; set; }
-
-        [Required(ErrorMessage = "Es necesario que indique el tipo de la actividad.")]
-        [Display(Name = "Tipo de la actividad:")]
-        public string tipo { get; set; }
-
-        [Required(ErrorMessage = "Es necesario que indique a cual publico esta dirigida la actividad.")]
-        [Display(Name = "Ppublico dirigido:")]
-        public string publicoDirigido { get; set; }
+        [MaxLength(100, ErrorMessage = "Se tiene un máximo de 100 cáracteres")]
+        public string Descripcion { get; set; }
 
         [Required(ErrorMessage = "Es necesario que ingrese aproximadamente cuantos minutos durara la actividad.")]
-        [Display(Name = "Duración:")]
+        [Display(Name = "Duración")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Debe ingresar números")]
-        public int duracion { get; set; }
+        public int Duracion { get; set; }
+
+        [Required(ErrorMessage = "Es necesario que ingrese que tan compleja es la actividad.")]
+        [Display(Name = "Complejidad")]
+        public string Complejidad { get; set; }
+
+        [Required(ErrorMessage = "Es necesario que ingrese aproximadamente cuantos colones cuesta la actividad.")]
+        [Display(Name = "Precio")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Debe ingresar números")]
+        public double PrecioAproximado { get; set; }
+
+        [Required(ErrorMessage = "Es necesario que indique la categoria de la actividad.")]
+        [Display(Name = "Categoria")]
+        
+        public string Categoria { get; set; }
+        
+        [Required(ErrorMessage = "Es necesario que indique el dia de la semana.")]
+        [Display(Name = "Dia de la semana")]
+        public string DiaSemana { get; set; }
 
         [Required(ErrorMessage = "Es necesario que indique su correo.")]
-        [Display(Name = "Ingrese su correo:")]
-        public string correoFK { get; set; }
+        [Display(Name = "Correo")]
+        public string PropuestoPor { get; set; }
+
+        [Display(Name = "Display")]
+        public bool Aprobado { get; set; }
+
+        [Required(ErrorMessage = "Es necesario que indique el publico al que va dirigido la actividad.")]
+        [Display(Name = "Correo")]
+        public string PublicoDirigido { get; set; }
+
     }
 }
