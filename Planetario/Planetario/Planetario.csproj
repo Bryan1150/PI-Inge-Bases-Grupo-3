@@ -137,6 +137,7 @@
     <Compile Include="Handlers\BaseDatosHandler.cs" />
     <Compile Include="Handlers\FileHandler.cs" />
     <Compile Include="Handlers\PreguntasFrecuentesHandler.cs" />
+    <Compile Include="Models\ParticipanteModel.cs" />
     <Compile Include="Models\PreguntasFrecuentesModel.cs" />
     <Compile Include="Handlers\NoticiasHandler.cs" />
     <Compile Include="Models\NoticiaModel.cs" />
