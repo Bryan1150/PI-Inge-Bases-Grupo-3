@@ -6,41 +6,90 @@
     <link href="~/Styles/ListaFuncionarios.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
 </head>
+
+<style>
+    img {
+        border-radius: 0.5em;
+        border: 2px solid #133b5c;
+        box-shadow: 0px 0px 0px #ccc;
+        height: 400px;
+        width: 400px;
+        object-fit: cover;
+    }
+</style>
+
 <body>
     <span class="titulo">
-        Funcionarios
+        @ViewBag.Funcionario.Nombre @ViewBag.Funcionario.Apellido1 @ViewBag.Funcionario.Apellido2
     </span>
 
-    <h1>Nombre: @ViewBag.Funcionario.Nombre @ViewBag.Funcionario.Apellido1 @ViewBag.Funcionario.Apellido2</h1>
-    <p>Correo: @ViewBag.Funcionario.CorreoContacto</p>
-    <p>Descripcion: @ViewBag.Funcionario.Descripcion</p>
-    <p>Pais: @ViewBag.Funcionario.Pais</p>
-    <p>Fecha Incorporacion: @ViewBag.Funcionario.FechaIncorporacion</p>
-    <p>Genero: @ViewBag.Funcionario.Genero</p>
-    <p>Area Expertis: @ViewBag.Funcionario.AreaExpertis</p>
+    <div class="row d-flex flex-wrap align-items-center">
+
+
+
+
+        <div class="col-md-4">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Caspar_David_Friedrich_-_Wanderer_above_the_sea_of_fog.jpg/468px-Caspar_David_Friedrich_-_Wanderer_above_the_sea_of_fog.jpg" />
+        </div>
+        <div class="col-md-4">
+            <h4>Contacto</h4>
+            <p>@ViewBag.Funcionario.CorreoContacto</p>
+            <br />
+
+            <h4>Información personal</h4>
+            <p>Pais: @ViewBag.Funcionario.Pais</p>
+            <p>Genero: @ViewBag.Funcionario.Genero</p>
+            <br />
+
+            <h5>Información profesional</h5>
+            <p>Area Expertis: @ViewBag.Funcionario.AreaExpertis</p>
+            <p>Fecha Incorporacion: @ViewBag.Funcionario.FechaIncorporacion</p>
+        </div>
+        <div class="col-md-4">
+            @if (ViewBag.Idiomas.Count > 1)
+            {
+                <h4>Idiomas</h4>
+            }
+            else
+            {
+                <h4>Idioma</h4>
+            }
+            @foreach (var idioma in ViewBag.Idiomas)
+            {
+                <p>- @idioma</p>
+            }
+            <br />
+            @if (ViewBag.Titulos.Count > 1)
+            {
+                <h4>Títulos</h4>
+            }
+            else
+            {
+                <h4>Título</h4>
+            }
+            @foreach (var titulo in ViewBag.Titulos)
+            {
+                <p>- @titulo</p>
+            }
+            <br />
+            @if (ViewBag.Roles.Count > 1)
+            {
+                <h4>Roles</h4>
+            }
+            else
+            {
+                <h4>Rol</h4>
+            }
+            @foreach (var roles in ViewBag.Roles)
+            {
+                <p>- @roles</p>
+            }
+        </div>
+    </div>
 
     <br />
-    <p>Idioma(s): </p>
 
-    @foreach (var idioma in ViewBag.Idiomas)
-    {
-        <p>-@idioma</p>
-    }
-
-    <br />
-    <p>Titulo(s): </p>
-
-    @foreach (var titulo in ViewBag.Titulos)
-    {
-        <p>-@titulo</p>
-    }
-
-    <br />
-    <p>Rol(es): </p>
-
-    @foreach (var roles in ViewBag.Roles)
-    {
-        <p>-@roles</p>
-    }
+    <h4>Descripción</h4>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tortor condimentum lacinia quis vel eros donec. Quis viverra nibh cras pulvinar mattis nunc sed blandit libero. Luctus accumsan tortor posuere ac ut consequat semper viverra. Sed sed risus pretium quam vulputate dignissim. Quam quisque id diam vel. </p>
 
 </body>
