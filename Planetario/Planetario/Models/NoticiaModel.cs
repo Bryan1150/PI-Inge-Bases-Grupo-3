@@ -31,6 +31,26 @@ namespace Planetario.Models
         [Display(Name = "Imagen ")]
         public HttpPostedFileBase imagen { get; set; }
 
+        [Display(Name = "Categoría: ")]
+        [Required(ErrorMessage = "Es necesario que ingrese la categoría de la noticia")]
+        [MaxLength(100, ErrorMessage = "Se tiene un máximo de 100 cáracteres")]
+        public string categoriaNoticia { get; set; }
+
+        [Display(Name = "Tópico 1: ")]
+        [Required(ErrorMessage = "Es necesario que ingrese el tópico de la noticia")]
+        [MaxLength(100, ErrorMessage = "Se tiene un máximo de 100 cáracteres")]
+        public string topicoNoticia { get; set; }
+
+        [Display(Name = "Tópico 2: ")]
+        [Required(ErrorMessage = "Es necesario que ingrese el tópico de la noticia")]
+        [MaxLength(100, ErrorMessage = "Se tiene un máximo de 100 cáracteres")]
+        public string topicoNoticia2 { get; set; }
+
+        [Display(Name = "Tópico 3: ")]
+        [Required(ErrorMessage = "Es necesario que ingrese el tópico de la noticia")]
+        [MaxLength(100, ErrorMessage = "Se tiene un máximo de 100 cáracteres")]
+        public string topicoNoticia3 { get; set; }
+
         public string tipoImagen { get; set; }
     }
 }

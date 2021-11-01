@@ -21,6 +21,25 @@
         <div>
             @Html.ActionLink("Regresar", "listadoDeNoticias", "Noticias")
         </div>
+
+        <div>
+            @foreach (var noticia in ViewBag.noticia)
+            {
+                if (noticia.categoriaNoticia == @ViewBag.categorias[numCategoria])
+                {
+                    <p>
+                        <i>
+                            Tópico(s): @noticia.topicoNoticia @if (noticia.topicoNoticia2 != "NULL")
+                            {@noticia.topicoNoticia2}
+                        else { } @if (noticia.topicoNoticia3 != "NULL")
+                            {@noticia.topicoNoticia3}
+                        else { }
+                    </i>
+                </p>
+                }
+            }
+            </div>
+
     </div>
 </body>
 </html>
