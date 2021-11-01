@@ -23,8 +23,10 @@ namespace Planetario.Handlers
             object archivoVistaPrevia = System.Data.SqlTypes.SqlBinary.Null;
             object tipoArchivoVistaPrevia = System.Data.SqlTypes.SqlBinary.Null; ;
 
-            columnas = "( tituloMaterialEducativoPK, categoriaMaterialEducativo, imagenVistaPrevia, tipoArchivoVistaPrevia, materialArchivo, materialTipoArchivo, correoFuncionario )";
-            valores  = "( @titulo, @cateogoria, @imagenVistaPrevia, @tipoArchivoVistaPrevia, @archivo, @tipoArchivo, @correoResponsable );";
+            columnas = "( tituloMaterialEducativoPK, categoriaMaterialEducativo, imagenVistaPrevia, " +
+                "tipoArchivoVistaPrevia, materialArchivo, materialTipoArchivo, correoFuncionario, publicoDirigidoMaterial )";
+            valores  = "( @titulo, @categoria, @imagenVistaPrevia, @tipoArchivoVistaPrevia, @archivo, " +
+                "@tipoArchivo, @correoResponsable, @categoriaMaterialEducativo, @publicoDirigidoMaterial ); ";
             Consulta = "INSERT INTO MaterialEducativo " + columnas + " VALUES " + valores;
 
             Dictionary<string, object> valoresParametros = new Dictionary<string, object>
@@ -32,7 +34,8 @@ namespace Planetario.Handlers
                 { "@titulo", material.Titulo },
                 { "@categoria", material.Categoria },
                 { "@correoResponsable", material.CorreoResponsable },
-                { "@tipoArchivo", material.MaterialArchivo.ContentType }
+                { "@tipoArchivo", material.MaterialArchivo.ContentType },
+                { "@publicoDirigidoMaterial", material.PublicoDirigido }
             };
             valoresParametros.Add("@archivo", manejadorArchivo.ConvertirArchivoABytes(material.MaterialArchivo));
 
@@ -53,10 +56,8 @@ namespace Planetario.Handlers
         {
             List<MaterialEducativoModel> material = new List<MaterialEducativoModel>();
             Consulta = "SELECT E.tituloMaterialEducativoPK, E.categoriaMaterialEducativo, E.correoFuncionarioFK, " +
-                                "DA.nombrePublicoDirigidoFK, F.nombre + F.apellido1 AS nombre " +
+                                "E.publicoDirigidoMaterial, F.nombre + F.apellido1 AS nombre " +
                                 "FROM MaterialEducativo E " +
-                                "JOIN DirigidoA DA " +
-                                "ON E.tituloMaterialEducativoPK = DA.TituloMaterialEducativoFK " +
                                 "JOIN Funcionario F " +
                                 "ON E.correoFuncionarioFK = F.correoPK ;";
             DataTable tablaResultado = BaseDatos.LeerBaseDeDatos(Consulta);
@@ -67,7 +68,7 @@ namespace Planetario.Handlers
                     Titulo = Convert.ToString(columna["tituloMaterialEducativoPK"]),
                     Categoria = Convert.ToString(columna["categoriaMaterialEducativo"]),
                     CorreoResponsable = Convert.ToString(columna["correoFuncionarioFK"]),
-                    PublicoDirigido = Convert.ToString(columna["nombrePublicoDirigidoFK"]),
+                    PublicoDirigido = Convert.ToString(columna["publicoDirigidoMaterial"]),
                     NombreResponsable = Convert.ToString(columna["nombre"])
                 };
                 material.Add(modelo);
@@ -105,11 +106,11 @@ namespace Planetario.Handlers
         {
             List<MaterialEducativoModel> material = new List<MaterialEducativoModel>();
             Consulta = "SELECT E.tituloMaterialEducativoPK, E.categoriaMaterialEducativo, E.correoFuncionarioFK, " +
-                                "DA.nombrePublicoDirigidoFK, F.nombre + F.apellido1 AS nombre" +
+                                "E.publicoDirigidoMaterial, F.nombre + F.apellido1 AS nombre " +
                                 "FROM MaterialEducativo E " +
-                                "JOIN DirigidoA DA " +
-                                "ON E.tituloMaterialEducativoPK = DA.TituloMaterialEducativoFK " +
-                                "WHERE E.tituloMaterialEducativoPK LIKE '%" + palabra + "%';";
+                                "JOIN Funcionario F " +
+                                "ON E.correoFuncionarioFK = F.correoPK " +
+                        "WHERE E.tituloMaterialEducativoPK LIKE '%" + palabra + "%';";
             DataTable tablaResultado = BaseDatos.LeerBaseDeDatos(Consulta);
             foreach (DataRow columna in tablaResultado.Rows)
             {
@@ -118,7 +119,7 @@ namespace Planetario.Handlers
                     Titulo = Convert.ToString(columna["tituloMaterialEducativoPK"]),
                     Categoria = Convert.ToString(columna["categoriaMaterialEducativo"]),
                     CorreoResponsable = Convert.ToString(columna["correoFuncionarioFK"]),
-                    PublicoDirigido = Convert.ToString(columna["nombrePublicoDirigidoFK"]),
+                    PublicoDirigido = Convert.ToString(columna["publicoDirigidoMaterial"]),
                     NombreResponsable = Convert.ToString(columna["nombre"])
                 };
                 material.Add(modelo);

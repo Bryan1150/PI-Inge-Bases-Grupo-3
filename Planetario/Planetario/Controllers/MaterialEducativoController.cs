@@ -12,6 +12,7 @@ namespace Planetario.Controllers
 {
     public class MaterialEducativoController : Controller
     {
+
         public ActionResult AlmacenarNuevoMaterialEducativo()
         {
             return View();
@@ -75,7 +76,7 @@ namespace Planetario.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpGet]
         public ActionResult buscarMaterialesEducativos(string palabra)
         {
             MaterialesEducativosHandler accesoDatos = new MaterialesEducativosHandler();

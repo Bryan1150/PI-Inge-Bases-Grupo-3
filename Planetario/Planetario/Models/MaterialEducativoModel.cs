@@ -1,5 +1,6 @@
 ﻿using System.Web;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace Planetario.Models
 {
@@ -33,6 +34,10 @@ namespace Planetario.Models
 
         [Display(Name = "Publico dirigido")]
         public string PublicoDirigido { get; set; }
+
+        [Display(Name = "Topicos")]
+        [Required(ErrorMessage = "Es necesarios que escoja al menos un tópico")]
+        public IList<string> Topicos { get; set; }
 
         public bool HayVistaPrevia()
         {
