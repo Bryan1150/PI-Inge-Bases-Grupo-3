@@ -42,7 +42,7 @@ namespace Planetario.Controllers
         public ActionResult listadoDeActividades()
         {
             ActividadHandler accesoDatos = new ActividadHandler();
-            ViewBag.actividades = accesoDatos.obtenerTodasLasActividades();
+            ViewBag.actividades = accesoDatos.obtenerTodasLasActividadesAprobadas();
             return View();
         }
 
@@ -50,6 +50,7 @@ namespace Planetario.Controllers
         {
             ActividadHandler accesoDatos = new ActividadHandler();
             ViewBag.actividad = accesoDatos.buscarActividad(nombre);
+            ViewBag.topicos = accesoDatos.obtenerTopicosActividades(nombre);
             return View();
         }
 
