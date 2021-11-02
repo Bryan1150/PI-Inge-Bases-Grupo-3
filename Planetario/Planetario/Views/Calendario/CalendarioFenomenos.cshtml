@@ -33,8 +33,13 @@
     </span>
 
     <script>
-        var prueba = '@ViewBag.RSSFeed.title';
-        console.log(prueba);
+
+
+
+
+
+
+
         document.addEventListener('DOMContentLoaded', function () {
 
             var calendarEl = document.getElementById('calendar');
@@ -51,8 +56,20 @@
                 }],
             });
 
-        
+            $.getJSON('@Url.Action("GetEventsForCalendar")', function (eventos) {
+                console.log(eventos);
 
+                $.each(eventos, function (index, evento) {
+                    console.log(evento.Title);
+                    console.log(evento.PubDate);
+                    calendar.addEvent({
+                        
+                        title: evento.Title,
+                        start: evento.PubDate,
+                        allDay: true
+                    });
+                });
+            });    
             calendar.render();
         });
 
