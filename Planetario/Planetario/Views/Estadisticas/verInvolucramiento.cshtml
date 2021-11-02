@@ -1,0 +1,63 @@
+﻿
+@{
+    ViewBag.Title = "Estadisticas";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <h1 style="color:#151C5A"><strong>Estadísticas de Actividades</strong></h1>
+    <div>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="well bs-component">
+                <h3>Filtrar cantidad de participantes: </h3>
+                <div class="container">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            @Html.Label("Día de la semana")
+                            @Html.DropDownList("opcionDia", (IEnumerable<SelectListItem>)ViewBag.listaDias, "Todos")
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            @Html.Label("Público Meta")
+                            @Html.DropDownList("opcionPublico", (IEnumerable<SelectListItem>)ViewBag.listaPublico, "Todos")
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            @Html.Label("Nivel de Complejidad")
+                            @Html.DropDownList("opcionComplejidad", (IEnumerable<SelectListItem>)ViewBag.listaComplejidad, "Todos")
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-default"> Buscar</button>
+
+                        </div>
+                    </div>
+                </div>
+                @if (ViewBag.cantidadTotal != null)
+                {
+                    <hr />
+                    <h4>Cantidad total de participantes: @ViewBag.cantidadTotal</h4>
+                    <hr />
+                }
+            </div>
+
+        }
+
+</body>
+

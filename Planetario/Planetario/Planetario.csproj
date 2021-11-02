@@ -121,6 +121,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="ClasesYTopicosModel.cs" />
     <Compile Include="Controllers\ActividadesController.cs" />
+    <Compile Include="Controllers\EstadisticasController.cs" />
     <Compile Include="Controllers\FuncionariosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TopicosController.cs" />
@@ -135,6 +136,7 @@
     </Compile>
     <Compile Include="Handlers\ActividadHandler.cs" />
     <Compile Include="Handlers\BaseDatosHandler.cs" />
+    <Compile Include="Handlers\EstadisticasHandler.cs" />
     <Compile Include="Handlers\FileHandler.cs" />
     <Compile Include="Handlers\ParticipanteHandler.cs" />
     <Compile Include="Handlers\PreguntasFrecuentesHandler.cs" />
@@ -348,6 +350,7 @@
     <Content Include="Views\Funcionarios\VerFuncionario.cshtml" />
     <Content Include="Views\Home\PanelDeAdministracion.cshtml" />
     <Content Include="Views\Funcionarios\iniciarSesion.cshtml" />
+    <Content Include="Views\Estadisticas\verInvolucramiento.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
