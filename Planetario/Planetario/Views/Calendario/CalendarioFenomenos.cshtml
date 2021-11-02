@@ -1,8 +1,8 @@
 ﻿
 @{
     ViewBag.Title = "RSSFeed";
-
 }
+@{string dataOrigin = Url.Content("~/Calendario/GetEventosPlanetario");}
 
 <!DOCTYPE html>
 <html>
@@ -33,11 +33,14 @@
     </span>
 
     <script>
-        var prueba = '@ViewBag.RSSFeed.title';
-        console.log(prueba);
-        document.addEventListener('DOMContentLoaded', function () {
 
+        document.addEventListener('DOMContentLoaded', function () {
             var calendarEl = document.getElementById('calendar');
+
+            var variable = [{
+                title: 'All Day Event',
+                start: '2020-09-01',
+            }];
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialDate: '2020-09-12',
@@ -45,13 +48,8 @@
                 selectable: true,
                 businessHours: true,
                 dayMaxEvents: true, // allow "more" link when too many events
-                events: [{
-                    title: 'All Day Event',
-                    start: '2020-09-01',
-                }],
+                eventSources: [{ url: "@dataOrigin", color: '#133b5c' }, { events: variable, color:'#fcdab7',textColor:'black'}],
             });
-
-        
 
             calendar.render();
         });

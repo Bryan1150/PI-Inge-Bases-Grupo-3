@@ -1,4 +1,5 @@
 ﻿using Planetario.Models;
+using Planetario.Handlers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,8 +23,25 @@ namespace Planetario.Controllers
                                    Description = ((string)x.Element("description")),
                                    PubDate = ((string)x.Element("pubDate"))
                                });
-            ViewBag.RSSFeed = RSSFeedData;         
+            ViewBag.RSSFeed = RSSFeedData;
             return View();
+        }
+
+        public JsonResult GetEventosPlanetario()
+        {
+            ActividadHandler accesoDatos = new ActividadHandler();
+            List<ActividadModel> actividades = accesoDatos.obtenerTodasLasActividadesAprobadas();
+            List<object> resultado = new List<object>();
+            foreach (ActividadModel actividad in actividades)
+            {
+                resultado.Add(new
+                {
+                    title = actividad.NombreActividad,
+                    start = "2020-09-01"
+                });
+            }
+            
+            return Json(resultado, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetEventsForCalendar()
