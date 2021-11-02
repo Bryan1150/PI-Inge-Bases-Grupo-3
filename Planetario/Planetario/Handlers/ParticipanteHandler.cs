@@ -46,8 +46,8 @@ namespace Planetario.Handlers
             string consulta = "INSERT INTO ParticipaEN VALUES (@nombreActividadFK, @correoParticipanteFK)";
             Dictionary<string, object> valoresParametros = new Dictionary<string, object>()
             {
-                { "@nombreActividadFK", correo },
-                { "@correoParticipanteFK", nombreActividad }
+                { "@nombreActividadFK", nombreActividad },
+                { "@correoParticipanteFK", correo }
             };
 
             bool exito = InsertarEnBaseDatos(consulta, valoresParametros);
