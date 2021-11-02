@@ -38,6 +38,16 @@
 
         <h4><b>Descripcion:</b></h4>
         @ViewBag.actividad.Descripcion
+
+        <div style="margin: 5%;">
+            @Html.ActionLink("Inscribirme", "Inscribirme",
+                new { titulo = ViewBag.actividad.NombreActividad },
+                new {
+                        @class = "btn btn-success",
+                    }
+            )
+        </div>
+
     </div>
 </body>
 </html>
