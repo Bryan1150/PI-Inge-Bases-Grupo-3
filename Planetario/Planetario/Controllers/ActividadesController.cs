@@ -14,6 +14,7 @@ namespace Planetario.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public ActionResult crearActividad(ActividadModel actividad)
         {
@@ -67,5 +68,41 @@ namespace Planetario.Controllers
             ViewBag.actividadesUnicas = accesoDatos.obtenerActividadBuscada(palabra);
             return View();
         }
+
+        public ActionResult Inscribirme(string titulo)
+        {
+            ViewBag.titulo = titulo;
+            return View();           
+        }
+
+        public ActionResult Inscribirme(ParticipanteModel participante)
+        {
+            ViewBag.exitoAlInscribir = false;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    ParticipanteHandler accesoDatos = new ParticipanteHandler();
+                    bool estaAlmacenado = accesoDatos.ParticipanteEstaAlmacenado(participante.Correo);
+                    if (!estaAlmacenado)
+                        estaAlmacenado = accesoDatos.AlmacenarParticipante(participante);
+                    if (estaAlmacenado)
+                        ViewBag.exitoAlInscribir = accesoDatos.AlmacenarParticipacion(participante.Correo, participante.NombreActividad);
+
+                    if (ViewBag.exitoAlInscribir)
+                    {
+                        ViewBag.Message = "Usted ha está inscrito en la actividad " + participante.NombreActividad;
+                        ModelState.Clear();
+                    }
+                }
+                return View();
+            }
+            catch
+            {
+                ViewBag.Message = "Algo salió mal.";
+                return View();
+            }
+        }
+
     }
 }
