@@ -35,24 +35,57 @@
         Calendario Fenomenos
     </span>
 
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" value="" id="checkbox1" checked onchange="cambiarEstadoEventosPlanetario()"/>
+        <label class="form-check-label" for="checkbox1">Actividades del Planetario</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" value="" id="checkbox2" checked onchange="cambiarEstadoEventosAstronomicos()"/>
+        <label class="form-check-label" for="checkbox2">Eventos Astronómicos</label>
+    </div>
+
     <script>
+        function cambiarEstadoEventosPlanetario() {
+            estadoActual = document.getElementById("checkbox1").checked;
+            if (estadoActual) {
+                calendar.addEventSource({id: 1, url: "@dataOrigin", color: '#133b5c' });
+            }
+            else {
+                calendar.getEventSourceById(1).remove();
+            }
+            calendar.refetchEvents();
+        }
+        function cambiarEstadoEventosAstronomicos() {
+            estadoActual = document.getElementById("checkbox2").checked;
+            if (estadoActual) {
+                calendar.addEventSource({id:2, url: "@RSSFeed", color: '#fcdab7', textColor: 'black' });
+            }
+            else {
+                calendar.getEventSourceById(2).remove();
+            }
+            calendar.refetchEvents();
+        }
+
+        var eventosPlanetario = {id: 1, url: "@dataOrigin", color: '#133b5c' };
+        var eventosAstronomicos = {id: 2, url: "@RSSFeed", color: '#fcdab7', textColor: 'black' };
+        var calendar;
 
         document.addEventListener('DOMContentLoaded', async function () {
             var calendarEl = document.getElementById('calendar');
-
-            var calendar = new FullCalendar.Calendar(calendarEl, {
+            calendar = new FullCalendar.Calendar(calendarEl, {
                 initialDate: '2021-11-12',
                 editable: false,
                 selectable: true,
                 businessHours: true,
                 eventDidMount: function (info) { info.el.title = info.event.title; },
                 dayMaxEvents: true,
-                eventSources: [{ url: "@dataOrigin", color: '#133b5c' }, { url: "@RSSFeed", color: '#fcdab7', textColor: 'black' }],
-                
+                eventSources: [eventosPlanetario, eventosAstronomicos],
+
             });
+            cambiarEstadoEventosPlanetario();
+            cambiarEstadoEventosAstronomicos();
             calendar.render();
         });
-
     </script>
 
     <div id='calendar'></div>
