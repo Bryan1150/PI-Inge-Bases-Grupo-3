@@ -37,17 +37,18 @@
 
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+
+        function sleep(milliseconds) {
+            var start = new Date().getTime();
+            for (var i = 0; i < 1e7; i++) {
+                if ((new Date().getTime() - start) > milliseconds) {
+                    break;
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async function () {
             var calendarEl = document.getElementById('calendar');
-
-            var variable = [];
-
-
-
-            variable.push({
-                title: 'All Day Event',
-                start: '2021-11-02',
-            })
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialDate: '2021-11-12',
@@ -55,25 +56,9 @@
                 selectable: true,
                 businessHours: true,
                 dayMaxEvents: true, // allow "more" link when too many events
-                eventSources: [{ url: "@dataOrigin", color: '#133b5c' }, { events: variable, color: '#fcdab7', textColor: 'black' }],
+                eventSources: [{ url: "@dataOrigin", color: '#133b5c' }, { url: "@RSSFeed", color: '#fcdab7', textColor: 'black' }],
             });
-
-            $.getJSON('@Url.Action("GetEventosRSSFeed")', function (eventos) {
-                console.log(eventos);
-
-                $.each(eventos, function (index, evento) {
-                    console.log(evento.title);
-                    console.log(evento.start);
-                    var date = new Date('2021-11-12' + 'T00:00:00');
-                    calendar.addEvent({
-
-                        title: evento.title,
-                        start: date,
-                        allDay: true
-                    });
-                });
-             });
-
+           
             calendar.render();
         });
 

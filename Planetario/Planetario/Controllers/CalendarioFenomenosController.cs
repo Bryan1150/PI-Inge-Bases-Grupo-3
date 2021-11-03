@@ -29,7 +29,7 @@ namespace Planetario.Controllers
                                    Title = ((string)x.Element("title")),
                                    Link = ((string)x.Element("link")),
                                    Description = ((string)x.Element("description")),
-                                   //PubDate = translateFecha(((string)x.Element("pubDate")))
+                                   PubDate = translateFecha(((string)x.Element("pubDate")))
                                });
             foreach (RSSFeedModel evento in RSSFeedData)
             {
@@ -37,6 +37,7 @@ namespace Planetario.Controllers
                 {
                     title = evento.Title,
                     start = evento.PubDate,
+                    link = evento.Link,
                     allDay = true,
                 });
             }
@@ -74,6 +75,7 @@ namespace Planetario.Controllers
                 {
                     title = evento.Title,
                     start = evento.PubDate,
+                    link = evento.Link,
                     allDay = true,
                 });
             }
@@ -87,7 +89,15 @@ namespace Planetario.Controllers
             DateTime fechaDateTime = DateTime.Parse(fecha);
             string year = fechaDateTime.Year.ToString();
             string month = fechaDateTime.Month.ToString();
+            if(fechaDateTime.Month < 10)
+            {
+                month = "0" + month;
+            }
             string day = fechaDateTime.Day.ToString();
+            if (fechaDateTime.Day < 10)
+            {
+               day = "0" + day;
+            }
             string hour = fechaDateTime.Hour.ToString();
             string minute = fechaDateTime.Minute.ToString();
             string second = fechaDateTime.Second.ToString();
