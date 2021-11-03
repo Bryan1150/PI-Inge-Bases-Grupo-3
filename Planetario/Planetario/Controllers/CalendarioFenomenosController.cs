@@ -20,28 +20,6 @@ namespace Planetario.Controllers
         public JsonResult GetEventosPlanetario()
         {
             List<object> resultado = new List<object>();
-
-            //RSS Feed
-            XDocument xml = XDocument.Load("https://in-the-sky.org//rss.php?feed=dfan&latitude=9.93333&longitude=-84.08333&timezone=America/Costa_Rica");
-            var RSSFeedData = (from x in xml.Descendants("item")
-                               select new RSSFeedModel
-                               {
-                                   Title = ((string)x.Element("title")),
-                                   Link = ((string)x.Element("link")),
-                                   Description = ((string)x.Element("description")),
-                                   PubDate = translateFecha(((string)x.Element("pubDate")))
-                               });
-            foreach (RSSFeedModel evento in RSSFeedData)
-            {
-                resultado.Add(new
-                {
-                    title = evento.Title,
-                    start = evento.PubDate,
-                    link = evento.Link,
-                    allDay = true,
-                });
-            }
-            //Actividades Planetario
             ActividadHandler accesoDatos = new ActividadHandler();
             List<ActividadModel> actividades = accesoDatos.obtenerTodasLasActividadesAprobadas();
             
@@ -59,12 +37,11 @@ namespace Planetario.Controllers
         public JsonResult GetEventosRSSFeed()
         {
             List<object> resultado = new List<object>();
-            //RSS Feed
             XDocument xml = XDocument.Load("https://in-the-sky.org//rss.php?feed=dfan&latitude=9.93333&longitude=-84.08333&timezone=America/Costa_Rica");
             var RSSFeedData = (from x in xml.Descendants("item")
                                select new RSSFeedModel
                                {
-                                   Title = ((string)x.Element("title")),
+                                   Title = splitTitulo(((string)x.Element("title"))),
                                    Link = ((string)x.Element("link")),
                                    Description = ((string)x.Element("description")),
                                    PubDate = translateFecha(((string)x.Element("pubDate")))
@@ -75,15 +52,15 @@ namespace Planetario.Controllers
                 {
                     title = evento.Title,
                     start = evento.PubDate,
-                    link = evento.Link,
+                    url = evento.Link,
                     allDay = true,
                 });
             }
             return Json(resultado, JsonRequestBehavior.AllowGet);
         }
-        //Sat, 06 Nov 2021 17:22:13 GMT
-        //2021-11-6T17:22:13
 
+        //Input: Sat, 06 Nov 2021 17:22:13 GMT
+        //Output: 2021-11-6T17:22:13
         public string translateFecha(string fecha)
         {
             DateTime fechaDateTime = DateTime.Parse(fecha);
@@ -103,8 +80,14 @@ namespace Planetario.Controllers
             string second = fechaDateTime.Second.ToString();
 
             string resultado = year + '-' + month + '-' + day; //+ 'T' + hour + ':' + minute + ':' + second
-            //fechaDateTime = DateTime.Now
             return resultado;
+        }
+
+        public string splitTitulo(string titulo)
+
+        {
+            string[] words = titulo.Split(':');
+            return words[1];
         }
     }
 }

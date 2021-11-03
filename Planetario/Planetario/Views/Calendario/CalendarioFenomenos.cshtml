@@ -35,24 +35,14 @@
         Calendario Fenomenos
     </span>
 
-
     <script>
-
-        function sleep(milliseconds) {
-            var start = new Date().getTime();
-            for (var i = 0; i < 1e7; i++) {
-                if ((new Date().getTime() - start) > milliseconds) {
-                    break;
-                }
-            }
-        }
 
         document.addEventListener('DOMContentLoaded', async function () {
             var calendarEl = document.getElementById('calendar');
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialDate: '2021-11-12',
-                editable: true,
+                editable: false,
                 selectable: true,
                 businessHours: true,
                 dayMaxEvents: true, // allow "more" link when too many events
