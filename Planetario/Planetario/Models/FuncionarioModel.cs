@@ -11,6 +11,7 @@ namespace Planetario.Models
     {
         [Display(Name = "Correo Electrónico")]
         [Required(ErrorMessage = "Es necesario que ingrese su correo electrónico")]
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string CorreoContacto { get; set; }
 
         [Display(Name = "Nombre")]
