@@ -15,9 +15,9 @@ namespace Planetario.Handlers
         {
             bool exito;
             string Consulta = "INSERT INTO Actividad (nombreActividadPK, descripcion, " +
-                "duracionMins, complejidad, precioAprox, categoriaActividad, diaSemana, propuestoPorFK, publicoDirigidoActividad) "
+                "duracionMins, complejidad, precioAprox, categoriaActividad, diaSemana, propuestoPorFK, publicoDirigidoActividad, tipo) "
                 + "VALUES ( @nombreActividadPK, @descripcion, @duracionMins, @complejidad, " +
-                "@precioAprox, @categoriaActividad, @diaSemana, @propuestoPorFK, @publicoDirigidoActividad) ";
+                "@precioAprox, @categoriaActividad, @diaSemana, @propuestoPorFK, @publicoDirigidoActividad, @tipo) ";
             
             Dictionary<string, object> valoresParametros = new Dictionary<string, object> {
                 {"@nombreActividadPK", actividad.NombreActividad },
@@ -28,7 +28,8 @@ namespace Planetario.Handlers
                 {"@categoria", actividad.Categoria },
                 {"@diaSemana", actividad.DiaSemana},
                 {"@propuestoPorFK", actividad.PropuestoPor },
-                {"@publicoDirigidoActividad", actividad.PublicoDirigido }
+                {"@publicoDirigidoActividad", actividad.PublicoDirigido },
+                {"@tipo", actividad.Tipo }
             };
             
             exito = InsertarEnBaseDatos(Consulta, valoresParametros);
@@ -77,7 +78,8 @@ namespace Planetario.Handlers
                         Categoria = Convert.ToString(columna["categoriaActividad"]),
                         DiaSemana = Convert.ToString(columna["diaSemana"]),
                         PropuestoPor = Convert.ToString(columna["propuestoPorFK"]),
-                        PublicoDirigido = Convert.ToString(columna["publicoDirigidoActividad"])
+                        PublicoDirigido = Convert.ToString(columna["publicoDirigidoActividad"]),
+                        Tipo = Convert.ToString(columna["tipo"])
                     });
             }
             return actividades;
@@ -113,7 +115,8 @@ namespace Planetario.Handlers
                     Categoria = Convert.ToString(tablaResultado.Rows[0]["categoriaActividad"]),
                     DiaSemana = Convert.ToString(tablaResultado.Rows[0]["diaSemana"]),
                     PropuestoPor = Convert.ToString(tablaResultado.Rows[0]["propuestoPorFK"]),
-                    PublicoDirigido = Convert.ToString(tablaResultado.Rows[0]["publicoDirigidoActividad"])
+                    PublicoDirigido = Convert.ToString(tablaResultado.Rows[0]["publicoDirigidoActividad"]),
+                    Tipo = Convert.ToString(tablaResultado.Rows[0]["tipo"])
                 };
             }
             return actividad;
@@ -122,7 +125,7 @@ namespace Planetario.Handlers
         public List<ActividadModel> obtenerActividadBuscada(string palabra)
         {
             List<ActividadModel> actividadesUnicas = new List<ActividadModel>();
-            string Consulta  = "SELECT * FROM Actividad WHERE nombreActividadPK LIKE '%" + palabra + "%' OR categoriaActividad LIKE '%" + palabra + "%';";
+            string Consulta  = "SELECT * FROM Actividad WHERE nombreActividadPK LIKE '%" + palabra + "%' OR categoriaActividad LIKE '%" + palabra + "%' OR tipo LIKE '%" + palabra + "%';";
             DataTable tablaResultado = LeerBaseDeDatos(Consulta);
 
             foreach (DataRow columna in tablaResultado.Rows)
@@ -138,7 +141,8 @@ namespace Planetario.Handlers
                         Categoria = Convert.ToString(columna["categoriaActividad"]),
                         DiaSemana = Convert.ToString(columna["diaSemana"]),
                         PropuestoPor = Convert.ToString(columna["propuestoPorFK"]),
-                        PublicoDirigido = Convert.ToString(columna["publicoDirigidoActividad"])
+                        PublicoDirigido = Convert.ToString(columna["publicoDirigidoActividad"]),
+                        Tipo = Convert.ToString(columna["tipo"])
                     });
             }
             return actividadesUnicas;
