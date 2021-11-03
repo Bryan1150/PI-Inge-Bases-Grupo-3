@@ -25,7 +25,7 @@ namespace Planetario.Controllers
                                    Title = ((string)x.Element("title")),
                                    Link = ((string)x.Element("link")),
                                    Description = ((string)x.Element("description")),
-                                   PubDate = ((string)x.Element("pubDate"))
+                                   //PubDate = ((string)x.Element("pubDate"))
                                });
             ViewBag.RSSFeed = RSSFeedData;
             ViewBag.URL = RSSURL;
