@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Actividades";
 }
 
@@ -20,22 +19,20 @@
         <button type="submit" class="btn btn-secondary"> <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Buscar</button>
     </form>
 
-    <table class="table table-hover well">
+    <table class="table table-hover table-responsive">
         <tr>
-            <th>ID</th>
             <th>Actividad</th>
-            <th>Tema</th>
-            <th>Tipo</th>
-            <th>Organizador</th>
+            <th>Categoria</th>
+            <th>Día que se imparte</th>
+            <th>Detalles</th>
         </tr>
         @foreach (Planetario.Models.ActividadModel actividad in ViewBag.actividades)
         {
             <tr>
-                <td>@actividad.id  </td>
-                <td>@Html.ActionLink(actividad.nombre, "verActividad", "Actividades", new { stringId = actividad.id.ToString() }, null)</td>
-                <td>@actividad.tema</td>
-                <td>@actividad.tipo</td>
-                <td>@actividad.correoFK</td>
+                <td>@actividad.NombreActividad</td>
+                <td>@actividad.Categoria</td>
+                <td>@actividad.DiaSemana</td>
+                <td>@Html.ActionLink("ver más", "verActividad", "Actividades", new { nombre = @actividad.NombreActividad.ToString() }, null)</td>
             </tr>
         }
     </table>
