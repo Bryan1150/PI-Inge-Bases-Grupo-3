@@ -45,16 +45,16 @@
                 editable: false,
                 selectable: true,
                 businessHours: true,
-                dayMaxEvents: true, // allow "more" link when too many events
+                eventDidMount: function (info) { info.el.title = info.event.title; },
+                dayMaxEvents: true,
                 eventSources: [{ url: "@dataOrigin", color: '#133b5c' }, { url: "@RSSFeed", color: '#fcdab7', textColor: 'black' }],
+                
             });
-           
             calendar.render();
         });
 
     </script>
 
     <div id='calendar'></div>
-
 </body>
 </html>

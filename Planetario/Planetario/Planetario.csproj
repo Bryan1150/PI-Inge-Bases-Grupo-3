@@ -124,7 +124,6 @@
     <Compile Include="Controllers\CalendarioFenomenosController.cs" />
     <Compile Include="Controllers\FuncionariosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\RSSFeedController.cs" />
     <Compile Include="Controllers\TopicosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -360,7 +359,6 @@
     <Content Include="Views\Home\PanelDeAdministracion.cshtml" />
     <Content Include="Views\Funcionarios\iniciarSesion.cshtml" />
     <Content Include="Views\Calendario\CalendarioFenomenos.cshtml" />
-    <Content Include="Views\RSSFeed\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

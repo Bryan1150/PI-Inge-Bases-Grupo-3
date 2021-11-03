@@ -44,7 +44,7 @@ namespace Planetario.Controllers
                                    Title = splitTitulo(((string)x.Element("title"))),
                                    Link = ((string)x.Element("link")),
                                    Description = ((string)x.Element("description")),
-                                   PubDate = translateFecha(((string)x.Element("pubDate")))
+                                   PubDate = TranslateFecha(((string)x.Element("pubDate")))
                                });
             foreach (RSSFeedModel evento in RSSFeedData)
             {
@@ -52,6 +52,7 @@ namespace Planetario.Controllers
                 {
                     title = evento.Title,
                     start = evento.PubDate,
+                    description = evento.Description,
                     url = evento.Link,
                     allDay = true,
                 });
@@ -60,31 +61,27 @@ namespace Planetario.Controllers
         }
 
         //Input: Sat, 06 Nov 2021 17:22:13 GMT
-        //Output: 2021-11-6T17:22:13
-        public string translateFecha(string fecha)
+        //Output: 2021-11-6
+        public string TranslateFecha(string fecha)
         {
             DateTime fechaDateTime = DateTime.Parse(fecha);
-            string year = fechaDateTime.Year.ToString();
-            string month = fechaDateTime.Month.ToString();
-            if(fechaDateTime.Month < 10)
-            {
-                month = "0" + month;
-            }
-            string day = fechaDateTime.Day.ToString();
-            if (fechaDateTime.Day < 10)
-            {
-               day = "0" + day;
-            }
-            string hour = fechaDateTime.Hour.ToString();
-            string minute = fechaDateTime.Minute.ToString();
-            string second = fechaDateTime.Second.ToString();
+            string year = AppendRestante(fechaDateTime.Year.ToString(), fechaDateTime.Year);
+            string month = AppendRestante(fechaDateTime.Month.ToString(), fechaDateTime.Month);
+            string day = AppendRestante(fechaDateTime.Day.ToString(), fechaDateTime.Day);
 
-            string resultado = year + '-' + month + '-' + day; //+ 'T' + hour + ':' + minute + ':' + second
+            string resultado = year + '-' + month + '-' + day;
             return resultado;
         }
 
-        public string splitTitulo(string titulo)
+        public string AppendRestante(string toAppend, int comprobacion)
+        {
+            if (comprobacion < 10){ 
+            toAppend = "0" + toAppend;
+            }
+            return toAppend;
+        }
 
+        public string splitTitulo(string titulo)
         {
             string[] words = titulo.Split(':');
             return words[1];
