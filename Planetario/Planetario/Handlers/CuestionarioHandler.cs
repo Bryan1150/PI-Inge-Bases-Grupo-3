@@ -1,0 +1,65 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Text;
+using Planetario.Models;
+using System.Data.SqlClient;
+using System.Web.Security;
+using System.Data.SqlTypes;
+
+namespace Planetario.Handlers
+{
+    public class CuestionarioHandler : BaseDatosHandler
+    {
+        public List<CuestionarioModel> obtenerCuestinariosSimple()
+        {
+            List<CuestionarioModel> cuestionarios = new List<CuestionarioModel>();
+            string consulta = "Select * FROM Cuestionario";
+            DataTable tablaResultado = LeerBaseDeDatos(consulta);
+            foreach (DataRow columna in tablaResultado.Rows)
+            {
+                cuestionarios.Add(
+                new CuestionarioModel
+                {
+                    NombreCuestionario= Convert.ToString(columna["nombreCuestionarioPK"]),
+                    EmbedHTML = Convert.ToString(columna["embedHTML"]),
+                    CorreoResponsable = Convert.ToString(columna["correoFuncionarioFK"]),
+                });
+            }
+            return cuestionarios;
+        }
+
+        public CuestionarioModel buscarCuestionario(string nombre)
+        {
+            CuestionarioModel cuestionario = null;
+            string consulta = "Select * FROM Custionario WHERE nomnre = '" + nombre + "';";
+            DataTable tablaResultado = LeerBaseDeDatos(consulta);
+            if (tablaResultado.Rows[0] != null)
+            {
+                cuestionario = new CuestionarioModel
+                {
+                    CorreoResponsable = Convert.ToString(tablaResultado.Rows[0]["correoFK"]),
+                    EmbedHTML = Convert.ToString(tablaResultado.Rows[0]["EmbedHTML"]),
+                    NombreCuestionario = Convert.ToString(tablaResultado.Rows[0]["nombreCuestionarioPK"]),
+                };
+            }
+            return cuestionario;
+        }
+
+        public bool agregarCuestionario(CuestionarioModel cuestionario)
+        {
+            bool exito;
+            string Consulta = "INSERT INTO Cuestionario (nombreCuestionarioPK, embedHTML, correoFuncionarioFK) "
+                                + "VALUES (@HTML ,@correoResponsable, @nombreCuestionario) ";
+
+            Dictionary<string, object> valoresParametros = new Dictionary<string, object> {
+                {"@nombreCuestionario", cuestionario.NombreCuestionario },
+                {"@HTML", cuestionario.EmbedHTML },
+                {"@correoResponsable", cuestionario.CorreoResponsable}
+            };
+            exito = InsertarEnBaseDatos(Consulta, valoresParametros);
+            return exito;
+        }
+    }
+}
+
