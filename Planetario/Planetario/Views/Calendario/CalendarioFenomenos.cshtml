@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "RSSFeed";
 }
-@{string dataOrigin = Url.Content("~/Calendario/GetEventosPlanetario");}
+@{string consultaEventos = Url.Content("~/Calendario/GetEventosPlanetario");}
 @{string RSSFeed = Url.Content("~/Calendario/GetEventosRSSFeed");}
 
 <!DOCTYPE html>
@@ -35,23 +35,28 @@
         Calendario Fenomenos
     </span>
 
-    <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" value="" id="checkbox1" checked onchange="cambiarEstadoEventosPlanetario()"/>
-        <label class="form-check-label" for="checkbox1">Actividades del Planetario</label>
-    </div>
-    <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" value="" id="checkbox2" checked onchange="cambiarEstadoEventosAstronomicos()"/>
-        <label class="form-check-label" for="checkbox2">Eventos Astronómicos</label>
+    <div class="text-center">
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" value="" id="checkbox1" checked onchange="cambiarEstadoEventosPlanetario()" />
+            <label class="form-check-label" for="checkbox1"><p>Actividades del Planetario</p></label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" value="" id="checkbox2" checked onchange="cambiarEstadoEventosAstronomicos()" />
+            <label class="form-check-label" for="checkbox2"><p>Eventos Astronómicos</p></label>
+        </div>
     </div>
 
     <script>
         function cambiarEstadoEventosPlanetario() {
             estadoActual = document.getElementById("checkbox1").checked;
             if (estadoActual) {
-                calendar.addEventSource({id: 1, url: "@dataOrigin", color: '#133b5c' });
+                calendar.addEventSource({ id: 1, url: "@consultaEventos", color: '#133b5c' });
             }
             else {
-                calendar.getEventSourceById(1).remove();
+                sourceEventos = calendar.getEventSourceById(1);
+                if (sourceEventos !== null) {
+                    sourceEventos.remove();
+                }
             }
             calendar.refetchEvents();
         }
@@ -61,15 +66,14 @@
                 calendar.addEventSource({id:2, url: "@RSSFeed", color: '#fcdab7', textColor: 'black' });
             }
             else {
-                calendar.getEventSourceById(2).remove();
+                sourceEventos = calendar.getEventSourceById(2);
+                if (sourceEventos !== null) {
+                    sourceEventos.remove();
+                }
             }
             calendar.refetchEvents();
         }
-
-        var eventosPlanetario = {id: 1, url: "@dataOrigin", color: '#133b5c' };
-        var eventosAstronomicos = {id: 2, url: "@RSSFeed", color: '#fcdab7', textColor: 'black' };
         var calendar;
-
         document.addEventListener('DOMContentLoaded', async function () {
             var calendarEl = document.getElementById('calendar');
             calendar = new FullCalendar.Calendar(calendarEl, {
@@ -79,7 +83,7 @@
                 businessHours: true,
                 eventDidMount: function (info) { info.el.title = info.event.title; },
                 dayMaxEvents: true,
-                eventSources: [eventosPlanetario, eventosAstronomicos],
+                eventSources:[],
 
             });
             cambiarEstadoEventosPlanetario();
