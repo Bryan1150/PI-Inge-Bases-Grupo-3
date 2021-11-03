@@ -1,39 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
+using System.Text;
 using Planetario.Models;
+using System.Data.SqlClient;
+using System.Web.Security;
+using System.Data.SqlTypes;
 
 namespace Planetario.Handlers
 {
-    public class ActividadHandler
+    public class ActividadHandler : BaseDatosHandler
     {
-        private readonly BaseDatosHandler BaseDatos;
-        private string Consulta;
-
-        public ActividadHandler()
-        {
-            BaseDatos = new BaseDatosHandler();
-        }
-
         public bool crearActividad(ActividadModel actividad)
         {
             bool exito;
-            Consulta = "INSERT INTO Actividad (nombre, tema, descripcion, tipo, publicoDirigido, duracion, correoFK) "
-                + "VALUES (@nombre, @tema, @descripcion, @tipo, @publicoDirigido, @duracion, @correoFK) ";
-            
+            string Consulta = "INSERT INTO Actividad (nombreActividadPK, descripcion, " +
+                "duracionMins, complejidad, precioAprox, categoriaActividad, diaSemana, propuestoPorFK, publicoDirigidoActividad) "
+                + "VALUES ( @nombreActividadPK, @descripcion, @duracionMins, @complejidad, " +
+                "@precioAprox, @categoriaActividad, @diaSemana, @propuestoPorFK, @publicoDirigidoActividad) ";
+
             Dictionary<string, object> valoresParametros = new Dictionary<string, object> {
-                {"@nombre", actividad.nombre },
-                {"@tema", actividad.tema },
-                {"@descripcion", actividad.descripcion },
-                {"@tipo", actividad.tipo },
-                {"@publicoDirigido", actividad.publicoDirigido },
-                {"@duracion", actividad.duracion },
-                {"@correoFK", actividad.correoFK }
+                {"@nombreActividadPK", actividad.NombreActividad },
+                {"@descripcion", actividad.Descripcion },
+                {"@duracionMins", actividad.Duracion },
+                {"@complejidad", actividad.Complejidad },
+                {"@precioAprox", actividad.PrecioAproximado },
+                {"@categoria", actividad.Categoria },
+                {"@diaSemana", actividad.DiaSemana},
+                {"@propuestoPorFK", actividad.PropuestoPor },
+                {"@publicoDirigidoActividad", actividad.PublicoDirigido }
             };
-            
-            exito = BaseDatos.InsertarEnBaseDatos(Consulta, valoresParametros);
+
+            exito = InsertarEnBaseDatos(Consulta, valoresParametros);
 
             return exito;
         }
@@ -41,73 +39,110 @@ namespace Planetario.Handlers
         public List<ActividadModel> obtenerTodasLasActividades()
         {
             List<ActividadModel> actividades = new List<ActividadModel>();
-            Consulta= "SELECT * FROM Actividad ";
-            DataTable tablaResultado = BaseDatos.LeerBaseDeDatos(Consulta);
-
-            foreach(DataRow columna in tablaResultado.Rows)
+            string Consulta = "SELECT * FROM Actividad";
+            DataTable tablaResultado = LeerBaseDeDatos(Consulta);
+            foreach (DataRow columna in tablaResultado.Rows)
             {
                 actividades.Add(
                     new ActividadModel
                     {
-                        id = Convert.ToInt32(columna["idActividadPK"]),
-                        nombre = Convert.ToString(columna["nombre"]),
-                        tema = Convert.ToString(columna["tema"]),
-                        descripcion = Convert.ToString(columna["descripcion"]),
-                        tipo = Convert.ToString(columna["tipo"]),
-                        publicoDirigido = Convert.ToString(columna["publicoDirigido"]),
-                        duracion = Convert.ToInt32(columna["duracion"]),
-                        correoFK = Convert.ToString(columna["correoFK"])
+                        NombreActividad = Convert.ToString(tablaResultado.Rows[0]["@nombreActividadPK"]),
+                        Descripcion = Convert.ToString(tablaResultado.Rows[0]["@descripcion"]),
+                        Duracion = Convert.ToInt32(tablaResultado.Rows[0]["@duracionMins"]),
+                        Complejidad = Convert.ToString(tablaResultado.Rows[0]["@complejidad"]),
+                        PrecioAproximado = Convert.ToDouble(tablaResultado.Rows[0]["@precioAprox"]),
+                        Categoria = Convert.ToString(tablaResultado.Rows[0]["@categoria"]),
+                        DiaSemana = Convert.ToString(tablaResultado.Rows[0]["@diaSemana"]),
+                        PropuestoPor = Convert.ToString(tablaResultado.Rows[0]["@propuestoPorFK"]),
+                        PublicoDirigido = Convert.ToString(tablaResultado.Rows[0]["@publicoDirigidoActividad"])
                     });
             }
             return actividades;
         }
 
-        public ActividadModel buscarActividad(string stringId)
+        public List<ActividadModel> obtenerTodasLasActividadesAprobadas()
         {
-            Consulta = "SELECT * FROM Actividad WHERE idActividadPK = " + stringId + ";";
-            DataTable tablaResultado = BaseDatos.LeerBaseDeDatos(Consulta);
-            ActividadModel resultado = null;
-            if (tablaResultado.Rows[0] != null)
+            List<ActividadModel> actividades = new List<ActividadModel>();
+            string Consulta = "SELECT * FROM Actividad WHERE aprobado = 1";
+            DataTable tablaResultado = LeerBaseDeDatos(Consulta);
+            foreach (DataRow columna in tablaResultado.Rows)
             {
-                resultado = new ActividadModel
+                actividades.Add(
+                    new ActividadModel
+                    {
+                        NombreActividad = Convert.ToString(columna["nombreActividadPK"]),
+                        Descripcion = Convert.ToString(columna["descripcion"]),
+                        Duracion = Convert.ToInt32(columna["duracionMins"]),
+                        Complejidad = Convert.ToString(columna["complejidad"]),
+                        PrecioAproximado = Convert.ToDouble(columna["precioAprox"]),
+                        Categoria = Convert.ToString(columna["categoriaActividad"]),
+                        DiaSemana = Convert.ToString(columna["diaSemana"]),
+                        PropuestoPor = Convert.ToString(columna["propuestoPorFK"]),
+                        PublicoDirigido = Convert.ToString(columna["publicoDirigidoActividad"])
+                    });
+            }
+            return actividades;
+        }
+
+        public IList<string> obtenerTopicosActividades(string nombre)
+        {
+            string consulta = "SELECT topicosActividad FROM ActividadTopicos WHERE nombreActividadFK = '" + nombre + "';";
+            DataTable tablaResultados = LeerBaseDeDatos(consulta);
+            List<string> topicos = new List<string>();
+
+            foreach (DataRow fila in tablaResultados.Rows)
+            {
+                topicos.Add(Convert.ToString(fila["topicosActividad"]));
+            }
+            return topicos;
+        }
+
+        public ActividadModel buscarActividad(string nombre)
+        {
+            ActividadModel actividad = null;
+            string Consulta = "Select * FROM Actividad WHERE nombreActividadPK = '" + nombre + "';";
+            DataTable tablaResultado = LeerBaseDeDatos(Consulta);
+            if (tablaResultado.Rows[0] != null) // se cae igual
+            {
+                actividad = new ActividadModel
                 {
-                    id = Convert.ToInt32(tablaResultado.Rows[0]["idActividadPK"]),
-                    nombre = Convert.ToString(tablaResultado.Rows[0]["nombre"]),
-                    tema = Convert.ToString(tablaResultado.Rows[0]["tema"]),
-                    descripcion = Convert.ToString(tablaResultado.Rows[0]["descripcion"]),
-                    tipo = Convert.ToString(tablaResultado.Rows[0]["tipo"]),
-                    publicoDirigido = Convert.ToString(tablaResultado.Rows[0]["publicoDirigido"]),
-                    duracion = Convert.ToInt32(tablaResultado.Rows[0]["duracion"]),
-                    correoFK = Convert.ToString(tablaResultado.Rows[0]["correoFK"])
+                    NombreActividad = Convert.ToString(tablaResultado.Rows[0]["nombreActividadPK"]),
+                    Descripcion = Convert.ToString(tablaResultado.Rows[0]["descripcion"]),
+                    Duracion = Convert.ToInt32(tablaResultado.Rows[0]["duracionMins"]),
+                    Complejidad = Convert.ToString(tablaResultado.Rows[0]["complejidad"]),
+                    PrecioAproximado = Convert.ToDouble(tablaResultado.Rows[0]["precioAprox"]),
+                    Categoria = Convert.ToString(tablaResultado.Rows[0]["categoriaActividad"]),
+                    DiaSemana = Convert.ToString(tablaResultado.Rows[0]["diaSemana"]),
+                    PropuestoPor = Convert.ToString(tablaResultado.Rows[0]["propuestoPorFK"]),
+                    PublicoDirigido = Convert.ToString(tablaResultado.Rows[0]["publicoDirigidoActividad"])
                 };
             }
-            return resultado;
+            return actividad;
         }
 
         public List<ActividadModel> obtenerActividadBuscada(string palabra)
         {
             List<ActividadModel> actividadesUnicas = new List<ActividadModel>();
-            Consulta = "SELECT * FROM Actividad WHERE nombre LIKE '%" + palabra + "%'";
+            string Consulta = "SELECT * FROM Actividad WHERE nombreActividadPK LIKE '%" + palabra + "%' OR categoriaActividad LIKE '%" + palabra + "%';";
+            DataTable tablaResultado = LeerBaseDeDatos(Consulta);
 
-            DataTable TablaResultado = BaseDatos.LeerBaseDeDatos(Consulta);
-
-            foreach (DataRow columna in TablaResultado.Rows)
+            foreach (DataRow columna in tablaResultado.Rows)
             {
                 actividadesUnicas.Add(
                     new ActividadModel
                     {
-                        id = Convert.ToInt32(columna["idActividadPK"]),
-                        nombre = Convert.ToString(columna["nombre"]),
-                        tema = Convert.ToString(columna["tema"]),
-                        descripcion = Convert.ToString(columna["descripcion"]),
-                        tipo = Convert.ToString(columna["tipo"]),
-                        publicoDirigido = Convert.ToString(columna["publicoDirigido"]),
-                        duracion = Convert.ToInt32(columna["duracion"]),
-                        correoFK = Convert.ToString(columna["correoFK"])
+                        NombreActividad = Convert.ToString(columna["nombreActividadPK"]),
+                        Descripcion = Convert.ToString(columna["descripcion"]),
+                        Duracion = Convert.ToInt32(columna["duracionMins"]),
+                        Complejidad = Convert.ToString(columna["complejidad"]),
+                        PrecioAproximado = Convert.ToDouble(columna["precioAprox"]),
+                        Categoria = Convert.ToString(columna["categoriaActividad"]),
+                        DiaSemana = Convert.ToString(columna["diaSemana"]),
+                        PropuestoPor = Convert.ToString(columna["propuestoPorFK"]),
+                        PublicoDirigido = Convert.ToString(columna["publicoDirigidoActividad"])
                     });
             }
             return actividadesUnicas;
         }
-
     }
 }
