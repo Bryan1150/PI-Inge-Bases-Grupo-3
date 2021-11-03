@@ -40,51 +40,51 @@
         <h4>Ingrese los datos para crear una Actividad</h4>
         <hr />
         <div class="row">
-            <div class="col-6 col-md-6 col-sm-12">
+            <div class="col-md-6 col-sm-12">
                 @Html.LabelFor(model => model.NombreActividad, htmlAttributes: new { @class = "control-label " })
-                <div class="col-md-10">
+                <div >
                     @Html.TextBoxFor(model => model.NombreActividad, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.NombreActividad, "", new { @class = "text-danger" })
                 </div>
                 @Html.LabelFor(model => model.Categoria, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                <div >
                     @Html.DropDownListFor(model => model.Categoria, Categorias, "--Categoría--", new { @id = "categoriaPregunta", @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Categoria, "", new { @class = "text-danger" })
                 </div>
                 @Html.LabelFor(model => model.Duracion, htmlAttributes: new { @class = "control-label " })
-                <div class="col-md-10">
+                <div >
                     @Html.TextBoxFor(model => model.Duracion, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Duracion, "", new { @class = "text-danger" })
                 </div>
                 @Html.LabelFor(model => model.Complejidad, htmlAttributes: new { @class = "control-label " })
-                <div class="col-md-10">
+                <div >
                     @Html.TextBoxFor(model => model.Complejidad, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Complejidad, "", new { @class = "text-danger" })
                 </div>
                 @Html.LabelFor(model => model.PublicoDirigido, htmlAttributes: new { @class = "control-label " })
-                <div class="col-md-10">
+                <div >
                     @Html.TextBoxFor(model => model.PublicoDirigido, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.PublicoDirigido, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="col-6 col-md-6 col-sm-12">
+            <div class="col-md-6 col-sm-12">
                 @Html.LabelFor(model => model.PrecioAproximado, htmlAttributes: new { @class = "control-label " })
-                <div class="col-md-10">
+                <div >
                     @Html.TextBoxFor(model => model.PrecioAproximado, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.PrecioAproximado, "", new { @class = "text-danger" })
                 </div>
                 @Html.LabelFor(model => model.DiaSemana, htmlAttributes: new { @class = "control-label " })
-                <div class="col-md-10">
+                <div >
                     @Html.TextBoxFor(model => model.DiaSemana, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.DiaSemana, "", new { @class = "text-danger" })
                 </div>
                 @Html.LabelFor(model => model.PropuestoPor, htmlAttributes: new { @class = "control-label " })
-                <div class="col-md-10">
+                <div >
                     @Html.TextBoxFor(model => model.PropuestoPor, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.PropuestoPor, "", new { @class = "text-danger" })
                 </div>
                 @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label " })
-                <div class="col-md-10">
+                <div >
                     @Html.TextAreaFor(model => model.Descripcion, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
                 </div>
