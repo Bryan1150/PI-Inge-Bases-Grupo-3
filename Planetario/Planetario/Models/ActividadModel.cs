@@ -4,6 +4,7 @@ using System.Linq;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Planetario.Models
 {
@@ -53,5 +54,12 @@ namespace Planetario.Models
         [Display(Name = "Publico dirigido")]
         public string PublicoDirigido { get; set; }
 
+        [Required(ErrorMessage = "Es necesario que seleccione un tipo.")]
+        [Display(Name = "Tipo")]
+        public string Tipo { get; set; }
+
+        [Required(ErrorMessage = "Es necesario que seleccione almenos un topico.")]
+        [Display(Name = "Topicos")]
+        public MultiSelectList Topicos { get; set; }
     }
 }

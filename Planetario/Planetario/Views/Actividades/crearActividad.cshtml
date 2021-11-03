@@ -2,10 +2,15 @@
 @{
     ViewBag.Title = "Crear Actividad";
     List<SelectListItem> Categorias = new List<SelectListItem>() {
-        new SelectListItem { Text = "Cuerpos del Sistema Solar", Value = null },
+        new SelectListItem { Text = "Cuerpos del Sistema Solar", Value = "Cuerpos del Sistema Solar" },
         new SelectListItem { Text = "Objetos de Cielo Profundo", Value = "Objetos de Cielo Profundo"  },
         new SelectListItem { Text = "Astronomia", Value = "Astronomia" },
         new SelectListItem { Text = "General", Value = "General" },
+    };
+    List<SelectListItem> Tipos = new List<SelectListItem>() {
+        new SelectListItem { Text = "Charla", Value = "Charla" },
+        new SelectListItem { Text = "Taller", Value = "Taller"  },
+        new SelectListItem { Text = "Actividad recreativa", Value = "Actividad recreativa" },
     };
 }
 
@@ -42,49 +47,54 @@
         <div class="row">
             <div class="col-md-6 col-sm-12">
                 @Html.LabelFor(model => model.NombreActividad, htmlAttributes: new { @class = "control-label " })
-                <div >
+                <div>
                     @Html.TextBoxFor(model => model.NombreActividad, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.NombreActividad, "", new { @class = "text-danger" })
                 </div>
-                @Html.LabelFor(model => model.Categoria, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div >
-                    @Html.DropDownListFor(model => model.Categoria, Categorias, "--Categoría--", new { @id = "categoriaPregunta", @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Categoria, "", new { @class = "text-danger" })
+                @Html.LabelFor(model => model.PropuestoPor, htmlAttributes: new { @class = "control-label " })
+                <div>
+                    @Html.TextBoxFor(model => model.PropuestoPor, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PropuestoPor, "", new { @class = "text-danger" })
                 </div>
                 @Html.LabelFor(model => model.Duracion, htmlAttributes: new { @class = "control-label " })
-                <div >
+                <div>
                     @Html.TextBoxFor(model => model.Duracion, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Duracion, "", new { @class = "text-danger" })
                 </div>
                 @Html.LabelFor(model => model.Complejidad, htmlAttributes: new { @class = "control-label " })
-                <div >
+                <div>
                     @Html.TextBoxFor(model => model.Complejidad, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Complejidad, "", new { @class = "text-danger" })
                 </div>
                 @Html.LabelFor(model => model.PublicoDirigido, htmlAttributes: new { @class = "control-label " })
-                <div >
+                <div>
                     @Html.TextBoxFor(model => model.PublicoDirigido, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.PublicoDirigido, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="col-md-6 col-sm-12">
+                @Html.LabelFor(model => model.Tipo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div>
+                    @Html.DropDownListFor(model => model.Tipo, Tipos, "--Tipo--", new { @id = "categoriaPregunta", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Tipo, "", new { @class = "text-danger" })
+                </div>
+                @Html.LabelFor(model => model.Categoria, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div>
+                    @Html.DropDownListFor(model => model.Categoria, Categorias, "--Categoría--", new { @id = "categoriaPregunta", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Categoria, "", new { @class = "text-danger" })
+                </div>
                 @Html.LabelFor(model => model.PrecioAproximado, htmlAttributes: new { @class = "control-label " })
-                <div >
+                <div>
                     @Html.TextBoxFor(model => model.PrecioAproximado, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.PrecioAproximado, "", new { @class = "text-danger" })
                 </div>
                 @Html.LabelFor(model => model.DiaSemana, htmlAttributes: new { @class = "control-label " })
-                <div >
+                <div>
                     @Html.TextBoxFor(model => model.DiaSemana, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.DiaSemana, "", new { @class = "text-danger" })
                 </div>
-                @Html.LabelFor(model => model.PropuestoPor, htmlAttributes: new { @class = "control-label " })
-                <div >
-                    @Html.TextBoxFor(model => model.PropuestoPor, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.PropuestoPor, "", new { @class = "text-danger" })
-                </div>
                 @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label " })
-                <div >
+                <div>
                     @Html.TextAreaFor(model => model.Descripcion, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
                 </div>
