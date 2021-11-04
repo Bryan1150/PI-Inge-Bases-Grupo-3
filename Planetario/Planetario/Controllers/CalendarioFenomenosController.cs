@@ -11,12 +11,11 @@ namespace Planetario.Controllers
 {
     public class CalendarioController : Controller
     {
-        // GET: Calendario
         public ActionResult CalendarioFenomenos()
         {         
             return View();
         }
-        
+
         public JsonResult GetEventosPlanetario()
         {
             List<object> resultado = new List<object>();
@@ -25,12 +24,12 @@ namespace Planetario.Controllers
             
             foreach (ActividadModel actividad in actividades)
             {
-                resultado.Add(new
-                {
+                resultado.Add( new {
                     title = actividad.NombreActividad,
-                    start = "2021-11-01"
+                    start = "2021-11-01",
+                    url = Url.Action("verActividad", "Actividades", new { nombre = actividad.NombreActividad })
                 });
-            }           
+            }
             return Json(resultado, JsonRequestBehavior.AllowGet);
         }
 
