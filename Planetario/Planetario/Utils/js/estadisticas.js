@@ -71,3 +71,33 @@ function graficoLinea(datos, labels, graphInfo) {
     chart.render();
 
 }
+
+var seleccion = document.getElementById('opcion')
+
+document.addEventListener('DOMContentLoaded', function () {
+    graficoBarra(participacionesPorDia, dias, { element: "chartFecha", title: "Participación según día", axisX: "Días" })
+    graficoBarra(participacionesPorPublico, publicos, { element: "chartPublico", title: "Participación según público", axisX: "Público Dirigido" })
+    graficoBarra(participacionesPorComplejidad, complejidades, { element: "chartComplejidad", title: "Participación según complejidad", axisX: "Nivél de Complejidad" })
+})
+
+seleccion.addEventListener('change', function (event) {
+
+    var opcion = event.target.value
+
+    if (opcion == "linea") {
+        graficoLinea(participacionesPorDia, dias, { element: "chartFecha", title: "Participación según día", axisX: "Días" })
+        graficoLinea(participacionesPorPublico, publicos, { element: "chartPublico", title: "Participación según público", axisX: "Público Dirigido" })
+        graficoLinea(participacionesPorComplejidad, complejidades, { element: "chartComplejidad", title: "Participación según complejidad", axisX: "Nivél de Complejidad" })
+
+    } else if (opcion == "circulo") {
+
+        graficoCirculo(participacionesPorDia, dias, { element: "chartFecha", title: "Participación según día", axisX: "Días" })
+        graficoCirculo(participacionesPorPublico, publicos, { element: "chartPublico", title: "Participación según público", axisX: "Público Dirigido" })
+        graficoCirculo(participacionesPorComplejidad, complejidades, { element: "chartComplejidad", title: "Participación según complejidad", axisX: "Nivél de Complejidad" })
+
+    } else if (opcion == "barra") {
+        graficoBarra(participacionesPorDia, dias, { element: "chartFecha", title: "Participación según día", axisX: "Días" })
+        graficoBarra(participacionesPorPublico, publicos, { element: "chartPublico", title: "Participación según público", axisX: "Público Dirigido" })
+        graficoBarra(participacionesPorComplejidad, complejidades, { element: "chartComplejidad", title: "Participación según complejidad", axisX: "Nivél de Complejidad" })
+    }
+})

@@ -17,7 +17,7 @@
 
         <h5>
             Forma del gráfico:
-            <select id="opcion" onchange="cargarGrafico()" ;>
+            <select id="opcion">
                 <option value="barra">Barra</option>
                 <option value="circulo">Circulo</option>
                 <option value="linea">Linea</option>
@@ -95,44 +95,14 @@
 
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
     <script src="~/Utils/js/estadisticas.js"></script>
-
     <script>
-        var participacionesPorDia = @Html.Raw(Json.Encode(@ViewBag.participacionesPorDia));
+        let participacionesPorDia = @Html.Raw(Json.Encode(@ViewBag.participacionesPorDia));
         var participacionesPorPublico = @Html.Raw(Json.Encode(@ViewBag.participacionesPorPublico));
         var participacionesPorComplejidad = @Html.Raw(Json.Encode(@ViewBag.participacionesPorComplejidad));
 
         var dias = @Html.Raw(Json.Encode(@ViewBag.listaDias));
         var publicos = @Html.Raw(Json.Encode(@ViewBag.listaPublico));
         var complejidades = @Html.Raw(Json.Encode(@ViewBag.listaComplejidad));
-
-        window.onload = graficoBarra(participacionesPorDia, dias, { element: "chartFecha", title: "Participación según día", axisX: "Días" })
-        window.onload = graficoBarra(participacionesPorPublico, publicos, { element: "chartPublico", title: "Participación según público", axisX: "Público Dirigido" })
-        window.onload = graficoBarra(participacionesPorComplejidad, complejidades, { element: "chartComplejidad", title: "Participación según complejidad", axisX: "Nivél de Complejidad" })
-
-
-        function cargarGrafico() {
-            var opcion = document.getElementById("opcion").value;
-
-            if (opcion == "linea")
-            {
-                window.onload = graficoLinea(participacionesPorDia, dias, { element: "chartFecha", title: "Participación según día", axisX: "Días" })
-                window.onload = graficoLinea(participacionesPorPublico, publicos, { element: "chartPublico", title: "Participación según público", axisX: "Público Dirigido" })
-                window.onload = graficoLinea(participacionesPorComplejidad, complejidades, { element: "chartComplejidad", title: "Participación según complejidad", axisX: "Nivél de Complejidad" })
-
-            } else if (opcion == "circulo")
-            {
-
-                window.onload = graficoCirculo(participacionesPorDia, dias, { element: "chartFecha", title: "Participación según día", axisX: "Días" })
-                window.onload = graficoCirculo(participacionesPorPublico, publicos, { element: "chartPublico", title: "Participación según público", axisX: "Público Dirigido" })
-                window.onload = graficoCirculo(participacionesPorComplejidad, complejidades, { element: "chartComplejidad", title: "Participación según complejidad", axisX: "Nivél de Complejidad" })
-
-            } else if (opcion == "barra")
-            {
-                window.onload = graficoBarra(participacionesPorDia, dias, { element: "chartFecha", title: "Participación según día", axisX: "Días" })
-                window.onload = graficoBarra(participacionesPorPublico, publicos, { element: "chartPublico", title: "Participación según público", axisX: "Público Dirigido" })
-                window.onload = graficoBarra(participacionesPorComplejidad, complejidades, { element: "chartComplejidad", title: "Participación según complejidad", axisX: "Nivél de Complejidad" })
-            }
-        }
     </script>
 
 </body>
