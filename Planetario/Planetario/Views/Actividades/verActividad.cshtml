@@ -7,12 +7,15 @@
     <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
 </head>
 <body>
-    <h1>@ViewBag.actividad.NombreActividad</h1>
-    <div class="card">
-        <small>
-            <i>Autor: @ViewBag.actividad.PropuestoPor</i><br />
-        </small>
-        <hr />
+    <div class="row">
+        <span class="titulo">@ViewBag.actividad.NombreActividad</span>
+        <p>Autor: @ViewBag.actividad.PropuestoPor</p>
+    </div>
+    <div class="row text-center card">
+        <p class="card-title">Descripcion:</p>
+        <p class="card-text">@ViewBag.actividad.Descripcion</p>
+    </div>
+    <div class="row-cols-md-6 row-cols-sm-1">
 
         <h5><b>Categoria:</b> @ViewBag.actividad.Categoria</h5>
 
@@ -38,8 +41,7 @@
             <p>-@topico</p>
         }
 
-        <h4><b>Descripcion:</b></h4>
-        @ViewBag.actividad.Descripcion
+        
 
         <div style="margin: 5%;">
             @Html.ActionLink("Inscribirme", "Inscribirme",
