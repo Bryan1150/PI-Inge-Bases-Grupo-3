@@ -6,21 +6,58 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
 </head>
 <body>
-    <h1 style="color:#151C5A"><strong>Estadísticas de Actividades</strong></h1>
+    <span class="titulo">
+        Estadísticas de Actividades
+    </span>
+
+    <div class="form-group">
+        <h4><strong>Estadisticas Generales:</strong></h4>
+
+        <h5>
+            Forma del gráfico:
+            <select id="opcion" onchange="cargarGrafico()" ;>
+                <option value="barra">Barra</option>
+                <option value="circulo">Circulo</option>
+                <option value="linea">Linea</option>
+            </select>
+        </h5>
+    </div>
+    <hr />
+
+    <div class="row">
+        <div class="col">
+            <div id="chartFecha" style="height: 300px; width: 100%;"></div>
+        </div>
+
+        <div class="col">
+            <div id="chartPublico" style="height: 300px; width: 100%;"></div>
+        </div>
+
+        <div class="col">
+            <div id="chartComplejidad" style="height: 300px; width: 100%;"></div>
+        </div>
+    </div>
+
+    <div style="margin-top:70px"></div>
+
     <div>
+
         @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
 
             <div class="well bs-component">
-                <h3>Filtrar cantidad de participantes: </h3>
-                <div class="container">
+                <h4>
+                    Filtrar Participantes:  @if (ViewBag.cantidadTotal != null)
+                    {<strong>@ViewBag.cantidadTotal participante(s)</strong>}
+                </h4>
+                <hr />
+                <div class="row">
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                    <div class="col-md-10">
+                    <div class="col">
                         <div class="form-group">
                             @Html.Label("Día de la semana")
                             @Html.DropDownList("opcionDia", (IEnumerable<SelectListItem>)ViewBag.listaDias, "Todos")
@@ -28,7 +65,7 @@
 
                     </div>
 
-                    <div class="col-md-10">
+                    <div class="col">
                         <div class="form-group">
                             @Html.Label("Público Meta")
                             @Html.DropDownList("opcionPublico", (IEnumerable<SelectListItem>)ViewBag.listaPublico, "Todos")
@@ -36,28 +73,68 @@
 
                     </div>
 
-                    <div class="col-md-10">
+                    <div class="col">
                         <div class="form-group">
                             @Html.Label("Nivel de Complejidad")
                             @Html.DropDownList("opcionComplejidad", (IEnumerable<SelectListItem>)ViewBag.listaComplejidad, "Todos")
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col">
                         <div class="form-group">
-                            <button type="submit" class="btn btn-default"> Buscar</button>
+                            <button type="submit" class="btn btn-primary"> Buscar</button>
 
                         </div>
                     </div>
                 </div>
-                @if (ViewBag.cantidadTotal != null)
-                {
-                    <hr />
-                    <h4>Cantidad total de participantes: @ViewBag.cantidadTotal</h4>
-                    <hr />
-                }
             </div>
-
         }
 
+    </div>
+
+    <div style="margin-top:100px"></div>
+
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script src="~/Utils/js/estadisticas.js"></script>
+
+    <script>
+        var participacionesPorDia = @Html.Raw(Json.Encode(@ViewBag.participacionesPorDia));
+        var participacionesPorPublico = @Html.Raw(Json.Encode(@ViewBag.participacionesPorPublico));
+        var participacionesPorComplejidad = @Html.Raw(Json.Encode(@ViewBag.participacionesPorComplejidad));
+
+        var dias = @Html.Raw(Json.Encode(@ViewBag.listaDias));
+        var publicos = @Html.Raw(Json.Encode(@ViewBag.listaPublico));
+        var complejidades = @Html.Raw(Json.Encode(@ViewBag.listaComplejidad));
+
+        window.onload = graficoBarra(participacionesPorDia, dias, { element: "chartFecha", title: "Participación según día", axisX: "Días" })
+        window.onload = graficoBarra(participacionesPorPublico, publicos, { element: "chartPublico", title: "Participación según público", axisX: "Público Dirigido" })
+        window.onload = graficoBarra(participacionesPorComplejidad, complejidades, { element: "chartComplejidad", title: "Participación según complejidad", axisX: "Nivél de Complejidad" })
+
+
+        function cargarGrafico() {
+            var opcion = document.getElementById("opcion").value;
+
+            if (opcion == "linea")
+            {
+                window.onload = graficoLinea(participacionesPorDia, dias, { element: "chartFecha", title: "Participación según día", axisX: "Días" })
+                window.onload = graficoLinea(participacionesPorPublico, publicos, { element: "chartPublico", title: "Participación según público", axisX: "Público Dirigido" })
+                window.onload = graficoLinea(participacionesPorComplejidad, complejidades, { element: "chartComplejidad", title: "Participación según complejidad", axisX: "Nivél de Complejidad" })
+
+            } else if (opcion == "circulo")
+            {
+
+                window.onload = graficoCirculo(participacionesPorDia, dias, { element: "chartFecha", title: "Participación según día", axisX: "Días" })
+                window.onload = graficoCirculo(participacionesPorPublico, publicos, { element: "chartPublico", title: "Participación según público", axisX: "Público Dirigido" })
+                window.onload = graficoCirculo(participacionesPorComplejidad, complejidades, { element: "chartComplejidad", title: "Participación según complejidad", axisX: "Nivél de Complejidad" })
+
+            } else if (opcion == "barra")
+            {
+                window.onload = graficoBarra(participacionesPorDia, dias, { element: "chartFecha", title: "Participación según día", axisX: "Días" })
+                window.onload = graficoBarra(participacionesPorPublico, publicos, { element: "chartPublico", title: "Participación según público", axisX: "Público Dirigido" })
+                window.onload = graficoBarra(participacionesPorComplejidad, complejidades, { element: "chartComplejidad", title: "Participación según complejidad", axisX: "Nivél de Complejidad" })
+            }
+        }
+    </script>
+
 </body>
+</html>
 

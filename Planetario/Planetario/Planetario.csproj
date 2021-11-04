@@ -224,6 +224,7 @@
     <Content Include="Utils\fonts\montserrat\OFL.txt" />
     <Content Include="Utils\images\icons\favicon.ico" />
     <Content Include="Utils\images\img-01.png" />
+    <Content Include="Utils\js\estadisticas.js" />
     <Content Include="Utils\js\main.js" />
     <Content Include="Utils\vendor\animate\animate.css" />
     <Content Include="Utils\vendor\bootstrap\css\bootstrap-grid.css" />
