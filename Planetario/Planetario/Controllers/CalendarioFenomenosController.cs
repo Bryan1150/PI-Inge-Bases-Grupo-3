@@ -11,7 +11,6 @@ namespace Planetario.Controllers
 {
     public class CalendarioController : Controller
     {
-        // GET: Calendario
         public ActionResult CalendarioFenomenos()
         {         
             return View();
