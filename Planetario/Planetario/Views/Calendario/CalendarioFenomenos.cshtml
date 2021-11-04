@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewBag.Title = "RSSFeed";
+}
+@{string dataOrigin = Url.Content("~/Calendario/GetEventosPlanetario");}
+@{string RSSFeed = Url.Content("~/Calendario/GetEventosRSSFeed");}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calendario Fenomenos</title>
+    <meta charset="utf-8" />
+    <script src="~/Scripts/moment.js"></script>
+    <link href='../lib/main.css' rel='stylesheet' />
+    <script src='../lib/main.js'></script>
+
+    <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
+    <style>
+
+        body {
+            margin: 40px 10px;
+            padding: 0;
+            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+            font-size: 14px;
+        }
+
+        #calendar {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <span class="titulo">
+        Calendario Fenomenos
+    </span>
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', async function () {
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialDate: '2021-11-12',
+                editable: false,
+                selectable: true,
+                businessHours: true,
+                eventDidMount: function (info) { info.el.title = info.event.title; },
+                dayMaxEvents: true,
+                eventSources: [{ url: "@dataOrigin", color: '#133b5c' }, { url: "@RSSFeed", color: '#fcdab7', textColor: 'black' }],
+                
+            });
+            calendar.render();
+        });
+
+    </script>
+
+    <div id='calendar'></div>
+</body>
+</html>
