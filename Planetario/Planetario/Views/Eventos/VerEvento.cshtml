@@ -1,0 +1,36 @@
+﻿@model Planetario.Models.EventoModel
+
+
+<span class="titulo">@Html.DisplayFor(model => model.Titulo)</span>
+<hr />
+<div class="row">
+    <div class="col-md-6 col-sm-12">
+        <p>
+            <span>
+                    <i class="fa fa-check"></i>
+                    <strong>Fecha</strong>
+            </span>
+        </p>
+        <p>
+            @Html.DisplayFor(model => model.Fecha)
+        </p>
+    </div>
+
+    <div class="col-md-6 col-sm-12">
+        <p>
+            <span>
+                <i class="fa fa-check"></i>
+                <strong>Descripción</strong>
+            </span>
+        </p>
+        <p>
+            @Html.DisplayFor(model => model.Descripcion)
+        </p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 col-sm-12" >
+        @Html.ActionLink("Volver al calendario", "CalendarioFenomenos", "Calendario", new { area = "" }, new { @class = "btn btn-secondary" })
+    </div>
+</div>
+
