@@ -170,6 +170,7 @@
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="lib\locales-all.js" />
     <Content Include="lib\locales-all.min.js" />
+    <Content Include="lib\locales\es.js" />
     <Content Include="lib\main.css" />
     <Content Include="lib\main.js" />
     <Content Include="lib\main.min.css" />
@@ -361,7 +362,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="lib\locales\" />
     <Folder Include="Views\Topicos\" />
   </ItemGroup>
   <ItemGroup>
