@@ -9,7 +9,7 @@ namespace Planetario.Handlers
 {
     public class EventosHandler: BaseDatosHandler
     {
-        public bool InsertarActividad(EventoModel evento)
+        public bool InsertarEvento(EventoModel evento)
         {
             bool exito;
             string Consulta = "INSERT INTO Eventos ( titulo, fecha, descripcion ) "
@@ -26,7 +26,7 @@ namespace Planetario.Handlers
             return exito;
         }
 
-        public IList<EventoModel> ObtenerEventos(EventoModel evento)
+        public List<EventoModel> ObtenerTodosEventos()
         {
             List<EventoModel> eventos = new List<EventoModel>();
             string Consulta = "SELECT * FROM Eventos";
@@ -42,6 +42,23 @@ namespace Planetario.Handlers
                     });
             }
             return eventos;
+        }
+
+        public EventoModel ObtenerUnEvento(string titulo)
+        {
+            EventoModel evento = new EventoModel { Titulo = "pureba", Fecha = "2021-11-01", Descripcion = "p2kk" };
+            string Consulta = "SELECT * FROM Eventos WHERE titulo = " + titulo + ";";
+            DataTable tablaResultado = LeerBaseDeDatos(Consulta);
+            if (tablaResultado.Rows.Count >= 1)
+            {
+                evento = new EventoModel
+                {
+                    Titulo = Convert.ToString(tablaResultado.Rows[0]["@diaSemana"]),
+                    Fecha = Convert.ToString(tablaResultado.Rows[0]["@propuestoPorFK"]),
+                    Descripcion = Convert.ToString(tablaResultado.Rows[0]["@publicoDirigidoActividad"])
+                };
+            }
+            return evento;
         }
     }
 }
