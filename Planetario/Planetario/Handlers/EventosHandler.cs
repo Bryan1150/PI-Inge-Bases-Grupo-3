@@ -26,5 +26,22 @@ namespace Planetario.Handlers
             return exito;
         }
 
+        public IList<EventoModel> ObtenerEventos(EventoModel evento)
+        {
+            List<EventoModel> eventos = new List<EventoModel>();
+            string Consulta = "SELECT * FROM Eventos";
+            DataTable tablaResultado = LeerBaseDeDatos(Consulta);
+            foreach (DataRow columna in tablaResultado.Rows)
+            {
+                eventos.Add(
+                    new EventoModel
+                    {
+                        Titulo = Convert.ToString(columna["@diaSemana"]),
+                        Fecha = Convert.ToString(columna["@propuestoPorFK"]),
+                        Descripcion = Convert.ToString(columna["@publicoDirigidoActividad"])
+                    });
+            }
+            return eventos;
+        }
     }
 }
