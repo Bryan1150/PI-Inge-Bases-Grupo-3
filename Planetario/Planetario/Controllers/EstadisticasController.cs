@@ -74,10 +74,11 @@ namespace Planetario.Controllers
             listaDePublico = listaPublico();
             listaDeComplejidad = listaComplejidad();
 
-            ViewBag.cantidadTotal = cantidadTotalParticipantes;
             ViewBag.listaDias = listaDeDias;
             ViewBag.listaPublico = listaDePublico;
             ViewBag.listaComplejidad = listaDeComplejidad;
+
+            ViewBag.Mensaje = stringResultado(opcionDia, opcionPublico, opcionComplejidad, cantidadTotalParticipantes);
 
             // Gráficos
 
@@ -172,6 +173,77 @@ namespace Planetario.Controllers
             }
 
             return listaComplejidad;
+        }
+
+        public string stringResultado(string dia, string publico, string complejidad, int total)
+        {
+            string mensaje = "";
+
+            mensaje = concatenarDia(mensaje, dia);
+            mensaje = concatenarPublico(mensaje, publico);
+            mensaje = concatenarComplejidad(mensaje, complejidad);
+            mensaje = concatenarTotal(mensaje, total);
+
+            return mensaje;
+        }
+
+        public string concatenarDia(string resultado, string dia) {
+
+            if (dia == "")
+            {
+                resultado += "Todos los días, ";
+            }
+            else
+            {
+                resultado += "El día " + dia;
+            }
+
+            return resultado;
+        }
+
+        public string concatenarPublico(string resultado, string publico)
+        {
+
+            if (publico == "")
+            {
+                resultado += " con todos los públicos ";
+            }
+            else
+            {
+                resultado += " con el público " + publico;
+            }
+
+            return resultado;
+        }
+
+        public string concatenarComplejidad(string resultado, string complejidad)
+        {
+
+            if (complejidad == "")
+            {
+                resultado += " y todas las complejidades hay ";
+            }
+            else
+            {
+                resultado += " y la complejidad " + complejidad + " hay ";
+            }
+
+            return resultado;
+        }
+
+        public string concatenarTotal(string resultado, int total)
+        {
+
+            if (total != 1)
+            {
+                resultado += total + " paticipantes";
+            }
+            else
+            {
+                resultado += total + " participante";
+            }
+
+            return resultado;
         }
     }
 }

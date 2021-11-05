@@ -19,7 +19,6 @@
             Forma del gráfico:
             <select id="opcion">
                 <option value="barra">Barra</option>
-                <option value="circulo">Circulo</option>
                 <option value="linea">Linea</option>
             </select>
         </h5>
@@ -49,10 +48,8 @@
             @Html.AntiForgeryToken()
 
             <div class="well bs-component">
-                <h4>
-                    Filtrar Participantes:  @if (ViewBag.cantidadTotal != null)
-                    {<strong>@ViewBag.cantidadTotal participante(s)</strong>}
-                </h4>
+                <h4> Filtrar Participantes:  </h4>
+                <h5><strong>@ViewBag.Mensaje</strong></h5>
                 <hr />
                 <div class="row">
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -96,13 +93,16 @@
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
     <script src="~/Utils/js/estadisticas.js"></script>
     <script>
-        let participacionesPorDia = @Html.Raw(Json.Encode(@ViewBag.participacionesPorDia));
+        var participacionesPorDia = @Html.Raw(Json.Encode(@ViewBag.participacionesPorDia));
         var participacionesPorPublico = @Html.Raw(Json.Encode(@ViewBag.participacionesPorPublico));
         var participacionesPorComplejidad = @Html.Raw(Json.Encode(@ViewBag.participacionesPorComplejidad));
+
+        var resultado = @Html.Raw(Json.Encode(@ViewBag.Mensaje));
 
         var dias = @Html.Raw(Json.Encode(@ViewBag.listaDias));
         var publicos = @Html.Raw(Json.Encode(@ViewBag.listaPublico));
         var complejidades = @Html.Raw(Json.Encode(@ViewBag.listaComplejidad));
+
     </script>
 
 </body>
