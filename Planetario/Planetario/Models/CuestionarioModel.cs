@@ -20,5 +20,9 @@ namespace Planetario.Models
         [Required(ErrorMessage = "Es necesario indicar el correo de un colaborador")]
         [EmailAddress(ErrorMessage = "Invalid email")]
         public string CorreoResponsable { get; set; }
+
+        [Display(Name = "Dificultad")]
+        [Required(ErrorMessage = "Es necesario que ingrese la dificultad del cuestionario")]
+        public string Dificultad { get; set; }
     }
 }

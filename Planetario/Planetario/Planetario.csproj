@@ -352,6 +352,8 @@
     <Content Include="Views\Home\PanelDeAdministracion.cshtml" />
     <Content Include="Views\Funcionarios\iniciarSesion.cshtml" />
     <Content Include="Views\Cuestionario\ListaCuestionarios.cshtml" />
+    <Content Include="Views\Cuestionario\VerCuestionario.cshtml" />
+    <Content Include="Views\Cuestionario\agregarCuestionario.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
