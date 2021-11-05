@@ -1,0 +1,38 @@
+﻿@model Planetario.Models.EventoModel
+
+@using (Html.BeginForm("AgregarEvento", "Evento", FormMethod.Post, new { enctype = "multipart/form-data" } )) 
+{   
+    <span class="titulo">Crear Evento</span>
+    <hr />
+    <div class="row">
+        <div class="col-md-6 col-sm-12">
+            @Html.LabelFor(model => model.Titulo, htmlAttributes: new { @class = "control-label" })
+            <div>
+                @Html.TextBoxFor(model => model.Titulo, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Titulo, "", new { @class = "text-danger" })
+            </div>
+            @Html.LabelFor(model => model.Fecha, htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-6 col-sm-12">
+                @Html.TextBoxFor(model => model.Fecha, new { @type = "date", @class = "form-control datepicker" })
+                @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-12">
+            @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label" })
+            <div>
+                @Html.TextAreaFor(model => model.Descripcion, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 2%;">
+        <div class="col-md-12">
+            <input type="submit" value="Crear" class="btn btn-success" />
+            @Html.ActionLink("Cancelar", "CalendarioFenomenos", "Calendario", new { area = "" }, new { @class = "btn btn-danger" })
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
