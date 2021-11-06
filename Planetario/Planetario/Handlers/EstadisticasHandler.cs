@@ -99,7 +99,11 @@ namespace Planetario.Handlers
 
             foreach(var idioma in idiomas)
             {
-                consulta += "AND '" + idioma + "' IN (SELECT FI.idioma FROM FuncionarioIdioma FI WHERE FI.correoFuncionarioFK = correoPK) ";
+                if (idioma != "") 
+                {
+                    consulta += "AND '" + idioma + "' IN (SELECT FI.idioma FROM FuncionarioIdioma FI WHERE FI.correoFuncionarioFK = correoPK) ";
+                } 
+
             }
 
             DataTable tablaResultados = LeerBaseDeDatos(consulta);

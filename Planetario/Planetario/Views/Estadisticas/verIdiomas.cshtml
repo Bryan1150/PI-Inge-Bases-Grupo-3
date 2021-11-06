@@ -66,9 +66,10 @@
 
         <div>
 
-            @foreach(var funcionario in ViewBag.funcionariosBuscados)
+            @foreach (var funcionario in ViewBag.funcionariosBuscados)
             {
-                <h5>@funcionario.Nombre @funcionario.Apellido - @funcionario.Correo - @funcionario.Expertis - @funcionario.Idiomas</h5>
+                <h5>@funcionario.Nombre @funcionario.Apellido - @funcionario.Correo - @funcionario.Expertis - @funcionario.Idiomas -
+                @Html.ActionLink("Ver más", "verFuncionario", "Funcionarios", new { correo = @funcionario.Correo.ToString() }, null)</h5>
             }
 
         </div>
