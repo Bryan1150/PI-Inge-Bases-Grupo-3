@@ -26,6 +26,40 @@ namespace Planetario.Handlers
             return cantidadTotal;
         }
 
+        public List<string> obtenerListaIdiomas()
+        {
+            string consulta = "SELECT idioma as 'nombreIdioma' " +
+                              "FROM FuncionarioIdioma " +
+                              "GROUP BY idioma " +
+                              "ORDER BY idioma ";
+
+            DataTable tablaResultados = LeerBaseDeDatos(consulta);
+            List<string> idiomas = new List<string>();
+
+            foreach (DataRow fila in tablaResultados.Rows)
+            {
+                idiomas.Add(Convert.ToString(fila["nombreIdioma"]));
+            }
+
+            return idiomas;
+        }
+
+        public int obtenerNumIdiomas(string idioma)
+        {
+            string consulta = "SELECT COUNT(*) as 'numFuncionarios' " +
+                              "FROM FuncionarioIdioma " +
+                              "WHERE idioma = '" + idioma + "'";
+
+            int numIdiomas;
+
+            DataTable tablaResultados = LeerBaseDeDatos(consulta);
+            DataRow columna = tablaResultados.Rows[0];
+
+            numIdiomas = Convert.ToInt32(columna["numFuncionarios"]);
+
+            return numIdiomas;
+        }
+
         public string crearStringDeConsultaCantidad(string diaSemana, string publicoMeta, string nivelComplejidad)
         {
             string consulta = "SELECT COUNT(*) as 'Participantes' " +

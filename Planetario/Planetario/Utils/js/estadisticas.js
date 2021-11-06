@@ -17,7 +17,7 @@
                     label: labels[indice].Text,
                     y: dato
                 }
-            } )
+            })
         }]
     });
     chart.render();

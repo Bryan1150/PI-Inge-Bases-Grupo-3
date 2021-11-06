@@ -225,6 +225,7 @@
     <Content Include="Utils\images\icons\favicon.ico" />
     <Content Include="Utils\images\img-01.png" />
     <Content Include="Utils\js\estadisticas.js" />
+    <Content Include="Utils\js\estadisticasIdiomas.js" />
     <Content Include="Utils\js\main.js" />
     <Content Include="Utils\vendor\animate\animate.css" />
     <Content Include="Utils\vendor\bootstrap\css\bootstrap-grid.css" />
@@ -352,6 +353,7 @@
     <Content Include="Views\Home\PanelDeAdministracion.cshtml" />
     <Content Include="Views\Funcionarios\iniciarSesion.cshtml" />
     <Content Include="Views\Estadisticas\verInvolucramiento.cshtml" />
+    <Content Include="Views\Estadisticas\verIdiomas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

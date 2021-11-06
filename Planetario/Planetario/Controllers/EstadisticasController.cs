@@ -109,6 +109,25 @@ namespace Planetario.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult verIdiomas()
+        {
+            EstadisticasHandler accesoDatos = new EstadisticasHandler();
+
+            List<string> listaDeIdiomas = accesoDatos.obtenerListaIdiomas();
+            List<int> listaNumIdiomas = new List<int>();
+
+            foreach (var idioma in listaDeIdiomas)
+            {
+                listaNumIdiomas.Add(accesoDatos.obtenerNumIdiomas(idioma));
+            }
+
+            ViewBag.listaIdiomas = listaDeIdiomas;
+            ViewBag.listaNumIdiomas = listaNumIdiomas;
+
+            return View();
+        }
+
         public List<SelectListItem> listaDias()
         {
             var dias = new List<String>()

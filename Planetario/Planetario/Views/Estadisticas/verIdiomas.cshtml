@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewBag.Title = "Estadisticas";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <span class="titulo">
+        Estadísticas de Idiomas
+    </span>
+
+    <div class="form-group">
+        <h4><strong>Estadisticas Generales:</strong></h4>
+
+        <h5>
+            Forma del gráfico:
+            <select id="opcion">
+                <option value="barra">Barra</option>
+                <option value="linea">Linea</option>
+            </select>
+        </h5>
+    </div>
+    <hr />
+
+    <div class="row">
+        <div class="col">
+            <div id="chart" style="height: 700px; width: 100%;"></div>
+        </div>
+    </div>
+
+    <div style="margin-top:70px"></div>
+
+
+    <div style="margin-top:100px"></div>
+
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script src="~/Utils/js/estadisticasIdiomas.js"></script>
+    <script>
+        var listaIdiomas = @Html.Raw(Json.Encode(@ViewBag.listaIdiomas));
+        var listaNumIdiomas = @Html.Raw(Json.Encode(@ViewBag.listaNumIdiomas));
+    </script>
+
+</body>
+</html>
+
