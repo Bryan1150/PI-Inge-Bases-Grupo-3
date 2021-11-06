@@ -115,6 +115,11 @@ namespace Planetario.Controllers
             EstadisticasHandler accesoDatos = new EstadisticasHandler();
 
             List<string> listaDeIdiomas = accesoDatos.obtenerListaIdiomas();
+
+            List<SelectListItem> opcionIdiomas = new List<SelectListItem>();
+            opcionIdiomas = obtenerIdiomas();
+            ViewBag.opcionIdiomas = opcionIdiomas;
+
             List<int> listaNumIdiomas = new List<int>();
 
             foreach (var idioma in listaDeIdiomas)
@@ -125,7 +130,60 @@ namespace Planetario.Controllers
             ViewBag.listaIdiomas = listaDeIdiomas;
             ViewBag.listaNumIdiomas = listaNumIdiomas;
 
+            ViewBag.funcionariosBuscados = "";
+
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult verIdiomas(List<string> idiomas)
+        {
+            EstadisticasHandler accesoDatos = new EstadisticasHandler();
+
+            List<string> listaDeIdiomas = accesoDatos.obtenerListaIdiomas();
+
+            List<SelectListItem> opcionIdiomas = new List<SelectListItem>();
+            opcionIdiomas = obtenerIdiomas();
+            ViewBag.opcionIdiomas = opcionIdiomas;
+
+            List<int> listaNumIdiomas = new List<int>();
+
+            foreach (var idioma in listaDeIdiomas)
+            {
+                listaNumIdiomas.Add(accesoDatos.obtenerNumIdiomas(idioma));
+            }
+
+            ViewBag.listaIdiomas = listaDeIdiomas;
+            ViewBag.listaNumIdiomas = listaNumIdiomas;
+
+            List<EstadisticasModel> listaFuncionarios = new List<EstadisticasModel>();
+            listaFuncionarios = accesoDatos.obtenerFuncionarios(idiomas);
+
+            ViewBag.funcionariosBuscados = listaFuncionarios;
+
+            return View();
+        }
+
+        public List<SelectListItem> obtenerIdiomas()
+        {
+            EstadisticasHandler accesoDatos = new EstadisticasHandler();
+
+            var idiomas = accesoDatos.obtenerListaIdiomas();
+
+
+            List<SelectListItem> listaIdiomas = new List<SelectListItem>();
+            string todos = "Todos";
+
+            for (int i = 0; i < idiomas.Count(); i++)
+            {
+                listaIdiomas.Add(new SelectListItem()
+                {
+                    Text = idiomas[i],
+                    Selected = (idiomas[i] == todos ? true : false)
+                });
+            }
+
+            return listaIdiomas;
         }
 
         public List<SelectListItem> listaDias()

@@ -84,5 +84,40 @@ namespace Planetario.Handlers
 
             return consulta;
         }
+
+        public List<EstadisticasModel> obtenerFuncionarios(List<string> idiomas)
+        {
+            List<EstadisticasModel> funcionarios = new List<EstadisticasModel>();
+            string consulta = "SELECT DISTINCT F.nombre AS 'Nombre', " +
+                              "F.apellido1 AS 'Apellido1', " +
+                              "F.correoPK AS 'Correo', " +
+                              "F.areaExpertis AS 'Expertis', " +
+                              "STUFF( (SELECT ', ' + FI.idioma FROM dbo.FuncionarioIdioma FI WHERE FI.correoFuncionarioFK = correoPK FOR XML PATH('')), 1, 1, '') AS 'Idiomas' " +
+                              "FROM Funcionario F JOIN FuncionarioIdioma I  " +
+                              "ON F.correoPK = I.correoFuncionarioFK " +
+                              "WHERE 1 = 1";
+
+            foreach(var idioma in idiomas)
+            {
+                consulta += "AND '" + idioma + "' IN (SELECT FI.idioma FROM FuncionarioIdioma FI WHERE FI.correoFuncionarioFK = correoPK) ";
+            }
+
+            DataTable tablaResultados = LeerBaseDeDatos(consulta);
+
+            foreach (DataRow columna in tablaResultados.Rows)
+            {
+                funcionarios.Add(
+                new EstadisticasModel
+                {
+                    Nombre = Convert.ToString(columna["Nombre"]),
+                    Apellido = Convert.ToString(columna["Apellido1"]),
+                    Correo = Convert.ToString(columna["Correo"]),
+                    Expertis = Convert.ToString(columna["Expertis"]),
+                    Idiomas = Convert.ToString(columna["Idiomas"])
+                });
+            }
+
+            return funcionarios;
+        }
     }
 }

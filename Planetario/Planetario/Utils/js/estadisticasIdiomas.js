@@ -33,6 +33,7 @@ function graficoLinea(datos, labels, graphInfo) {
             text: graphInfo.title
         },
         axisY: {
+            title: "Cantidad",
             interval: 1
         },
         data: [{
