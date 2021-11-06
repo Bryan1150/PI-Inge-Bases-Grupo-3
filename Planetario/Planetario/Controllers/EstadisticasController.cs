@@ -136,7 +136,7 @@ namespace Planetario.Controllers
         }
 
         [HttpPost]
-        public ActionResult verIdiomas(List<string> idiomas)
+        public ActionResult verIdiomas(string idioma1, string idioma2, string idioma3)
         {
             EstadisticasHandler accesoDatos = new EstadisticasHandler();
 
@@ -157,7 +157,7 @@ namespace Planetario.Controllers
             ViewBag.listaNumIdiomas = listaNumIdiomas;
 
             List<EstadisticasModel> listaFuncionarios = new List<EstadisticasModel>();
-            listaFuncionarios = accesoDatos.obtenerFuncionarios(idiomas);
+            listaFuncionarios = accesoDatos.obtenerFuncionarios(idioma1, idioma2, idioma3);
 
             ViewBag.funcionariosBuscados = listaFuncionarios;
 
