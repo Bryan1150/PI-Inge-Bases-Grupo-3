@@ -161,6 +161,8 @@ namespace Planetario.Controllers
 
             ViewBag.funcionariosBuscados = listaFuncionarios;
 
+            ViewBag.cantidadFuncionarios = stringResultadoIdiomas(listaFuncionarios, idioma1, idioma2, idioma3);
+
             return View();
         }
 
@@ -322,5 +324,22 @@ namespace Planetario.Controllers
 
             return resultado;
         }
+
+        public string stringResultadoIdiomas(List<EstadisticasModel> listaFuncionarios, string idioma1, string idioma2, string idioma3)
+        {
+            string mensaje = "";
+            int resultado = listaFuncionarios.Count();
+
+            if(resultado > 1)
+            {
+                mensaje += "Se encontraron " + resultado + " funcionarios con las especificaciones.";
+            } else
+            {
+                mensaje += "Se encontró " + resultado + " funcionario con las especificaciones.";
+            }
+
+            return mensaje;
+        }
+
     }
 }
