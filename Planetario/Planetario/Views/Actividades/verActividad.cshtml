@@ -7,11 +7,11 @@
     <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
 </head>
 <body>
-    <div class="row">
+    <div class="row text-center">
         <span class="titulo">@ViewBag.actividad.NombreActividad</span>
-        <p>Autor: @ViewBag.actividad.PropuestoPor</p>
+        <p>Propuesto por: @ViewBag.actividad.PropuestoPor</p>
     </div>
-    <div class="row text-center card">
+    <div class="row">
         <p class="card-title">Descripcion:</p>
         <p class="card-text">@ViewBag.actividad.Descripcion</p>
     </div>
@@ -25,15 +25,13 @@
 
         <h5><b>complejidad:</b> @ViewBag.actividad.Complejidad.</h5>
 
-        <h5><b>PrecioAproximado:</b> @ViewBag.actividad.PrecioAproximado.</h5>
-
-        <h5><b>Categoria:</b> @ViewBag.actividad.Categoria.</h5>
+        <h5><b>Precio:</b> @ViewBag.actividad.PrecioAproximado.</h5>
 
         <h5><b>Día de la Semana en que se imparte:</b> @ViewBag.actividad.DiaSemana.</h5>
 
-        <h5><b>Publico dirigido:</b> @ViewBag.actividad.PublicoDirigido.</h5>
+        <h5><b>Publico dirigido</b> @ViewBag.actividad.PublicoDirigido.</h5>
 
-        <h5><b>Tipo:</b> @ViewBag.actividad.Tipo.</h5>
+        <h5><b>Tipo</b> @ViewBag.actividad.Tipo.</h5>
 
         <h5><b>Topicos:</b></h5>
         @foreach (var topico in ViewBag.topicos)
