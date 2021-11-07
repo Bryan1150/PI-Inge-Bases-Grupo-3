@@ -131,21 +131,22 @@ namespace Planetario.Controllers
             List<SelectListItem> listaDeComplejidad = new List<SelectListItem>();
             List<SelectListItem> listaDeCategorias = new List<SelectListItem>();
             List<SelectListItem> listaDeTopicos = new List<SelectListItem>();
-            Dictionary<string, IList<SelectListItem>> diccionarioDeTopicos = new Dictionary<string, IList<SelectListItem>>();
+           // Dictionary<string, IList<SelectListItem>> diccionarioDeTopicos = new Dictionary<string, IList<SelectListItem>>();
 
             cantidadTotalParticipantes = accesoDatos.obtenerCantidadDeParticipantes(opcionDia, opcionPublico, opcionComplejidad, opcionCategoria, opcionTopico);
             listaDeDias = listaDias();
             listaDePublico = listaPublico();
             listaDeComplejidad = listaComplejidad();
             listaDeCategorias = listaCategorias();
-            diccionarioDeTopicos = diccionarioTopicos();
+            listaDeTopicos = listaTopicos();
+            //diccionarioDeTopicos = diccionarioTopicos();
 
             ViewBag.listaDias = listaDeDias;
             ViewBag.listaPublico = listaDePublico;
             ViewBag.listaComplejidad = listaDeComplejidad;
             ViewBag.listaCategorias = listaDeCategorias;
             ViewBag.listaTopicos = listaDeTopicos;
-            ViewBag.diccionarioTopicos = diccionarioDeTopicos;
+            //ViewBag.diccionarioTopicos = diccionarioDeTopicos;
 
             ViewBag.Mensaje = stringResultado(opcionDia, opcionPublico, opcionComplejidad, opcionCategoria, opcionTopico, cantidadTotalParticipantes);
 

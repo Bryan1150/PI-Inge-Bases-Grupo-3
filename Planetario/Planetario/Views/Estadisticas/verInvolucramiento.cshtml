@@ -94,8 +94,7 @@
 
                     <div class="col">
                         <div class="form-group" id="dropdownTopico">
-                            @Html.Label("Topico")
-                            @Html.DropDownList("opcionTopico", (IEnumerable<SelectListItem>)ViewBag.listaTopicos, "Todos")
+                            
                         </div>
                     </div>
 
@@ -123,6 +122,7 @@
         var participacionesPorPublico = @Html.Raw(Json.Encode(@ViewBag.participacionesPorPublico));
         var participacionesPorComplejidad = @Html.Raw(Json.Encode(@ViewBag.participacionesPorComplejidad));
         var participacionesPorCategoria = @Html.Raw(Json.Encode(@ViewBag.participacionesPorCategoria));
+        
         var participacionesPorTopicoTodos = @Html.Raw(Json.Encode(@ViewBag.participacionesPorTopicoTodos));
 
         var resultado = @Html.Raw(Json.Encode(@ViewBag.Mensaje));
@@ -132,8 +132,7 @@
         var complejidades = @Html.Raw(Json.Encode(@ViewBag.listaComplejidad));
         var categorias = @Html.Raw(Json.Encode(@ViewBag.listaCategorias));
         var topicos = @Html.Raw(Json.Encode(@ViewBag.listaTopicos));
-        console.log(topicos);
-
+        
     </script>
 
 </body>
