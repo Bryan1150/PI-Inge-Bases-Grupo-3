@@ -103,7 +103,7 @@ seleccionCategoria.addEventListener('change', function (event) {
     content += `<select name="opcionTopico" id="opcionTopico">`
     for (let counter = 0; counter < nuevosTopicos.length; ++counter)
     {
-        content += `<option value=${nuevosTopicos[counter]}>${nuevosTopicos[counter}</option>`
+        content += `<option value=${nuevosTopicos[counter]}>${nuevosTopicos[counter]}</option>`
     }
     content += `</select>`
     let selectDetails = document.getElementById('dropdownTopico')
