@@ -40,6 +40,7 @@ namespace Planetario.Controllers
             List<int> listaParticipacionesPorDia = new List<int>();
             List<int> listaParticipacionesPorComplejidad = new List<int>();
             List<int> listaParticipacionesPorPublico = new List<int>();
+            List<int> listaParticipacionesPorCategoria = new List<int>();
 
             foreach (var dia in listaDeDias)
             {
@@ -60,11 +61,12 @@ namespace Planetario.Controllers
             ViewBag.participacionesPorPublico = listaParticipacionesPorPublico;
             ViewBag.participacionesPorComplejidad = listaParticipacionesPorComplejidad;
 
-            List<int> listaParticipacionesPorCategoria = new List<int>();
-            listaParticipacionesPorCategoria.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Cuerpos del sistema solar", ""));
-            listaParticipacionesPorCategoria.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Objetos de Cielo Profundo", ""));
-            listaParticipacionesPorCategoria.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Astronomia", ""));
-            listaParticipacionesPorCategoria.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "General", ""));
+
+            foreach(var categoria in listaDeCategorias)
+            {
+                listaParticipacionesPorCategoria.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", categoria.Text, ""));
+            }
+
             ViewBag.participacionesPorCategoria = listaParticipacionesPorCategoria;
 
             List<int> listaParticipacionesPorTopicoTodos = new List<int>();
@@ -86,35 +88,6 @@ namespace Planetario.Controllers
             listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "General", "Instrumentos"));
             listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "General", "Pregunta Sencilla"));
             ViewBag.participacionesPorTopicoTodos = listaParticipacionesPorTopicoTodos;
-
-            List<int> listaParticipacionesPorTopicoCuerpos = new List<int>();
-            listaParticipacionesPorTopicoCuerpos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Cuerpos del sistema solar", "Planetas"));
-            listaParticipacionesPorTopicoCuerpos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Cuerpos del sistema solar", "Satelites"));
-            listaParticipacionesPorTopicoCuerpos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Cuerpos del sistema solar", "Cometas"));
-            listaParticipacionesPorTopicoCuerpos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Cuerpos del sistema solar", "Asteroides"));
-            ViewBag.listaParticipacionesPorTopicoCuerpos = listaParticipacionesPorTopicoCuerpos;
-
-            List<int> listaParticipacionesPorTopicosCieloProfundo = new List<int>();
-            listaParticipacionesPorTopicosCieloProfundo.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Objetos de Cielo Profundo", "Galaxias"));
-            listaParticipacionesPorTopicosCieloProfundo.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Objetos de Cielo Profundo", "Estrellas"));
-            listaParticipacionesPorTopicosCieloProfundo.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Objetos de Cielo Profundo", "Nebulosas"));
-            listaParticipacionesPorTopicosCieloProfundo.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Objetos de Cielo Profundo", "Planetarias"));
-            ViewBag.listaParticipacionesPorTopicosCieloProfundo = listaParticipacionesPorTopicosCieloProfundo;
-
-            List<int> listaParticipacionesPorTopicosAstronomia = new List<int>();
-            listaParticipacionesPorTopicosAstronomia.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Astronomia", "Astronomia Observacional"));
-            listaParticipacionesPorTopicosAstronomia.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Astronomia", "Astronomia Teorica"));
-            listaParticipacionesPorTopicosAstronomia.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Astronomia", "Mecanica Celeste"));
-            listaParticipacionesPorTopicosAstronomia.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Astronomia", "Astrofisica"));
-            listaParticipacionesPorTopicosAstronomia.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Astronomia", "Astroquimica"));
-            listaParticipacionesPorTopicosAstronomia.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Astronomia", "Astrobiologia"));
-            ViewBag.listaParticipacionesPorTopicosAstronomia = listaParticipacionesPorTopicosAstronomia;
-
-            List<int> listaParticipacionesPorTopicosGeneral = new List<int>();
-            listaParticipacionesPorTopicosGeneral.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "General", "Astrofotografia"));
-            listaParticipacionesPorTopicosGeneral.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "General", "Instrumentos"));
-            listaParticipacionesPorTopicosGeneral.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "General", "Pregunta Sencilla"));
-            ViewBag.listaParticipacionesPorTopicosGeneral = listaParticipacionesPorTopicosGeneral;
 
             return View();
         }
@@ -175,10 +148,12 @@ namespace Planetario.Controllers
             ViewBag.participacionesPorComplejidad = listaParticipacionesPorComplejidad;
 
             List<int> listaParticipacionesPorCategoria = new List<int>();
-            listaParticipacionesPorCategoria.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Cuerpos del sistema solar", ""));
-            listaParticipacionesPorCategoria.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Objetos de Cielo Profundo", ""));
-            listaParticipacionesPorCategoria.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Astronomia", ""));
-            listaParticipacionesPorCategoria.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "General", ""));
+
+            foreach (var categoria in listaDeCategorias)
+            {
+                listaParticipacionesPorCategoria.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", categoria.Text, ""));
+            }
+
             ViewBag.participacionesPorCategoria = listaParticipacionesPorCategoria;
 
             List<int> listaParticipacionesPorTopicoTodos = new List<int>();
@@ -200,35 +175,6 @@ namespace Planetario.Controllers
             listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "General", "Instrumentos"));
             listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "General", "Pregunta Sencilla"));
             ViewBag.participacionesPorTopicoTodos = listaParticipacionesPorTopicoTodos;
-
-            List<int> listaParticipacionesPorTopicoCuerpos = new List<int>();
-            listaParticipacionesPorTopicoCuerpos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Cuerpos del sistema solar", "Planetas"));
-            listaParticipacionesPorTopicoCuerpos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Cuerpos del sistema solar", "Satelites"));
-            listaParticipacionesPorTopicoCuerpos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Cuerpos del sistema solar", "Cometas"));
-            listaParticipacionesPorTopicoCuerpos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Cuerpos del sistema solar", "Asteroides"));
-            ViewBag.listaParticipacionesPorTopicoCuerpos = listaParticipacionesPorTopicoCuerpos;
-
-            List<int> listaParticipacionesPorTopicosCieloProfundo = new List<int>();
-            listaParticipacionesPorTopicosCieloProfundo.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Objetos de Cielo Profundo", "Galaxias"));
-            listaParticipacionesPorTopicosCieloProfundo.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Objetos de Cielo Profundo", "Estrellas"));
-            listaParticipacionesPorTopicosCieloProfundo.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Objetos de Cielo Profundo", "Nebulosas"));
-            listaParticipacionesPorTopicosCieloProfundo.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Objetos de Cielo Profundo", "Planetarias"));
-            ViewBag.listaParticipacionesPorTopicosCieloProfundo = listaParticipacionesPorTopicosCieloProfundo;
-
-            List<int> listaParticipacionesPorTopicosAstronomia = new List<int>();
-            listaParticipacionesPorTopicosAstronomia.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Astronomia", "Astronomia Observacional"));
-            listaParticipacionesPorTopicosAstronomia.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Astronomia", "Astronomia Teorica"));
-            listaParticipacionesPorTopicosAstronomia.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Astronomia", "Mecanica Celeste"));
-            listaParticipacionesPorTopicosAstronomia.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Astronomia", "Astrofisica"));
-            listaParticipacionesPorTopicosAstronomia.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Astronomia", "Astroquimica"));
-            listaParticipacionesPorTopicosAstronomia.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Astronomia", "Astrobiologia"));
-            ViewBag.listaParticipacionesPorTopicosAstronomia = listaParticipacionesPorTopicosAstronomia;
-
-            List<int> listaParticipacionesPorTopicosGeneral = new List<int>();
-            listaParticipacionesPorTopicosGeneral.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "General", "Astrofotografia"));
-            listaParticipacionesPorTopicosGeneral.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "General", "Instrumentos"));
-            listaParticipacionesPorTopicosGeneral.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "General", "Pregunta Sencilla"));
-            ViewBag.listaParticipacionesPorTopicosGeneral = listaParticipacionesPorTopicosGeneral;
 
             return View();
         }
