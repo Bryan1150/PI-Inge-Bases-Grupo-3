@@ -9,48 +9,63 @@
 <body>
     <div class="row text-center">
         <span class="titulo">@ViewBag.actividad.NombreActividad</span>
-        <p>Propuesto por: @ViewBag.actividad.PropuestoPor</p>
     </div>
     <div class="row">
-        <p class="card-title">Descripcion:</p>
+        <p class="card-title"> <b>Descripcion:</b> </p>
         <p class="card-text">@ViewBag.actividad.Descripcion</p>
     </div>
-    <div class="row-cols-md-6 row-cols-sm-1">
-
-        <h5><b>Categoria:</b> @ViewBag.actividad.Categoria</h5>
-
-        <h5><b>Publico Dirigido:</b> @ViewBag.actividad.PublicoDirigido</h5>
-
-        <h5><b>Duracion:</b> @ViewBag.actividad.Duracion.</h5>
-
-        <h5><b>complejidad:</b> @ViewBag.actividad.Complejidad.</h5>
-
-        <h5><b>Precio:</b> @ViewBag.actividad.PrecioAproximado.</h5>
-
-        <h5><b>Día de la Semana en que se imparte:</b> @ViewBag.actividad.DiaSemana.</h5>
-
-        <h5><b>Publico dirigido</b> @ViewBag.actividad.PublicoDirigido.</h5>
-
-        <h5><b>Tipo</b> @ViewBag.actividad.Tipo.</h5>
-
-        <h5><b>Topicos:</b></h5>
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 text-center">
+            <div class="col">
+                <p><span> <i class="fa fa-check"></i><b>Categoria</b> </span></p>
+                <p> @ViewBag.actividad.Categoria </p>
+            </div>
+            <div class="col">
+                <p><span> <i class="fa fa-check"></i><b>Publico Dirigido</b> </span></p>
+                <p> @ViewBag.actividad.PublicoDirigido </p>
+            </div>
+            <div class="col">
+                <p><span> <i class="fa fa-check"></i><b>Duraciòn</b> </span></p>
+                <p> @ViewBag.actividad.Duracion </p>
+            </div>
+            <div class="col">
+                <p><span> <i class="fa fa-check"></i><b>Complejidad</b> </span></p>
+                <p> @ViewBag.actividad.Complejidad </p>
+            </div>
+            <div class="col">
+                <p><span> <i class="fa fa-check"></i><b>Precio</b> </span></p>
+                <p> @ViewBag.actividad.PrecioAproximado </p>
+            </div>
+            <div class="col">
+                <p><span> <i class="fa fa-check"></i><b>Fecha</b> </span></p>
+                <p> @ViewBag.actividad.DiaSemana </p>
+            </div>
+            <div class="col">
+                <p><span> <i class="fa fa-check"></i><b>Tipo:</b> </span></p>
+                <p> @ViewBag.actividad.Tipo </p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+    <p><span><b>Topicos:</b></span></p>
         @foreach (var topico in ViewBag.topicos)
         {
-            <p>-@topico</p>
+            <p style="display:inline;">-@topico</p>
         }
-
-        
-
-        <div style="margin: 5%;">
+    </div>
+    <div class="row">
+        <p>Contacto del organizador: @ViewBag.actividad.PropuestoPor</p>
+    </div>
+    <div class="row">
+        <div>
             @Html.ActionLink("Inscribirme", "Inscribirme",
                 new { titulo = ViewBag.actividad.NombreActividad },
                 new
-                     {
+                        {
                         @class = "btn btn-success",
                     }
             )
         </div>
-
     </div>
 </body>
 </html>
