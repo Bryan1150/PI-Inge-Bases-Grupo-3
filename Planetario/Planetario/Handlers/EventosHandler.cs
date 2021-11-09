@@ -12,13 +12,14 @@ namespace Planetario.Handlers
         public bool InsertarEvento(EventoModel evento)
         {
             bool exito;
-            string Consulta = "INSERT INTO Eventos ( titulo, fecha, descripcion ) "
-                + "VALUES ( @titulo, @fecha, @descripcion );";
+            string Consulta = "INSERT INTO Evento ( nombreEventoPK, fecha, descripcion, hora ) "
+                + "VALUES ( @titulo, @fecha, @descripcion, @hora );";
 
             Dictionary<string, object> valoresParametros = new Dictionary<string, object> {
                 {"@titulo", evento.Titulo },
                 {"@fecha", evento.Fecha },
-                {"@descripcion", evento.Descripcion }
+                {"@descripcion", evento.Descripcion },
+                {"@hora", evento.Hora }
             };
 
             exito = InsertarEnBaseDatos(Consulta, valoresParametros);
@@ -29,16 +30,17 @@ namespace Planetario.Handlers
         public List<EventoModel> ObtenerTodosEventos()
         {
             List<EventoModel> eventos = new List<EventoModel>();
-            string Consulta = "SELECT * FROM Eventos";
+            string Consulta = "SELECT nombreEventoPK, CAST(fecha AS DATE) AS Fecha, descripcion, hora FROM Evento";
             DataTable tablaResultado = LeerBaseDeDatos(Consulta);
             foreach (DataRow columna in tablaResultado.Rows)
             {
                 eventos.Add(
                     new EventoModel
                     {
-                        Titulo = Convert.ToString(columna["@diaSemana"]),
-                        Fecha = Convert.ToString(columna["@propuestoPorFK"]),
-                        Descripcion = Convert.ToString(columna["@publicoDirigidoActividad"])
+                        Titulo = Convert.ToString(columna["nombreEventoPK"]),
+                        Fecha = Convert.ToString(columna["Fecha"]),
+                        Descripcion = Convert.ToString(columna["descripcion"]),
+                        Hora = Convert.ToString(columna["hora"])
                     });
             }
             return eventos;
@@ -46,16 +48,17 @@ namespace Planetario.Handlers
 
         public EventoModel ObtenerUnEvento(string titulo)
         {
-            EventoModel evento = new EventoModel { Titulo = "pureba", Fecha = "2021-11-01", Descripcion = "p2kk" };
-            string Consulta = "SELECT * FROM Eventos WHERE titulo = " + titulo + ";";
+            EventoModel evento = null;
+            string Consulta = "SELECT * FROM Evento WHERE nombreEventoPk = '" + titulo + "';";
             DataTable tablaResultado = LeerBaseDeDatos(Consulta);
             if (tablaResultado.Rows.Count >= 1)
             {
                 evento = new EventoModel
                 {
-                    Titulo = Convert.ToString(tablaResultado.Rows[0]["@diaSemana"]),
-                    Fecha = Convert.ToString(tablaResultado.Rows[0]["@propuestoPorFK"]),
-                    Descripcion = Convert.ToString(tablaResultado.Rows[0]["@publicoDirigidoActividad"])
+                    Titulo = Convert.ToString(tablaResultado.Rows[0]["nombreEventoPk"]),
+                    Fecha = Convert.ToString(tablaResultado.Rows[0]["descripcion"]),
+                    Descripcion = Convert.ToString(tablaResultado.Rows[0]["fecha"]),
+                    Hora = Convert.ToString(tablaResultado.Rows[0]["hora"])
                 };
             }
             return evento;

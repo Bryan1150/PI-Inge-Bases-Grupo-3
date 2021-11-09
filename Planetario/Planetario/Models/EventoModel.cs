@@ -19,5 +19,9 @@ namespace Planetario.Models
         [Display(Name = "Descripción")]
         [Required(ErrorMessage = "Es necesario que ingrese una descripción para el evento")]
         public string Descripcion { get; set; }
+
+        [Display(Name = "Hora")]
+        [Required(ErrorMessage = "Es necesario que ingrese una hora para el evento")]
+        public string Hora { get; set; }
     }
 }

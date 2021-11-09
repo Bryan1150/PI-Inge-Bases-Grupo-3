@@ -43,7 +43,7 @@ namespace Planetario.Controllers
             {
                 resultado.Add(new {
                     title = evento.Titulo,
-                    start = evento.Fecha,
+                    start = TranslateFecha(evento.Fecha),
                     url = Url.Action("VerEvento", "Eventos", new { titulo = evento.Titulo })
                 });
             }

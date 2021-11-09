@@ -4,7 +4,7 @@
 <span class="titulo">@Html.DisplayFor(model => model.Titulo)</span>
 <hr />
 <div class="row">
-    <div class="col-md-6 col-sm-12">
+    <div class="col-md-4 col-sm-12">
         <p>
             <span>
                     <i class="fa fa-check"></i>
@@ -16,7 +16,7 @@
         </p>
     </div>
 
-    <div class="col-md-6 col-sm-12">
+    <div class="col-md-4 col-sm-12">
         <p>
             <span>
                 <i class="fa fa-check"></i>
@@ -25,6 +25,17 @@
         </p>
         <p>
             @Html.DisplayFor(model => model.Descripcion)
+        </p>
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <p>
+            <span>
+                <i class="fa fa-check"></i>
+                <strong>Hora</strong>
+            </span>
+        </p>
+        <p>
+            @Html.DisplayFor(model => model.Hora)
         </p>
     </div>
 </div>

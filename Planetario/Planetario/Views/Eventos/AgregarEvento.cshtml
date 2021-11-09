@@ -1,8 +1,9 @@
 ﻿@model Planetario.Models.EventoModel
 
-@using (Html.BeginForm("AgregarEvento", "Evento", FormMethod.Post, new { enctype = "multipart/form-data" } )) 
+@using (Html.BeginForm("AgregarEvento", "Eventos", FormMethod.Post, new { enctype = "multipart/form-data" } )) 
 {   
     <span class="titulo">Crear Evento</span>
+    <p class="alert-success">@ViewBag.mensaje</p>
     <hr />
     <div class="row">
         <div class="col-md-6 col-sm-12">
@@ -18,6 +19,11 @@
             </div>
         </div>
         <div class="col-md-6 col-sm-12">
+            @Html.LabelFor(model => model.Hora, htmlAttributes: new { @class = "control-label" })
+            <div class="col-md-6 col-sm-12">
+                @Html.TextBoxFor(model => model.Hora, new { @type = "time", @class = "form-control datepicker" })
+                @Html.ValidationMessageFor(model => model.Hora, "", new { @class = "text-danger" })
+            </div>
             @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label" })
             <div>
                 @Html.TextAreaFor(model => model.Descripcion, new { @class = "form-control" })

@@ -27,7 +27,7 @@ namespace Planetario.Controllers
                     ViewBag.ExitoAlCrear = accesoDatos.InsertarEvento(evento);
                     if (ViewBag.ExitoAlCrear)
                     {
-                        ViewBag.Message = "La actividad " + evento.Titulo + " fue creado con éxito.";
+                        ViewBag.mensaje = "El evento " + evento.Titulo + " fue creado con éxito.";
                         ModelState.Clear();
                     }
                 }
