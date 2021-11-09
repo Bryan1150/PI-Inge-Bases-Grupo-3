@@ -38,27 +38,26 @@ namespace Planetario.Controllers
             // Gráficos
 
             List<int> listaParticipacionesPorDia = new List<int>();
-            listaParticipacionesPorDia.Add(accesoDatos.obtenerCantidadDeParticipantes("lunes", "", "", "",""));
-            listaParticipacionesPorDia.Add(accesoDatos.obtenerCantidadDeParticipantes("martes", "", "", "", ""));
-            listaParticipacionesPorDia.Add(accesoDatos.obtenerCantidadDeParticipantes("miercoles", "", "", "", ""));
-            listaParticipacionesPorDia.Add(accesoDatos.obtenerCantidadDeParticipantes("jueves", "", "","",""));
-            listaParticipacionesPorDia.Add(accesoDatos.obtenerCantidadDeParticipantes("viernes", "", "","",""));
-            listaParticipacionesPorDia.Add(accesoDatos.obtenerCantidadDeParticipantes("sabado", "", "","",""));
-            listaParticipacionesPorDia.Add(accesoDatos.obtenerCantidadDeParticipantes("domingo", "", "","",""));
-            ViewBag.participacionesPorDia = listaParticipacionesPorDia;
-
-
-            List<int> listaParticipacionesPorPublico = new List<int>();
-            listaParticipacionesPorPublico.Add(accesoDatos.obtenerCantidadDeParticipantes("", "niños", "","",""));
-            listaParticipacionesPorPublico.Add(accesoDatos.obtenerCantidadDeParticipantes("", "jóvenes", "","",""));
-            listaParticipacionesPorPublico.Add(accesoDatos.obtenerCantidadDeParticipantes("", "adultos", "","",""));
-            listaParticipacionesPorPublico.Add(accesoDatos.obtenerCantidadDeParticipantes("", "adultos mayores", "","",""));
-            ViewBag.participacionesPorPublico = listaParticipacionesPorPublico;
-
             List<int> listaParticipacionesPorComplejidad = new List<int>();
-            listaParticipacionesPorComplejidad.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "simple", "", ""));
-            listaParticipacionesPorComplejidad.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "intermedio", "", ""));
-            listaParticipacionesPorComplejidad.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "avanzado", "", ""));
+            List<int> listaParticipacionesPorPublico = new List<int>();
+
+            foreach (var dia in listaDeDias)
+            {
+                listaParticipacionesPorDia.Add(accesoDatos.obtenerCantidadDeParticipantes(dia.Text, "", "", "", ""));
+            }
+
+            foreach (var publico in listaDePublico)
+            {
+                listaParticipacionesPorPublico.Add(accesoDatos.obtenerCantidadDeParticipantes("", publico.Text, "", "", ""));
+            }
+
+            foreach (var complejidad in listaDeComplejidad)
+            {
+                listaParticipacionesPorComplejidad.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", complejidad.Text, "", ""));
+            }
+
+            ViewBag.participacionesPorDia = listaParticipacionesPorDia;
+            ViewBag.participacionesPorPublico = listaParticipacionesPorPublico;
             ViewBag.participacionesPorComplejidad = listaParticipacionesPorComplejidad;
 
             List<int> listaParticipacionesPorCategoria = new List<int>();
@@ -153,27 +152,26 @@ namespace Planetario.Controllers
             // Gráficos
 
             List<int> listaParticipacionesPorDia = new List<int>();
-            listaParticipacionesPorDia.Add(accesoDatos.obtenerCantidadDeParticipantes("lunes", "", "", "", ""));
-            listaParticipacionesPorDia.Add(accesoDatos.obtenerCantidadDeParticipantes("martes", "", "", "", ""));
-            listaParticipacionesPorDia.Add(accesoDatos.obtenerCantidadDeParticipantes("miercoles", "", "", "", ""));
-            listaParticipacionesPorDia.Add(accesoDatos.obtenerCantidadDeParticipantes("jueves", "", "", "", ""));
-            listaParticipacionesPorDia.Add(accesoDatos.obtenerCantidadDeParticipantes("viernes", "", "", "", ""));
-            listaParticipacionesPorDia.Add(accesoDatos.obtenerCantidadDeParticipantes("sabado", "", "", "", ""));
-            listaParticipacionesPorDia.Add(accesoDatos.obtenerCantidadDeParticipantes("domingo", "", "", "", ""));
-            ViewBag.participacionesPorDia = listaParticipacionesPorDia;
-
-
-            List<int> listaParticipacionesPorPublico = new List<int>();
-            listaParticipacionesPorPublico.Add(accesoDatos.obtenerCantidadDeParticipantes("", "niños", "", "", ""));
-            listaParticipacionesPorPublico.Add(accesoDatos.obtenerCantidadDeParticipantes("", "jóvenes", "", "", ""));
-            listaParticipacionesPorPublico.Add(accesoDatos.obtenerCantidadDeParticipantes("", "adultos", "", "", ""));
-            listaParticipacionesPorPublico.Add(accesoDatos.obtenerCantidadDeParticipantes("", "adultos mayores", "", "", ""));
-            ViewBag.participacionesPorPublico = listaParticipacionesPorPublico;
-
             List<int> listaParticipacionesPorComplejidad = new List<int>();
-            listaParticipacionesPorComplejidad.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "simple", "", ""));
-            listaParticipacionesPorComplejidad.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "intermedio", "", ""));
-            listaParticipacionesPorComplejidad.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "avanzado", "", ""));
+            List<int> listaParticipacionesPorPublico = new List<int>();
+
+            foreach (var dia in listaDeDias)
+            {
+                listaParticipacionesPorDia.Add(accesoDatos.obtenerCantidadDeParticipantes(dia.Text, "", "", "", ""));
+            }
+
+            foreach (var publico in listaDePublico)
+            {
+                listaParticipacionesPorPublico.Add(accesoDatos.obtenerCantidadDeParticipantes("", publico.Text, "", "", ""));
+            }
+
+            foreach (var complejidad in listaDeComplejidad)
+            {
+                listaParticipacionesPorComplejidad.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", complejidad.Text, "", ""));
+            }
+
+            ViewBag.participacionesPorDia = listaParticipacionesPorDia;
+            ViewBag.participacionesPorPublico = listaParticipacionesPorPublico;
             ViewBag.participacionesPorComplejidad = listaParticipacionesPorComplejidad;
 
             List<int> listaParticipacionesPorCategoria = new List<int>();
@@ -384,11 +382,11 @@ namespace Planetario.Controllers
 
             if (publico == "")
             {
-                resultado += " con todos los públicos ";
+                resultado += " con todos los públicos, ";
             }
             else
             {
-                resultado += " con el público " + publico;
+                resultado += " con el público " + publico + ", ";
             }
 
             return resultado;
@@ -399,11 +397,11 @@ namespace Planetario.Controllers
 
             if (complejidad == "")
             {
-                resultado += " y todas las complejidades hay ";
+                resultado += "todas las complejidades, ";
             }
             else
             {
-                resultado += " y la complejidad " + complejidad + " hay ";
+                resultado += "la complejidad " + complejidad + ", ";
             }
 
             return resultado;
@@ -414,11 +412,11 @@ namespace Planetario.Controllers
 
             if (categoria == "")
             {
-                resultado += " y todas las categorias hay ";
+                resultado += "todas las categorias";
             }
             else
             {
-                resultado += " y la categoria " + categoria + " hay ";
+                resultado += "la categoria " + categoria;
             }
 
             return resultado;
@@ -429,11 +427,11 @@ namespace Planetario.Controllers
 
             if (topico == "")
             {
-                resultado += " y todas los topicos hay ";
+                resultado += " y todos los topicos hay: ";
             }
             else
             {
-                resultado += " y el topico " + topico + " hay ";
+                resultado += " y el topico " + topico + " hay: ";
             }
 
             return resultado;
