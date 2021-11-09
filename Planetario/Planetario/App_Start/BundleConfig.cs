@@ -25,6 +25,12 @@ namespace Planetario
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new Bundle("~/Utils/css").Include(
+                      "~/Utils/css/fonts.css",
+                      "~/Utils/css/rows.css",
+                      "~/Utils/css/main.css"));
+
         }
     }
 }

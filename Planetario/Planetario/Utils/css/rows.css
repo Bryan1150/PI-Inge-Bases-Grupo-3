@@ -1,5 +1,8 @@
 ﻿div.row {
-    margin-top: 250px;
-    margin-bottom: 50px;
-    border:solid red 50px;
+    margin-top: 20px;
+    margin-bottom: 5px;
+}
+
+div.col {
+    margin-top: 2%;
 }
