@@ -17,7 +17,16 @@
                 @Html.TextBoxFor(model => model.Fecha, new { @type = "date", @class = "form-control datepicker" })
                 @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
             </div>
+            @Html.Label("virtual", "Es virtual?")
+            <div class="form-check form-switch">
+                @Html.CheckBox("virtual", false, htmlAttributes: new { @class = "form-check-input", @onclick = "addbox()" })
+            </div>
+            <div>
+                @Html.LabelFor(model => model.Link, htmlAttributes: new { @class = "control-label", @id = "areaLabel", style = "display : none;" })
+                @Html.TextBoxFor(model => model.Link, new { @class = "form-control", @id = "area", style = "display : none;" })
+            </div>
         </div>
+           
         <div class="col-md-6 col-sm-12">
             @Html.LabelFor(model => model.Hora, htmlAttributes: new { @class = "control-label" })
             <div class="col-md-6 col-sm-12">
@@ -29,9 +38,8 @@
                 @Html.TextAreaFor(model => model.Descripcion, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
             </div>
-        </div>
-
-       <input id="Checkbox1" type="checkbox" />
+        </div>       
+        
 
     </div>
     <div class="row" style="margin-top: 2%;">
@@ -44,4 +52,15 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script>
+    function addbox() {
+        if (document.getElementById('virtual').checked) {
+            document.getElementById('area').style.display = 'block';
+            document.getElementById('areaLabel').style.display = 'block';
+        } else {
+            document.getElementById('area').style.display = 'none';
+            document.getElementById('areaLabel').style.display = 'none';
+        }
+    }
+    </script>
 }

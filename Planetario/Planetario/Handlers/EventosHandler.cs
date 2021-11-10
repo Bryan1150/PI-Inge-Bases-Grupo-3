@@ -13,7 +13,7 @@ namespace Planetario.Handlers
         {
             bool exito;
             string Consulta = "INSERT INTO Evento ( nombreEventoPK, fecha, descripcion, hora ) "
-                + "VALUES ( @titulo, @fecha, @descripcion, @hora );";
+                + "VALUES ( @titulo, @fecha, @descripcion, @hora, @link );";
 
             Dictionary<string, object> valoresParametros = new Dictionary<string, object> {
                 {"@titulo", evento.Titulo },
