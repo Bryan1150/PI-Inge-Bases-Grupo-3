@@ -143,7 +143,6 @@
     <Compile Include="Handlers\FileHandler.cs" />
     <Compile Include="Handlers\ParticipanteHandler.cs" />
     <Compile Include="Handlers\PreguntasFrecuentesHandler.cs" />
-    <Compile Include="Models\CalendarioFenomenosModel.cs" />
     <Compile Include="Models\EventoModel.cs" />
     <Compile Include="Models\CuestionarioModel.cs" />
     <Compile Include="Models\ParticipanteModel.cs" />
