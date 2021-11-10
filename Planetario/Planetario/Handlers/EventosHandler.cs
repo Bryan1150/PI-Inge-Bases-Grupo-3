@@ -19,7 +19,8 @@ namespace Planetario.Handlers
                 {"@titulo", evento.Titulo },
                 {"@fecha", evento.Fecha },
                 {"@descripcion", evento.Descripcion },
-                {"@hora", evento.Hora }
+                {"@hora", evento.Hora },
+                {"@link", evento.Link }
             };
 
             exito = InsertarEnBaseDatos(Consulta, valoresParametros);

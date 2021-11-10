@@ -23,5 +23,9 @@ namespace Planetario.Models
         [Display(Name = "Hora")]
         [Required(ErrorMessage = "Es necesario que ingrese una hora para el evento")]
         public string Hora { get; set; }
+
+        [Display(Name = "Link")]
+        [Required(ErrorMessage = "Es necesario que ingrese un para el evento virtual")]
+        public string Link { get; set; }
     }
 }
