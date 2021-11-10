@@ -121,6 +121,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="ClasesYTopicosModel.cs" />
     <Compile Include="Controllers\ActividadesController.cs" />
+    <Compile Include="Controllers\CuestionarioController.cs" />
     <Compile Include="Controllers\CalendarioFenomenosController.cs" />
     <Compile Include="Controllers\EventosController.cs" />
     <Compile Include="Controllers\FuncionariosController.cs" />
@@ -138,11 +139,13 @@
     <Compile Include="Handlers\ActividadHandler.cs" />
     <Compile Include="Handlers\BaseDatosHandler.cs" />
     <Compile Include="Handlers\EventosHandler.cs" />
+    <Compile Include="Handlers\CuestionarioHandler.cs" />
     <Compile Include="Handlers\FileHandler.cs" />
     <Compile Include="Handlers\ParticipanteHandler.cs" />
     <Compile Include="Handlers\PreguntasFrecuentesHandler.cs" />
     <Compile Include="Models\CalendarioFenomenosModel.cs" />
     <Compile Include="Models\EventoModel.cs" />
+    <Compile Include="Models\CuestionarioModel.cs" />
     <Compile Include="Models\ParticipanteModel.cs" />
     <Compile Include="Models\PreguntasFrecuentesModel.cs" />
     <Compile Include="Handlers\NoticiasHandler.cs" />
@@ -174,6 +177,7 @@
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="lib\locales-all.js" />
     <Content Include="lib\locales-all.min.js" />
+    <Content Include="lib\locales\es.js" />
     <Content Include="lib\main.css" />
     <Content Include="lib\main.js" />
     <Content Include="lib\main.min.css" />
@@ -361,13 +365,15 @@
     <Content Include="Views\Funcionarios\VerFuncionario.cshtml" />
     <Content Include="Views\Home\PanelDeAdministracion.cshtml" />
     <Content Include="Views\Funcionarios\iniciarSesion.cshtml" />
+    <Content Include="Views\Cuestionario\ListaCuestionarios.cshtml" />
+    <Content Include="Views\Cuestionario\VerCuestionario.cshtml" />
+    <Content Include="Views\Cuestionario\agregarCuestionario.cshtml" />
     <Content Include="Views\Calendario\CalendarioFenomenos.cshtml" />
     <Content Include="Views\Eventos\AgregarEvento.cshtml" />
     <Content Include="Views\Eventos\VerEvento.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="lib\locales\" />
     <Folder Include="Views\Topicos\" />
   </ItemGroup>
   <ItemGroup>
