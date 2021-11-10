@@ -12,8 +12,8 @@ namespace Planetario.Handlers
         public bool InsertarEvento(EventoModel evento)
         {
             bool exito;
-            string Consulta = "INSERT INTO Evento ( nombreEventoPK, fecha, descripcion, hora ) "
-                + "VALUES ( @titulo, @fecha, @descripcion, @hora, @link );";
+            string Consulta = "INSERT INTO Evento (nombreEventoPK, fecha, descripcion, hora, link)"
+                + " VALUES (@titulo, @fecha, @descripcion, @hora, @link);";
 
             Dictionary<string, object> valoresParametros = new Dictionary<string, object> {
                 {"@titulo", evento.Titulo },
@@ -57,9 +57,10 @@ namespace Planetario.Handlers
                 evento = new EventoModel
                 {
                     Titulo = Convert.ToString(tablaResultado.Rows[0]["nombreEventoPk"]),
-                    Fecha = Convert.ToString(tablaResultado.Rows[0]["descripcion"]),
-                    Descripcion = Convert.ToString(tablaResultado.Rows[0]["fecha"]),
-                    Hora = Convert.ToString(tablaResultado.Rows[0]["hora"])
+                    Fecha = Convert.ToString(tablaResultado.Rows[0]["fecha"]),
+                    Descripcion = Convert.ToString(tablaResultado.Rows[0]["descripcion"]),
+                    Hora = Convert.ToString(tablaResultado.Rows[0]["hora"]),
+                    Link = Convert.ToString(tablaResultado.Rows[0]["link"])
                 };
             }
             return evento;

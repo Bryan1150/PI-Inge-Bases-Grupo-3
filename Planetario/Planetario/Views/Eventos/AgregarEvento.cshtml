@@ -17,8 +17,8 @@
                 @Html.TextBoxFor(model => model.Fecha, new { @type = "date", @class = "form-control datepicker" })
                 @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
             </div>
-            @Html.Label("virtual", "Es virtual?")
             <div class="form-check form-switch">
+                @Html.Label("virtual", "¿Es virtual?")
                 @Html.CheckBox("virtual", false, htmlAttributes: new { @class = "form-check-input", @onclick = "addbox()" })
             </div>
             <div>
