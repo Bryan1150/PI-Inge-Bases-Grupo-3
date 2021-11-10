@@ -47,5 +47,7 @@ namespace Planetario.Models
             return DiccionarioCategorias[categoria];
         }
 
+        public Dictionary<string,
+
     }
 }

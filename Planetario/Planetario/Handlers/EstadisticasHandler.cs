@@ -12,11 +12,11 @@ namespace Planetario.Handlers
     public class EstadisticasHandler : BaseDatosHandler
     {
 
-        public int obtenerCantidadDeParticipantes(string diaSemana, string publicoMeta, string nivelComplejidad)
+        public int obtenerCantidadDeParticipantes(string diaSemana, string publicoMeta, string nivelComplejidad, string categoria, string topico)
         {
             int cantidadTotal;
 
-            string consulta = crearStringDeConsultaCantidad(diaSemana, publicoMeta, nivelComplejidad);
+            string consulta = crearStringDeConsultaCantidad(diaSemana, publicoMeta, nivelComplejidad, categoria, topico);
 
             DataTable tablaResultado = LeerBaseDeDatos(consulta);
             DataRow columna = tablaResultado.Rows[0];
@@ -94,26 +94,38 @@ namespace Planetario.Handlers
             return funcionarios;
         }
 
-        public string crearStringDeConsultaCantidad(string diaSemana, string publicoMeta, string nivelComplejidad)
+
+        public string crearStringDeConsultaCantidad(string diaSemana, string publicoMeta, string nivelComplejidad, string categoria, string topico)
         {
             string consulta = "SELECT COUNT(*) as 'Participantes' " +
                               "FROM ParticipaEn P JOIN Actividad A " +
-                              "ON A.nombreActividadPK = P.nombreActividadFK ";
+                              "ON A.nombreActividadPK = P.nombreActividadFK " +
+                              "JOIN ActividadTopicos T " +
+                              "ON A.nombreActividadPK = T.nombreActividadFK ";
 
             if (diaSemana != "")
             {
-                consulta += " WHERE diaSemana = '" + diaSemana + "' ";
+                consulta += " WHERE A.diaSemana = '" + diaSemana + "' ";
             }
-
 
             if (publicoMeta != "")
             {
-                consulta += " AND publicoDirigidoActividad = '" + publicoMeta + "' ";
+                consulta += " AND A.publicoDirigidoActividad = '" + publicoMeta + "' ";
             }
 
             if (nivelComplejidad != "")
             {
-                consulta += " AND complejidad = '" + nivelComplejidad + "' ";
+                consulta += " AND A.complejidad = '" + nivelComplejidad + "' ";
+            }
+
+            if (categoria != "")
+            {
+                consulta += " AND A.categoriaActividad = '" + categoria + "' ";
+            }
+
+            if (topico != "")
+            {
+                consulta += " AND T.topicosActividad = '" + topico + "' ";
             }
 
             return consulta;

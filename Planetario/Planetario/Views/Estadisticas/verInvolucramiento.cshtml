@@ -33,10 +33,18 @@
         <div class="col">
             <div id="chartPublico" style="height: 300px; width: 100%;"></div>
         </div>
-
+    </div>
+    <div class="row">
         <div class="col">
             <div id="chartComplejidad" style="height: 300px; width: 100%;"></div>
         </div>
+
+        <div class="col">
+            <div id="chartCategoria" style="height: 300px; width: 100%;"></div>
+        </div>
+    </div>
+    <div class=row>
+        <div id="chartTopico" style="height: 300px; width: 100%;"></div>
     </div>
 
     <div style="margin-top:70px"></div>
@@ -76,12 +84,29 @@
                             @Html.DropDownList("opcionComplejidad", (IEnumerable<SelectListItem>)ViewBag.listaComplejidad, "Todos")
                         </div>
                     </div>
+
+                    <div class="col">
+                        <div class="form-group">
+                            @Html.Label("Categoria")
+                            @Html.DropDownList("opcionCategoria", (IEnumerable<SelectListItem>)ViewBag.listaCategorias, "Todos")
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-group" id="dropdownTopico">
+                            
+                        </div>
+                    </div>
+
+                    
+
                     <div class="col">
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary"> Buscar</button>
-
                         </div>
                     </div>
+
+
                 </div>
             </div>
         }
@@ -96,13 +121,18 @@
         var participacionesPorDia = @Html.Raw(Json.Encode(@ViewBag.participacionesPorDia));
         var participacionesPorPublico = @Html.Raw(Json.Encode(@ViewBag.participacionesPorPublico));
         var participacionesPorComplejidad = @Html.Raw(Json.Encode(@ViewBag.participacionesPorComplejidad));
+        var participacionesPorCategoria = @Html.Raw(Json.Encode(@ViewBag.participacionesPorCategoria));
+        
+        var participacionesPorTopicoTodos = @Html.Raw(Json.Encode(@ViewBag.participacionesPorTopicoTodos));
 
         var resultado = @Html.Raw(Json.Encode(@ViewBag.Mensaje));
 
         var dias = @Html.Raw(Json.Encode(@ViewBag.listaDias));
         var publicos = @Html.Raw(Json.Encode(@ViewBag.listaPublico));
         var complejidades = @Html.Raw(Json.Encode(@ViewBag.listaComplejidad));
-
+        var categorias = @Html.Raw(Json.Encode(@ViewBag.listaCategorias));
+        var topicos = @Html.Raw(Json.Encode(@ViewBag.listaTopicos));
+        
     </script>
 
 </body>
