@@ -350,6 +350,7 @@
     <Content Include="Views\Actividades\crearActividad.cshtml" />
     <Content Include="Views\Funcionarios\VerFuncionario.cshtml" />
     <Content Include="Views\Home\PanelDeAdministracion.cshtml" />
+    <Content Include="Views\Actividades\Inscribirme.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
