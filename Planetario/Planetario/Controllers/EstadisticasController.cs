@@ -185,13 +185,11 @@ namespace Planetario.Controllers
             EstadisticasHandler accesoDatos = new EstadisticasHandler();
 
             List<string> listaDeIdiomas = accesoDatos.obtenerListaIdiomas();
-
-            List<SelectListItem> opcionIdiomas = new List<SelectListItem>();
-            opcionIdiomas = obtenerIdiomas();
-            ViewBag.opcionIdiomas = opcionIdiomas;
-
             List<int> listaNumIdiomas = new List<int>();
+            List<SelectListItem> opcionIdiomas = new List<SelectListItem>();
 
+            opcionIdiomas = obtenerIdiomas();
+       
             foreach (var idioma in listaDeIdiomas)
             {
                 listaNumIdiomas.Add(accesoDatos.obtenerNumIdiomas(idioma));
@@ -199,8 +197,8 @@ namespace Planetario.Controllers
 
             ViewBag.listaIdiomas = listaDeIdiomas;
             ViewBag.listaNumIdiomas = listaNumIdiomas;
-
             ViewBag.funcionariosBuscados = "";
+            ViewBag.opcionIdiomas = opcionIdiomas;
 
             return View();
         }
@@ -208,17 +206,19 @@ namespace Planetario.Controllers
         [HttpPost]
         public ActionResult verIdiomas(string seleccionIdiomas)
         {
-            string[] idiomasSeleccionados = seleccionIdiomas.Split(';');
-            List<string> idiomas = new List<string>(idiomasSeleccionados);
+
             EstadisticasHandler accesoDatos = new EstadisticasHandler();
 
+            string[] idiomasSeleccionados = seleccionIdiomas.Split(';');
+
+            List<string> idiomas = new List<string>(idiomasSeleccionados);
             List<string> listaDeIdiomas = accesoDatos.obtenerListaIdiomas();
-
             List<SelectListItem> opcionIdiomas = new List<SelectListItem>();
-            opcionIdiomas = obtenerIdiomas();
-            ViewBag.opcionIdiomas = opcionIdiomas;
-
             List<int> listaNumIdiomas = new List<int>();
+            List<EstadisticasModel> listaFuncionarios = new List<EstadisticasModel>();
+
+            opcionIdiomas = obtenerIdiomas();
+            listaFuncionarios = accesoDatos.obtenerFuncionarios(idiomas);
 
             foreach (var idioma in listaDeIdiomas)
             {
@@ -227,13 +227,10 @@ namespace Planetario.Controllers
 
             ViewBag.listaIdiomas = listaDeIdiomas;
             ViewBag.listaNumIdiomas = listaNumIdiomas;
-
-            List<EstadisticasModel> listaFuncionarios = new List<EstadisticasModel>();
-            listaFuncionarios = accesoDatos.obtenerFuncionarios(idiomas);
-
+            ViewBag.opcionIdiomas = opcionIdiomas;
             ViewBag.funcionariosBuscados = listaFuncionarios;
             ViewBag.cantidad = listaFuncionarios.Count();
-            ViewBag.cantidadFuncionarios = stringResultadoIdiomas(listaFuncionarios);
+            ViewBag.cantidadFuncionarios = stringResultadoIdiomas(listaFuncionarios, idiomas);
 
             return View();
         }
@@ -479,17 +476,45 @@ namespace Planetario.Controllers
             return resultado;
         }
 
-        public string stringResultadoIdiomas(List<EstadisticasModel> listaFuncionarios)
+        public string stringResultadoIdiomas(List<EstadisticasModel> listaFuncionarios, List<string> idiomas)
         {
             string mensaje = "";
             int resultado = listaFuncionarios.Count();
 
-            if(resultado != 1)
+            if(resultado > 1)
             {
-                mensaje += "Se encontraron " + resultado + " funcionarios con las especificaciones.";
-            } else
+                mensaje += "Se encontraron " + resultado + " funcionarios que hablan: ";
+
+                for (int i = 0; i < idiomas.Count()-2; i++)
+                {
+                    mensaje += idiomas[i] + ", ";
+                }
+
+                mensaje += idiomas[idiomas.Count()-2];
+            }
+
+            if (resultado == 1)
             {
-                mensaje += "Se encontró " + resultado + " funcionario con las especificaciones.";
+                mensaje += "Se encontró " + resultado + " funcionario que habla: ";
+
+                for (int i = 0; i < idiomas.Count()-2; i++)
+                {
+                    mensaje += idiomas[i] + ", ";
+                }
+
+                mensaje += idiomas[idiomas.Count()-2];
+            }
+
+            if (resultado == 0)
+            {
+                mensaje += "Se encontraron " + resultado + " funcionarios que hablan: ";
+
+                for (int i = 0; i < idiomas.Count() - 2; i++)
+                {
+                    mensaje += idiomas[i] + ", ";
+                }
+
+                mensaje += idiomas[idiomas.Count() - 2];
             }
 
             return mensaje;
