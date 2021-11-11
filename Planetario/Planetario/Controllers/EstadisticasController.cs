@@ -15,168 +15,64 @@ namespace Planetario.Controllers
         [HttpGet]
         public ActionResult verInvolucramiento()
         {
-            EstadisticasHandler accesoDatos = new EstadisticasHandler();
-
-            List<SelectListItem> listaDeDias = new List<SelectListItem>();
-            List<SelectListItem> listaDePublico = new List<SelectListItem>();
-            List<SelectListItem> listaDeComplejidad = new List<SelectListItem>();
-            List<SelectListItem> listaDeCategorias = new List<SelectListItem>();
-            List<SelectListItem> listaDeTopicos = new List<SelectListItem>();
-
-            listaDeDias = listaDias();
-            listaDePublico = listaPublico();
-            listaDeComplejidad = listaComplejidad();
-            listaDeCategorias = listaCategorias();
-            listaDeTopicos = listaTopicos();
-
-            ViewBag.listaPublico = listaDePublico;
-            ViewBag.listaDias = listaDeDias;
-            ViewBag.listaComplejidad = listaDeComplejidad;
-            ViewBag.listaCategorias = listaDeCategorias;
-            ViewBag.listaTopicos = listaDeTopicos;
-
-            // Gráficos
-
-            List<int> listaParticipacionesPorDia = new List<int>();
-            List<int> listaParticipacionesPorComplejidad = new List<int>();
-            List<int> listaParticipacionesPorPublico = new List<int>();
-            List<int> listaParticipacionesPorCategoria = new List<int>();
-
-            foreach (var dia in listaDeDias)
-            {
-                listaParticipacionesPorDia.Add(accesoDatos.obtenerCantidadDeParticipantes(dia.Text, "", "", "", ""));
-            }
-
-            foreach (var publico in listaDePublico)
-            {
-                listaParticipacionesPorPublico.Add(accesoDatos.obtenerCantidadDeParticipantes("", publico.Text, "", "", ""));
-            }
-
-            foreach (var complejidad in listaDeComplejidad)
-            {
-                listaParticipacionesPorComplejidad.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", complejidad.Text, "", ""));
-            }
-
-            ViewBag.participacionesPorDia = listaParticipacionesPorDia;
-            ViewBag.participacionesPorPublico = listaParticipacionesPorPublico;
-            ViewBag.participacionesPorComplejidad = listaParticipacionesPorComplejidad;
-
-
-            foreach(var categoria in listaDeCategorias)
-            {
-                listaParticipacionesPorCategoria.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", categoria.Text, ""));
-            }
-
-            ViewBag.participacionesPorCategoria = listaParticipacionesPorCategoria;
-
-            List<int> listaParticipacionesPorTopicoTodos = new List<int>();
-            listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Cuerpos del sistema solar", "Planetas"));
-            listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Cuerpos del sistema solar", "Satelites"));
-            listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Cuerpos del sistema solar", "Cometas"));
-            listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Cuerpos del sistema solar", "Asteroides"));
-            listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Objetos de Cielo Profundo", "Galaxias"));
-            listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Objetos de Cielo Profundo", "Estrellas"));
-            listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Objetos de Cielo Profundo", "Nebulosas"));
-            listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Objetos de Cielo Profundo", "Planetarias"));
-            listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Astronomia", "Astronomia Observacional"));
-            listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Astronomia", "Astronomia Teorica"));
-            listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Astronomia", "Mecanica Celeste"));
-            listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Astronomia", "Astrofisica"));
-            listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Astronomia", "Astroquimica"));
-            listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Astronomia", "Astrobiologia"));
-            listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "General", "Astrofotografia"));
-            listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "General", "Instrumentos"));
-            listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "General", "Pregunta Sencilla"));
-            ViewBag.participacionesPorTopicoTodos = listaParticipacionesPorTopicoTodos;
-
+            llenarListasParticipacion();
             return View();
         }
 
         [HttpPost]
         public ActionResult verInvolucramiento(string opcionDia, string opcionPublico, string opcionComplejidad, string opcionCategoria, string opcionTopico)
         {
-            int cantidadTotalParticipantes;
+            EstadisticasHandler accesoDatos = new EstadisticasHandler();
+            int cantidadTotalParticipantes = accesoDatos.obtenerCantidadDeParticipantes(opcionDia, opcionPublico, opcionComplejidad, opcionCategoria, opcionTopico);
+            ViewBag.Mensaje = stringResultado(opcionDia, opcionPublico, opcionComplejidad, opcionCategoria, opcionTopico, cantidadTotalParticipantes);
+            llenarListasParticipacion();
+            return View();
+        }
+
+        public void llenarListasParticipacion()
+        {
             EstadisticasHandler accesoDatos = new EstadisticasHandler();
 
-            List<SelectListItem> listaDeDias = new List<SelectListItem>();
-            List<SelectListItem> listaDePublico = new List<SelectListItem>();
-            List<SelectListItem> listaDeComplejidad = new List<SelectListItem>();
-            List<SelectListItem> listaDeCategorias = new List<SelectListItem>();
-            List<SelectListItem> listaDeTopicos = new List<SelectListItem>();
-           // Dictionary<string, IList<SelectListItem>> diccionarioDeTopicos = new Dictionary<string, IList<SelectListItem>>();
-
-            cantidadTotalParticipantes = accesoDatos.obtenerCantidadDeParticipantes(opcionDia, opcionPublico, opcionComplejidad, opcionCategoria, opcionTopico);
-            listaDeDias = listaDias();
-            listaDePublico = listaPublico();
-            listaDeComplejidad = listaComplejidad();
-            listaDeCategorias = listaCategorias();
-            listaDeTopicos = listaTopicos();
-            //diccionarioDeTopicos = diccionarioTopicos();
-
-            ViewBag.listaDias = listaDeDias;
-            ViewBag.listaPublico = listaDePublico;
-            ViewBag.listaComplejidad = listaDeComplejidad;
-            ViewBag.listaCategorias = listaDeCategorias;
-            ViewBag.listaTopicos = listaDeTopicos;
-            //ViewBag.diccionarioTopicos = diccionarioDeTopicos;
-
-            ViewBag.Mensaje = stringResultado(opcionDia, opcionPublico, opcionComplejidad, opcionCategoria, opcionTopico, cantidadTotalParticipantes);
+            ViewBag.listaPublico = listaPublico();
+            ViewBag.listaDias = listaDias();
+            ViewBag.listaComplejidad = listaComplejidad();
+            ViewBag.listaCategorias = listaCategorias();
+            ViewBag.listaTopicos = listaTopicos();
 
             // Gráficos
 
             List<int> listaParticipacionesPorDia = new List<int>();
             List<int> listaParticipacionesPorComplejidad = new List<int>();
             List<int> listaParticipacionesPorPublico = new List<int>();
+            List<int> listaParticipacionesPorCategoria = new List<int>();
+            List<int> listaParticipacionesPorTopicoTodos = new List<int>();
 
-            foreach (var dia in listaDeDias)
+            foreach (var dia in ViewBag.listaDias)
             {
                 listaParticipacionesPorDia.Add(accesoDatos.obtenerCantidadDeParticipantes(dia.Text, "", "", "", ""));
             }
-
-            foreach (var publico in listaDePublico)
+            foreach (var publico in ViewBag.listaPublico)
             {
                 listaParticipacionesPorPublico.Add(accesoDatos.obtenerCantidadDeParticipantes("", publico.Text, "", "", ""));
             }
-
-            foreach (var complejidad in listaDeComplejidad)
+            foreach (var complejidad in ViewBag.listaComplejidad)
             {
                 listaParticipacionesPorComplejidad.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", complejidad.Text, "", ""));
+            }
+            foreach (var categoria in ViewBag.listaCategorias)
+            {
+                listaParticipacionesPorCategoria.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", categoria.Text, ""));
+            }
+            foreach (var topico in ViewBag.listaTopicos)
+            {
+                listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "", topico.Text));
             }
 
             ViewBag.participacionesPorDia = listaParticipacionesPorDia;
             ViewBag.participacionesPorPublico = listaParticipacionesPorPublico;
             ViewBag.participacionesPorComplejidad = listaParticipacionesPorComplejidad;
-
-            List<int> listaParticipacionesPorCategoria = new List<int>();
-
-            foreach (var categoria in listaDeCategorias)
-            {
-                listaParticipacionesPorCategoria.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", categoria.Text, ""));
-            }
-
             ViewBag.participacionesPorCategoria = listaParticipacionesPorCategoria;
-
-            List<int> listaParticipacionesPorTopicoTodos = new List<int>();
-            listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Cuerpos del sistema solar", "Planetas"));
-            listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Cuerpos del sistema solar", "Satelites"));
-            listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Cuerpos del sistema solar", "Cometas"));
-            listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Cuerpos del sistema solar", "Asteroides"));
-            listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Objetos de Cielo Profundo", "Galaxias"));
-            listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Objetos de Cielo Profundo", "Estrellas"));
-            listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Objetos de Cielo Profundo", "Nebulosas"));
-            listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Objetos de Cielo Profundo", "Planetarias"));
-            listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Astronomia", "Astronomia Observacional"));
-            listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Astronomia", "Astronomia Teorica"));
-            listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Astronomia", "Mecanica Celeste"));
-            listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Astronomia", "Astrofisica"));
-            listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Astronomia", "Astroquimica"));
-            listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "Astronomia", "Astrobiologia"));
-            listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "General", "Astrofotografia"));
-            listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "General", "Instrumentos"));
-            listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "General", "Pregunta Sencilla"));
             ViewBag.participacionesPorTopicoTodos = listaParticipacionesPorTopicoTodos;
-
-            return View();
         }
 
         [HttpGet]
@@ -351,16 +247,13 @@ namespace Planetario.Controllers
             List<SelectListItem> listaTopicos = new List<SelectListItem>();
             ClasesYTopicosModel clasesYTopicos = new ClasesYTopicosModel();
 
-            var categorias = new List<String>()
-            {
-                "Cuerpos del sistema solar", "Objetos de Cielo Profundo", "Astronomia", "General"
-            };
+            var categorias = listaCategorias();
 
             for (int i = 0; i < categorias.Count(); i++)
             {
-                for (int j = 0; j < clasesYTopicos.ConseguirTopicosPorCategoria(categorias[i]).Count(); j++)
+                for (int j = 0; j < clasesYTopicos.ConseguirTopicosPorCategoria(categorias[i].Text).Count(); j++)
                 {
-                    listaTopicos.Add(clasesYTopicos.ConseguirTopicosPorCategoria(categorias[i])[j]);
+                    listaTopicos.Add(clasesYTopicos.ConseguirTopicosPorCategoria(categorias[i].Text)[j]);
                 }
             }
             return listaTopicos;
