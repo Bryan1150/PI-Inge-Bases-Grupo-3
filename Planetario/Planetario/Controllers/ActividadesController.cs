@@ -29,7 +29,14 @@ namespace Planetario.Controllers
                     {
                         ViewBag.Message = "La actividad " + actividad.NombreActividad + " fue creada con éxito.";
                         ModelState.Clear();
+                    } else
+                    {
+                        ViewBag.Message = "Hubo un error al guardar los datos ingresados.";
                     }
+                }
+                else
+                {
+                    ViewBag.Message = "Hay un error en los datos ingresados";
                 }
                 return View();
             }
@@ -75,6 +82,7 @@ namespace Planetario.Controllers
             return View();
         }
 
+        [HttpPost]
         public ActionResult Inscribirme(ParticipanteModel participante)
         {
             ViewBag.exitoAlInscribir = false;

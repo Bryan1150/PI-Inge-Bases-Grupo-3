@@ -25,11 +25,11 @@ namespace Planetario.Handlers
                 {"@duracionMins", actividad.Duracion },
                 {"@complejidad", actividad.Complejidad },
                 {"@precioAprox", actividad.PrecioAproximado },
-                {"@categoria", actividad.Categoria },
-                {"@diaSemana", actividad.DiaSemana},
+                {"@categoriaActividad", actividad.Categoria },
+                {"@diaSemana", "Lunes"},
                 {"@propuestoPorFK", actividad.PropuestoPor },
                 {"@publicoDirigidoActividad", actividad.PublicoDirigido },
-                {"tipo", actividad.Tipo}
+                {"@tipo", actividad.Tipo}
             };
 
             exito = InsertarEnBaseDatos(Consulta, valoresParametros);

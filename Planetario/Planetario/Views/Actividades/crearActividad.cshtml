@@ -20,6 +20,11 @@
     <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
 </head>
 <body>
+
+    <span class="titulo">
+        Agregar Actividad
+    </span>
+
     @if (ViewBag.Message != null)
     {
         if (ViewBag.ExitoAlCrear)
@@ -35,10 +40,6 @@
             </div>
         }
     }
-
-    <span class="titulo">
-        Agregar Actividad
-    </span>
 
     @using (Html.BeginForm("crearActividad", "Actividades", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
@@ -88,10 +89,10 @@
                     @Html.TextBoxFor(model => model.PrecioAproximado, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.PrecioAproximado, "", new { @class = "text-danger" })
                 </div>
-                @Html.LabelFor(model => model.DiaSemana, htmlAttributes: new { @class = "control-label " })
+                @Html.LabelFor(model => model.Fecha, htmlAttributes: new { @class = "control-label " })
                 <div>
-                    @Html.TextBoxFor(model => model.DiaSemana, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.DiaSemana, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(model => model.Fecha, new { type = "date", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
                 </div>
                 @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label " })
                 <div>

@@ -39,7 +39,6 @@ namespace Planetario.Models
 
         public string Categoria { get; set; }
 
-        [Required(ErrorMessage = "Es necesario que indique el dia de la semana.")]
         [Display(Name = "Dia de la semana")]
         public string DiaSemana { get; set; }
 
@@ -58,8 +57,11 @@ namespace Planetario.Models
         [Display(Name = "Tipo")]
         public string Tipo { get; set; }
 
-        [Required(ErrorMessage = "Es necesario que seleccione almenos un topico.")]
         [Display(Name = "Topicos")]
         public MultiSelectList Topicos { get; set; }
+
+        [Required(ErrorMessage = "Es necesario que seleccione una fecha.")]
+        [Display(Name = "Fecha")]
+        public string Fecha { get; set; }
     }
 }
