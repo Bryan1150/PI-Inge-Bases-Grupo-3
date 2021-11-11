@@ -12,43 +12,6 @@
         Estadísticas de Actividades
     </span>
 
-    <div class="form-group">
-        <h4><strong>Estadisticas Generales:</strong></h4>
-
-        <h5>
-            Forma del gráfico:
-            <select id="opcion">
-                <option value="barra">Barra</option>
-                <option value="linea">Linea</option>
-            </select>
-        </h5>
-    </div>
-    <hr />
-
-    <div class="row">
-        <div class="col">
-            <div id="chartFecha" style="height: 300px; width: 100%;"></div>
-        </div>
-
-        <div class="col">
-            <div id="chartPublico" style="height: 300px; width: 100%;"></div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <div id="chartComplejidad" style="height: 300px; width: 100%;"></div>
-        </div>
-
-        <div class="col">
-            <div id="chartCategoria" style="height: 300px; width: 100%;"></div>
-        </div>
-    </div>
-    <div class=row>
-        <div id="chartTopico" style="height: 300px; width: 100%;"></div>
-    </div>
-
-    <div style="margin-top:70px"></div>
-
     <div>
 
         @using (Html.BeginForm())
@@ -93,25 +56,66 @@
                     </div>
 
                     <div class="col">
-                        <div class="form-group" id="dropdownTopico">
-                            
+                        <div class="form-group" id="dropdownTopico" style="width: 75px">
+
                         </div>
                     </div>
 
-                    
+                </div>
 
-                    <div class="col">
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary"> Buscar</button>
-                        </div>
-                    </div>
+                <div style="margin-top:25px"></div>
 
-
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary"> Buscar</button>
                 </div>
             </div>
         }
 
     </div>
+
+    <div style="margin-top:100px"></div>
+
+    <div class="form-group">
+        <h4><strong>Estadisticas Generales:</strong></h4>
+
+        <h5>
+            Forma del gráfico:
+            <select id="opcion">
+                <option value="barra">Barra</option>
+                <option value="linea">Linea</option>
+            </select>
+        </h5>
+    </div>
+    <hr />
+
+    <div class="row">
+        <div class="col">
+            <div id="chartFecha" style="height: 300px; width: 100%;"></div>
+        </div>
+
+        <div class="col">
+            <div id="chartPublico" style="height: 300px; width: 100%;"></div>
+        </div>
+    </div>
+
+    <div style="margin-top:70px"></div>
+
+    <div class="row">
+        <div class="col">
+            <div id="chartComplejidad" style="height: 300px; width: 100%;"></div>
+        </div>
+
+        <div class="col">
+            <div id="chartCategoria" style="height: 300px; width: 100%;"></div>
+        </div>
+    </div>
+
+    <div style="margin-top:70px"></div>
+
+    <div class=row>
+        <div id="chartTopico" style="height: 300px; width: 100%;"></div>
+    </div>
+
 
     <div style="margin-top:100px"></div>
 
@@ -122,7 +126,7 @@
         var participacionesPorPublico = @Html.Raw(Json.Encode(@ViewBag.participacionesPorPublico));
         var participacionesPorComplejidad = @Html.Raw(Json.Encode(@ViewBag.participacionesPorComplejidad));
         var participacionesPorCategoria = @Html.Raw(Json.Encode(@ViewBag.participacionesPorCategoria));
-        
+
         var participacionesPorTopicoTodos = @Html.Raw(Json.Encode(@ViewBag.participacionesPorTopicoTodos));
 
         var resultado = @Html.Raw(Json.Encode(@ViewBag.Mensaje));
@@ -132,7 +136,7 @@
         var complejidades = @Html.Raw(Json.Encode(@ViewBag.listaComplejidad));
         var categorias = @Html.Raw(Json.Encode(@ViewBag.listaCategorias));
         var topicos = @Html.Raw(Json.Encode(@ViewBag.listaTopicos));
-        
+
     </script>
 
 </body>

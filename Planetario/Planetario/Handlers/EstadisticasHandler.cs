@@ -60,7 +60,7 @@ namespace Planetario.Handlers
             return numIdiomas;
         }
 
-        public List<EstadisticasModel> obtenerFuncionarios(string idioma1, string idioma2, string idioma3)
+        public List<EstadisticasModel> obtenerFuncionarios(List<string> idiomas)
         {
             List<EstadisticasModel> funcionarios = new List<EstadisticasModel>();
             string consulta = "SELECT DISTINCT F.nombre AS 'Nombre', " +
@@ -72,9 +72,11 @@ namespace Planetario.Handlers
                               "ON F.correoPK = I.correoFuncionarioFK " +
                               "WHERE 1 = 1";
 
-            consulta += crearStringDeConsultaIdiomas(idioma1);
-            consulta += crearStringDeConsultaIdiomas(idioma2);
-            consulta += crearStringDeConsultaIdiomas(idioma3);
+            foreach(var idioma in idiomas)
+            {
+                consulta += crearStringDeConsultaIdiomas(idioma);
+            }
+
 
             DataTable tablaResultados = LeerBaseDeDatos(consulta);
 

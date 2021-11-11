@@ -206,8 +206,10 @@ namespace Planetario.Controllers
         }
 
         [HttpPost]
-        public ActionResult verIdiomas(string idioma1, string idioma2, string idioma3)
+        public ActionResult verIdiomas(string seleccionIdiomas)
         {
+            string[] idiomasSeleccionados = seleccionIdiomas.Split(';');
+            List<string> idiomas = new List<string>(idiomasSeleccionados);
             EstadisticasHandler accesoDatos = new EstadisticasHandler();
 
             List<string> listaDeIdiomas = accesoDatos.obtenerListaIdiomas();
@@ -227,11 +229,11 @@ namespace Planetario.Controllers
             ViewBag.listaNumIdiomas = listaNumIdiomas;
 
             List<EstadisticasModel> listaFuncionarios = new List<EstadisticasModel>();
-            listaFuncionarios = accesoDatos.obtenerFuncionarios(idioma1, idioma2, idioma3);
+            listaFuncionarios = accesoDatos.obtenerFuncionarios(idiomas);
 
             ViewBag.funcionariosBuscados = listaFuncionarios;
-
-            ViewBag.cantidadFuncionarios = stringResultadoIdiomas(listaFuncionarios, idioma1, idioma2, idioma3);
+            ViewBag.cantidad = listaFuncionarios.Count();
+            ViewBag.cantidadFuncionarios = stringResultadoIdiomas(listaFuncionarios);
 
             return View();
         }
@@ -381,8 +383,8 @@ namespace Planetario.Controllers
             mensaje = concatenarDia(mensaje, dia);
             mensaje = concatenarPublico(mensaje, publico);
             mensaje = concatenarComplejidad(mensaje, complejidad);
-            mensaje = concatenarCategoria(mensaje, complejidad);
-            mensaje = concatenarTopico(mensaje, complejidad);
+            mensaje = concatenarCategoria(mensaje, categoria);
+            mensaje = concatenarTopico(mensaje, topico);
             mensaje = concatenarTotal(mensaje, total);
 
             return mensaje;
@@ -477,12 +479,12 @@ namespace Planetario.Controllers
             return resultado;
         }
 
-        public string stringResultadoIdiomas(List<EstadisticasModel> listaFuncionarios, string idioma1, string idioma2, string idioma3)
+        public string stringResultadoIdiomas(List<EstadisticasModel> listaFuncionarios)
         {
             string mensaje = "";
             int resultado = listaFuncionarios.Count();
 
-            if(resultado > 1)
+            if(resultado != 1)
             {
                 mensaje += "Se encontraron " + resultado + " funcionarios con las especificaciones.";
             } else
