@@ -57,7 +57,7 @@ namespace Planetario.Handlers
                 evento = new EventoModel
                 {
                     Titulo = Convert.ToString(tablaResultado.Rows[0]["nombreEventoPk"]),
-                    Fecha = Convert.ToString(tablaResultado.Rows[0]["fecha"]),
+                    Fecha = Convert.ToString(tablaResultado.Rows[0]["fecha"]).Split()[0],
                     Descripcion = Convert.ToString(tablaResultado.Rows[0]["descripcion"]),
                     Hora = Convert.ToString(tablaResultado.Rows[0]["hora"]),
                     Link = Convert.ToString(tablaResultado.Rows[0]["link"])

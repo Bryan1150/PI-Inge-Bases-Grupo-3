@@ -42,12 +42,31 @@
         <div style="margin: 5%;">
             @Html.ActionLink("Inscribirme", "Inscribirme",
                 new { titulo = ViewBag.actividad.NombreActividad },
-                new {
+                new
+                     {
                         @class = "btn btn-success",
                     }
             )
         </div>
-
     </div>
+
+    <div id="twitch-embed"></div>
+
+    <script src="https://embed.twitch.tv/embed/v1.js"></script>
+
+    <script type="text/javascript">
+        var Link = '@ViewBag.actividad.Link';
+        console.log(Link);
+        Link = Link.toLowerCase();
+        if (Link != null) {
+            //Twitch embed.
+            new Twitch.Embed("twitch-embed", {
+                width: 1200,
+                height: 700,
+                channel: Link,
+                theme: 'light'
+            });
+        };
+    </script>
 </body>
 </html>
