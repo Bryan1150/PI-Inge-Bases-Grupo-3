@@ -38,7 +38,7 @@ namespace Planetario.Handlers
                     new EventoModel
                     {
                         Titulo = Convert.ToString(columna["nombreEventoPK"]),
-                        Fecha = Convert.ToString(columna["Fecha"]),
+                        Fecha = Convert.ToString(columna["Fecha"]).Split()[0],
                         Descripcion = Convert.ToString(columna["descripcion"]),
                         Hora = Convert.ToString(columna["hora"])
                     });
@@ -56,8 +56,8 @@ namespace Planetario.Handlers
                 evento = new EventoModel
                 {
                     Titulo = Convert.ToString(tablaResultado.Rows[0]["nombreEventoPk"]),
-                    Fecha = Convert.ToString(tablaResultado.Rows[0]["descripcion"]),
-                    Descripcion = Convert.ToString(tablaResultado.Rows[0]["fecha"]),
+                    Descripcion = Convert.ToString(tablaResultado.Rows[0]["descripcion"]),
+                    Fecha = Convert.ToString(tablaResultado.Rows[0]["fecha"]).Split()[0],
                     Hora = Convert.ToString(tablaResultado.Rows[0]["hora"])
                 };
             }
