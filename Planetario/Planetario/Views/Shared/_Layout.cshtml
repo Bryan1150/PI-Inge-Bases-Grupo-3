@@ -64,6 +64,12 @@
                     <li class="nav-item">
                         @Html.ActionLink("Materiales Educativos", "listadoDeMateriales", "MaterialEducativo", new { area = "" }, new { @class = "nav-link" })
                     </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Calendario", "CalendarioFenomenos", "Calendario", new { area = "" }, new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Cuestionarios", "ListaCuestionarios", "Cuestionario", new { area = "" }, new { @class = "nav-link" })
+                    </li>
                 </ul>
                 <ul class="navbar-nav ms-auto">
                     @if (Request.IsAuthenticated)

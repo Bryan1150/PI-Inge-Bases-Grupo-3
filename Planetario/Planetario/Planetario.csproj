@@ -122,6 +122,8 @@
     <Compile Include="ClasesYTopicosModel.cs" />
     <Compile Include="Controllers\ActividadesController.cs" />
     <Compile Include="Controllers\EstadisticasController.cs" />
+    <Compile Include="Controllers\CuestionarioController.cs" />
+    <Compile Include="Controllers\CalendarioFenomenosController.cs" />
     <Compile Include="Controllers\FuncionariosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TopicosController.cs" />
@@ -137,10 +139,12 @@
     <Compile Include="Handlers\ActividadHandler.cs" />
     <Compile Include="Handlers\BaseDatosHandler.cs" />
     <Compile Include="Handlers\EstadisticasHandler.cs" />
+    <Compile Include="Models\EstadisticasModel.cs" />
+    <Compile Include="Handlers\CuestionarioHandler.cs" />
     <Compile Include="Handlers\FileHandler.cs" />
     <Compile Include="Handlers\ParticipanteHandler.cs" />
     <Compile Include="Handlers\PreguntasFrecuentesHandler.cs" />
-    <Compile Include="Models\EstadisticasModel.cs" />
+    <Compile Include="Models\CuestionarioModel.cs" />
     <Compile Include="Models\ParticipanteModel.cs" />
     <Compile Include="Models\PreguntasFrecuentesModel.cs" />
     <Compile Include="Handlers\NoticiasHandler.cs" />
@@ -150,6 +154,7 @@
     <Compile Include="Models\FuncionarioModel.cs" />
     <Compile Include="Models\ActividadModel.cs" />
     <Compile Include="Models\MaterialEducativoModel.cs" />
+    <Compile Include="Models\RSSFeedModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +174,13 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="lib\locales-all.js" />
+    <Content Include="lib\locales-all.min.js" />
+    <Content Include="lib\locales\es.js" />
+    <Content Include="lib\main.css" />
+    <Content Include="lib\main.js" />
+    <Content Include="lib\main.min.css" />
+    <Content Include="lib\main.min.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -207,6 +219,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\moment.js" />
     <Content Include="Styles\InformacionBasica.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -357,6 +370,10 @@
     <Content Include="Views\Funcionarios\iniciarSesion.cshtml" />
     <Content Include="Views\Estadisticas\verInvolucramiento.cshtml" />
     <Content Include="Views\Estadisticas\verIdiomas.cshtml" />
+    <Content Include="Views\Cuestionario\ListaCuestionarios.cshtml" />
+    <Content Include="Views\Cuestionario\VerCuestionario.cshtml" />
+    <Content Include="Views\Cuestionario\agregarCuestionario.cshtml" />
+    <Content Include="Views\Calendario\CalendarioFenomenos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
