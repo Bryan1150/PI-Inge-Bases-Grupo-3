@@ -28,7 +28,9 @@ namespace Planetario
 
             bundles.Add(new Bundle("~/Utils/css").Include(
                       "~/Utils/css/fonts.css",
+                      "~/Utils/css/rows.css",
                       "~/Utils/css/main.css"));
+
         }
     }
 }
