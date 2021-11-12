@@ -73,14 +73,12 @@ namespace Planetario.Controllers
             return RedirectToAction("InformacionBasica", "Home");
         }
 
-        /**
 
         [HttpGet]
         public ActionResult AgregarFuncionario()
         {
             return View();
         }
-
 
         [HttpPost]
         public ActionResult AgregarFuncionario(FuncionarioModel funcionario)
@@ -91,7 +89,7 @@ namespace Planetario.Controllers
                 if (ModelState.IsValid)
                 {
                     FuncionariosHandler accesoDatos = new FuncionariosHandler();
-                    ViewBag.ExitoAlCrear = accesoDatos.crearFuncionario(funcionario);
+                    //ViewBag.ExitoAlCrear = accesoDatos.crearFuncionario(funcionario);
                     if (ViewBag.ExitoAlCrear)
                     {
                         ViewBag.Message = "El funcionario "  + funcionario.Nombre + " fue agregado con éxito.";
@@ -106,7 +104,5 @@ namespace Planetario.Controllers
                 return View();
             }
         }
-        */
-
     }
 }
