@@ -1,53 +1,96 @@
-﻿
+﻿@{
+    ViewBag.Title = "Actividades";
+}
+
 <!DOCTYPE html>
 <html>
 <head>
     <title>@ViewBag.actividad.NombreActividad</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
+    <style>
+        header,
+        section,
+        aside {
+            margin: 0 1.5% 24px 1.5%;
+        }
+
+        section {
+            float: left;
+            width: 63%;
+        }
+
+        aside {
+            float: right;
+            width: 30%;
+        }
+    </style>
 </head>
 <body>
     <h1>@ViewBag.actividad.NombreActividad</h1>
-    <div class="card">
-        <small>
-            <i>Autor: @ViewBag.actividad.PropuestoPor</i><br />
-        </small>
-        <hr />
+    <section>
+        <div class="card">
+            <small>
+                <i>Autor: @ViewBag.actividad.PropuestoPor</i><br />
+            </small>
+            <hr />
 
-        <h5><b>Categoria:</b> @ViewBag.actividad.Categoria</h5>
+            <h5><b>Categoria:</b> @ViewBag.actividad.Categoria</h5>
 
-        <h5><b>Publico Dirigido:</b> @ViewBag.actividad.PublicoDirigido</h5>
+            <h5><b>Publico Dirigido:</b> @ViewBag.actividad.PublicoDirigido</h5>
 
-        <h5><b>Duracion:</b> @ViewBag.actividad.Duracion.</h5>
+            <h5><b>Duracion:</b> @ViewBag.actividad.Duracion.</h5>
 
-        <h5><b>complejidad:</b> @ViewBag.actividad.Complejidad.</h5>
+            <h5><b>complejidad:</b> @ViewBag.actividad.Complejidad.</h5>
 
-        <h5><b>PrecioAproximado:</b> @ViewBag.actividad.PrecioAproximado.</h5>
+            <h5><b>PrecioAproximado:</b> @ViewBag.actividad.PrecioAproximado.</h5>
 
-        <h5><b>Categoria:</b> @ViewBag.actividad.Categoria.</h5>
+            <h5><b>Categoria:</b> @ViewBag.actividad.Categoria.</h5>
 
-        <h5><b>Día de la Semana en que se imparte:</b> @ViewBag.actividad.DiaSemana.</h5>
+            <h5><b>Día de la Semana en que se imparte:</b> @ViewBag.actividad.DiaSemana.</h5>
 
-        <h5><b>Publico dirigido:</b> @ViewBag.actividad.PublicoDirigido.</h5>
+            <h5><b>Publico dirigido:</b> @ViewBag.actividad.PublicoDirigido.</h5>
 
-        <h5><b>Topicos:</b></h5>
-        @foreach (var topico in ViewBag.topicos)
-        {
-            <p>-@topico</p>
-        }
+            <h5><b>Topicos:</b></h5>
+            @foreach (var topico in ViewBag.topicos)
+            {
+                <p>-@topico</p>
+            }
 
-        <h4><b>Descripcion:</b></h4>
-        @ViewBag.actividad.Descripcion
+            <h4><b>Descripcion:</b></h4>
+            @ViewBag.actividad.Descripcion
 
-        <div style="margin: 5%;">
-            @Html.ActionLink("Inscribirme", "Inscribirme",
-                new { titulo = ViewBag.actividad.NombreActividad },
-                new {
-                        @class = "btn btn-success",
-                    }
-            )
+            <div style="margin: 5%;">
+                @Html.ActionLink("Inscribirme", "Inscribirme",
+                    new { titulo = ViewBag.actividad.NombreActividad },
+                    new
+                         {
+                            @class = "btn btn-success",
+                        }
+                )
+            </div>
         </div>
+    </section>
 
-    </div>
+    <aside>
+        <h5><b>Actividades Similares:</b></h5>
+        <table class="table table-hover table-responsive">
+            <tr>
+                <th>Actividad</th>
+                <th>Categoria</th>
+                <th>Día que se imparte</th>
+                <th>Detalles</th>
+            </tr>
+            @foreach (Planetario.Models.ActividadModel actividad in ViewBag.actividades)
+            {
+                <tr>
+                    <td>@actividad.NombreActividad</td>
+                    <td>@actividad.Categoria</td>
+                    <td>@actividad.DiaSemana</td>
+                    <td>@Html.ActionLink("ver más", "verActividad", "Actividades", new { nombre = @actividad.NombreActividad.ToString() }, null)</td>
+                </tr>
+            }
+        </table>
+    </aside>
 </body>
 </html>

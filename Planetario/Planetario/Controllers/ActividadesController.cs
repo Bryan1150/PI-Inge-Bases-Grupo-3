@@ -52,6 +52,7 @@ namespace Planetario.Controllers
             ActividadHandler accesoDatos = new ActividadHandler();
             ViewBag.actividad = accesoDatos.buscarActividad(nombre);
             ViewBag.topicos = accesoDatos.obtenerTopicosActividades(nombre);
+            ViewBag.actividades = accesoDatos.obtenerTodasLasActividadesAprobadas();
             return View();
         }
 
