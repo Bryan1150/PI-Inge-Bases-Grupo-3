@@ -46,14 +46,6 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Cedula, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(model => model.Cedula, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.Cedula, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
                     @Html.LabelFor(model => model.FechaIncorporacion, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @Html.TextBoxFor(model => model.FechaIncorporacion, new { @type = "date", @class = "form-​control datepicker" })
@@ -61,21 +53,7 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Titulo, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(model => model.Titulo, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.Titulo, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.RolTrabajo, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(model => model.RolTrabajo, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.RolTrabajo, "", new { @class = "text-danger" })
-                    </div>
-                </div>
+              
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -86,10 +64,10 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Foto, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.FotoArchivo, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.TextBoxFor(model => model.Foto, new { type = "file", @class = "btn btn alert-info" })
-                        @Html.ValidationMessageFor(model => model.Foto, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(model => model.FotoArchivo, new { type = "file", @class = "btn btn alert-info" })
+                        @Html.ValidationMessageFor(model => model.FotoArchivo, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
