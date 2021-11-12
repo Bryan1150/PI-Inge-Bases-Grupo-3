@@ -149,6 +149,7 @@
     <Compile Include="Handlers\ParticipanteHandler.cs" />
     <Compile Include="Handlers\PreguntasFrecuentesHandler.cs" />
     <Compile Include="Models\CuestionarioModel.cs" />
+    <Compile Include="Models\FacturaModel.cs" />
     <Compile Include="Models\ParticipanteModel.cs" />
     <Compile Include="Models\PreguntasFrecuentesModel.cs" />
     <Compile Include="Handlers\NoticiasHandler.cs" />

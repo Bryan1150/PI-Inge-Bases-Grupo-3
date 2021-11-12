@@ -114,5 +114,17 @@ namespace Planetario.Controllers
             }
         }
 
+        public bool PagarRecibo()
+        {
+            FacturaModel factura = new FacturaModel();
+            factura.NombreActividad = participante.NombreActividad;
+            ViewBag.exitoAlInscribir = accesoDatos.AlmacenarParticipacion(participante.Correo, participante.NombreActividad);
+            if (ViewBag.exitoAlInscribir)
+                {
+                    ViewBag.Message = "Usted ha está inscrito en la actividad " + participante.NombreActividad;
+                    ModelState.Clear();
+                }
+            }
+        }
     }
 }
