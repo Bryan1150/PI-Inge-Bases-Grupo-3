@@ -1,7 +1,7 @@
 ﻿@model Planetario.Models.EventoModel
 
-@using (Html.BeginForm("AgregarEvento", "Eventos", FormMethod.Post, new { enctype = "multipart/form-data" } )) 
-{   
+@using (Html.BeginForm("AgregarEvento", "Eventos", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
     <span class="titulo">Crear Evento</span>
     <p class="alert-success">@ViewBag.mensaje</p>
     <hr />
@@ -31,9 +31,12 @@
             </div>
         </div>
     </div>
-    <div class="row" style="margin-top: 2%;">
-        <div class="col-md-12">
+
+    <div class="row">
+        <div class="col-1 col-md-1 col-sm-2">
             <input type="submit" value="Crear" class="btn btn-success" />
+        </div>
+        <div class="col-1 col-md-1 col-sm-2">
             @Html.ActionLink("Cancelar", "CalendarioFenomenos", "Calendario", new { area = "" }, new { @class = "btn btn-danger" })
         </div>
     </div>
