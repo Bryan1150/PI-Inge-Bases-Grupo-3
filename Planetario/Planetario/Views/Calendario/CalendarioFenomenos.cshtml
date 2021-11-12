@@ -1,14 +1,18 @@
+
+﻿@{ViewBag.Title = "Calendario Fenomenos";}
+@{string consultaActividades = Url.Content("~/Calendario/GetActividadesPlanetario");}
 ﻿
 @{
     ViewBag.Title = "RSSFeed";
 }
 @{string consultaEventos = Url.Content("~/Calendario/GetEventosPlanetario");}
 @{string RSSFeed = Url.Content("~/Calendario/GetEventosRSSFeed");}
+@{string consultaEventos = Url.Content("~/Calendario/GetEventosPlanetario");}
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Calendario Fenomenos</title>
+    <title>@ViewBag.Title</title>
     <meta charset="utf-8" />
     <script src="~/Scripts/moment.js"></script>
     <link href='../lib/main.css' rel='stylesheet' />
@@ -50,7 +54,7 @@
         div.form-check, div.form-check-inline {
             width: 20%
         }
-
+      
     </style>
 </head>
 <body>
@@ -61,27 +65,50 @@
 
     <div class="text-center row-cols-md-2 row-cols-sm-1">
         <div class="col form-check form-check-inline">
-            <label class="form-check-label" for="checkbox1"><p>Actividades del Planetario</p></label>
-            <input class="form-check-input" type="checkbox" value="" id="checkbox1" checked onchange="cambiarEstadoEventosPlanetario()" />
+            <p>
+                <label class="form-check-label" for="checkbox1">Charlas y talleres</label>
+                <input class="form-check-input" type="checkbox" value="" id="checkbox1" checked onchange="cambiarEstadoActividadesPlanetario()" />
+            </p>
         </div>
         <div class="col form-check form-check-inline">
-            <label class="form-check-label" for="checkbox2"><p>Eventos Astronómicos</p></label>
-            <input class="form-check-input" type="checkbox" value="" id="checkbox2" checked onchange="cambiarEstadoEventosAstronomicos()" />
+            <p>
+                <label class="form-check-label" for="checkbox2">Eventos Astronómicos</label>
+                <input class="form-check-input" type="checkbox" value="" id="checkbox2" checked onchange="cambiarEstadoEventosAstronomicos()" />
+            </p>
+        </div>
+        <div class="col form-check form-check-inline">
+            <p>
+                <label class="form-check-label" for="checkbox3">Eventos del Planetario</label>
+                <input class="form-check-input" type="checkbox" value="" id="checkbox3" checked onchange="cambiarEstadoEventosPlanetario()" />
+            </p>
         </div>
     </div>
 
     <h4>&nbsp;</h4>
 
+
     <div id='calendar'></div>
 
     <script>
-        function cambiarEstadoEventosPlanetario() {
+        function cambiarEstadoActividadesPlanetario() {
             estadoActual = document.getElementById("checkbox1").checked;
             if (estadoActual) {
-                calendar.addEventSource({ id: 1, url: "@consultaEventos", color: '#133b5c' });
+                calendar.addEventSource({ id: 1, url: "@consultaActividades", color: '#133b5c', textcolor: '#fcdab7' });
             }
             else {
-                sourceEventos = calendar.getEventSourceById(1);
+                let sourceEventos = calendar.getEventSourceById(1);
+                if (sourceEventos !== null) {
+                    sourceEventos.remove();
+                }
+            }
+        }
+        function cambiarEstadoEventosPlanetario() {
+            estadoActual = document.getElementById("checkbox3").checked;
+            if (estadoActual) {
+                calendar.addEventSource({ id: 3, url: "@consultaEventos", color: '#1e5f74' });
+            }
+            else {
+                let sourceEventos = calendar.getEventSourceById(3);
                 if (sourceEventos !== null) {
                     sourceEventos.remove();
                 }
@@ -91,10 +118,10 @@
         function cambiarEstadoEventosAstronomicos() {
             estadoActual = document.getElementById("checkbox2").checked;
             if (estadoActual) {
-                calendar.addEventSource({id:2, url: "@RSSFeed", color: '#fcdab7', textColor: 'black' });
+                calendar.addEventSource({ id: 2, url: "@RSSFeed", color: '#fcdab7', textColor: '#133b5c' });
             }
             else {
-                sourceEventos = calendar.getEventSourceById(2);
+                let sourceEventos = calendar.getEventSourceById(2);
                 if (sourceEventos !== null) {
                     sourceEventos.remove();
                 }
@@ -111,18 +138,16 @@
                     right: 'today dayGridMonth,timeGridWeek,timeGridDay,listMonth'
                 },
                 initialDate: '2021-11-12',
-
                 editable: false,
                 selectable: true,
                 businessHours: true,
                 eventDidMount: function (info) { info.el.title = info.event.title; },
                 dayMaxEvents: true,
                 eventSources:[],
-
             });
-
-            cambiarEstadoEventosPlanetario();
             cambiarEstadoEventosAstronomicos();
+            cambiarEstadoEventosPlanetario();
+            cambiarEstadoActividadesPlanetario();
             calendar.render();
         });
     </script>
