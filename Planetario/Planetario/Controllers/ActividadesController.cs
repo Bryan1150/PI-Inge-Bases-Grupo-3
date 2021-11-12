@@ -114,5 +114,14 @@ namespace Planetario.Controllers
                 return View();
             }
         }
+
+        [HttpGet]
+        public ActionResult verFacturasDeActividad(string actividadNombre)
+        {
+            ActividadHandler accesoDatos = new ActividadHandler();
+            ViewBag.facturas = accesoDatos.obtenerTodasLasFacturas(actividadNombre);
+            ViewBag.nombreActividad = actividadNombre;
+            return View();
+        }
     }
 }

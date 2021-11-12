@@ -7,7 +7,9 @@ namespace Planetario.Models
 {
     public class FacturaModel
     {
-        public DateTime FechaCompra { get; set; }
+        public int ID {get;set;}
+
+        public string FechaCompra { get; set; }
 
         public double PagoTotal { get; set; }
 
