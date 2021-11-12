@@ -52,7 +52,7 @@ namespace Planetario.Controllers
             }
             catch
             {
-                ViewBag.Message = "Algo salió mal.";
+                ViewBag.Message = "Hubo un error al crear el cuestionario " + cuestionario.NombreCuestionario;
                 return View();
             }
         }

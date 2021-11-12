@@ -4,6 +4,7 @@
 {
     <span class="titulo">Crear Evento</span>
     <p class="alert-success">@ViewBag.mensaje</p>
+    <h4> Formulario de agregar eventos</h4>
     <hr />
     <div class="row">
         <div class="col-md-6 col-sm-12">
@@ -37,8 +38,14 @@
             <input type="submit" value="Crear" class="btn btn-success" />
         </div>
         <div class="col-1 col-md-1 col-sm-2">
-            @Html.ActionLink("Cancelar", "CalendarioFenomenos", "Calendario", new { area = "" }, new { @class = "btn btn-danger" })
+            @Html.ActionLink("Volver", "PanelDeAdministracion", "Home", new { area = "" }, new { @class = "btn btn-danger" })
         </div>
+    </div>
+
+    <div style="margin-top:100px"></div>
+
+    <div>
+        @Html.ActionLink("Regresar a Inicio", "InformacionBasica", "Home")
     </div>
 }
 
