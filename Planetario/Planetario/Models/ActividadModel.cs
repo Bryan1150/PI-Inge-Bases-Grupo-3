@@ -53,8 +53,12 @@ namespace Planetario.Models
         [Display(Name = "Publico dirigido")]
         public string PublicoDirigido { get; set; }
 
-        [Required(ErrorMessage = "Es necesario que indique el publico al que va dirigido la actividad.")]
-        [Display(Name = "Público dirigido")]
+        [Required(ErrorMessage = "Es necesario que indique el correo.")]
+        [Display(Name = "Correo Aprobado")]
+        public string AprobadoPor { get; set; }
+
+        [Required(ErrorMessage = "Es necesario que indique el tipo de la actividad.")]
+        [Display(Name = "Tipo")]
         public string Tipo { get; set; }
     }
 }

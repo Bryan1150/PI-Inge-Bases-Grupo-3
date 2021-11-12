@@ -67,6 +67,10 @@
                     <li class="nav-item">
                         @Html.ActionLink("Calendario", "CalendarioFenomenos", "Calendario", new { area = "" }, new { @class = "nav-link" })
                     </li>
+
+                    <li class="nav-item">
+                        @Html.ActionLink("Cuestionarios", "ListaCuestionarios", "Cuestionario", new { area = "" }, new { @class = "nav-link" })
+                    </li>
                 </ul>
                 <ul class="navbar-nav ms-auto">
                     @if (Request.IsAuthenticated)
@@ -74,7 +78,7 @@
                         <li class="nav-item">
                             @Html.ActionLink("Panel de administración", "PanelDeAdministracion", "Home", new { area = "" }, new { @class = "nav-link" })
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="/Usuario/cerrarSesion"><i class="fa fa-sign-out"></i> Logout</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/Funcionarios/cerrarSesion"><i class="fa fa-sign-out"></i> Logout</a></li>
                     }
                     else
                     {

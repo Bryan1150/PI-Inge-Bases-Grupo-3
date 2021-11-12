@@ -1,5 +1,11 @@
+
 ﻿@{ViewBag.Title = "Calendario Fenomenos";}
 @{string consultaActividades = Url.Content("~/Calendario/GetActividadesPlanetario");}
+﻿
+@{
+    ViewBag.Title = "RSSFeed";
+}
+@{string consultaEventos = Url.Content("~/Calendario/GetEventosPlanetario");}
 @{string RSSFeed = Url.Content("~/Calendario/GetEventosRSSFeed");}
 @{string consultaEventos = Url.Content("~/Calendario/GetEventosPlanetario");}
 
@@ -11,9 +17,18 @@
     <script src="~/Scripts/moment.js"></script>
     <link href='../lib/main.css' rel='stylesheet' />
     <script src='../lib/main.js'></script>
-
+    <script src='..lib/locales-all.js'></script>
+    <script src="~/lib/locales-all.min.js"></script>
     <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
     <style>
+        .fc-toolbar {
+            text-transform: capitalize;
+            font-weight: bold;
+        }
+
+        .fc-toolbar h2 {
+            display: inline;
+        }
 
         body {
             margin: 40px 10px;
@@ -28,11 +43,10 @@
         }
 
         input[type=checkbox] {
-            /* Double-sized Checkboxes */
-            -ms-transform: scale(1.3); /* IE */
-            -moz-transform: scale(1.3); /* FF */
-            -webkit-transform: scale(1.3); /* Safari and Chrome */
-            -o-transform: scale(1.3); /* Opera */
+            -ms-transform: scale(1.3);
+            -moz-transform: scale(1.3);
+            -webkit-transform: scale(1.3);
+            -o-transform: scale(1.3);
             transform: scale(1.3);
             padding: 10px;
         }
@@ -40,11 +54,13 @@
         div.form-check, div.form-check-inline {
             width: 20%
         }
+      
     </style>
 </head>
 <body>
+
     <span class="titulo">
-        Calendario Fenomenos
+        Calendario
     </span>
 
     <div class="text-center row-cols-md-2 row-cols-sm-1">
@@ -67,6 +83,9 @@
             </p>
         </div>
     </div>
+
+    <h4>&nbsp;</h4>
+
 
     <div id='calendar'></div>
 
@@ -94,6 +113,7 @@
                     sourceEventos.remove();
                 }
             }
+            calendar.refetchEvents();
         }
         function cambiarEstadoEventosAstronomicos() {
             estadoActual = document.getElementById("checkbox2").checked;
@@ -106,11 +126,17 @@
                     sourceEventos.remove();
                 }
             }
+            calendar.refetchEvents();
         }
-        let calendar;
+        var calendar;
         document.addEventListener('DOMContentLoaded', async function () {
-            let calendarEl = document.getElementById('calendar');
+            var calendarEl = document.getElementById('calendar');
             calendar = new FullCalendar.Calendar(calendarEl, {
+                locale: 'es',
+                headerToolbar: {
+                    left: 'prev,next title',
+                    right: 'today dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+                },
                 initialDate: '2021-11-12',
                 editable: false,
                 selectable: true,

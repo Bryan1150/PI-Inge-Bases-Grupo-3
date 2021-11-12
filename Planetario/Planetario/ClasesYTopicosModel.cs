@@ -47,5 +47,9 @@ namespace Planetario.Models
             return DiccionarioCategorias[categoria];
         }
 
+        public Dictionary<string, IList<SelectListItem>> getDiccionario()
+        {
+            return DiccionarioCategorias;
+        }
     }
 }
