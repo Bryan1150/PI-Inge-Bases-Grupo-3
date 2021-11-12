@@ -76,6 +76,7 @@ namespace Planetario.Controllers
             return View();
         }
 
+        [HttpGet]
         public ActionResult Inscribirme(string titulo)
         {
             ViewBag.titulo = titulo;

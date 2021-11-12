@@ -12,13 +12,13 @@ namespace Planetario.Handlers
         public bool AlmacenarParticipante(ParticipanteModel participante)
         {
             string consulta = "INSERT INTO Participante ";
-            string columnas = "(  correoParticipantePKm, nombre, apellido1, apellido2, genero, pais, fechaNacimiento, nivelEducativo )";
-            string valores = "( @correoParticipantePKm, @nombre, @apellido1, @apellido2, @genero, @pais, @fechaNacimiento, @nivelEducativo );";
+            string columnas = "(  correoParticipantePK, nombre, apellido1, apellido2, genero, pais, fechaNacimiento, nivelEducativo )";
+            string valores = "( @correoParticipantePK, @nombre, @apellido1, @apellido2, @genero, @pais, @fechaNacimiento, @nivelEducativo );";
             consulta += columnas + " VALUES " + valores;
 
             Dictionary<string, object> valoresParametros = new Dictionary<string, object>()
             {
-                { "@correoParticipantePKm", participante.Correo },
+                { "@correoParticipantePK", participante.Correo },
                 { "@nombre", participante.Nombre },
                 { "@apellido1", participante.Apellido1 },
                 { "@apellido2", participante.Apellido2 },
@@ -35,15 +35,21 @@ namespace Planetario.Handlers
 
         public bool ParticipanteEstaAlmacenado(string correo)
         {
-            string consulta = "SELECT 1 AS 'Inscrito' FROM Participante WHERE correoParticipantePK = " + correo + ";";
+            string consulta = "SELECT 1 AS 'Inscrito' FROM Participante WHERE correoParticipantePK = '" + correo + "';";
             DataTable resultado = LeerBaseDeDatos(consulta);
-
-            return (Convert.ToInt32(resultado.Rows[0]["Inscrito"]) == 1);
+            try
+            {
+                return (Convert.ToInt32(resultado.Rows[0]["Inscrito"]) == 1);
+            }
+            catch
+            {
+                return (false);
+            }
         }
 
         public bool AlmacenarParticipacion(string correo, string nombreActividad)
         {
-            string consulta = "INSERT INTO ParticipaEN VALUES (@nombreActividadFK, @correoParticipanteFK)";
+            string consulta = "INSERT INTO Factura (pagoTotal, correoParticipanteFK, nombreActividadFK) VALUES (20000.00, @correoParticipanteFK, @nombreActividadFK)";
             Dictionary<string, object> valoresParametros = new Dictionary<string, object>()
             {
                 { "@nombreActividadFK", nombreActividad },

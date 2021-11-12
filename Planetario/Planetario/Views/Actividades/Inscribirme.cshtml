@@ -368,6 +368,12 @@ new SelectListItem { Text = "Zimbabwe", Value = "Zimbabwe" },
                 <br />
 
                 <div class="form-group">
+                    <div class="col-md-10">
+                        <input class="form-control" id="NombreActividad" name="NombreActividad" type="hidden" value="@ViewBag.titulo" />
+                    </div>
+                </div>
+
+                <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
                         <input type="submit" class="btn btn-success" value="Agregar" />
                         @Html.ActionLink("Volver", "listadoDeActividades", null, new { @class = "btn btn-danger" })
