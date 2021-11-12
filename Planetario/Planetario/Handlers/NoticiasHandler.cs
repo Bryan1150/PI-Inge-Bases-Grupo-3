@@ -9,9 +9,11 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Data.SqlTypes;
 
+
+
 namespace Planetario.Handlers
 {
-    public class NoticiasHandler
+    public class NoticiasHandler : BaseDatosHandler
     {
         private readonly BaseDatosHandler BaseDatos;
         private string Consulta;
@@ -137,7 +139,7 @@ namespace Planetario.Handlers
         public Tuple<byte[], string> ObtenerFoto(string numNoticia)
         {
             string nombreArchivo = "imagen", tipoArchivo = "tipoImagen";
-            Consulta = "SELECT "+ nombreArchivo +", " + tipoArchivo + " FROM Noticia WHERE idNoticiaPK = @id";
+            Consulta = "SELECT " + nombreArchivo + ", " + tipoArchivo + " FROM Noticia WHERE idNoticiaPK = @id";
             int id = Int32.Parse(numNoticia);
 
             Dictionary<string, object> valoresParametros = new Dictionary<string, object>
