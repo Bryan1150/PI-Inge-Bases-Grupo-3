@@ -9,7 +9,7 @@ namespace Planetario.Models
     {
         public DateTime FechaCompra { get; set; }
 
-        public decimal PagoTotal { get; set; }
+        public double PagoTotal { get; set; }
 
         public string CorreoParticipante { get; set; }
 
