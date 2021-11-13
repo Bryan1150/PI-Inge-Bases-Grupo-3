@@ -167,5 +167,13 @@ namespace Planetario.Handlers
             }
             return facturas;
         }
+
+        public double getPrecio(string nombreActividad)
+        {
+            string Consulta = "SELECT PrecioAprox FROM Actividad WHERE nombreActividadPK = '" + nombreActividad + "';";
+            DataTable tablaResultado = LeerBaseDeDatos(Consulta);
+            double precio = Convert.ToDouble(tablaResultado.Rows[0]["PrecioAprox"]);
+            return precio;
+        }
     }
 }

@@ -80,6 +80,8 @@ namespace Planetario.Controllers
         [HttpGet]
         public ActionResult Inscribirme(string titulo) // si quieren que en la vista salga precio deberian tambien poner un para metro extra que pregunte por el precio
         {
+            ActividadHandler accesoDatos = new ActividadHandler();
+            ViewBag.precio = accesoDatos.getPrecio(titulo);
             ViewBag.titulo = titulo;
             return View();
         }
