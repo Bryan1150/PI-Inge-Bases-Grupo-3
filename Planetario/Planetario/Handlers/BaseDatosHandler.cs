@@ -40,7 +40,17 @@ namespace Planetario.Handlers
             }
 
             Conexion.Open();
-            exito = comandoParaConsulta.ExecuteNonQuery() >= 1;
+            try
+            {
+                comandoParaConsulta.ExecuteNonQuery();
+                exito = true;
+            }
+            catch(System.Exception ex)//Ver ex con debugger
+            {
+                System.Console.WriteLine(ex.Message);
+                exito = false;
+            }
+            //exito = comandoParaConsulta.ExecuteNonQuery() >= 1;
             Conexion.Close();
 
             return exito;
