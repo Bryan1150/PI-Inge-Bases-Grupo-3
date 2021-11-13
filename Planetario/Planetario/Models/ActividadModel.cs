@@ -60,5 +60,8 @@ namespace Planetario.Models
         [Required(ErrorMessage = "Es necesario que indique el tipo de la actividad.")]
         [Display(Name = "Tipo")]
         public string Tipo { get; set; }
+
+        [Display(Name = "Nombre del canal de Twitch (Ejm: monstercat)")]
+        public string Link { get; set; }
     }
 }
