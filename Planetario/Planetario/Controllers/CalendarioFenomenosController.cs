@@ -15,7 +15,7 @@ namespace Planetario.Controllers
         {         
             return View();
         }
-
+        
         public JsonResult GetActividadesPlanetario()
         {
             List<object> resultado = new List<object>();

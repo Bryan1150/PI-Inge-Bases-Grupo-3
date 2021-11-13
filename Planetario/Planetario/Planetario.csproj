@@ -121,6 +121,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="ClasesYTopicosModel.cs" />
     <Compile Include="Controllers\ActividadesController.cs" />
+    <Compile Include="Controllers\EstadisticasController.cs" />
     <Compile Include="Controllers\CuestionarioController.cs" />
     <Compile Include="Controllers\CalendarioFenomenosController.cs" />
     <Compile Include="Controllers\EventosController.cs" />
@@ -139,11 +140,13 @@
     <Compile Include="Handlers\ActividadHandler.cs" />
     <Compile Include="Handlers\BaseDatosHandler.cs" />
     <Compile Include="Handlers\EventosHandler.cs" />
+    <Compile Include="Handlers\ParticipanteHandler.cs" />
+    <Compile Include="Models\EventoModel.cs" />
+    <Compile Include="Handlers\EstadisticasHandler.cs" />
+    <Compile Include="Models\EstadisticasModel.cs" />
     <Compile Include="Handlers\CuestionarioHandler.cs" />
     <Compile Include="Handlers\FileHandler.cs" />
-    <Compile Include="Handlers\ParticipanteHandler.cs" />
     <Compile Include="Handlers\PreguntasFrecuentesHandler.cs" />
-    <Compile Include="Models\EventoModel.cs" />
     <Compile Include="Models\CuestionarioModel.cs" />
     <Compile Include="Models\ParticipanteModel.cs" />
     <Compile Include="Models\PreguntasFrecuentesModel.cs" />
@@ -230,6 +233,7 @@
     <Content Include="Utils\css\background.css" />
     <Content Include="Utils\css\fonts.css" />
     <Content Include="Utils\css\main.css" />
+    <Content Include="Utils\css\msfmultiselect.css" />
     <Content Include="Utils\css\util.css" />
     <Content Include="Utils\fonts\font-awesome-4.7.0\css\font-awesome.css" />
     <Content Include="Utils\fonts\font-awesome-4.7.0\css\font-awesome.min.css" />
@@ -238,7 +242,10 @@
     <Content Include="Utils\fonts\montserrat\OFL.txt" />
     <Content Include="Utils\images\icons\favicon.ico" />
     <Content Include="Utils\images\img-01.png" />
+    <Content Include="Utils\js\estadisticas.js" />
+    <Content Include="Utils\js\estadisticasIdiomas.js" />
     <Content Include="Utils\js\main.js" />
+    <Content Include="Utils\js\msfmultiselect.js" />
     <Content Include="Utils\vendor\animate\animate.css" />
     <Content Include="Utils\vendor\bootstrap\css\bootstrap-grid.css" />
     <Content Include="Utils\vendor\bootstrap\css\bootstrap-grid.min.css" />
@@ -364,6 +371,8 @@
     <Content Include="Views\Funcionarios\VerFuncionario.cshtml" />
     <Content Include="Views\Home\PanelDeAdministracion.cshtml" />
     <Content Include="Views\Funcionarios\iniciarSesion.cshtml" />
+    <Content Include="Views\Estadisticas\verInvolucramiento.cshtml" />
+    <Content Include="Views\Estadisticas\verIdiomas.cshtml" />
     <Content Include="Views\Cuestionario\ListaCuestionarios.cshtml" />
     <Content Include="Views\Cuestionario\VerCuestionario.cshtml" />
     <Content Include="Views\Cuestionario\agregarCuestionario.cshtml" />

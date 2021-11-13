@@ -31,6 +31,7 @@ namespace Planetario.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult agregarCuestionario(CuestionarioModel cuestionario)
         {
             ViewBag.ExitoAlCrear = false;
@@ -39,6 +40,7 @@ namespace Planetario.Controllers
                 if (ModelState.IsValid)
                 {
                     CuestionarioHandler accesoDatos = new CuestionarioHandler();
+                    cuestionario.EmbedHTML = modificarEmbed(cuestionario.EmbedHTML);
                     ViewBag.ExitoAlCrear = accesoDatos.agregarCuestionario(cuestionario);
                     if (ViewBag.ExitoAlCrear)
                     {
@@ -50,36 +52,16 @@ namespace Planetario.Controllers
             }
             catch
             {
-                ViewBag.Message = "Algo salió mal.";
+                ViewBag.Message = "Hubo un error al crear el cuestionario " + cuestionario.NombreCuestionario;
                 return View();
             }
         }
 
-        /*
-        [HttpPost]
-        public ActionResult crearCuestionario(CuestionarioModel cuestionario)
+        public string modificarEmbed(string embed)
         {
-            ViewBag.ExitoAlCrear = false;
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    ActividadHandler accesoDatos = new ActividadHandler();
-                    ViewBag.ExitoAlCrear = accesoDatos.crearCuestionario(cuestionario);
-                    if (ViewBag.ExitoAlCrear)
-                    {
-                        ViewBag.Message = "La actividad " + cuestionario.NombreCuestionario + " fue creada con éxito.";
-                        ModelState.Clear();
-                    }
-                }
-                return View();
-            }
-            catch
-            {
-                ViewBag.Message = "Algo salió mal.";
-                return View();
-            }
+            int inicio = embed.IndexOf("https");
+            embed = embed.Substring(inicio, embed.IndexOf("true") - inicio + 4);
+            return embed;
         }
-        **/
     }
 }
