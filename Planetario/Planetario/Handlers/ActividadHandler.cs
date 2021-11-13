@@ -147,5 +147,25 @@ namespace Planetario.Handlers
             }
             return actividadesUnicas;
         }
+
+        public List<FacturaModel> obtenerTodasLasFacturas(string nombreActividad)
+        {
+            List<FacturaModel> facturas = new List<FacturaModel>();
+            string Consulta = "EXEC USP_ObtenerTodosPagos '" + nombreActividad + "';";
+            DataTable tablaResultado = LeerBaseDeDatos(Consulta);
+            foreach (DataRow columna in tablaResultado.Rows)
+            {
+                facturas.Add(
+                    new FacturaModel
+                    {
+                        ID = Convert.ToInt32(columna["idFacturaPK"]),
+                        FechaCompra = Convert.ToString(columna["fechaCompra"]),
+                        PagoTotal = Convert.ToDouble(columna["pagoTotal"]),
+                        CorreoParticipante = Convert.ToString(columna["correoParticipanteFK"]),
+                        NombreActividad = Convert.ToString(columna["nombreActividadFK"]),
+                    });
+            }
+            return facturas;
+        }
     }
 }

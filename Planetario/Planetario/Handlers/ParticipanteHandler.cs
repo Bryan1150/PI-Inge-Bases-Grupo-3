@@ -47,19 +47,19 @@ namespace Planetario.Handlers
             }
         }
 
-        public bool AlmacenarParticipacion(string correo, string nombreActividad)
+        public bool AlmacenarParticipacion(string correo, string nombreActividad, double precio)
         {
-            string consulta = "INSERT INTO Factura (pagoTotal, correoParticipanteFK, nombreActividadFK) VALUES (20000.00, @correoParticipanteFK, @nombreActividadFK)";
+            string consulta = "INSERT INTO Factura (pagoTotal, correoParticipanteFK, nombreActividadFK) VALUES (@pagoTotal, @correoParticipanteFK, @nombreActividadFK)";
             Dictionary<string, object> valoresParametros = new Dictionary<string, object>()
             {
                 { "@nombreActividadFK", nombreActividad },
-                { "@correoParticipanteFK", correo }
+                { "@correoParticipanteFK", correo },
+                { "@pagoTotal", precio }
             };
 
             bool exito = InsertarEnBaseDatos(consulta, valoresParametros);
 
             return exito;
         }
-
     }
 }

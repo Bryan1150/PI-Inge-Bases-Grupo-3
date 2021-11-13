@@ -87,6 +87,15 @@
                         }
                 )
             </div>
+            <div style="margin: 5%;">
+                @Html.ActionLink("Facturas", "verFacturasDeActividad",
+                    new { actividadNombre = ViewBag.actividad.NombreActividad },
+                    new
+                         {
+                            @class = "btn btn-success",
+                        }
+                )
+            </div>
         </div>
     </section>
 
