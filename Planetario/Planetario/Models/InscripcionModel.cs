@@ -9,6 +9,6 @@ namespace Planetario.Models
     public class InscripcionModel
     {
         public ParticipanteModel infoParticipante { get; set; }
-        public FacturaModel infoFactura { get; set; }
+        public TarjetaModel infoTarjeta { get; set; }
     }
 }

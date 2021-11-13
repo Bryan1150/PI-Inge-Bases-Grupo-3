@@ -1,4 +1,4 @@
-﻿@model Planetario.Models.ParticipanteModel
+﻿@model Planetario.Models.InscripcionModel
 @{
     ViewBag.Title = "Proceso de inscripción";
     List<SelectListItem> Generos = new List<SelectListItem>() {
@@ -57,9 +57,9 @@
                     <div class="container row">
                         <div class="col-md-4 col-sm-12">
                             <div class="form-floating">
-                                @Html.TextBoxFor(model => model.Correo, new { @id= "entradaCorreo", @class = "form-control input-lg", @placeholder = "correo" })
-                                @Html.LabelFor(model => model.Correo, htmlAttributes: new { @class = "" })
-                                @Html.ValidationMessageFor(model => model.Correo, "", new { @class = "text-danger" })
+                                @Html.TextBoxFor(model => model.infoParticipante.Correo, new { @id= "entradaCorreo", @class = "form-control input-lg", @placeholder = "correo" })
+                                @Html.LabelFor(model => model.infoParticipante.Correo, htmlAttributes: new { @class = "" })
+                                @Html.ValidationMessageFor(model => model.infoParticipante.Correo, "", new { @class = "text-danger" })
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-12">
@@ -76,44 +76,44 @@
                         <div class="row">
                             <div class="col-4 col-md-4 col-sm-12">
                                 <div class="form-floating">
-                                    @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @placeholder = "Nombre" })
-                                    @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label" })
-                                    @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(model => model.infoParticipante.Nombre, new { @class = "form-control", @placeholder = "Nombre" })
+                                    @Html.LabelFor(model => model.infoParticipante.Nombre, htmlAttributes: new { @class = "control-label" })
+                                    @Html.ValidationMessageFor(model => model.infoParticipante.Nombre, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="form-floating">
-                                    @Html.TextBoxFor(model => model.Apellido1, new { @class = "form-control", @placeholder = "Apellido1" })
-                                    @Html.LabelFor(model => model.Apellido1, htmlAttributes: new { @class = "control-label" })
-                                    @Html.ValidationMessageFor(model => model.Apellido1, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(model => model.infoParticipante.Apellido1, new { @class = "form-control", @placeholder = "Apellido1" })
+                                    @Html.LabelFor(model => model.infoParticipante.Apellido1, htmlAttributes: new { @class = "control-label" })
+                                    @Html.ValidationMessageFor(model => model.infoParticipante.Apellido1, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="form-floating">
-                                    @Html.TextBoxFor(model => model.Apellido2, new { @class = "form-control", @placeholder = "Apellido2" })
-                                    @Html.LabelFor(model => model.Apellido2, htmlAttributes: new { @class = "control-label" })
-                                    @Html.ValidationMessageFor(model => model.Apellido2, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(model => model.infoParticipante.Apellido2, new { @class = "form-control", @placeholder = "Apellido2" })
+                                    @Html.LabelFor(model => model.infoParticipante.Apellido2, htmlAttributes: new { @class = "control-label" })
+                                    @Html.ValidationMessageFor(model => model.infoParticipante.Apellido2, "", new { @class = "text-danger" })
                                 </div>
                             </div>
 
                             <div class="col-4 col-md-4 col-sm-12">
                                 <div class="form-floating">
-                                    @Html.DropDownListFor(model => model.Genero, Generos, "", new { @class = "form-control", @placeholder = "Genero" })
-                                    @Html.LabelFor(model => model.Genero, htmlAttributes: new { @class = "control-label" })
-                                    @Html.ValidationMessageFor(model => model.Genero, "", new { @class = "text-danger" })
+                                    @Html.DropDownListFor(model => model.infoParticipante.Genero, Generos, "", new { @class = "form-control", @placeholder = "Genero" })
+                                    @Html.LabelFor(model => model.infoParticipante.Genero, htmlAttributes: new { @class = "control-label" })
+                                    @Html.ValidationMessageFor(model => model.infoParticipante.Genero, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="form-floating">
-                                    @Html.DropDownListFor(model => model.Pais, Paises, "", new { @class = "form-control", @placeholder = "Pais" })
-                                    @Html.LabelFor(model => model.Pais, htmlAttributes: new { @class = "control-label" })
-                                    @Html.ValidationMessageFor(model => model.Pais, "", new { @class = "text-danger" })
+                                    @Html.DropDownListFor(model => model.infoParticipante.Pais, Paises, "", new { @class = "form-control", @placeholder = "Pais" })
+                                    @Html.LabelFor(model => model.infoParticipante.Pais, htmlAttributes: new { @class = "control-label" })
+                                    @Html.ValidationMessageFor(model => model.infoParticipante.Pais, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="form-floating">
-                                    @Html.DropDownListFor(model => model.NivelEducativo, NivelesEducativos, "", new { @class = "form-control dropdown-toggle", @placeholder = "NivelEducativo" })
-                                    @Html.LabelFor(model => model.NivelEducativo, htmlAttributes: new { @class = "control-label" })
-                                    @Html.ValidationMessageFor(model => model.NivelEducativo, "", new { @class = "text-danger" })
+                                    @Html.DropDownListFor(model => model.infoParticipante.NivelEducativo, NivelesEducativos, "", new { @class = "form-control dropdown-toggle", @placeholder = "NivelEducativo" })
+                                    @Html.LabelFor(model => model.infoParticipante.NivelEducativo, htmlAttributes: new { @class = "control-label" })
+                                    @Html.ValidationMessageFor(model => model.infoParticipante.NivelEducativo, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="col-4 col-md-4 col-sm-12 text-center" >
-                                @Html.LabelFor(model => model.FechaNacimiento, htmlAttributes: new { @class = "control-label" })
+                                @Html.LabelFor(model => model.infoParticipante.FechaNacimiento, htmlAttributes: new { @class = "control-label" })
                                 <div>
-                                    @Html.TextBoxFor(model => model.FechaNacimiento, new { @type = "date", @class = "form-​control datepicker", @placeholder = "Fecha" })
-                                    @Html.ValidationMessageFor(model => model.FechaNacimiento, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(model => model.infoParticipante.FechaNacimiento, new { @type = "date", @class = "form-​control datepicker", @placeholder = "Fecha" })
+                                    @Html.ValidationMessageFor(model => model.infoParticipante.FechaNacimiento, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <input class="form-control" id="NombreActividad" name="NombreActividad" type="hidden" value="@ViewBag.titulo" />
@@ -135,21 +135,31 @@
                         <div class="col-md-8">
                             <div class="card p-3">
                                 <h6 class="text-uppercase">Detalles de pago</h6>
-                                <div class="form-floating"> 
-                                    <input id="nombreTarjeta" type="text" name="name" class="form-control" required="required" placeholder="">
-                                <label for="nombreTarjeta">Nombre tarjeta</label>
+                                <div class="form-floating">
+                                    @Html.TextBoxFor(model => model.infoTarjeta.NombreTarjeta, new {@class = "form-control input-lg", @placeholder = ""})
+                                    @Html.LabelFor(model => model.infoTarjeta.NombreTarjeta, htmlAttributes: new { @class = "" })
+                                    @Html.ValidationMessageFor(model => model.infoTarjeta.NombreTarjeta, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-floating">
-                                            <input type="text" name="name" class="form-control" required="required" placeholder=""> 
-                                            <label># Tarjeta</label> 
+                                            @Html.TextBoxFor(model => model.infoTarjeta.NumeroTarjeta, new { @class = "form-control input-lg", @placeholder = "" })
+                                            @Html.LabelFor(model => model.infoTarjeta.NumeroTarjeta, htmlAttributes: new { @class = "" })
+                                            @Html.ValidationMessageFor(model => model.infoTarjeta.NumeroTarjeta, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="d-flex flex-row">
-                                            <div class="form-floating"> <input type="text" name="name" class="form-control" required="required" placeholder=""> <label>Expiración</label> </div>
-                                            <div class="form-floating"> <input type="text" name="name" class="form-control" required="required" placeholder=""> <label>CVV</label> <i class="fa fa-credit-card"></i> </div>
+                                            <div class="form-floating">
+                                                @Html.TextBoxFor(model => model.infoTarjeta.FechaExpiracion, new {@class = "form-control input-lg", @placeholder = ""})
+                                                @Html.LabelFor(model => model.infoTarjeta.FechaExpiracion, htmlAttributes: new { @class = "" })
+                                                @Html.ValidationMessageFor(model => model.infoTarjeta.FechaExpiracion, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="form-floating">
+                                                @Html.TextBoxFor(model => model.infoTarjeta.CVV, new {@class = "form-control input-lg", @placeholder = ""})
+                                                @Html.LabelFor(model => model.infoTarjeta.CVV, htmlAttributes: new { @class = "" })
+                                                @Html.ValidationMessageFor(model => model.infoTarjeta.CVV, "", new { @class = "text-danger" })
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -157,18 +167,34 @@
                                     <h6 class="text-uppercase">Dirección de cobro</h6>
                                     <div class="row mt-3">
                                         <div class="col-md-6">
-                                            <div class="form-floating"> <input type="text" name="name" class="form-control" required="required" placeholder=""> <label>Provincia</label> </div>
+                                            <div class="form-floating">
+                                                @Html.TextBoxFor(model => model.infoTarjeta.Provincia, new { @class = "form-control input-lg", @placeholder = "" })
+                                                @Html.LabelFor(model => model.infoTarjeta.Provincia, htmlAttributes: new { @class = "" })
+                                                @Html.ValidationMessageFor(model => model.infoTarjeta.Provincia, "", new { @class = "text-danger" })
+                                            </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="form-floating"> <input type="text" name="name" class="form-control" required="required" placeholder=""> <label>Cantón</label> </div>
+                                            <div class="form-floating">
+                                                @Html.TextBoxFor(model => model.infoTarjeta.Ciudad, new { @class = "form-control input-lg", @placeholder = "" })
+                                                @Html.LabelFor(model => model.infoTarjeta.Ciudad, htmlAttributes: new { @class = "" })
+                                                @Html.ValidationMessageFor(model => model.infoTarjeta.Ciudad, "", new { @class = "text-danger" })
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="row mt-2">
                                         <div class="col-md-6">
-                                            <div class="form-floating"> <input type="text" name="name" class="form-control" required="required" placeholder=""> <label>Detalles</label> </div>
+                                            <div class="form-floating">
+                                                @Html.TextBoxFor(model => model.infoTarjeta.DetallesDireccion, new { @class = "form-control input-lg", @placeholder = "" })
+                                                @Html.LabelFor(model => model.infoTarjeta.DetallesDireccion, htmlAttributes: new { @class = "" })
+                                                @Html.ValidationMessageFor(model => model.infoTarjeta.DetallesDireccion, "", new { @class = "text-danger" })
+                                            </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="form-floating"> <input type="text" name="name" class="form-control" required="required" placeholder=""> <label>Codigó postal</label> </div>
+                                            <div class="form-floating">
+                                                @Html.TextBoxFor(model => model.infoTarjeta.CodigoPostal, new { @class = "form-control input-lg", @placeholder = "" })
+                                                @Html.LabelFor(model => model.infoTarjeta.CodigoPostal, htmlAttributes: new { @class = "" })
+                                                @Html.ValidationMessageFor(model => model.infoTarjeta.CodigoPostal, "", new { @class = "text-danger" })
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
