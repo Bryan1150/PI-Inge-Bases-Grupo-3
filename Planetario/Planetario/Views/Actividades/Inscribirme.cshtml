@@ -50,7 +50,7 @@
 
             @Html.AntiForgeryToken()
 
-            <h4>Formulario inscripción</h4>
+            <h4>Información Personal</h4>
             <hr />
             <div class="row">
                 <div class="col-6 col-md-6 col-sm-12">
@@ -97,7 +97,20 @@
                         @Html.TextBoxFor(model => model.FechaNacimiento, new { @type = "date", @class = "form-​control datepicker" })
                         @Html.ValidationMessageFor(model => model.FechaNacimiento, "", new { @class = "text-danger" })
                     </div>
+                    <br /><br />
                 </div>
+                
+                <h4>Datos de Pago</h4>
+                <hr />
+                <div class="row">
+                    <div class="col-6 col-md-6 col-sm-12">
+                        @Html.Label("Nombre en la tarjeta")
+                        <div class="col-md-10">
+                            @Html.TextBox("nombreTarjeta", "", new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+
                 <input class="form-control" id="NombreActividad" name="NombreActividad" type="hidden" value="@ViewBag.titulo" />
 
                 <div class="row">
