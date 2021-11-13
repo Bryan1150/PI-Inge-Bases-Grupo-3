@@ -20,13 +20,15 @@
             <th>Noticia</th>
             <th>Autor</th>
             <th>Fecha</th>
+            <th>Categoria</th>
         </tr>
         @foreach(Planetario.Models.NoticiaModel noticia in ViewBag.noticias)
             {
                 <tr>
-                    <td>@Html.ActionLink(noticia.titulo, "verNoticia", "Noticias", new {stringId = @noticia.id.ToString()}, null)</td>
-                    <td>@noticia.correoAutor</td>
-                    <td>@noticia.fecha</td>
+                    <td>@Html.ActionLink(noticia.Titulo, "verNoticia", "Noticias", new {stringId = @noticia.id.ToString()}, null)</td>
+                    <td>@noticia.CorreoAutor</td>
+                    <td>@noticia.Fecha</td>
+                    <td>@noticia.CategoriaNoticia</td>
                 </tr>
             }
     </table>

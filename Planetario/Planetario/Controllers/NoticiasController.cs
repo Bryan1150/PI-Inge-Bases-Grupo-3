@@ -14,7 +14,6 @@ namespace Planetario.Controllers
         {
             NoticiasHandler accesoDatos = new NoticiasHandler();
             ViewBag.noticias = accesoDatos.obtenerTodasLasNoticias();
-            ViewBag.categorias = accesoDatos.ObtenerCategorias();
             return View();
         }
 
@@ -35,7 +34,7 @@ namespace Planetario.Controllers
                     ViewBag.ExitoAlCrear = accesoDatos.crearNoticia(noticia);
                     if (ViewBag.ExitoAlCrear)
                     {
-                        ViewBag.Message = "La noticia" + " " + noticia.titulo + " fue creada con éxito :)";
+                        ViewBag.Message = "La noticia" + " " + noticia.Titulo + " fue creada con éxito :)";
                         ModelState.Clear();
                     }
                 }
@@ -105,11 +104,10 @@ namespace Planetario.Controllers
        public ActionResult verNoticia(string stringId)
         {
             NoticiasHandler accesoDatos = new NoticiasHandler();
-           ViewBag.noticia = accesoDatos.buscarNoticia(stringId);
-           return View();
+            ViewBag.noticia = accesoDatos.buscarNoticia(stringId);
+            ViewBag.topicos = accesoDatos.obtenerTopicos(stringId);
+            return View();
         }
-
-        
 
         [HttpGet]
         public ActionResult ObtenerImagen(string numNoticia)

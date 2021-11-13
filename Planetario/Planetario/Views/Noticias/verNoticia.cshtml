@@ -1,45 +1,44 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>@ViewBag.noticia.titulo</title>
+    <title>@ViewBag.noticia.Titulo</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
 </head>
 <body>
-    <h1>@ViewBag.noticia.titulo</h1>
+    <h1>@ViewBag.noticia.Titulo</h1>
     <div class="well">
         <small>
-            Autor: @ViewBag.noticia.correoAutor<br />
-            Fecha: @ViewBag.noticia.fecha <br />
-            Id: @ViewBag.noticia.id.ToString()
+            Autor: @ViewBag.noticia.CorreoAutor<br />
+            Fecha: @ViewBag.noticia.Fecha <br />
         </small>
         <hr />
-        <p>@ViewBag.noticia.cuerpo</p>
-        <img src=@Url.Action("ObtenerImagen", "Noticias",  new { numNoticia = ViewBag.noticia.id.ToString() }) style="width:200px;height:200px;">
+        <p>@ViewBag.noticia.Cuerpo</p>
 
+        @if (@ViewBag.noticia.id == 1)
+        {
+        <div class="col-md-4">
+            <img src="https://imagenes.20minutos.es/files/image_656_370/uploads/imagenes/2021/01/05/16098389452216.jpeg" />
+        </div>
+        }
+
+        @if (@ViewBag.noticia.id == 2)
+        {
+        <div class="col-md-4">
+            <img src="https://estaticos.muyinteresante.es/media/cache/760x570_thumb/uploads/images/article/597ee3835bafe8bfc71d398d/via-lactea_0.jpg" />
+        </div>
+        }
+
+        @if (@ViewBag.noticia.id == 3)
+        {
+        <div class="col-md-4">
+            <img src="https://pm1.narvii.com/6961/24ab2e40514ff17c313777c49fdf816bbcb7756er1-540-535v2_hq.jpg" />
+        </div>
+        }
 
         <div>
             @Html.ActionLink("Regresar", "listadoDeNoticias", "Noticias")
         </div>
-
-        <div>
-            @foreach (var noticia in ViewBag.noticia)
-            {
-                if (noticia.categoriaNoticia == @ViewBag.categorias[numCategoria])
-                {
-                    <p>
-                        <i>
-                            Tópico(s): @noticia.topicoNoticia @if (noticia.topicoNoticia2 != "NULL")
-                            {@noticia.topicoNoticia2}
-                        else { } @if (noticia.topicoNoticia3 != "NULL")
-                            {@noticia.topicoNoticia3}
-                        else { }
-                    </i>
-                </p>
-                }
-            }
-            </div>
-
     </div>
 </body>
 </html>

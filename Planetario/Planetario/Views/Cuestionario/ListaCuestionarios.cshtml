@@ -14,12 +14,14 @@
     <table class="table table-hover table-responsive">
         <tr>
             <th>Cuestionario</th>
+            <th>Dificultad</th>
             <th>Link</th>
         </tr>
         @foreach (Planetario.Models.CuestionarioModel cuestionario in ViewBag.ListaCuestionarios)
         {
             <tr>
                 <td>@cuestionario.NombreCuestionario</td>
+                <td>@cuestionario.Dificultad</td>
                 <td>@Html.ActionLink("hacer cuestionario", "verCuestionario", "Cuestionario", new { nombre = @cuestionario.NombreCuestionario.ToString() }, null)</td>
             </tr>
         }
