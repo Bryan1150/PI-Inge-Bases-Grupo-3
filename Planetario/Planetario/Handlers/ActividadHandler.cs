@@ -103,7 +103,7 @@ namespace Planetario.Handlers
             ActividadModel actividad = null;
             string Consulta = "Select * FROM Actividad WHERE nombreActividadPK = '" + nombre + "';";
             DataTable tablaResultado = LeerBaseDeDatos(Consulta);
-            if (tablaResultado.Rows[0] != null) // se cae igual
+            if (tablaResultado.Rows.Count >= 1)
             {
                 actividad = new ActividadModel
                 {
