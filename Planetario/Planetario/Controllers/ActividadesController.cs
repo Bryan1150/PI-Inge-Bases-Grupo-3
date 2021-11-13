@@ -87,7 +87,7 @@ namespace Planetario.Controllers
         }
 
         [HttpPost]
-        public ActionResult Inscribirme(ParticipanteModel participante)
+        public ActionResult Inscribirme(InscripcionModel info)
         {
             ViewBag.exitoAlInscribir = false;
             try
@@ -96,15 +96,15 @@ namespace Planetario.Controllers
                 {
                     ParticipanteHandler accesoDatos = new ParticipanteHandler();
                     ActividadHandler actividad = new ActividadHandler();
-                    bool estaAlmacenado = accesoDatos.ParticipanteEstaAlmacenado(participante.Correo);
+                    bool estaAlmacenado = accesoDatos.ParticipanteEstaAlmacenado(info.infoParticipante.Correo);
                     if (!estaAlmacenado)
-                        estaAlmacenado = accesoDatos.AlmacenarParticipante(participante);
+                        estaAlmacenado = accesoDatos.AlmacenarParticipante(info.infoParticipante);
                     if (estaAlmacenado)
-                        ViewBag.exitoAlInscribir = accesoDatos.AlmacenarParticipacion(participante.Correo, participante.NombreActividad, actividad.buscarActividad(participante.NombreActividad).PrecioAproximado); // almacenar participación cambiado para que guarde el precio de la actividad
+                        ViewBag.exitoAlInscribir = accesoDatos.AlmacenarParticipacion(info.infoParticipante.Correo, info.infoParticipante.NombreActividad, actividad.buscarActividad(info.infoParticipante.NombreActividad).PrecioAproximado); // almacenar participación cambiado para que guarde el precio de la actividad
 
                     if (ViewBag.exitoAlInscribir)
                     {
-                        ViewBag.Message = "Usted ha está inscrito en la actividad " + participante.NombreActividad;
+                        ViewBag.Message = "Usted ha está inscrito en la actividad " + info.infoParticipante.NombreActividad;
                         ModelState.Clear();
                     }
                 }
