@@ -68,7 +68,7 @@
             </div>
         </div>
         <div class="row">
-            <p><span><b>Topicos:</b></span></p>
+            <p><span> <i class="fa fa-check"></i><b>Topicos</b></span></p>
             @foreach (var topico in ViewBag.topicos)
             {
                 <p style="display:inline;">-@topico</p>
@@ -78,7 +78,7 @@
             <p>Contacto del organizador: @ViewBag.actividad.PropuestoPor</p>
         </div>
         <div class="row">
-            <div>
+            <div class="col col-md-4 col-sm-12">
                 @Html.ActionLink("Inscribirme", "Inscribirme",
                     new { titulo = ViewBag.actividad.NombreActividad },
                     new
@@ -87,8 +87,8 @@
                         }
                 )
             </div>
-            <div style="margin: 5%;">
-                @Html.ActionLink("Facturas", "verFacturasDeActividad",
+            <div class="col col-md-4 col-sm-12">
+                @Html.ActionLink("Ver facturas", "verFacturasDeActividad",
                     new { actividadNombre = ViewBag.actividad.NombreActividad },
                     new
                          {
@@ -101,7 +101,7 @@
 
     <aside>
         <h5><b>Actividades Similares:</b></h5>
-        <table class="table table-hover table-responsive">
+        <table class="table table-responsive">
             <tr>
                 <th>Actividad</th>
                 <th>Categoria</th>
