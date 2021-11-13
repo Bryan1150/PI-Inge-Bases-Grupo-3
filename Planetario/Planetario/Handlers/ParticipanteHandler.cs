@@ -61,5 +61,39 @@ namespace Planetario.Handlers
 
             return exito;
         }
+        public string AppendRestante(string toAppend, int comprobacion)
+        {
+            if (comprobacion < 10)
+            {
+                toAppend = "0" + toAppend;
+            }
+            return toAppend;
+        }
+        public string TranslateFecha(string fecha)
+        {
+            DateTime fechaDateTime = DateTime.Parse(fecha);
+            string year = AppendRestante(fechaDateTime.Year.ToString(), fechaDateTime.Year);
+            string month = AppendRestante(fechaDateTime.Month.ToString(), fechaDateTime.Month);
+            string day = AppendRestante(fechaDateTime.Day.ToString(), fechaDateTime.Day);
+
+            string resultado = year + '-' + month + '-' + day;
+            return resultado;
+        }
+        public ParticipanteModel GetParticipante(string correo)
+        {
+            string consulta = "SELECT * FROM Participante WHERE correoParticipantePK = '" + correo + "';";
+            DataTable resultado = LeerBaseDeDatos(consulta);
+            return (new ParticipanteModel()
+            {
+                Correo = Convert.ToString(resultado.Rows[0]["correoParticipantePK"]),
+                Nombre = Convert.ToString(resultado.Rows[0]["nombre"]),
+                Apellido1 = Convert.ToString(resultado.Rows[0]["apellido1"]),
+                Apellido2 = Convert.ToString(resultado.Rows[0]["apellido2"]),
+                Genero = Convert.ToString(resultado.Rows[0]["genero"]),
+                Pais = Convert.ToString(resultado.Rows[0]["pais"]),
+                FechaNacimiento = TranslateFecha(Convert.ToString(resultado.Rows[0]["fechaNacimiento"])),
+                NivelEducativo = Convert.ToString(resultado.Rows[0]["nivelEducativo"])
+            });
+        }
     }
 }

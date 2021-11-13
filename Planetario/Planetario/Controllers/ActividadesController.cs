@@ -78,7 +78,7 @@ namespace Planetario.Controllers
         }
 
         [HttpGet]
-        public ActionResult Inscribirme(string titulo) // si quieren que en la vista salga precio deberian tambien poner un para metro extra que pregunte por el precio
+        public ActionResult Inscribirme(string titulo)
         {
             ActividadHandler accesoDatos = new ActividadHandler();
             ViewBag.precio = accesoDatos.getPrecio(titulo);
@@ -125,5 +125,23 @@ namespace Planetario.Controllers
             ViewBag.nombreActividad = actividadNombre;
             return View();
         }
+
+        [HttpGet]
+        public JsonResult ValidarCorreo(string correo)
+        {
+            ParticipanteHandler accesoDatos = new ParticipanteHandler();
+            bool existe = accesoDatos.ParticipanteEstaAlmacenado(correo);
+            if (existe)
+            {
+                var participante = accesoDatos.GetParticipante(correo);
+                return Json(new{estaAlmacenado = true, infoPersonal = participante}, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new {estaAlmacenado = false, infoPersonal = ""}, JsonRequestBehavior.AllowGet);
+            }
+            
+        }
+
     }
 }

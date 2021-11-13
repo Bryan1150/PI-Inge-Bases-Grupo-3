@@ -168,11 +168,19 @@ namespace Planetario.Handlers
             return facturas;
         }
 
-        public double getPrecio(string nombreActividad)
+        public decimal getPrecio(string nombreActividad)
         {
-            string Consulta = "SELECT PrecioAprox FROM Actividad WHERE nombreActividadPK = '" + nombreActividad + "';";
+            string Consulta = "SELECT CAST(PrecioAprox AS DECIMAL(16,2)) AS Precio FROM Actividad WHERE nombreActividadPK = '" + nombreActividad + "';";
             DataTable tablaResultado = LeerBaseDeDatos(Consulta);
-            double precio = Convert.ToDouble(tablaResultado.Rows[0]["PrecioAprox"]);
+            decimal precio;
+            if (tablaResultado.Rows.Count != 1)
+            {
+                precio = 0;
+            }
+            else
+            {
+                precio = Convert.ToDecimal(tablaResultado.Rows[0]["Precio"]);
+            }
             return precio;
         }
     }
