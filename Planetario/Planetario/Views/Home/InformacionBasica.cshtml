@@ -16,7 +16,7 @@
 
     <style>
         .carousel-item {
-            height: 30em;
+            height: 40em;
         }
     </style>
 
@@ -30,24 +30,27 @@
 
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/A_small_cup_of_coffee.JPG/800px-A_small_cup_of_coffee.JPG" alt="Los Angeles" class="d-block w-100">
+                    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi0.wp.com%2Finsurgentepress.com.mx%2Fwp-content%2Fuploads%2F2020%2F05%2FApophisAsteroid.jpg%3Ffit%3D1600%252C900%26ssl%3D1&f=1&nofb=1" alt="Asteroide" class="d-block w-100">
                     <div class="carousel-caption">
-                        <h3>Noticia 1</h3>
-                        <p>Texto ejemplo 3</p>
+                        <h3>Asteroide en direccion hacia la Tierra</h3>
+                        <p style="color:white">Un asteroide de 500 toneladas esta en dirección de colisión a la Tierra en los proximos 100 años</p>
+                        @Html.ActionLink("Ver noticia", "verNoticia", "Noticias", new { stringId = 1, style = "color:white" }, null)
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Coffee_beans_unroasted.jpg/800px-Coffee_beans_unroasted.jpg" alt="Chicago" class="d-block w-100">
+                    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwallup.net%2Fwp-content%2Fuploads%2F2019%2F09%2F865267-galaxia-andromeda-estrella-espacio.jpg&f=1&nofb=1" alt="Galaxia" class="d-block w-100">
                     <div class="carousel-caption">
-                        <h3>Noticia 2</h3>
-                        <p>Texto ejemplo 2</p>
+                        <h3>Se descubre una nueva Galaxia</h3>
+                        <p style="color:white">Cientificos encuentran nueva galaxia cercana a la nuestra.</p>
+                        @Html.ActionLink("Ver noticia", "verNoticia", "Noticias", new { stringId = 2, style = "color:white" }, null)
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Coffee_beans2.jpg/800px-Coffee_beans2.jpg" alt="New York" class="d-block w-100">
+                    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.chispa.tv%2F__export%2F1509561633274%2Fsites%2Fdebate%2Fimg%2F2017%2F11%2F01%2F855febf1dce40a0fb692d206fd87c9b9858d100c_crop1509560219671.jpg_242310155.jpg&f=1&nofb=1" alt="New York" class="d-block w-100">
                     <div class="carousel-caption">
-                        <h3>Noticia 3</h3>
-                        <p>Texto ejemplo 3</p>
+                        <h3>Se encontró el primer planeta de la galaxia recien descubierta</h3>
+                        <p style="color:white">El planeta será llamado Grupo-03</p>
+                        @Html.ActionLink("Ver noticia", "verNoticia", "Noticias", new { stringId = 3, style = "color:white"}, null)
                     </div>
                 </div>
             </div>

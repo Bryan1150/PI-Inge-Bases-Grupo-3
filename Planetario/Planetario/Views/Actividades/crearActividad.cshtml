@@ -2,10 +2,25 @@
 @{ 
     ViewBag.Title = "Crear Actividad";
     List<SelectListItem> Categorias = new List<SelectListItem>() {
-        new SelectListItem { Text = "Cuerpos del Sistema Solar", Value = null },
+        new SelectListItem { Text = "Cuerpos del Sistema Solar", Value = "Cuerpos del Sistema Solar" },
         new SelectListItem { Text = "Objetos de Cielo Profundo", Value = "Objetos de Cielo Profundo"  },
         new SelectListItem { Text = "Astronomia", Value = "Astronomia" },
         new SelectListItem { Text = "General", Value = "General" },
+    };
+    List<SelectListItem> Complejidad = new List<SelectListItem>() {
+        new SelectListItem { Text = "Simple", Value = "Simple" },
+        new SelectListItem { Text = "Intermedio", Value = "Intermedio"  },
+        new SelectListItem { Text = "Avanzado", Value = "Avanzado" },
+    };
+    List<SelectListItem> Publico = new List<SelectListItem>() {
+        new SelectListItem { Text = "Niños", Value = "Niños" },
+        new SelectListItem { Text = "Jóvenes", Value = "Jóvenes"  },
+        new SelectListItem { Text = "Adultos", Value = "Adultos" },
+        new SelectListItem { Text = "Adultos Mayores", Value = "Adultos Mayores" },
+    };
+    List<SelectListItem> Tipo = new List<SelectListItem>() {
+        new SelectListItem { Text = "Taller", Value = "Taller" },
+        new SelectListItem { Text = "Charla", Value = "Charla"  },
     };
 }
 
@@ -15,29 +30,12 @@
     <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
 </head>
 <body>
-    @if (ViewBag.Message != null)
-    {
-        if (ViewBag.ExitoAlCrear)
-        {
-            <div class="alert-success">
-                <h3> @ViewBag.Message </h3>
-            </div>
-        }
-        else
-        {
-            <div class="alert-danger">
-                <h3> @ViewBag.Message </h3>
-            </div>
-        }
-    }
-
-    <span class="titulo">
-        Agregar Actividad
-    </span>
 
     @using (Html.BeginForm("crearActividad", "Actividades", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
+        <span class="titulo">Agregar Actividad</span>
         <h4>Ingrese los datos para crear una Actividad</h4>
+        <p class="alert-success">@ViewBag.Message</p>
         <hr />
         <div class="row">
             <div class="col-6 col-md-6 col-sm-12">
@@ -46,48 +44,20 @@
                     @Html.TextBoxFor(model => model.NombreActividad, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.NombreActividad, "", new { @class = "text-danger" })
                 </div>
-                @Html.LabelFor(model => model.Categoria, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.Categoria, Categorias, "--Categoría--", new { @id = "categoriaPregunta", @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Categoria, "", new { @class = "text-danger" })
-                </div>
+
                 @Html.LabelFor(model => model.Duracion, htmlAttributes: new { @class = "control-label " })
                 <div class="col-md-10">
                     @Html.TextBoxFor(model => model.Duracion, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Duracion, "", new { @class = "text-danger" })
                 </div>
-                @Html.LabelFor(model => model.Complejidad, htmlAttributes: new { @class = "control-label " })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(model => model.Complejidad, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Complejidad, "", new { @class = "text-danger" })
-                </div>
-                @Html.LabelFor(model => model.PublicoDirigido, htmlAttributes: new { @class = "control-label " })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(model => model.PublicoDirigido, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.PublicoDirigido, "", new { @class = "text-danger" })
-                </div>
 
-                <div class="form-check form-switch">
-                    @Html.Label("virtual", "¿Es virtual?")
-                    @Html.CheckBox("virtual", false, htmlAttributes: new { @class = "form-check-input", @onclick = "addbox()" })
-                </div>
-                <div>
-                    @Html.LabelFor(model => model.Link, htmlAttributes: new { @class = "control-label", @id = "areaLabel", style = "display : none;" })
-                    @Html.TextBoxFor(model => model.Link, new { @class = "form-control", @id = "area", style = "display : none;" })
-                </div>
-
-            </div>
-            <div class="col-6 col-md-6 col-sm-12">
-                @Html.LabelFor(model => model.Duracion, htmlAttributes: new { @class = "control-label " })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(model => model.Duracion, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Duracion, "", new { @class = "text-danger" })
-                </div>
                 @Html.LabelFor(model => model.PrecioAproximado, htmlAttributes: new { @class = "control-label " })
                 <div class="col-md-10">
                     @Html.TextBoxFor(model => model.PrecioAproximado, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.PrecioAproximado, "", new { @class = "text-danger" })
                 </div>
+
+
                 @Html.LabelFor(model => model.DiaSemana, htmlAttributes: new { @class = "control-label " })
                 <div class="col-md-10">
                     @Html.TextBoxFor(model => model.DiaSemana, new { @class = "form-control" })
@@ -103,6 +73,43 @@
                     @Html.TextAreaFor(model => model.Descripcion, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
                 </div>
+
+
+
+                <div class="form-check form-switch">
+                    @Html.Label("virtual", "¿Es virtual?")
+                    @Html.CheckBox("virtual", false, htmlAttributes: new { @class = "form-check-input", @onclick = "addbox()" })
+                </div>
+                <div>
+                    @Html.LabelFor(model => model.Link, htmlAttributes: new { @class = "control-label", @id = "areaLabel", style = "display : none;" })
+                    @Html.TextBoxFor(model => model.Link, new { @class = "form-control", @id = "area", style = "display : none;" })
+                </div>
+
+            </div>
+            <div class="col-6 col-md-6 col-sm-12">
+                @Html.LabelFor(model => model.Tipo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Tipo, Tipo, "--Tipo--", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Tipo, "", new { @class = "text-danger" })
+                </div>
+
+                @Html.LabelFor(model => model.Categoria, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Categoria, Categorias, "--Categoría--", new { @id = "categoriaPregunta", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Categoria, "", new { @class = "text-danger" })
+                </div>
+
+                @Html.LabelFor(model => model.Complejidad, htmlAttributes: new { @class = "control-label " })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Complejidad, Complejidad, "--Complejidad--", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Complejidad, "", new { @class = "text-danger" })
+                </div>
+
+                @Html.LabelFor(model => model.PublicoDirigido, htmlAttributes: new { @class = "control-label " })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.PublicoDirigido, Publico, "--Publico--", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PublicoDirigido, "", new { @class = "text-danger" })
+                </div>
             </div>
         </div>
         <div class="row">
@@ -116,17 +123,19 @@
         @Html.ActionLink("Regresar a Inicio", "InformacionBasica", "Home")
     </div>
 
+    <div style="margin-top:70px"></div>
+
     <script>
 
-    function addbox() {
-        if (document.getElementById('virtual').checked) {
-            document.getElementById('area').style.display = 'block';
-            document.getElementById('areaLabel').style.display = 'block';
-        } else {
-            document.getElementById('area').style.display = 'none';
-            document.getElementById('areaLabel').style.display = 'none';
+        function addbox() {
+            if (document.getElementById('virtual').checked) {
+                document.getElementById('area').style.display = 'block';
+                document.getElementById('areaLabel').style.display = 'block';
+            } else {
+                document.getElementById('area').style.display = 'none';
+                document.getElementById('areaLabel').style.display = 'none';
+            }
         }
-    }
     </script>
 </body>
 </html>

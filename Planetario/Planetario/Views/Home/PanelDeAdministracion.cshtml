@@ -82,6 +82,28 @@
                     <p class="card-text">@Html.ActionLink("Agregar Evento", "AgregarEvento", "Eventos", new { area = "" }, new { @class = "" })</p>
                 </div>
             </div>
+            <div class="col">
+                <div class="card">
+                    <span class="titulo">
+                        <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                        <br />
+                        Cuestionarios
+                    </span>
+                    <p class="card-text">@Html.ActionLink("Agregar Cuestionario", "agregarCuestionario", "Cuestionario", new { area = "" }, new { @class = "" })</p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <span class="titulo">
+                        <i class="fa fa-line-chart" aria-hidden="true"></i>
+                        <br />
+                        Estadisticas
+                    </span>
+                    <p class="card-text">@Html.ActionLink("Ver Idiomas", "verIdiomas", "Estadisticas", new { area = "" }, new { @class = "" })</p>
+                    <p class="card-text">@Html.ActionLink("Ver Involucramiento", "verInvolucramiento", "Estadisticas", new { area = "" }, new { @class = "" })</p>
+                </div>
+            </div>
         </div>
     </div>
+    <div style="margin-top:100px"></div>
 </body>
