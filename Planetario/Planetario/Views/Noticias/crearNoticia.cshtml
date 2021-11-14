@@ -1,7 +1,14 @@
 ﻿@model Planetario.Models.NoticiaModel
 @{
     ViewBag.Title = "Crear noticia";
+    List<SelectListItem> Categorias = new List<SelectListItem>() {
+        new SelectListItem { Text = "Cuerpos del Sistema Solar", Value = null },
+        new SelectListItem { Text = "Objetos de Cielo Profundo", Value = "Objetos de Cielo Profundo"  },
+        new SelectListItem { Text = "Astronomia", Value = "Astronomia" },
+        new SelectListItem { Text = "General", Value = "General" },
+    };
 }
+
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
@@ -60,7 +67,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.CategoriaNoticia, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.TextBoxFor(model => model.CategoriaNoticia, new { @class = "form-control" })
+                        @Html.DropDownListFor(model => model.CategoriaNoticia, Categorias, "- - -", new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.CategoriaNoticia, "", new { @class = "text-danger" })
                     </div>
                 </div>
