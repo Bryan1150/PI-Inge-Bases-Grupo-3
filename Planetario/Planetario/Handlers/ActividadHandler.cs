@@ -17,8 +17,10 @@ namespace Planetario.Handlers
             string Consulta = "INSERT INTO Actividad (nombreActividadPK, descripcion, " +
                 "duracionMins, complejidad, precioAprox, categoriaActividad, diaSemana, propuestoPorFK, publicoDirigidoActividad, tipo, link) "
                 + " VALUES ( @nombreActividadPK, @descripcion, @duracionMins, @complejidad, " +
-                "@precioAprox, @categoriaActividad, @diaSemana, @propuestoPorFK, @publicoDirigidoActividad, @tipo, @link)";
-            
+                "@precioAprox, @categoria, @diaSemana, @propuestoPorFK, @publicoDirigidoActividad, @tipo, @link)";
+
+            if (actividad.Link == null) { actividad.Link = ""; }
+
             Dictionary<string, object> valoresParametros = new Dictionary<string, object> {
                 {"@nombreActividadPK", actividad.NombreActividad },
                 {"@descripcion", actividad.Descripcion },
@@ -29,7 +31,7 @@ namespace Planetario.Handlers
                 {"@diaSemana", actividad.DiaSemana},
                 {"@propuestoPorFK", actividad.PropuestoPor },
                 {"@publicoDirigidoActividad", actividad.PublicoDirigido },
-                {"@tipo", "Charla" },
+                {"@tipo", actividad.Tipo },
                 {"@link", actividad.Link }
             };
             
