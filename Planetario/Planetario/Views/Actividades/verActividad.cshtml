@@ -24,11 +24,70 @@
             float: right;
             width: 30%;
         }
+
+        row {
+            text-align:center;
+        }
     </style>
 </head>
 <body>
-    <h1>@ViewBag.actividad.NombreActividad</h1>
     <section>
+        <span class="titulo">@ViewBag.actividad.NombreActividad</span>
+        <hr />
+        <div class="align-top", style="text-align:center">
+            <p>
+                <span>
+                    <i class="fa fa-check"></i>
+                    <strong>Descripcion</strong>
+                </span>
+            </p>
+            <p>
+                @ViewBag.actividad.Descripcion
+            </p>
+
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-sm-12">
+                <p>
+                    <span>
+                        <i class="fa fa-check"></i>
+                        <strong>Fecha</strong>
+                    </span>
+                </p>
+                <p>
+                    @ViewBag.actividad.Categoria
+                </p>
+            </div>
+
+            <div class="col-md-4 col-sm-12">
+                <p>
+                    <span>
+                        <i class="fa fa-check"></i>
+                        <strong>Descripción</strong>
+                    </span>
+                </p>
+                <p>
+                    @ViewBag.actividad.Duracion minutos.
+                </p>
+            </div>
+            <div class="col-md-4 col-sm-12">
+                <p>
+                    <span>
+                        <i class="fa fa-check"></i>
+                        <strong>Hora</strong>
+                    </span>
+                </p>
+                <p>
+                    @ViewBag.actividad.Complejidad
+                </p>
+            </div>
+        </div>
+
+
+        <h1>@ViewBag.actividad.NombreActividad</h1>
+
+
+
         <div class="card">
             <small>
                 <i>Autor: @ViewBag.actividad.PropuestoPor</i><br />
@@ -60,22 +119,22 @@
             <h4><b>Descripcion:</b></h4>
             @ViewBag.actividad.Descripcion
 
-        <div style="margin: 5%;">
-            @Html.ActionLink("Inscribirme", "Inscribirme",
-                new { titulo = ViewBag.actividad.NombreActividad },
-                new
-                     {
-                        @class = "btn btn-success",
-                    }
-            )
+            <div style="margin: 5%;">
+                @Html.ActionLink("Inscribirme", "Inscribirme",
+                    new { titulo = ViewBag.actividad.NombreActividad },
+                    new
+                         {
+                            @class = "btn btn-success",
+                        }
+                )
+            </div>
         </div>
-    </div>
 
-    <div id="twitch-embed"></div>
+        <div id="twitch-embed"></div>
 
-    <script src="https://embed.twitch.tv/embed/v1.js"></script>
+        <script src="https://embed.twitch.tv/embed/v1.js"></script>
 
-    <script type="text/javascript">
+        <script type="text/javascript">
         var Link = '@ViewBag.actividad.Link';
         console.log(Link);
         Link = Link.toLowerCase();
@@ -88,17 +147,8 @@
                 theme: 'light'
             });
         };
-    </script>
-            <div style="margin: 5%;">
-                @Html.ActionLink("Inscribirme", "Inscribirme",
-                    new { titulo = ViewBag.actividad.NombreActividad },
-                    new
-                         {
-                            @class = "btn btn-success",
-                        }
-                )
-            </div>
-        </div>
+        </script>
+
     </section>
 
     <aside>
@@ -107,7 +157,6 @@
             <tr>
                 <th>Actividad</th>
                 <th>Categoria</th>
-                <th>Día que se imparte</th>
                 <th>Detalles</th>
             </tr>
             @foreach (Planetario.Models.ActividadModel actividad in ViewBag.actividades)
@@ -115,7 +164,6 @@
                 <tr>
                     <td>@actividad.NombreActividad</td>
                     <td>@actividad.Categoria</td>
-                    <td>@actividad.DiaSemana</td>
                     <td>@Html.ActionLink("ver más", "verActividad", "Actividades", new { nombre = @actividad.NombreActividad.ToString() }, null)</td>
                 </tr>
             }
