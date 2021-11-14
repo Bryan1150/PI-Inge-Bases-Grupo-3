@@ -100,11 +100,11 @@ namespace Planetario.Controllers
                     if (!estaAlmacenado)
                         estaAlmacenado = accesoDatos.AlmacenarParticipante(info.infoParticipante);
                     if (estaAlmacenado)
-                        ViewBag.exitoAlInscribir = accesoDatos.AlmacenarParticipacion(info.infoParticipante.Correo, info.infoParticipante.NombreActividad, actividad.buscarActividad(info.infoParticipante.NombreActividad).PrecioAproximado); // almacenar participación cambiado para que guarde el precio de la actividad
+                        ViewBag.exitoAlInscribir = accesoDatos.AlmacenarParticipacion(info.infoParticipante.Correo, Request.Form["TituloActividad"], Double.Parse(Request.Form["PrecioActividad"]));
 
                     if (ViewBag.exitoAlInscribir)
                     {
-                        ViewBag.Message = "Usted ha está inscrito en la actividad " + info.infoParticipante.NombreActividad;
+                        ViewBag.Message = "Usted ha está inscrito en la actividad " + Request.Form["TituloActividad"];
                         ModelState.Clear();
                     }
                 }

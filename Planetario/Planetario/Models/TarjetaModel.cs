@@ -8,10 +8,10 @@ namespace Planetario.Models
 {
     public class TarjetaModel
     {
-        [Required(ErrorMessage = "Es necesario que ingrese un nombre")]
+        [Required(ErrorMessage = "Es necesario que ingrese un número")]
         [MaxLength(16, ErrorMessage = "Debe ingresar 16 dígitos")]
         [MinLength(16, ErrorMessage = "Debe ingresar 16 dígitos")]
-        public int NumeroTarjeta { get; set; }
+        public string NumeroTarjeta { get; set; }
 
         [Required(ErrorMessage = "Es necesario que ingrese un nombre")]
         public string NombreTarjeta { get; set; }

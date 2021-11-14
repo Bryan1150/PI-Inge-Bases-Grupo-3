@@ -57,7 +57,7 @@
                     <div class="container row">
                         <div class="col-md-4 col-sm-12">
                             <div class="form-floating">
-                                @Html.TextBoxFor(model => model.infoParticipante.Correo, new { @id= "entradaCorreo", @class = "form-control input-lg", @placeholder = "correo" })
+                                @Html.TextBoxFor(model => model.infoParticipante.Correo, new { @id = "entradaCorreo", @class = "form-control input-lg", @placeholder = "correo" })
                                 @Html.LabelFor(model => model.infoParticipante.Correo, htmlAttributes: new { @class = "" })
                                 @Html.ValidationMessageFor(model => model.infoParticipante.Correo, "", new { @class = "text-danger" })
                             </div>
@@ -109,7 +109,7 @@
                                     @Html.ValidationMessageFor(model => model.infoParticipante.NivelEducativo, "", new { @class = "text-danger" })
                                 </div>
                             </div>
-                            <div class="col-4 col-md-4 col-sm-12 text-center" >
+                            <div class="col-4 col-md-4 col-sm-12 text-center">
                                 @Html.LabelFor(model => model.infoParticipante.FechaNacimiento, htmlAttributes: new { @class = "control-label" })
                                 <div>
                                     @Html.TextBoxFor(model => model.infoParticipante.FechaNacimiento, new { @type = "date", @class = "form-​control datepicker", @placeholder = "Fecha" })
@@ -136,7 +136,7 @@
                             <div class="card p-3">
                                 <h6 class="text-uppercase">Detalles de pago</h6>
                                 <div class="form-floating">
-                                    @Html.TextBoxFor(model => model.infoTarjeta.NombreTarjeta, new {@class = "form-control input-lg", @placeholder = ""})
+                                    @Html.TextBoxFor(model => model.infoTarjeta.NombreTarjeta, new { @class = "form-control input-lg", @placeholder = "" })
                                     @Html.LabelFor(model => model.infoTarjeta.NombreTarjeta, htmlAttributes: new { @class = "" })
                                     @Html.ValidationMessageFor(model => model.infoTarjeta.NombreTarjeta, "", new { @class = "text-danger" })
                                 </div>
@@ -151,12 +151,12 @@
                                     <div class="col-md-6">
                                         <div class="d-flex flex-row">
                                             <div class="form-floating">
-                                                @Html.TextBoxFor(model => model.infoTarjeta.FechaExpiracion, new {@class = "form-control input-lg", @placeholder = ""})
+                                                @Html.TextBoxFor(model => model.infoTarjeta.FechaExpiracion, new { @class = "form-control input-lg", @placeholder = "" })
                                                 @Html.LabelFor(model => model.infoTarjeta.FechaExpiracion, htmlAttributes: new { @class = "" })
                                                 @Html.ValidationMessageFor(model => model.infoTarjeta.FechaExpiracion, "", new { @class = "text-danger" })
                                             </div>
                                             <div class="form-floating">
-                                                @Html.TextBoxFor(model => model.infoTarjeta.CVV, new {@class = "form-control input-lg", @placeholder = ""})
+                                                @Html.TextBoxFor(model => model.infoTarjeta.CVV, new { @class = "form-control input-lg", @placeholder = "" })
                                                 @Html.LabelFor(model => model.infoTarjeta.CVV, htmlAttributes: new { @class = "" })
                                                 @Html.ValidationMessageFor(model => model.infoTarjeta.CVV, "", new { @class = "text-danger" })
                                             </div>
@@ -209,14 +209,16 @@
                                 <span>Usted debe pagar</span>
                                 <div class="d-flex flex-row align-items-end mb-3">
                                     <h1 class="mb-0 yellow">₡ @ViewBag.precio</h1>
-                                </div> 
-                                <span>por su entrada a la actividad </span> 
+                                </div>
+                                <span>por su entrada a la actividad </span>
                                 <h3 class="yellow">@ViewBag.Titulo</h3>
                             </div>
                         </div>
                     </div>
                 </section>
             </div>
+            @Html.Hidden("TituloActividad", (object)ViewBag.Titulo)
+            @Html.Hidden("PrecioActividad", (object)ViewBag.precio)
         }
     }
     <script src="~/Utils/js/formularioInscripcion.js"></script>
@@ -231,14 +233,13 @@
                 document.getElementById("formularioCorreo").style.display = "none";
                 if(data.estaAlmacenado) {
                     document.getElementById("formularioDatosPago").style.display = "contents";
-                    document.getElementById("Nombre").value = data.infoPersonal.Nombre;
-                    document.getElementById("Apellido1").value = data.infoPersonal.Apellido1;
-                    document.getElementById("Apellido2").value = data.infoPersonal.Apellido2;
-                    document.getElementById("Pais").value = data.infoPersonal.Pais;
-                    document.getElementById("Genero").value = data.infoPersonal.Genero;
-                    document.getElementById("NivelEducativo").value = data.infoPersonal.NivelEducativo;
-                    document.getElementById("FechaNacimiento").value = data.infoPersonal.FechaNacimiento;
-                    console.log(data.infoPersonal.FechaNacimiento);
+                    document.getElementById("infoParticipante_Nombre").value = data.infoPersonal.Nombre;
+                    document.getElementById("infoParticipante_Apellido1").value = data.infoPersonal.Apellido1;
+                    document.getElementById("infoParticipante_Apellido2").value = data.infoPersonal.Apellido2;
+                    document.getElementById("infoParticipante_Pais").value = data.infoPersonal.Pais;
+                    document.getElementById("infoParticipante_Genero").value = data.infoPersonal.Genero;
+                    document.getElementById("infoParticipante_NivelEducativo").value = data.infoPersonal.NivelEducativo;
+                    document.getElementById("infoParticipante_FechaNacimiento").value = data.infoPersonal.FechaNacimiento;
                 } else {
                     document.getElementById("formularioDatosPersonales").style.display = "contents";
                 }
