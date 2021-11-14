@@ -28,7 +28,6 @@
             <th>Título</th>
             <th>Público</th>
             <th>Educador</th>
-            <th>Fecha</th>
             <th>Archivo</th>
         </tr>
         @foreach (var material in ViewBag.materiales)
@@ -38,11 +37,9 @@
                 <td>@material.Categoria </td>
                 <td>@material.PublicoDirigido</td>
                 <td>@material.NombreResponsable (@material.CorreoResponsable)</td>
-                <td>@material.Fecha</td>
                 <td>
-                    @Html.ActionLink("Ver", "accederArchivo",
-                         new { identificador = material.Id },
-                         new { target = "_blank" }
+                    @Html.ActionLink("Ver", "descargarArchivo",
+                         new { titulo = @material.Titulo }
                      )
                 </td>
             </tr>

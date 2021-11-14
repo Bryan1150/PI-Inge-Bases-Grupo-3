@@ -50,13 +50,13 @@ namespace Planetario.Handlers
         {
             bool exito;
             String Consulta =
-            "INSERT INTO dbo.Noticia(titulo, cuerpo, fecha, correoFuncionarioAutorFK, categoriaNoticia, Imagen1, tipoImagen1, tipoImagen2) VALUES(@titulo, @cuerpo, @fecha, @correo, @categoria, " +
+            "INSERT INTO dbo.Noticia(titulo, cuerpo, fecha, correoFuncionarioAutorFK, categoriaNoticia, Imagen1, tipoImagen1, Imagen2, tipoImagen2) VALUES(@titulo, @cuerpo, @fecha, @correo, @categoriaNoticia, " +
             "@imagen1, @tipoImagen1, @imagen2, @tipoImagen2);" +
             "DECLARE @identity int = scope_identity();" +
             "INSERT INTO dbo.NoticiaTopicos(idNoticiaFK, topicosNoticia) VALUES(@identity, @topicoNoticia);";
             Dictionary<string, object> valoresParametros = new Dictionary<string, object>
             {
-                { "@topicoNoticia",     noticia.TopicosNoticia },
+                { "@topicoNoticia",     "Placeholder"}, //noticia.TopicosNoticia 
                 { "@categoriaNoticia",  noticia.CategoriaNoticia },
                 { "@titulo",            noticia.Titulo },
                 { "@cuerpo",            noticia.Cuerpo },

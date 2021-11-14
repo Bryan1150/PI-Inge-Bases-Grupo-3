@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using Planetario.Models;
+using System.Configuration;
+using System.Web;
 
 namespace Planetario.Handlers
 {
@@ -24,16 +26,16 @@ namespace Planetario.Handlers
             object tipoArchivoVistaPrevia = System.Data.SqlTypes.SqlBinary.Null; ;
 
             columnas = "( tituloMaterialEducativoPK, categoriaMaterialEducativo, imagenVistaPrevia, " +
-                "tipoArchivoVistaPrevia, materialArchivo, materialTipoArchivo, correoFuncionario, publicoDirigidoMaterial )";
+                "tipoArchivoVistaPrevia, materialArchivo, materialTipoArchivo, correoFuncionarioFK, publicoDirigidoMaterial )";
             valores  = "( @titulo, @categoria, @imagenVistaPrevia, @tipoArchivoVistaPrevia, @archivo, " +
-                "@tipoArchivo, @correoResponsable, @categoriaMaterialEducativo, @publicoDirigidoMaterial ); ";
+                "@tipoArchivo, @correoResponsable, @publicoDirigidoMaterial ); ";
             Consulta = "INSERT INTO MaterialEducativo " + columnas + " VALUES " + valores;
 
             Dictionary<string, object> valoresParametros = new Dictionary<string, object>
             {
                 { "@titulo", material.Titulo },
                 { "@categoria", material.Categoria },
-                { "@correoResponsable", material.CorreoResponsable },
+                { "@correoResponsable",  HttpContext.Current.User.Identity.Name},
                 { "@tipoArchivo", material.MaterialArchivo.ContentType },
                 { "@publicoDirigidoMaterial", material.PublicoDirigido }
             };
@@ -78,8 +80,8 @@ namespace Planetario.Handlers
 
         public Tuple<byte[], string> descargarContenido(string titulo)
         {
-            string nombreArchivo = "matrialArchivo", tipoArchivo = "materialTipoArchivo";
-            Consulta = "SELECT "+ nombreArchivo +", "+ tipoArchivo + ", titulo FROM MaterialEducativo WHERE tituloMaterialEducativo = @titulo";
+            string nombreArchivo = "materialArchivo", tipoArchivo = "materialTipoArchivo";
+            Consulta = "SELECT "+ nombreArchivo +", "+ tipoArchivo + ", tituloMaterialEducativoPK FROM MaterialEducativo WHERE tituloMaterialEducativoPK = @titulo";
 
             Dictionary<string, object> valoresParametros = new Dictionary<string, object>
             {

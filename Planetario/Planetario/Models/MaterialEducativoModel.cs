@@ -24,9 +24,6 @@ namespace Planetario.Models
         public HttpPostedFileBase MaterialArchivo { get; set; }
 
         public string MaterialTipoArchivo { get; set; }
-
-        [Display(Name = "Correo del responsable")]
-        [Required(ErrorMessage = "Es necesario indicar el correo de un usuario registrado")]
         public string CorreoResponsable { get; set; }
 
         [Display(Name = "Nombre del responsable")]
@@ -35,9 +32,11 @@ namespace Planetario.Models
         [Display(Name = "Publico dirigido")]
         public string PublicoDirigido { get; set; }
 
+        /** Hay que implementar seleccion de topicos en la view y handler
         [Display(Name = "Topicos")]
         [Required(ErrorMessage = "Es necesarios que escoja al menos un tópico")]
         public IList<string> Topicos { get; set; }
+        */
 
         public bool HayVistaPrevia()
         {
