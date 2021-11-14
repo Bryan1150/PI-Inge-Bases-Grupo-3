@@ -88,6 +88,34 @@ namespace Planetario.Handlers
             return actividades;
         }
 
+
+        public List<ActividadModel> obtenerTodasLasActividadesRecomendadas(string publicoDirigido, string complejidad)
+        {
+            List<ActividadModel> actividades = new List<ActividadModel>();
+            string Consulta = "SELECT * FROM Actividad WHERE aprobado = 1 AND publicoDirigidoActividad = '" + publicoDirigido + "'AND complejidad = '" + complejidad + "';"; ;
+            DataTable tablaResultado = LeerBaseDeDatos(Consulta);
+            foreach (DataRow columna in tablaResultado.Rows)
+            {
+                actividades.Add(
+                    new ActividadModel
+                    {
+                        NombreActividad = Convert.ToString(columna["nombreActividadPK"]),
+                        Descripcion = Convert.ToString(columna["descripcion"]),
+                        Duracion = Convert.ToInt32(columna["duracionMins"]),
+                        Complejidad = Convert.ToString(columna["complejidad"]),
+                        PrecioAproximado = Convert.ToDouble(columna["precioAprox"]),
+                        Categoria = Convert.ToString(columna["categoriaActividad"]),
+                        DiaSemana = Convert.ToString(columna["diaSemana"]),
+                        PropuestoPor = Convert.ToString(columna["propuestoPorFK"]),
+                        PublicoDirigido = Convert.ToString(columna["publicoDirigidoActividad"]),
+                        Tipo = Convert.ToString(columna["tipo"]),
+                        Link = Convert.ToString(columna["link"])
+                    });
+            }
+            return actividades;
+        }
+        
+
         public IList<string> obtenerTopicosActividades(string nombre)
         {
             string consulta = "SELECT topicosActividad FROM ActividadTopicos WHERE nombreActividadFK = '" + nombre + "';";
