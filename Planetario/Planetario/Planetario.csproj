@@ -150,6 +150,7 @@
     <Compile Include="Handlers\PreguntasFrecuentesHandler.cs" />
     <Compile Include="Models\CuestionarioModel.cs" />
     <Compile Include="Models\FacturaModel.cs" />
+    <Compile Include="Models\InscripcionModel.cs" />
     <Compile Include="Models\ParticipanteModel.cs" />
     <Compile Include="Models\PreguntasFrecuentesModel.cs" />
     <Compile Include="Handlers\NoticiasHandler.cs" />
@@ -238,6 +239,7 @@
     <Content Include="Utils\css\rows.css" />
     <Content Include="Utils\css\msfmultiselect.css" />
     <Content Include="Utils\css\util.css" />
+    <Content Include="Utils\css\vistaPagos.css" />
     <Content Include="Utils\fonts\font-awesome-4.7.0\css\font-awesome.css" />
     <Content Include="Utils\fonts\font-awesome-4.7.0\css\font-awesome.min.css" />
     <Content Include="Utils\fonts\font-awesome-4.7.0\fonts\fontawesome-webfont.svg" />
@@ -247,6 +249,7 @@
     <Content Include="Utils\images\img-01.png" />
     <Content Include="Utils\js\estadisticas.js" />
     <Content Include="Utils\js\estadisticasIdiomas.js" />
+    <Content Include="Utils\js\formularioInscripcion.js" />
     <Content Include="Utils\js\main.js" />
     <Content Include="Utils\js\msfmultiselect.js" />
     <Content Include="Utils\vendor\animate\animate.css" />

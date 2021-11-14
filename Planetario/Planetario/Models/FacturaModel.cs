@@ -16,5 +16,6 @@ namespace Planetario.Models
         public string CorreoParticipante { get; set; }
 
         public string NombreActividad { get; set; }
+
     }
 }
