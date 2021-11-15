@@ -91,11 +91,10 @@
     </nav>
     <div class="container body-content ">
         @RenderBody()
-        <hr />
-        <footer class="text-center text-lg-start bg-light text-muted fixed-bottom">
-            <p style="text-align:center">&copy; @DateTime.Now - Planetario Halley</p>
-        </footer>
     </div>
+    <footer class="text-center text-lg-start bg-light text-muted fixed-bottom">
+        <p style="text-align:center">&copy; @DateTime.Now - Planetario Halley</p>
+    </footer>
 
     @RenderSection("scripts", required: false)
 </body>

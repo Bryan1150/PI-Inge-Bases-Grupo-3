@@ -136,7 +136,7 @@ namespace Planetario.Handlers
             ActividadModel actividad = null;
             string Consulta = "Select * FROM Actividad WHERE nombreActividadPK = '" + nombre + "';";
             DataTable tablaResultado = LeerBaseDeDatos(Consulta);
-            if (tablaResultado.Rows[0] != null) // se cae igual
+            if (tablaResultado.Rows.Count >= 1)
             {
                 actividad = new ActividadModel
                 {
@@ -181,6 +181,42 @@ namespace Planetario.Handlers
                     });
             }
             return actividadesUnicas;
+        }
+
+        public List<FacturaModel> obtenerTodasLasFacturas(string nombreActividad)
+        {
+            List<FacturaModel> facturas = new List<FacturaModel>();
+            string Consulta = "EXEC USP_ObtenerTodosPagos '" + nombreActividad + "';";
+            DataTable tablaResultado = LeerBaseDeDatos(Consulta);
+            foreach (DataRow columna in tablaResultado.Rows)
+            {
+                facturas.Add(
+                    new FacturaModel
+                    {
+                        ID = Convert.ToInt32(columna["idFacturaPK"]),
+                        FechaCompra = Convert.ToString(columna["fechaCompra"]),
+                        PagoTotal = Convert.ToDouble(columna["pagoTotal"]),
+                        CorreoParticipante = Convert.ToString(columna["correoParticipanteFK"]),
+                        NombreActividad = Convert.ToString(columna["nombreActividadFK"]),
+                    });
+            }
+            return facturas;
+        }
+
+        public decimal getPrecio(string nombreActividad)
+        {
+            string Consulta = "SELECT CAST(PrecioAprox AS DECIMAL(16,2)) AS Precio FROM Actividad WHERE nombreActividadPK = '" + nombreActividad + "';";
+            DataTable tablaResultado = LeerBaseDeDatos(Consulta);
+            decimal precio;
+            if (tablaResultado.Rows.Count != 1)
+            {
+                precio = 0;
+            }
+            else
+            {
+                precio = Convert.ToDecimal(tablaResultado.Rows[0]["Precio"]);
+            }
+            return precio;
         }
     }
 }
