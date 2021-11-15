@@ -6,6 +6,7 @@ using Planetario.Models;
 using System.Data.SqlClient;
 using System.Web.Security;
 using System.Data.SqlTypes;
+using System.Web;
 
 namespace Planetario.Handlers
 {
@@ -29,7 +30,7 @@ namespace Planetario.Handlers
                 {"@precioAprox", actividad.PrecioAproximado },
                 {"@categoria", actividad.Categoria },
                 {"@fecha", actividad.Fecha},
-                {"@propuestoPorFK", actividad.PropuestoPor },
+                {"@propuestoPorFK", HttpContext.Current.User.Identity.Name },
                 {"@publicoDirigidoActividad", actividad.PublicoDirigido },
                 {"@tipo", actividad.Tipo },
                 {"@link", actividad.Link }
@@ -119,7 +120,21 @@ namespace Planetario.Handlers
             return actividades;
         }
         
+        public bool agregarTopico(string nombreActividad, string topico)
+        {
+            bool exito;
+            string Consulta = "INSERT INTO ActividadTopicos (NombreActividadFK, topicosActividad) "
+                + " VALUES (@NombreActividadFK, @topicosActividad)";
 
+            Dictionary<string, object> valoresParametros = new Dictionary<string, object> {
+                {"@NombreActividadFK", nombreActividad },
+                {"@topicosActividad", topico }
+            };
+
+            exito = InsertarEnBaseDatos(Consulta, valoresParametros);
+
+            return exito;
+        }
         public IList<string> obtenerTopicosActividades(string nombre)
         {
             string consulta = "SELECT topicosActividad FROM ActividadTopicos WHERE nombreActividadFK = '" + nombre + "';";

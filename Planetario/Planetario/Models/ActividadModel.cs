@@ -46,7 +46,6 @@ namespace Planetario.Models
         [Display(Name = "Fecha")]
         public string Fecha { get; set; }
 
-        [Required(ErrorMessage = "Es necesario que indique su correo.")]
         [Display(Name = "Correo")]
         public string PropuestoPor { get; set; }
 

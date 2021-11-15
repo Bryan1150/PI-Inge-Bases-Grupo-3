@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Crear Actividad";
     List<SelectListItem> Categorias = new List<SelectListItem>() {
-        new SelectListItem { Text = "Cuerpos del Sistema Solar", Value = "Cuerpos del Sistema Solar" },
+        new SelectListItem { Text = "Cuerpos del sistema solar", Value = "Cuerpos del sistema solar" },
         new SelectListItem { Text = "Objetos de Cielo Profundo", Value = "Objetos de Cielo Profundo"  },
         new SelectListItem { Text = "Astronomia", Value = "Astronomia" },
         new SelectListItem { Text = "General", Value = "General" },
@@ -29,6 +29,8 @@
 <head>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
+    <script src="https://cdn.jsdelivr.net/gh/minisuperfiles/MSFmultiSelect/msfmultiselect.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/gh/minisuperfiles/MSFmultiSelect/msfmultiselect.min.css" rel="stylesheet" />
 </head>
 <body>
 
@@ -39,44 +41,69 @@
         <p class="alert-success">@ViewBag.Message</p>
         <hr />
         <div class="row">
-            <div class="col-6 col-md-6 col-sm-12">
+            <div class="col-6 col-md-4 col-sm-12">
                 @Html.LabelFor(model => model.NombreActividad, htmlAttributes: new { @class = "control-label " })
-                <div class="col-md-10">
+                <div>
                     @Html.TextBoxFor(model => model.NombreActividad, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.NombreActividad, "", new { @class = "text-danger" })
                 </div>
 
                 @Html.LabelFor(model => model.Duracion, htmlAttributes: new { @class = "control-label " })
-                <div class="col-md-10">
+                <div>
                     @Html.TextBoxFor(model => model.Duracion, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Duracion, "", new { @class = "text-danger" })
                 </div>
 
                 @Html.LabelFor(model => model.PrecioAproximado, htmlAttributes: new { @class = "control-label " })
-                <div class="col-md-10">
+                <div>
                     @Html.TextBoxFor(model => model.PrecioAproximado, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.PrecioAproximado, "", new { @class = "text-danger" })
                 </div>
 
-
                 @Html.LabelFor(model => model.Fecha, htmlAttributes: new { @class = "control-label " })
-                <div class="col-md-10">
+                <div>
                     @Html.TextBoxFor(model => model.Fecha, new { @type = "date", @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
                 </div>
-                @Html.LabelFor(model => model.PropuestoPor, htmlAttributes: new { @class = "control-label " })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(model => model.PropuestoPor, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.PropuestoPor, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-6 col-md-4 col-sm-12">
+                @Html.LabelFor(model => model.Complejidad, htmlAttributes: new { @class = "control-label " })
+                <div>
+                    @Html.DropDownListFor(model => model.Complejidad, Complejidad, "--Complejidad--", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Complejidad, "", new { @class = "text-danger" })
                 </div>
+
+                @Html.LabelFor(model => model.PublicoDirigido, htmlAttributes: new { @class = "control-label " })
+                <div>
+                    @Html.DropDownListFor(model => model.PublicoDirigido, Publico, "--Publico--", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PublicoDirigido, "", new { @class = "text-danger" })
+                </div>
+
+                @Html.LabelFor(model => model.Tipo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div>
+                    @Html.DropDownListFor(model => model.Tipo, Tipo, "--Tipo--", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Tipo, "", new { @class = "text-danger" })
+                </div>
+
+                @Html.LabelFor(model => model.Categoria, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div>
+                    @Html.DropDownListFor(model => model.Categoria, Categorias, "--Categoría--", new { @id = "categoriaPregunta", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Categoria, "", new { @class = "text-danger" })
+                </div>
+
+                <label for="myselect" class="control-label">Topicos</label>
+                <div id="myselect">
+                    <select id="multiselect" name="others[]" multiple="multiple" class="form-control">
+                    </select>
+                </div>
+                <input type="hidden" id="topicos" name="topicos" value="">
+            </div>
+            <div class="col-md-4 col-sm-12">
                 @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label " })
-                <div class="col-md-10">
+                <div>
                     @Html.TextAreaFor(model => model.Descripcion, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
                 </div>
-
-
-
                 <div class="form-check form-switch">
                     @Html.Label("virtual", "¿Es virtual?")
                     @Html.CheckBox("virtual", false, htmlAttributes: new { @class = "form-check-input", @onclick = "addbox()" })
@@ -85,37 +112,13 @@
                     @Html.LabelFor(model => model.Link, htmlAttributes: new { @class = "control-label", @id = "areaLabel", style = "display : none;" })
                     @Html.TextBoxFor(model => model.Link, new { @class = "form-control", @id = "area", style = "display : none;" })
                 </div>
-
-            </div>
-            <div class="col-6 col-md-6 col-sm-12">
-                @Html.LabelFor(model => model.Tipo, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.Tipo, Tipo, "--Tipo--", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Tipo, "", new { @class = "text-danger" })
-                </div>
-
-                @Html.LabelFor(model => model.Categoria, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.Categoria, Categorias, "--Categoría--", new { @id = "categoriaPregunta", @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Categoria, "", new { @class = "text-danger" })
-                </div>
-
-                @Html.LabelFor(model => model.Complejidad, htmlAttributes: new { @class = "control-label " })
-                <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.Complejidad, Complejidad, "--Complejidad--", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Complejidad, "", new { @class = "text-danger" })
-                </div>
-
-                @Html.LabelFor(model => model.PublicoDirigido, htmlAttributes: new { @class = "control-label " })
-                <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.PublicoDirigido, Publico, "--Publico--", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.PublicoDirigido, "", new { @class = "text-danger" })
-                </div>
             </div>
         </div>
         <div class="row">
-            <div>
+            <div class="col-md-4 col-sm-12">
                 <input type="submit" class="btn btn-success" value="Crear" />
+            </div>
+            <div class="col-md-4 col-sm-12">
                 @Html.ActionLink("Volver", "listadoDeActividades", null, new { @class = "btn btn-danger" })
             </div>
         </div>
@@ -138,5 +141,57 @@
             }
         }
     </script>
+    <script>
+        let select = new MSFmultiSelect(
+            document.querySelector('#multiselect'),
+            {
+                theme: 'theme2',
+                selectAll: false,
+                searchBox: false,
+                width: 280,
+                height: 50,
+                onChange: function (checked, value, instance) {
+                    listar();
+                },
+                placeholder: 'Topicos',
+                afterSelectAll: function (checked, values, instance) {
+
+                }
+            }
+        );
+
+        function listar() {
+            let seleccion = [];
+            let topicos = document.getElementById("multiselect").options;
+            for (let i = 0; i < topicos.length; i++) {
+                if (select.data[i] === true) {
+                    seleccion.push(topicos[i].value)
+                }
+            }
+            document.getElementById("topicos").value = seleccion.join(";");
+            console.log(document.getElementById("topicos").value)
+        }
+    </script>
+    <script type="text/javascript">
+        $('#categoriaPregunta').change(function () {
+                var categoriaSeleccionada = $(this).val();
+                if (categoriaSeleccionada != null && categoriaSeleccionada != '') {
+                    $.getJSON('@Url.Action("../Topicos/ConseguirTopicos")', { categoria: categoriaSeleccionada }, function (topicos) {
+                        var topicoSeleccionado = $('#multiselect');
+                        topicoSeleccionado.empty();
+                        $.each(topicos, function (index, topico) {
+                            if (index != 0) {
+                                topicoSeleccionado.append($('<option/>', {
+                                    value: topico.Value,
+                                    text: topico.Text
+                                }));
+                            }
+                        });
+                        select.reload();
+                    });
+                }
+            });
+    </script>
+
 </body>
 </html>

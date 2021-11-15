@@ -16,9 +16,10 @@ namespace Planetario.Controllers
         }
 
         [HttpPost]
-        public ActionResult crearActividad(ActividadModel actividad)
+        public ActionResult crearActividad(ActividadModel actividad, string topicos)
         {
             ViewBag.ExitoAlCrear = false;
+            string[] topicosSeleccionados = topicos.Split(';');
             try
             {
                 if (ModelState.IsValid)
@@ -28,6 +29,10 @@ namespace Planetario.Controllers
                     if (ViewBag.ExitoAlCrear)
                     {
                         ViewBag.Message = "La actividad " + actividad.NombreActividad + " fue creada con éxito.";
+                        foreach(string topico in topicosSeleccionados)
+                        {
+                            accesoDatos.agregarTopico(actividad.NombreActividad, topico);
+                        }
                         ModelState.Clear();
                     } else
                     {
