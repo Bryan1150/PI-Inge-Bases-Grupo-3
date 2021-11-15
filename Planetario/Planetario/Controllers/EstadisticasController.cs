@@ -359,7 +359,7 @@ namespace Planetario.Controllers
 
             if (total != 1)
             {
-                resultado += total + " paticipantes";
+                resultado += total + " participantes";
             }
             else
             {
