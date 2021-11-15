@@ -8,6 +8,20 @@
     <title>Actividades</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
+    <style>
+        .cuadro {
+            border-radius: 0.3em;
+            border: 1px solid #aaa;
+            margin: 1em;
+            padding: 1em;
+            height: 12em;
+            box-shadow: 7px 7px 0px 0px #aaa;
+        }
+            .cuadro:hover {
+                box-shadow: 10px 10px 0px 0px #aaa;
+            }
+
+    </style>
 </head>
 <body>
     <span class="titulo"> Actividades </span>
@@ -19,23 +33,22 @@
         </div>
     </form>
 
-    <table class="table table-hover table-responsive">
-        <tr>
-            <th>Actividad</th>
-            <th>Categoria</th>
-            <th>Día que se imparte</th>
-            <th>Detalles</th>
-        </tr>
+    <div class="row d-flex flex-wrap align-items-center">
         @foreach (Planetario.Models.ActividadModel actividad in ViewBag.actividades)
         {
-            <tr>
-                <td>@actividad.NombreActividad</td>
-                <td>@actividad.Categoria</td>
-                <td>@actividad.DiaSemana</td>
-                <td>@Html.ActionLink("ver más", "verActividad", "Actividades", new { nombre = @actividad.NombreActividad.ToString() }, null)</td>
-            </tr>
+        <div class="col-4">
+            <div class="cuadro">
+                <h5>@Html.ActionLink(actividad.NombreActividad.ToString(),"verActividad","Actividades",new { nombre = actividad.NombreActividad.ToString() }, new { @class="h5"})</h5>
+                <p><strong>Categoria: </strong>@actividad.Categoria</p>
+                <p><strong>Dia: </strong>@actividad.DiaSemana</p>
+                <p><strong>Precio: </strong>@actividad.PrecioAproximado colones</p>
+                <br /><br /><br /><br />
+            </div>
+        </div>
         }
-    </table>
+    </div>
+    <br /><br /><br />
+
 
 </body>
 </html>
