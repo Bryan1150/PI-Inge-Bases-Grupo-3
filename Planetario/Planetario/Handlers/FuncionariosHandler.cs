@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using Planetario.Models;
+using Planetario.Handlers;
 using System.Data.SqlClient;
 using System.Web.Security;
 using System.Data.SqlTypes;
@@ -11,6 +12,8 @@ namespace Planetario.Handlers
 {
     public class FuncionariosHandler : BaseDatosHandler
     {
+        FileHandler manejadorDeImagen = new FileHandler();
+
         public List<FuncionarioModel> obtenerFuncionariosSimple()
         {
             List<FuncionarioModel> funcionarios = new List<FuncionarioModel>();
@@ -56,6 +59,32 @@ namespace Planetario.Handlers
                 };
             }
             return funcionario;
+        }
+
+        public bool insertarFuncionario(FuncionarioModel funcionario)
+        {
+            bool exito;
+            string Consulta = "INSERT INTO Funcionario ( correoPK, nombre, apellido1, apellido2, genero, areaExpertis, fechaIncorporacion, fotoArchivo, fotoTipo, descripcion, pais ) "
+                + "VALUES ( @correo, @nombre, @apellido1, @apellido2, @genero, @area, @fecha, @fotoArchivo, @fotoTipo, @descripcion, @pais );";
+
+            Dictionary<string, object> valoresParametros = new Dictionary<string, object> {
+                {"@correo", funcionario.CorreoContacto },
+                {"@nombre", funcionario.Nombre },
+                {"@apellido1", funcionario.Apellido1 },
+                {"@apellido2", funcionario.Apellido2 },
+                {"@genero", funcionario.Genero },
+                {"@area", funcionario.AreaExpertis },
+                {"@fecha", funcionario.FechaIncorporacion },
+                {"@fotoTipo", funcionario.FotoArchivo.ContentType },
+                {"@descripcion", funcionario.Descripcion },
+                {"@pais", funcionario.Pais }
+            };
+
+            valoresParametros.Add("@fotoArchivo", manejadorDeImagen.ConvertirArchivoABytes(funcionario.FotoArchivo));
+
+            exito = InsertarEnBaseDatos(Consulta, valoresParametros);
+
+            return exito;
         }
 
         public IList<string> obtenerIdiomasFuncionario(string correo) 
@@ -118,7 +147,7 @@ namespace Planetario.Handlers
 
         public Tuple<byte[], string> ObtenerFoto(string correo)
         {
-            string nombreArchivo = "foto", tipoArchivo = "tipoArchivoFoto";
+            string nombreArchivo = "fotoArchivo", tipoArchivo = "fotoTipo";
             string consulta = "SELECT " + nombreArchivo + ", "+ tipoArchivo + " FROM Funcionario WHERE correoPK = @correo";
             
             Dictionary<string, object> valoresParametros = new Dictionary<string, object>

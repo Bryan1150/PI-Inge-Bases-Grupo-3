@@ -29,7 +29,7 @@
 
 
         <div class="col-md-4">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Caspar_David_Friedrich_-_Wanderer_above_the_sea_of_fog.jpg/468px-Caspar_David_Friedrich_-_Wanderer_above_the_sea_of_fog.jpg" />
+            <img src=@Url.Action("ObtenerImagen", "Funcionarios", new { correo = @ViewBag.Funcionario.CorreoContacto })>
         </div>
         <div class="col-md-4">
             <h4>Contacto</h4>

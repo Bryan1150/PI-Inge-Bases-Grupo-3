@@ -89,7 +89,7 @@ namespace Planetario.Controllers
                 if (ModelState.IsValid)
                 {
                     FuncionariosHandler accesoDatos = new FuncionariosHandler();
-                    //ViewBag.ExitoAlCrear = accesoDatos.crearFuncionario(funcionario);
+                    ViewBag.ExitoAlCrear = accesoDatos.insertarFuncionario(funcionario);
                     if (ViewBag.ExitoAlCrear)
                     {
                         ViewBag.Message = "El funcionario "  + funcionario.Nombre + " fue agregado con éxito.";

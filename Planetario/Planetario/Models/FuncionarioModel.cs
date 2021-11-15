@@ -15,6 +15,7 @@ namespace Planetario.Models
         public string CorreoContacto { get; set; }
 
         [Display(Name = "Nombre")]
+        [Required(ErrorMessage = "Es necesario que ingrese su nombre")]
         public string Nombre { get; set; }
 
         [Display(Name = "Primer apellido")]
@@ -45,15 +46,15 @@ namespace Planetario.Models
         public string AreaExpertis { get; set; }
 
         [Display(Name = "Idiomas")]
-        [Required(ErrorMessage = "Es necesario que ingrese al menos un idioma que domine")]
+        //[Required(ErrorMessage = "Es necesario que ingrese al menos un idioma que domine")]
         public IList<string> Idiomas { get; set; }
 
         [Display(Name = "Roles")]
-        [Required(ErrorMessage = "Es necesario que ingrese al menos un rol que va a ejercer")]
+        //[Required(ErrorMessage = "Es necesario que ingrese al menos un rol que va a ejercer")]
         public IList<string> Roles { get; set; }
 
         [Display(Name = "Títulos")]
-        [Required(ErrorMessage = "Es necesario que ingrese al menos un título")]
+        //[Required(ErrorMessage = "Es necesario que ingrese al menos un título")]
         public IList<string> Titulos { get; set; }
 
         [Display(Name = "Foto del funcionario")]

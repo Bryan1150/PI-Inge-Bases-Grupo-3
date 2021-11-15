@@ -31,7 +31,7 @@
     {
         <div class="cuadroFuncionario row d-flex flex-wrap align-items-center col-md-6">
             <div class="imagenFuncionario col-md-4">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Caspar_David_Friedrich_-_Wanderer_above_the_sea_of_fog.jpg/468px-Caspar_David_Friedrich_-_Wanderer_above_the_sea_of_fog.jpg" />
+                <img src=@Url.Action("ObtenerImagen", "Funcionarios", new { correo = funcionario.CorreoContacto })>
             </div>
             <div class="textoFuncionario col-md-8">
                 <h3>@funcionario.Nombre @funcionario.Apellido1 @funcionario.Apellido2</h3>

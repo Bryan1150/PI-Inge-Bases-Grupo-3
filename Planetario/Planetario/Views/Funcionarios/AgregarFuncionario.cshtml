@@ -1,6 +1,10 @@
 ﻿@model Planetario.Models.FuncionarioModel
 @{
     ViewBag.Title = "Agregar Funcionario";
+    List<SelectListItem> generos = new List<SelectListItem>() { new
+    SelectListItem { Text = "Femenino" }, new SelectListItem { Text = "Masculino" }, new
+    SelectListItem { Text = "Otro" } };
+
 }
 
 <html>
@@ -38,10 +42,58 @@
                 <hr />
 
                 <div class="form-group">
+                    @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Apellido1, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Apellido1, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Apellido1, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Apellido2, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Apellido2, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Apellido2, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
                     @Html.LabelFor(model => model.CorreoContacto, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @Html.TextBoxFor(model => model.CorreoContacto, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.CorreoContacto, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Pais, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Pais, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Pais, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Genero, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.Genero, generos, "-Selección-", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Genero, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.AreaExpertis, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.AreaExpertis, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.AreaExpertis, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
@@ -53,12 +105,10 @@
                     </div>
                 </div>
 
-              
-
                 <div class="form-group">
                     @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.TextAreaFor(model => model.Descripcion, new { @class = "form-control", @rows = 5, @cols = 5 })
+                        @Html.TextAreaFor(model => model.Descripcion, new { @class = "form-control", @rows = 10, @cols = 80 })
                         @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -68,6 +118,14 @@
                     <div class="col-md-10">
                         @Html.TextBoxFor(model => model.FotoArchivo, new { type = "file", @class = "btn btn alert-info" })
                         @Html.ValidationMessageFor(model => model.FotoArchivo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Contrasena, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Contrasena, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Contrasena, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
