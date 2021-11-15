@@ -85,20 +85,9 @@
     <script>
         function cambiarEstadoActividadesPlanetario() {
             estadoActual = document.getElementById("checkbox1").checked;
+            console.log(estadoActual);
             if (estadoActual) {
                 calendar.addEventSource({ id: 1, url: "@consultaActividades", color: '#133b5c', textcolor: '#fcdab7' });
-            }
-            else {
-                let sourceEventos = calendar.getEventSourceById(1);
-                if (sourceEventos !== null) {
-                    sourceEventos.remove();
-                }
-            }
-        }
-        function cambiarEstadoEventosPlanetario() {
-            estadoActual = document.getElementById("checkbox1").checked;
-            if (estadoActual) {
-                calendar.addEventSource({ id: 3, url: "@consultaEventos", color: '#1e5f74' });
             }
             else {
                 sourceEventos = calendar.getEventSourceById(1);
@@ -106,15 +95,29 @@
                     sourceEventos.remove();
                 }
             }
-            calendar.refetchEvents();
+             calendar.refetchEvents();
         }
         function cambiarEstadoEventosAstronomicos() {
             estadoActual = document.getElementById("checkbox2").checked;
+            
             if (estadoActual) {
                 calendar.addEventSource({id:2, url: "@RSSFeed", color: '#fcdab7', textColor: 'black' });
             }
             else {
                 sourceEventos = calendar.getEventSourceById(2);
+                if (sourceEventos !== null) {
+                    sourceEventos.remove();
+                }
+            }
+            calendar.refetchEvents();
+        }
+        function cambiarEstadoEventosPlanetario() {
+            estadoActual = document.getElementById("checkbox3").checked;
+            if (estadoActual) {
+                calendar.addEventSource({ id: 3, url: "@consultaEventos", color: '#1e5f74' });
+            }
+            else {
+                sourceEventos = calendar.getEventSourceById(3);
                 if (sourceEventos !== null) {
                     sourceEventos.remove();
                 }
@@ -144,6 +147,7 @@
 
             cambiarEstadoEventosPlanetario();
             cambiarEstadoEventosAstronomicos();
+            cambiarEstadoActividadesPlanetario();
             calendar.render();
         });
     </script>
