@@ -82,12 +82,6 @@ namespace Planetario.Controllers
         }
 
         [HttpGet]
-        public ActionResult buscarMaterialesEducativos()
-        {
-            return View();
-        }
-
-        [HttpGet]
         public ActionResult buscarMaterialesEducativos(string palabra)
         {
             MaterialesEducativosHandler accesoDatos = new MaterialesEducativosHandler();
