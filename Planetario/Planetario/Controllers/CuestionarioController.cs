@@ -15,6 +15,16 @@ namespace Planetario.Controllers
         {
             CuestionarioHandler AcessoDatos = new CuestionarioHandler();
             ViewBag.ListaCuestionarios = AcessoDatos.obtenerCuestinariosSimple();
+            ViewBag.Dificultad = "";
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ListaCuestionarios(string dificultad)
+        {
+            CuestionarioHandler AcessoDatos = new CuestionarioHandler();
+            ViewBag.ListaCuestionarios = AcessoDatos.obtenerCuestinarioPorDificultad(dificultad);
+            ViewBag.Dificultad = dificultad;
             return View();
         }
 

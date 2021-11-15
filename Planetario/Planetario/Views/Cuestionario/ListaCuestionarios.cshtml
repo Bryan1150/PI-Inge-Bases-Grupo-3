@@ -1,6 +1,11 @@
 ﻿@{
     ViewBag.Title = "Cuestionarios";
 }
+@{
+    List<String> PublicoDirigido = new List<String>() {
+        "simple", "intermedio", "avanzado"
+    };
+}
 
 <!DOCTYPE html>
 <html>
@@ -11,6 +16,24 @@
 </head>
 <body>
     <span class="titulo"> Cuestionarios </span>
+
+    <form method="post" class="navbar-form navbar-right" action="@Url.Action("ListaCuestionarios", "Cuestionario")">
+        <select name="dificultad" id="dificultad" onchange="this.form.submit()">
+            @if (ViewBag.Dificultad != "")
+            {
+                <option value=@ViewBag.Dificultad>@ViewBag.Dificultad</option>
+            }
+            <option value="">Todas</option>
+            @foreach (string element in PublicoDirigido)
+            {
+                if (@ViewBag.Dificultad != element)
+                {
+                    <option value=@element>@element</option>
+                }
+            }
+        </select>
+    </form>
+
     <table class="table table-hover table-responsive">
         <tr>
             <th>Cuestionario</th>
