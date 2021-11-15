@@ -17,9 +17,11 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
+    <script src="https://cdn.jsdelivr.net/gh/minisuperfiles/MSFmultiSelect/msfmultiselect.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/gh/minisuperfiles/MSFmultiSelect/msfmultiselect.min.css" rel="stylesheet" />
 </head>
 <body>
-    @using (Html.BeginForm("AgregarFuncionario", "Funcionarios", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("AgregarFuncionario", "Funcionarios", FormMethod.Post, new { enctype = "multipart/form-data", onsubmit = "listar()", method = "post" }))
     {
         <span class="titulo">Agregar Funcionario</span>
         <p class="alert-success">@ViewBag.Message</p>
@@ -95,6 +97,18 @@
                     @Html.TextBoxFor(model => model.Contrasena, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Contrasena, "", new { @class = "text-danger" })
                 </div>
+
+                <div id="myselect">
+                    <select id="multiselect" name="others[]" multiple="multiple">
+
+                        @foreach (var idioma in ViewBag.opcionIdiomas)
+                        {
+                            <option value=@idioma.Text>@idioma.Text</option>
+                        }
+
+                    </select>
+                </div>
+                <input type="hidden" id="idiomas" name="idiomas" value="">
             </div>
         </div>
 
@@ -113,6 +127,41 @@
         @Html.ActionLink("Regresar a Inicio", "InformacionBasica", "Home")
     </div>
 </body>
+
+<script>
+        var listaIdiomas = @Html.Raw(Json.Encode(@ViewBag.listaIdiomas));
+        var select = new MSFmultiSelect(
+            document.querySelector('#multiselect'),
+            {
+                theme: 'theme2',
+                selectAll: false,
+                searchBox: false,
+                width: 400,
+                height: 50,
+                onChange: function (checked, value, instance) {
+
+                },
+                placeholder: 'idiomas',
+                afterSelectAll: function (checked, values, instance) {
+
+                }
+            }
+        );
+
+        function listar()
+        {
+            var seleccion = "";
+
+            for (i = 0; i < listaIdiomas.length; i++) {
+                if (select.data[i] === true) {
+                    seleccion += listaIdiomas[i]
+                    seleccion += ";"
+                }
+            }
+            document.getElementById("idiomas").value = seleccion;
+
+        }
+</script>
 
 @section Scripts
 {

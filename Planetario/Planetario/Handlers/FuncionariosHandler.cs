@@ -87,6 +87,21 @@ namespace Planetario.Handlers
             return exito;
         }
 
+        public bool insertarIdiomas(string idioma, string correo)
+        {
+            bool exito;
+            string Consulta = "INSERT INTO FuncionarioIdioma VALUES (@correo, @idioma)";
+
+            Dictionary<string, object> valoresParametros = new Dictionary<string, object> {
+                {"@correo", idioma },
+                {"@idioma", correo }
+            };
+
+            exito = InsertarEnBaseDatos(Consulta, valoresParametros);
+
+            return exito;
+        }
+
         public IList<string> obtenerIdiomasFuncionario(string correo) 
         {
             string consulta = "SELECT FI.idioma FROM FuncionarioIdioma FI WHERE FI.correoFuncionarioFK = '" + correo + "';";

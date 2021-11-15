@@ -77,22 +77,42 @@ namespace Planetario.Controllers
         [HttpGet]
         public ActionResult AgregarFuncionario()
         {
+            EstadisticasHandler accesoDatos = new EstadisticasHandler();
+
+            List<string> listaDeIdiomas = accesoDatos.obtenerListaIdiomas();
+
+            List<SelectListItem> opcionIdiomas = new List<SelectListItem>();
+            opcionIdiomas = obtenerIdiomas();
+            ViewBag.opcionIdiomas = opcionIdiomas;
+
             return View();
         }
 
         [HttpPost]
-        public ActionResult AgregarFuncionario(FuncionarioModel funcionario)
+        public ActionResult AgregarFuncionario(FuncionarioModel funcionario, string idiomas)
         {
+            List<SelectListItem> opcionIdiomas = new List<SelectListItem>();
+            opcionIdiomas = obtenerIdiomas();
+            ViewBag.opcionIdiomas = opcionIdiomas;
+
             ViewBag.ExitoAlCrear = false;
             try
             {
                 if (ModelState.IsValid)
                 {
                     FuncionariosHandler accesoDatos = new FuncionariosHandler();
+
+                    string[] idioma = idiomas.Split(';');
+                    List<string> idiomasSelect = new List<string>(idioma);
+
                     ViewBag.ExitoAlCrear = accesoDatos.insertarFuncionario(funcionario);
                     if (ViewBag.ExitoAlCrear)
                     {
                         ViewBag.Message = "El funcionario "  + funcionario.Nombre + " fue agregado con éxito.";
+                        foreach(var variable in idiomasSelect)
+                        {
+                            accesoDatos.insertarIdiomas(variable, funcionario.CorreoContacto);
+                        }
                         ModelState.Clear();
                     }
                 }
@@ -103,6 +123,28 @@ namespace Planetario.Controllers
                 ViewBag.Message = "Algo salió mal ";
                 return View();
             }
+        }
+
+        public List<SelectListItem> obtenerIdiomas()
+        {
+            EstadisticasHandler accesoDatos = new EstadisticasHandler();
+
+            var idiomas = accesoDatos.obtenerListaIdiomas();
+
+
+            List<SelectListItem> listaIdiomas = new List<SelectListItem>();
+            string todos = "Todos";
+
+            for (int i = 0; i < idiomas.Count(); i++)
+            {
+                listaIdiomas.Add(new SelectListItem()
+                {
+                    Text = idiomas[i],
+                    Selected = (idiomas[i] == todos ? true : false)
+                });
+            }
+
+            return listaIdiomas;
         }
     }
 }
