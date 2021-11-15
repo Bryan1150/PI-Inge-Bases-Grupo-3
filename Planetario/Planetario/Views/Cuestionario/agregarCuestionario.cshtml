@@ -50,15 +50,16 @@
         <div style="margin-top:25px"></div>
 
         <div class="row">
-            <div class="col-1 col-md-1 col-sm-2">
-                <input type="submit" class="btn btn-success" value="Crear" />
-            </div>
-            <div class="col-1 col-md-1 col-sm-2">
+            <div class="col-md-4 col-sm-12">
                 @Html.ActionLink("Volver", "PanelDeAdministracion", "Home", new { area = "" }, new { @class = "btn btn-danger" })
             </div>
-        </div>
+            <div class="col-md-4 col-sm-12">
 
-        <div style="margin-top:100px"></div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+                <input type="submit" class="btn btn-success" value="Crear" />
+            </div>
+        </div>
 
         <div>
             @Html.ActionLink("Regresar a Inicio", "InformacionBasica", "Home")
