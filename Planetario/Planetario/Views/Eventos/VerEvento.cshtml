@@ -66,14 +66,14 @@
     var hora = tiempo[0];
     var minuto = tiempo[1];
 
-    var countDownDate = new Date(año, mes, dia, hora, minuto).getTime();
+    var countDownDate = new Date(año, dia, mes, hora, minuto, 0 ,0).getTime();
 
     // Actualizar el countdown cada segundo.
     var x = setInterval(function () {
 
     // Obtener la fecha y hora de hoy.
     var now = new Date().getTime();
-
+        console.log(now);
     // La diferencia entre la fecha de hoy y la que vamos a contar.
     var distance = countDownDate - now;
 
