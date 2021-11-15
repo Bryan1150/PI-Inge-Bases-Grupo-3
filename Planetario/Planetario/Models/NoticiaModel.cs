@@ -13,44 +13,38 @@ namespace Planetario.Models
 
         [Required(ErrorMessage = "Es necesario que indique el título de la noticia.")]
         [Display(Name = "Título ")]
-        public string titulo { get; set; }
+        public string Titulo { get; set; }
 
         [Required(ErrorMessage = "Es necesario que indique el cuerpo de la noticia.")]
         [Display(Name = "Cuerpo ")]
-        public string cuerpo { get; set; }
+        public string Cuerpo { get; set; }
 
         [Required(ErrorMessage = "Es necesario que indique la fecha de la noticia.")]
         [Display(Name = "Fecha ")]
-        public string fecha { get; set; }
+        public string Fecha { get; set; }
 
-        [Required(ErrorMessage = "Es necesario que indique el correo del autor")]
         [Display(Name = "Autor ")]
-        public string correoAutor { get; set; }
-
-        
-        [Display(Name = "Imagen ")]
-        public HttpPostedFileBase imagen { get; set; }
+        public string CorreoAutor { get; set; }
 
         [Display(Name = "Categoría: ")]
         [Required(ErrorMessage = "Es necesario que ingrese la categoría de la noticia")]
         [MaxLength(100, ErrorMessage = "Se tiene un máximo de 100 cáracteres")]
-        public string categoriaNoticia { get; set; }
+        public string CategoriaNoticia { get; set; }
+        
+        /**Hay que implementar seleccion de topicos en el handler y vista.
+        [Display(Name = "Tópicos")]
+        [Required(ErrorMessage = "Es necesario que ingrese al menos un tópico")]
+        public IList<string> TopicosNoticia { get; set; }
+        */
 
-        [Display(Name = "Tópico 1: ")]
-        [Required(ErrorMessage = "Es necesario que ingrese el tópico de la noticia")]
-        [MaxLength(100, ErrorMessage = "Se tiene un máximo de 100 cáracteres")]
-        public string topicoNoticia { get; set; }
+        [Display(Name = "Imagen1")]
+        public HttpPostedFileBase Imagen1 { get; set; }
 
-        [Display(Name = "Tópico 2: ")]
-        [Required(ErrorMessage = "Es necesario que ingrese el tópico de la noticia")]
-        [MaxLength(100, ErrorMessage = "Se tiene un máximo de 100 cáracteres")]
-        public string topicoNoticia2 { get; set; }
+        public string TipoImagen1 { get; set; }
 
-        [Display(Name = "Tópico 3: ")]
-        [Required(ErrorMessage = "Es necesario que ingrese el tópico de la noticia")]
-        [MaxLength(100, ErrorMessage = "Se tiene un máximo de 100 cáracteres")]
-        public string topicoNoticia3 { get; set; }
+        [Display(Name = "Imagen2")]
+        public HttpPostedFileBase Imagen2 { get; set; }
 
-        public string tipoImagen { get; set; }
+        public string TipoImagen2 { get; set; }
     }
 }

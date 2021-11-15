@@ -30,6 +30,27 @@ namespace Planetario.Handlers
             return cuestionarios;
         }
 
+        public List<CuestionarioModel> obtenerCuestinarioPorDificultad(string dificultad)
+        {
+            List<CuestionarioModel> cuestionarios = new List<CuestionarioModel>();
+            string consulta = "Select * FROM Cuestionario";
+            if (dificultad != "")
+                consulta += " WHERE dificultad = '" + dificultad + "';";
+            DataTable tablaResultado = LeerBaseDeDatos(consulta);
+            foreach (DataRow columna in tablaResultado.Rows)
+            {
+                cuestionarios.Add(
+                new CuestionarioModel
+                {
+                    NombreCuestionario = Convert.ToString(columna["nombreCuestionarioPK"]),
+                    EmbedHTML = Convert.ToString(columna["embedHTML"]),
+                    CorreoResponsable = Convert.ToString(columna["correoFuncionarioFK"]),
+                    Dificultad = Convert.ToString(columna["dificultad"]),
+                });
+            }
+            return cuestionarios;
+        }
+
         public CuestionarioModel buscarCuestionario(string nombre)
         {
             CuestionarioModel cuestionario = null;

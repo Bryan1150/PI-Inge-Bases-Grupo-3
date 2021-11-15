@@ -42,7 +42,7 @@ namespace Planetario.Controllers
             }
             catch
             {
-                ViewBag.Message = "Algo salió mal.";
+                ViewBag.Message = "Hubo un error al crear el cuestionario " + actividad.NombreActividad;
                 return View();
             }
         }
@@ -59,7 +59,7 @@ namespace Planetario.Controllers
             ActividadHandler accesoDatos = new ActividadHandler();
             ViewBag.actividad = accesoDatos.buscarActividad(nombre);
             ViewBag.topicos = accesoDatos.obtenerTopicosActividades(nombre);
-            ViewBag.actividades = accesoDatos.obtenerTodasLasActividadesAprobadas();
+            ViewBag.actividades = accesoDatos.obtenerTodasLasActividadesRecomendadas(ViewBag.actividad.PublicoDirigido, ViewBag.actividad.Complejidad);
             return View();
         }
 

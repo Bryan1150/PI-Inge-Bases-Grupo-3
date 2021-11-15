@@ -15,10 +15,12 @@ namespace Planetario.Handlers
         {
             bool exito;
             string Consulta = "INSERT INTO Actividad (nombreActividadPK, descripcion, " +
-                "duracionMins, complejidad, precioAprox, categoriaActividad, diaSemana, propuestoPorFK, publicoDirigidoActividad, tipo) "
-                + "VALUES ( @nombreActividadPK, @descripcion, @duracionMins, @complejidad, " +
-                "@precioAprox, @categoriaActividad, @diaSemana, @propuestoPorFK, @publicoDirigidoActividad, @tipo) ";
-            
+                "duracionMins, complejidad, precioAprox, categoriaActividad, diaSemana, propuestoPorFK, publicoDirigidoActividad, tipo, link) "
+                + " VALUES ( @nombreActividadPK, @descripcion, @duracionMins, @complejidad, " +
+                "@precioAprox, @categoria, @diaSemana, @propuestoPorFK, @publicoDirigidoActividad, @tipo, @link)";
+
+            if (actividad.Link == null) { actividad.Link = ""; }
+
             Dictionary<string, object> valoresParametros = new Dictionary<string, object> {
                 {"@nombreActividadPK", actividad.NombreActividad },
                 {"@descripcion", actividad.Descripcion },
@@ -29,7 +31,8 @@ namespace Planetario.Handlers
                 {"@diaSemana", actividad.DiaSemana},
                 {"@propuestoPorFK", actividad.PropuestoPor },
                 {"@publicoDirigidoActividad", actividad.PublicoDirigido },
-                {"@tipo", actividad.Tipo }
+                {"@tipo", actividad.Tipo },
+                {"@link", actividad.Link }
             };
             
             exito = InsertarEnBaseDatos(Consulta, valoresParametros);
@@ -54,7 +57,8 @@ namespace Planetario.Handlers
                         Categoria = Convert.ToString(tablaResultado.Rows[0]["@categoria"]),
                         DiaSemana = Convert.ToString(tablaResultado.Rows[0]["@diaSemana"]),
                         PropuestoPor = Convert.ToString(tablaResultado.Rows[0]["@propuestoPorFK"]),
-                        PublicoDirigido = Convert.ToString(tablaResultado.Rows[0]["@publicoDirigidoActividad"])
+                        PublicoDirigido = Convert.ToString(tablaResultado.Rows[0]["@publicoDirigidoActividad"]),
+                        Link = Convert.ToString(tablaResultado.Rows[0]["@link"])
                     });
             }
             return actividades;
@@ -79,11 +83,40 @@ namespace Planetario.Handlers
                         DiaSemana = Convert.ToString(columna["diaSemana"]),
                         PropuestoPor = Convert.ToString(columna["propuestoPorFK"]),
                         PublicoDirigido = Convert.ToString(columna["publicoDirigidoActividad"]),
-                        Tipo = Convert.ToString(columna["tipo"])
+                        Tipo = Convert.ToString(columna["tipo"]),
+                        Link = Convert.ToString(columna["link"])
                     });
             }
             return actividades;
         }
+
+
+        public List<ActividadModel> obtenerTodasLasActividadesRecomendadas(string publicoDirigido, string complejidad)
+        {
+            List<ActividadModel> actividades = new List<ActividadModel>();
+            string Consulta = "SELECT * FROM Actividad WHERE aprobado = 1 AND publicoDirigidoActividad = '" + publicoDirigido + "'AND complejidad = '" + complejidad + "';"; ;
+            DataTable tablaResultado = LeerBaseDeDatos(Consulta);
+            foreach (DataRow columna in tablaResultado.Rows)
+            {
+                actividades.Add(
+                    new ActividadModel
+                    {
+                        NombreActividad = Convert.ToString(columna["nombreActividadPK"]),
+                        Descripcion = Convert.ToString(columna["descripcion"]),
+                        Duracion = Convert.ToInt32(columna["duracionMins"]),
+                        Complejidad = Convert.ToString(columna["complejidad"]),
+                        PrecioAproximado = Convert.ToDouble(columna["precioAprox"]),
+                        Categoria = Convert.ToString(columna["categoriaActividad"]),
+                        DiaSemana = Convert.ToString(columna["diaSemana"]),
+                        PropuestoPor = Convert.ToString(columna["propuestoPorFK"]),
+                        PublicoDirigido = Convert.ToString(columna["publicoDirigidoActividad"]),
+                        Tipo = Convert.ToString(columna["tipo"]),
+                        Link = Convert.ToString(columna["link"])
+                    });
+            }
+            return actividades;
+        }
+        
 
         public IList<string> obtenerTopicosActividades(string nombre)
         {
@@ -116,7 +149,8 @@ namespace Planetario.Handlers
                     DiaSemana = Convert.ToString(tablaResultado.Rows[0]["diaSemana"]),
                     PropuestoPor = Convert.ToString(tablaResultado.Rows[0]["propuestoPorFK"]),
                     PublicoDirigido = Convert.ToString(tablaResultado.Rows[0]["publicoDirigidoActividad"]),
-                    Tipo = Convert.ToString(tablaResultado.Rows[0]["tipo"])
+                    Tipo = Convert.ToString(tablaResultado.Rows[0]["tipo"]),
+                    Link = Convert.ToString(tablaResultado.Rows[0]["link"])
                 };
             }
             return actividad;
@@ -142,7 +176,8 @@ namespace Planetario.Handlers
                         DiaSemana = Convert.ToString(columna["diaSemana"]),
                         PropuestoPor = Convert.ToString(columna["propuestoPorFK"]),
                         PublicoDirigido = Convert.ToString(columna["publicoDirigidoActividad"]),
-                        Tipo = Convert.ToString(columna["tipo"])
+                        Tipo = Convert.ToString(columna["tipo"]),
+                        Link = Convert.ToString(columna["link"])
                     });
             }
             return actividadesUnicas;

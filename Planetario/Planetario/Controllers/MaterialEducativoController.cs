@@ -12,7 +12,6 @@ namespace Planetario.Controllers
 {
     public class MaterialEducativoController : Controller
     {
-
         public ActionResult AlmacenarNuevoMaterialEducativo()
         {
             return View();
@@ -37,6 +36,10 @@ namespace Planetario.Controllers
                     {
                         ViewBag.Mensaje = "Hubo un error en la base de datos ☹";
                     }
+                }
+                else
+                {
+                    ViewBag.Mensaje = "El modelo no es valido!";
                 }
                 return View();
             }

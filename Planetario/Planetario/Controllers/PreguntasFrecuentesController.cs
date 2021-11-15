@@ -35,6 +35,10 @@ namespace Planetario.Controllers
                         ModelState.Clear();
                     }
                 }
+                else
+                {
+                    ViewBag.Message = "El modelo no es valido!";
+                }
                 return View();
             }
             catch

@@ -1,9 +1,10 @@
 ﻿@model Planetario.Models.EventoModel
 
-@using (Html.BeginForm("AgregarEvento", "Eventos", FormMethod.Post, new { enctype = "multipart/form-data" } )) 
-{   
+@using (Html.BeginForm("AgregarEvento", "Eventos", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
     <span class="titulo">Crear Evento</span>
     <p class="alert-success">@ViewBag.mensaje</p>
+    <h4> Formulario de agregar eventos</h4>
     <hr />
     <div class="row">
         <div class="col-md-6 col-sm-12">
@@ -17,7 +18,16 @@
                 @Html.TextBoxFor(model => model.Fecha, new { @type = "date", @class = "form-control datepicker" })
                 @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
             </div>
+            <div class="form-check form-switch">
+                @Html.Label("virtual", "¿Es virtual?")
+                @Html.CheckBox("virtual", false, htmlAttributes: new { @class = "form-check-input", @onclick = "addbox()" })
+            </div>
+            <div>
+                @Html.LabelFor(model => model.Link, htmlAttributes: new { @class = "control-label", @id = "areaLabel", style = "display : none;" })
+                @Html.TextBoxFor(model => model.Link, new { @class = "form-control", @id = "area", style = "display : none;" })
+            </div>
         </div>
+           
         <div class="col-md-6 col-sm-12">
             @Html.LabelFor(model => model.Hora, htmlAttributes: new { @class = "control-label" })
             <div class="col-md-6 col-sm-12">
@@ -29,16 +39,37 @@
                 @Html.TextAreaFor(model => model.Descripcion, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
             </div>
+        </div>       
+        
+    </div>
+
+    <div class="row">
+        <div class="col-1 col-md-1 col-sm-2">
+            <input type="submit" value="Crear" class="btn btn-success" />
+        </div>
+        <div class="col-1 col-md-1 col-sm-2">
+            @Html.ActionLink("Volver", "PanelDeAdministracion", "Home", new { area = "" }, new { @class = "btn btn-danger" })
         </div>
     </div>
-    <div class="row" style="margin-top: 2%;">
-        <div class="col-md-12">
-            <input type="submit" value="Crear" class="btn btn-success" />
-            @Html.ActionLink("Cancelar", "CalendarioFenomenos", "Calendario", new { area = "" }, new { @class = "btn btn-danger" })
-        </div>
+
+    <div style="margin-top:100px"></div>
+
+    <div>
+        @Html.ActionLink("Regresar a Inicio", "InformacionBasica", "Home")
     </div>
 }
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script>
+    function addbox() {
+        if (document.getElementById('virtual').checked) {
+            document.getElementById('area').style.display = 'block';
+            document.getElementById('areaLabel').style.display = 'block';
+        } else {
+            document.getElementById('area').style.display = 'none';
+            document.getElementById('areaLabel').style.display = 'none';
+        }
+    }
+    </script>
 }
