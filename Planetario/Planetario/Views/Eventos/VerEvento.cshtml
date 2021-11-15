@@ -57,54 +57,55 @@
 <script src="https://embed.twitch.tv/embed/v1.js"></script>
 
 <script type="text/javascript">
-    // Setear la fecha a la que vamos a contar.
-    var fecha = '@Model.Fecha'.split('/');
-    var tiempo = '@Model.Hora'.split(':');
-    var dia = fecha[0];
-    var mes = fecha[1]-1;
-    var año = fecha[2];
-    var hora = tiempo[0];
-    var minuto = tiempo[1];
+    $(document).ready(function () {
 
-    var countDownDate = new Date(año, dia, mes, hora, minuto, 0 ,0).getTime();
+        // Setear la fecha a la que vamos a contar.
+        var fecha = '@Model.Fecha'.split('/');
+        var tiempo = '@Model.Hora'.split(':');
+        var dia = fecha[1];
+        var mes = fecha[0]-1;
+        var año = fecha[2];
+        var hora = tiempo[0];
+        var minuto = tiempo[1];
 
-    // Actualizar el countdown cada segundo.
-    var x = setInterval(function () {
+        console.log(fecha);
 
-    // Obtener la fecha y hora de hoy.
-    var now = new Date().getTime();
-        console.log(now);
-    // La diferencia entre la fecha de hoy y la que vamos a contar.
-    var distance = countDownDate - now;
+        var countDownDate = new Date(año, mes, dia, hora, minuto, 0, 0).getTime();
 
-    // Calculos para los dias, horas, minutos y segundos.
-    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        // Actualizar el countdown cada segundo.
+        var x = setInterval(function () {
 
-    // Mostrar el valor.
-    document.getElementById("countdown").innerHTML = days + "d " + hours + "h "
-        + minutes + "m " + seconds + "s ";
+            // Obtener la fecha y hora de hoy.
+            var now = new Date().getTime();
+            // La diferencia entre la fecha de hoy y la que vamos a contar.
+            var distance = countDownDate - now;
 
-    // Si el countdown llego a cero, mostrar el stream si es virtual, si es presencial solo mostrar que ya empezó.
-    console.log(distance);
-    console.log(distance < 0);
-    if (distance < 0) {
-        var Link = '@Model.Link';
-        Link = Link.toLowerCase();
-        clearInterval(x);
-        document.getElementById("countdown").innerHTML = "¡Ya empezó!";
-        if (Link != null) {
-            //Twitch embed.
-            new Twitch.Embed("twitch-embed", {
-                width: 1200,
-                height: 700,
-                channel: Link,
-                theme: 'light'
-            });
-        };
-    }
-}, 1000);
+            // Calculos para los dias, horas, minutos y segundos.
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
+            // Mostrar el valor.
+            document.getElementById("countdown").innerHTML = days + "d " + hours + "h "
+                + minutes + "m " + seconds + "s ";
+
+            // Si el countdown llego a cero, mostrar el stream si es virtual, si es presencial solo mostrar que ya empezó.
+            if (distance < 0) {
+                var Link = '@Model.Link';
+                Link = Link.toLowerCase();
+                clearInterval(x);
+                document.getElementById("countdown").innerHTML = "¡Ya empezó!";
+                if (Link != null) {
+                    //Twitch embed.
+                    new Twitch.Embed("twitch-embed", {
+                        width: 1200,
+                        height: 700,
+                        channel: Link,
+                        theme: 'light'
+                    });
+                };
+            }
+        }, 1000);
+    })
 </script>
