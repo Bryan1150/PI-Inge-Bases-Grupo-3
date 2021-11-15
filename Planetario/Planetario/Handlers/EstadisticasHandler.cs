@@ -100,8 +100,8 @@ namespace Planetario.Handlers
         public string crearStringDeConsultaCantidad(string diaSemana, string publicoMeta, string nivelComplejidad, string categoria, string topico)
         {
             string consulta = "SELECT COUNT(*) as 'Participantes' " +
-                              "FROM ParticipaEn P JOIN Actividad A " +
-                              "ON A.nombreActividadPK = P.nombreActividadFK " +
+                              "FROM Factura F JOIN Actividad A " +
+                              "ON A.nombreActividadPK = F.nombreActividadFK " +
                               "JOIN ActividadTopicos T " +
                               "ON A.nombreActividadPK = T.nombreActividadFK ";
 

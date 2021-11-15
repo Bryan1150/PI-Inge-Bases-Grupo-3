@@ -1,5 +1,5 @@
 ﻿@model Planetario.Models.ActividadModel
-@{ 
+@{
     ViewBag.Title = "Crear Actividad";
     List<SelectListItem> Categorias = new List<SelectListItem>() {
         new SelectListItem { Text = "Cuerpos del Sistema Solar", Value = "Cuerpos del Sistema Solar" },
@@ -7,6 +7,7 @@
         new SelectListItem { Text = "Astronomia", Value = "Astronomia" },
         new SelectListItem { Text = "General", Value = "General" },
     };
+
     List<SelectListItem> Complejidad = new List<SelectListItem>() {
         new SelectListItem { Text = "Simple", Value = "Simple" },
         new SelectListItem { Text = "Intermedio", Value = "Intermedio"  },
@@ -30,6 +31,25 @@
     <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
 </head>
 <body>
+    <span class="titulo">
+        Agregar Actividad
+    </span>
+
+    @if (ViewBag.Message != null)
+    {
+        if (ViewBag.ExitoAlCrear)
+        {
+            <div class="alert-success">
+                <h3> @ViewBag.Message </h3>
+            </div>
+        }
+        else
+        {
+            <div class="alert-danger">
+                <h3> @ViewBag.Message </h3>
+            </div>
+        }
+    }
 
     @using (Html.BeginForm("crearActividad", "Actividades", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {

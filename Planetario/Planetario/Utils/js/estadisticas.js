@@ -73,7 +73,7 @@ function recargarTopicos() {
     content += `<option value="">Todos</option>`
     for (let counter = 0; counter < nuevosTopicos.length; ++counter)
     {
-        content += `<option value=${nuevosTopicos[counter]}>${nuevosTopicos[counter]}</option>`
+        content += `<option value= '${nuevosTopicos[counter]}'>${nuevosTopicos[counter]}</option>`
     }
     content += `</select>`
     let selectDetails = document.getElementById('dropdownTopico')
