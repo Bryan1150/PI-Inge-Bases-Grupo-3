@@ -21,7 +21,7 @@
     <link href="https://cdn.jsdelivr.net/gh/minisuperfiles/MSFmultiSelect/msfmultiselect.min.css" rel="stylesheet" />
 </head>
 <body>
-    @using (Html.BeginForm("AgregarFuncionario", "Funcionarios", FormMethod.Post, new { enctype = "multipart/form-data", onsubmit = "listar()", method = "post" }))
+    @using (Html.BeginForm("AgregarFuncionario", "Funcionarios", FormMethod.Post, new { enctype = "multipart/form-data", onsubmit = "listar()" }))
     {
         <span class="titulo">Agregar Funcionario</span>
         <p class="alert-success">@ViewBag.Message</p>
@@ -29,7 +29,7 @@
         <hr />
 
         <div class="row">
-            <div class="col-md-6 col-sm-12">
+            <div class="col-md-4 col-sm-12">
                 @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label" })
                 <div>
                     @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control" })
@@ -54,6 +54,26 @@
                     @Html.ValidationMessageFor(model => model.CorreoContacto, "", new { @class = "text-danger" })
                 </div>
 
+                @Html.LabelFor(model => model.Contrasena, htmlAttributes: new { @class = "control-label" })
+                <div>
+                    @Html.TextBoxFor(model => model.Contrasena, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Contrasena, "", new { @class = "text-danger" })
+                </div>
+                @Html.LabelFor(model => model.AreaExpertis, htmlAttributes: new { @class = "control-label" })
+                <div>
+                    @Html.TextBoxFor(model => model.AreaExpertis, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.AreaExpertis, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-12">
+
+                @Html.LabelFor(model => model.FechaIncorporacion, htmlAttributes: new { @class = "control-label" })
+                <div>
+                    @Html.TextBoxFor(model => model.FechaIncorporacion, new { @type = "date", @class = "form-control datepicker" })
+                    @Html.ValidationMessageFor(model => model.FechaIncorporacion, "", new { @class = "text-danger" })
+                </div>
+
                 @Html.LabelFor(model => model.Pais, htmlAttributes: new { @class = "control-label" })
                 <div>
                     @Html.DropDownListFor(model => model.Pais, Paises, "-País-", new { @class = "form-control" })
@@ -65,41 +85,10 @@
                     @Html.DropDownListFor(model => model.Genero, generos, "-Selección-", new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Genero, "", new { @class = "text-danger" })
                 </div>
-            </div>
 
-            <div class="col-md-6 col-sm-12">
-                @Html.LabelFor(model => model.AreaExpertis, htmlAttributes: new { @class = "control-label" })
-                <div>
-                    @Html.TextBoxFor(model => model.AreaExpertis, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.AreaExpertis, "", new { @class = "text-danger" })
-                </div>
-
-                @Html.LabelFor(model => model.FechaIncorporacion, htmlAttributes: new { @class = "control-label" })
-                <div class="col-md-6 col-sm-12">
-                    @Html.TextBoxFor(model => model.FechaIncorporacion, new { @type = "date", @class = "form-control datepicker" })
-                    @Html.ValidationMessageFor(model => model.FechaIncorporacion, "", new { @class = "text-danger" })
-                </div>
-
-                @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label" })
-                <div>
-                    @Html.TextAreaFor(model => model.Descripcion, new { @class = "form-control", @rows = 5, @cols = 80 })
-                    @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
-                </div>
-
-                @Html.LabelFor(model => model.FotoArchivo, htmlAttributes: new { @class = "control-label" })
-                <div>
-                    @Html.TextBoxFor(model => model.FotoArchivo, new { type = "file", @class = "btn btn alert-info" })
-                    @Html.ValidationMessageFor(model => model.FotoArchivo, "", new { @class = "text-danger" })
-                </div>
-
-                @Html.LabelFor(model => model.Contrasena, htmlAttributes: new { @class = "control-label" })
-                <div>
-                    @Html.TextBoxFor(model => model.Contrasena, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Contrasena, "", new { @class = "text-danger" })
-                </div>
-
+                <label for="myselect" class="control-label">Idiomas</label>
                 <div id="myselect">
-                    <select id="multiselect" name="others[]" multiple="multiple">
+                    <select id="multiselect" name="others[]" multiple="multiple" class="form-control">
 
                         @foreach (var idioma in ViewBag.opcionIdiomas)
                         {
@@ -110,13 +99,26 @@
                 </div>
                 <input type="hidden" id="idiomas" name="idiomas" value="">
             </div>
+            <div class="col-md-4 col-sm-12">
+                @Html.LabelFor(model => model.FotoArchivo, htmlAttributes: new { @class = "control-label" })
+                <div>
+                    @Html.TextBoxFor(model => model.FotoArchivo, new { type = "file", @class = "btn btn alert-info" })
+                    @Html.ValidationMessageFor(model => model.FotoArchivo, "", new { @class = "text-danger" })
+                </div>
+
+                @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label" })
+                <div>
+                    @Html.TextAreaFor(model => model.Descripcion, new { @class = "form-control", @rows = 5, @cols = 80 })
+                    @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+                </div>
+            </div>
         </div>
 
         <div class="row">
-            <div class="col-1 col-md-1 col-sm-2">
+            <div class="col-1 col-md-4 col-sm-2">
                 <input type="submit" class="btn btn-success" value="Agregar" />
             </div>
-            <div class="col-1 col-md-1 col-sm-2">
+            <div class="col-1 col-md-4 col-sm-2">
                 @Html.ActionLink("Volver", "ListaFuncionarios", null, new { @class = "btn btn-danger" })
             </div>
         </div>
@@ -126,20 +128,19 @@
     <div>
         @Html.ActionLink("Regresar a Inicio", "InformacionBasica", "Home")
     </div>
-</body>
 
-<script>
-        var listaIdiomas = @Html.Raw(Json.Encode(@ViewBag.listaIdiomas));
-        var select = new MSFmultiSelect(
+    <script>
+        let listaIdiomas = @Html.Raw(Json.Encode(ViewBag.opcionIdiomas));
+        let select = new MSFmultiSelect(
             document.querySelector('#multiselect'),
             {
                 theme: 'theme2',
                 selectAll: false,
                 searchBox: false,
-                width: 400,
+                width: 280,
                 height: 50,
                 onChange: function (checked, value, instance) {
-
+                    listar();
                 },
                 placeholder: 'idiomas',
                 afterSelectAll: function (checked, values, instance) {
@@ -150,19 +151,18 @@
 
         function listar()
         {
-            var seleccion = "";
+            var seleccion = [];
 
             for (i = 0; i < listaIdiomas.length; i++) {
                 if (select.data[i] === true) {
-                    seleccion += listaIdiomas[i]
-                    seleccion += ";"
+                    seleccion.push(listaIdiomas[i].Text)
                 }
             }
-            document.getElementById("idiomas").value = seleccion;
+            document.getElementById("idiomas").value = seleccion.join(";");
 
         }
-</script>
-
+    </script>
+</body>
 @section Scripts
 {
     @Scripts.Render("~/bundles/jqueryval")

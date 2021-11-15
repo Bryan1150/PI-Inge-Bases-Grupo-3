@@ -93,8 +93,8 @@ namespace Planetario.Handlers
             string Consulta = "INSERT INTO FuncionarioIdioma VALUES (@correo, @idioma)";
 
             Dictionary<string, object> valoresParametros = new Dictionary<string, object> {
-                {"@correo", idioma },
-                {"@idioma", correo }
+                {"@correo", correo },
+                {"@idioma", idioma }
             };
 
             exito = InsertarEnBaseDatos(Consulta, valoresParametros);
