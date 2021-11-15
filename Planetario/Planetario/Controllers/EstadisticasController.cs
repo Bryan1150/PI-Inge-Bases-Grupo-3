@@ -157,7 +157,7 @@ namespace Planetario.Controllers
         {
             var dias = new List<String>()
             {
-                "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sábado", "Domingo"
+                "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"
             };
 
             List<SelectListItem> listaDias = new List<SelectListItem>();

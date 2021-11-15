@@ -26,7 +26,7 @@ namespace Planetario.Controllers
             {
                 resultado.Add( new {
                     title = actividad.NombreActividad,
-                    start = "2021-11-01",
+                    start = TranslateFecha(actividad.Fecha),
                     url = Url.Action("verActividad", "Actividades", new { nombre = actividad.NombreActividad })
                 });
             }

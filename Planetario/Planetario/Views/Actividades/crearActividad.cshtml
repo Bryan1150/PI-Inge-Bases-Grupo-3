@@ -31,25 +31,6 @@
     <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
 </head>
 <body>
-    <span class="titulo">
-        Agregar Actividad
-    </span>
-
-    @if (ViewBag.Message != null)
-    {
-        if (ViewBag.ExitoAlCrear)
-        {
-            <div class="alert-success">
-                <h3> @ViewBag.Message </h3>
-            </div>
-        }
-        else
-        {
-            <div class="alert-danger">
-                <h3> @ViewBag.Message </h3>
-            </div>
-        }
-    }
 
     @using (Html.BeginForm("crearActividad", "Actividades", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
@@ -78,10 +59,10 @@
                 </div>
 
 
-                @Html.LabelFor(model => model.DiaSemana, htmlAttributes: new { @class = "control-label " })
+                @Html.LabelFor(model => model.Fecha, htmlAttributes: new { @class = "control-label " })
                 <div class="col-md-10">
-                    @Html.TextBoxFor(model => model.DiaSemana, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.DiaSemana, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(model => model.Fecha, new { @type = "date", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
                 </div>
                 @Html.LabelFor(model => model.PropuestoPor, htmlAttributes: new { @class = "control-label " })
                 <div class="col-md-10">

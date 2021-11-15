@@ -39,9 +39,12 @@ namespace Planetario.Models
         
         public string Categoria { get; set; }
         
-        [Required(ErrorMessage = "Es necesario que indique el dia de la semana.")]
         [Display(Name = "Dia de la semana")]
         public string DiaSemana { get; set; }
+
+        [Required(ErrorMessage = "Es necesario que indique la fecha")]
+        [Display(Name = "Fecha")]
+        public string Fecha { get; set; }
 
         [Required(ErrorMessage = "Es necesario que indique su correo.")]
         [Display(Name = "Correo")]

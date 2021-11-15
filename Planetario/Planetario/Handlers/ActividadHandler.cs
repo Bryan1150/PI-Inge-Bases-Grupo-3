@@ -15,9 +15,9 @@ namespace Planetario.Handlers
         {
             bool exito;
             string Consulta = "INSERT INTO Actividad (nombreActividadPK, descripcion, " +
-                "duracionMins, complejidad, precioAprox, categoriaActividad, diaSemana, propuestoPorFK, publicoDirigidoActividad, tipo, link) "
+                "duracionMins, complejidad, precioAprox, categoriaActividad, fechaActividad, propuestoPorFK, publicoDirigidoActividad, tipo, link) "
                 + " VALUES ( @nombreActividadPK, @descripcion, @duracionMins, @complejidad, " +
-                "@precioAprox, @categoria, @diaSemana, @propuestoPorFK, @publicoDirigidoActividad, @tipo, @link)";
+                "@precioAprox, @categoria, @fecha, @propuestoPorFK, @publicoDirigidoActividad, @tipo, @link)";
 
             if (actividad.Link == null) { actividad.Link = ""; }
 
@@ -28,7 +28,7 @@ namespace Planetario.Handlers
                 {"@complejidad", actividad.Complejidad },
                 {"@precioAprox", actividad.PrecioAproximado },
                 {"@categoria", actividad.Categoria },
-                {"@diaSemana", actividad.DiaSemana},
+                {"@fecha", actividad.Fecha},
                 {"@propuestoPorFK", actividad.PropuestoPor },
                 {"@publicoDirigidoActividad", actividad.PublicoDirigido },
                 {"@tipo", actividad.Tipo },
@@ -49,16 +49,17 @@ namespace Planetario.Handlers
             {
                 actividades.Add(
                     new ActividadModel {
-                        NombreActividad = Convert.ToString(tablaResultado.Rows[0]["@nombreActividadPK"]),
-                        Descripcion = Convert.ToString(tablaResultado.Rows[0]["@descripcion"]),
-                        Duracion = Convert.ToInt32(tablaResultado.Rows[0]["@duracionMins"]),
-                        Complejidad = Convert.ToString(tablaResultado.Rows[0]["@complejidad"]),
-                        PrecioAproximado = Convert.ToDouble(tablaResultado.Rows[0]["@precioAprox"]),
-                        Categoria = Convert.ToString(tablaResultado.Rows[0]["@categoria"]),
-                        DiaSemana = Convert.ToString(tablaResultado.Rows[0]["@diaSemana"]),
-                        PropuestoPor = Convert.ToString(tablaResultado.Rows[0]["@propuestoPorFK"]),
-                        PublicoDirigido = Convert.ToString(tablaResultado.Rows[0]["@publicoDirigidoActividad"]),
-                        Link = Convert.ToString(tablaResultado.Rows[0]["@link"])
+                        NombreActividad = Convert.ToString(tablaResultado.Rows[0]["nombreActividadPK"]),
+                        Descripcion = Convert.ToString(tablaResultado.Rows[0]["descripcion"]),
+                        Duracion = Convert.ToInt32(tablaResultado.Rows[0]["duracionMins"]),
+                        Complejidad = Convert.ToString(tablaResultado.Rows[0]["complejidad"]),
+                        PrecioAproximado = Convert.ToDouble(tablaResultado.Rows[0]["precioAprox"]),
+                        Categoria = Convert.ToString(tablaResultado.Rows[0]["categoria"]),
+                        DiaSemana = Convert.ToString(tablaResultado.Rows[0]["diaSemana"]),
+                        Fecha = Convert.ToString(tablaResultado.Rows[0]["fechaActividad"]).Split()[0],
+                        PropuestoPor = Convert.ToString(tablaResultado.Rows[0]["propuestoPorFK"]),
+                        PublicoDirigido = Convert.ToString(tablaResultado.Rows[0]["publicoDirigidoActividad"]),
+                        Link = Convert.ToString(tablaResultado.Rows[0]["link"])
                     });
             }
             return actividades;
@@ -81,6 +82,7 @@ namespace Planetario.Handlers
                         PrecioAproximado = Convert.ToDouble(columna["precioAprox"]),
                         Categoria = Convert.ToString(columna["categoriaActividad"]),
                         DiaSemana = Convert.ToString(columna["diaSemana"]),
+                        Fecha = Convert.ToString(columna["fechaActividad"]).Split()[0],
                         PropuestoPor = Convert.ToString(columna["propuestoPorFK"]),
                         PublicoDirigido = Convert.ToString(columna["publicoDirigidoActividad"]),
                         Tipo = Convert.ToString(columna["tipo"]),
@@ -147,6 +149,7 @@ namespace Planetario.Handlers
                     PrecioAproximado = Convert.ToDouble(tablaResultado.Rows[0]["precioAprox"]),
                     Categoria = Convert.ToString(tablaResultado.Rows[0]["categoriaActividad"]),
                     DiaSemana = Convert.ToString(tablaResultado.Rows[0]["diaSemana"]),
+                    Fecha = Convert.ToString(tablaResultado.Rows[0]["fechaActividad"]).Split()[0],
                     PropuestoPor = Convert.ToString(tablaResultado.Rows[0]["propuestoPorFK"]),
                     PublicoDirigido = Convert.ToString(tablaResultado.Rows[0]["publicoDirigidoActividad"]),
                     Tipo = Convert.ToString(tablaResultado.Rows[0]["tipo"]),
@@ -174,6 +177,7 @@ namespace Planetario.Handlers
                         PrecioAproximado = Convert.ToDouble(columna["precioAprox"]),
                         Categoria = Convert.ToString(columna["categoriaActividad"]),
                         DiaSemana = Convert.ToString(columna["diaSemana"]),
+                        Fecha = Convert.ToString(columna["fechaActividad"]).Split()[0],
                         PropuestoPor = Convert.ToString(columna["propuestoPorFK"]),
                         PublicoDirigido = Convert.ToString(columna["publicoDirigidoActividad"]),
                         Tipo = Convert.ToString(columna["tipo"]),
