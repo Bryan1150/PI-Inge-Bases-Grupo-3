@@ -27,9 +27,13 @@
     <span class="titulo"> Actividades </span>
 
     <form method="post" class="navbar-form navbar-right" action="@Url.Action("buscarActividad", "Actividades")">
-        <div class="form-group">
-            <input type="text" name="palabra" class="form-control" placeholder="Buscar actividad">
-            <button type="submit" class="btn btn-secondary"> <span class="fa fa-search" aria-hidden="true"></span> Buscar</button>
+        <div class="row">
+            <div class="col-3 col-md-3 col-sm-2">
+                <input type="text" name="palabra" class="form-control" placeholder="Buscar actividad">
+            </div>
+            <div class="col-3 col-md-3 col-sm-2">
+                <button type="submit" class="btn btn-secondary"> <span class="fa fa-search" aria-hidden="true"></span> Buscar</button>
+            </div>
         </div>
     </form>
 
