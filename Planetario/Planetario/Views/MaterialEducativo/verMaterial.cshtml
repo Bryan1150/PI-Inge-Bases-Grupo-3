@@ -41,6 +41,10 @@
             border-width: .15em;
             box-shadow: 3px 7px #133b5c;
         }
+
+        .site-footer {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -50,7 +54,7 @@
     <section>
         <div class="row">
             <p class="card-title"> <b>Vista previa:</b> </p>
-            <img src=@Url.Action("descargarVistaPrevia", "MaterialesEducativos", new { titulo = @ViewBag.material.Titulo })>
+            <img src=https://upload.wikimedia.org/wikipedia/commons/c/c7/Saturn_during_Equinox.jpg>
         </div>
         <div class="container">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 text-center">
