@@ -28,7 +28,7 @@
             <th>Título</th>
             <th>Público</th>
             <th>Educador</th>
-            <th>Archivo</th>
+            <th>Ver</th>
         </tr>
         @foreach (var material in ViewBag.materiales)
         {
@@ -38,9 +38,7 @@
                 <td>@material.PublicoDirigido</td>
                 <td>@material.NombreResponsable (@material.CorreoResponsable)</td>
                 <td>
-                    @Html.ActionLink("Ver", "descargarArchivo",
-                         new { titulo = @material.Titulo }
-                     )
+                    <h5>@Html.ActionLink("Ver más", "verMaterial", "MaterialEducativo", new { nombre = material.Titulo.ToString() }, new { @class = "h5" })</h5>
                 </td>
             </tr>
         }
