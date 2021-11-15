@@ -21,7 +21,7 @@ namespace Planetario.Models
         public string Descripcion { get; set; }
 
         [Required(ErrorMessage = "Es necesario que ingrese aproximadamente cuantos minutos durara la actividad.")]
-        [Display(Name = "Duración")]
+        [Display(Name = "Duración en minutos")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Debe ingresar números")]
         public int Duracion { get; set; }
 
