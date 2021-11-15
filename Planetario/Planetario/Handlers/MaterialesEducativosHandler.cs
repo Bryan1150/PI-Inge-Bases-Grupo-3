@@ -128,5 +128,42 @@ namespace Planetario.Handlers
             }
             return material;
         }
+
+        public List<MaterialEducativoModel> obtenerTodasLosMaterialesRecomendados(string publicoDirigido, string categoria)
+        {
+            List<MaterialEducativoModel> material = new List<MaterialEducativoModel>();
+            string Consulta = "SELECT * FROM MaterialEducativo WHERE publicoDirigidoMaterial = '" + publicoDirigido + "'AND categoriaMaterialEducativo = '" + categoria + "';"; ;
+            DataTable tablaResultado = BaseDatos.LeerBaseDeDatos(Consulta);
+            foreach (DataRow columna in tablaResultado.Rows)
+            {
+                MaterialEducativoModel modelo = new MaterialEducativoModel
+                {
+                    Titulo = Convert.ToString(columna["tituloMaterialEducativoPK"]),
+                    Categoria = Convert.ToString(columna["categoriaMaterialEducativo"]),
+                    CorreoResponsable = Convert.ToString(columna["correoFuncionarioFK"]),
+                    PublicoDirigido = Convert.ToString(columna["publicoDirigidoMaterial"]),
+                };
+                material.Add(modelo);
+            }
+            return material;
+        }
+
+         public MaterialEducativoModel buscarActividad(string nombre)
+        {
+            MaterialEducativoModel material = null;
+            string Consulta = "Select * FROM MaterialEducativo WHERE tituloMaterialEducativoPK = '" + nombre + "';";
+            DataTable tablaResultado = BaseDatos.LeerBaseDeDatos(Consulta);
+            if (tablaResultado.Rows.Count >= 1)
+            {
+                material = new MaterialEducativoModel
+                {
+                    Titulo = Convert.ToString(tablaResultado.Rows[0]["tituloMaterialEducativoPK"]),
+                    Categoria = Convert.ToString(tablaResultado.Rows[0]["categoriaMaterialEducativo"]),
+                    CorreoResponsable = Convert.ToString(tablaResultado.Rows[0]["correoFuncionarioFK"]),
+                    PublicoDirigido = Convert.ToString(tablaResultado.Rows[0]["publicoDirigidoMaterial"]),              
+                };
+            }
+            return material;
+        }
     }
 }
