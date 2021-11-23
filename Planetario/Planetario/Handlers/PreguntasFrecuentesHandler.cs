@@ -11,47 +11,63 @@ namespace Planetario.Handlers
 {
     public class PreguntasFrecuentesHandler
     {
-        private SqlConnection conexion;
-        private readonly string rutaConexion;
+        private readonly BaseDatosHandler BaseDatos;
+        private string Consulta;
 
         public PreguntasFrecuentesHandler()
         {
-            rutaConexion = ConfigurationManager.ConnectionStrings["ConexionBaseDatosServidor"].ToString();
-            conexion = new SqlConnection(rutaConexion);
-        }
-
-        private DataTable CrearTablaConsulta(string consulta)
-        {
-            SqlCommand comandoParaConsulta = new SqlCommand(consulta, conexion);
-            SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
-            DataTable consultaFormatoTabla = new DataTable();
-
-            conexion.Open();
-            adaptadorParaTabla.Fill(consultaFormatoTabla);
-            conexion.Close();
-            return consultaFormatoTabla;
+            BaseDatos = new BaseDatosHandler();
         }
 
         public List<PreguntasFrecuentesModel> ObtenerPreguntasFrecuentes()
         {
             List<PreguntasFrecuentesModel> preguntasFrecuentes = new List<PreguntasFrecuentesModel>();
-            string consulta = "SELECT * FROM dbo.PreguntasFrecuentes PF JOIN dbo.PreguntasFrecuentesTopicos PFT ON PF.topicoPreguntasFK = PFT.idTopicoPK";
-            DataTable tablaResultado = CrearTablaConsulta(consulta);
+            List<string> preguntasFrecuentesTopicos;
+            Consulta = "SELECT DISTINCT * FROM dbo.PreguntasFrecuentes";
+            DataTable tablaResultado = BaseDatos.LeerBaseDeDatos(Consulta);
+            DataTable tablaResultadoTopicos;
 
             foreach (DataRow columna in tablaResultado.Rows)
             {
+                Consulta = "SELECT DISTINCT * FROM dbo.PreguntasFrecuentesTopicos WHERE idPreguntaFK = " + Convert.ToInt32(columna["idPreguntaPK"]);
+                tablaResultadoTopicos = BaseDatos.LeerBaseDeDatos(Consulta);
+                preguntasFrecuentesTopicos = new List<string>();
+                string topico1 = "NULL";
+                string topico2 = "NULL";
+                string topico3 = "NULL";
+
+                foreach (DataRow columna2 in tablaResultadoTopicos.Rows)
+                {
+                    preguntasFrecuentesTopicos.Add(Convert.ToString(columna2["topicosPreguntasFrecuentes"]));
+                }
+
+                for(int i = 0; i < preguntasFrecuentesTopicos.Count; i++)
+                {
+                    switch (i)
+                    {
+                        case 0:
+                            topico1 = preguntasFrecuentesTopicos[i];
+                            break;
+                        case 1:
+                            topico2 = preguntasFrecuentesTopicos[i];
+                            break;
+                        case 2:
+                            topico3 = preguntasFrecuentesTopicos[i];
+                            break;
+                    }              
+                }
+
                 preguntasFrecuentes.Add(
                     new PreguntasFrecuentesModel
                     {
-                        idPregunta = Convert.ToInt32(columna["idPreguntaPK"]),
-                        idTopicos = Convert.ToInt32(columna["topicoPreguntasFK"]),
-                        categoriaPregunta = Convert.ToString(columna["categoriaPregunta"]),
+                        idPregunta = Convert.ToInt32(columna["idPreguntaPK"]),                      
+                        categoriaPregunta = Convert.ToString(columna["categoriaPreguntasFrecuentes"]),
                         pregunta = Convert.ToString(columna["pregunta"]),
                         respuesta = Convert.ToString(columna["respuesta"]),
-                        topicoPregunta = Convert.ToString(columna["topico1"]),
-                        topicoPregunta2 = Convert.ToString(columna["topico2"]),
-                        topicoPregunta3 = Convert.ToString(columna["topico3"]),
-
+                        correoFuncionario = Convert.ToString(columna["correoFuncionarioFK"]),
+                        topicoPregunta = topico1,
+                        topicoPregunta2 = topico2,
+                        topicoPregunta3 = topico3,               
                     });
             }
 
@@ -61,12 +77,12 @@ namespace Planetario.Handlers
         public List<String> ObtenerCategorias()
         {
             List<String> categorias = new List<String>();
-            string consulta = "SELECT DISTINCT categoriaPregunta FROM dbo.PreguntasFrecuentes";
-            DataTable tablaResultado = CrearTablaConsulta(consulta);
+            Consulta = "SELECT DISTINCT categoriaPreguntasFrecuentes FROM dbo.PreguntasFrecuentes";
+            DataTable tablaResultado = BaseDatos.LeerBaseDeDatos(Consulta);
 
             foreach (DataRow columna in tablaResultado.Rows)
             {
-                categorias.Add(Convert.ToString(columna["categoriaPregunta"]));
+                categorias.Add(Convert.ToString(columna["categoriaPreguntasFrecuentes"]));
             }
 
             return categorias;
@@ -74,39 +90,43 @@ namespace Planetario.Handlers
 
         public bool agregarNuevaPregunta(PreguntasFrecuentesModel nuevaPregunta)
         {     
-            string consulta = "INSERT INTO dbo.PreguntasFrecuentesTopicos (topico1, topico2, topico3) VALUES (@topicoPregunta, @topicoPregunta2, @topicoPregunta3) " +
-                "INSERT INTO dbo.PreguntasFrecuentes (categoriaPregunta, pregunta, respuesta, topicoPreguntasFK) VALUES (@categoriaPregunta, @pregunta, @respuesta, scope_identity())";
+            bool exito;
+            Consulta =
+            "INSERT INTO dbo.PreguntasFrecuentes(pregunta, respuesta, correoFuncionarioFK, categoriaPreguntasFrecuentes) VALUES(@pregunta, @respuesta, @correoFuncionario, @categoriaPregunta);" +
+            "DECLARE @identity int = scope_identity();" +
+            "INSERT INTO dbo.PreguntasFrecuentesTopicos(idPreguntaFK, topicosPreguntasFrecuentes) VALUES(@identity, @topicoPregunta);";
+            Dictionary<string, object> valoresParametros = new Dictionary<string, object>
+            {
+                { "@topicoPregunta",    nuevaPregunta.topicoPregunta },
+                { "@categoriaPregunta", nuevaPregunta.categoriaPregunta },
+                { "@pregunta",          nuevaPregunta.pregunta },
+                { "@respuesta",         nuevaPregunta.respuesta },
+                { "@correoFuncionario", HttpContext.Current.User.Identity.Name} 
 
-            SqlCommand comandoParaConsulta = new SqlCommand(consulta, conexion);
-            SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
-
-            comandoParaConsulta.Parameters.AddWithValue("@topicoPregunta", nuevaPregunta.topicoPregunta);
+            };
 
             if(nuevaPregunta.topicoPregunta2 != "-Topico-")
             {
-                comandoParaConsulta.Parameters.AddWithValue("@topicoPregunta2", nuevaPregunta.topicoPregunta2);
+                valoresParametros.Add("@topicoPregunta2", nuevaPregunta.topicoPregunta2);
+                Consulta += "INSERT INTO dbo.PreguntasFrecuentesTopicos(idPreguntaFK, topicosPreguntasFrecuentes) VALUES(@identity, @topicoPregunta2);";
             }
             else
             {
-                comandoParaConsulta.Parameters.AddWithValue("@topicoPregunta2", "NULL");
+                valoresParametros.Add("@topicoPregunta2", "NULL");
             }
 
             if (nuevaPregunta.topicoPregunta3 != "-Topico-")
             {
-                comandoParaConsulta.Parameters.AddWithValue("@topicoPregunta3", nuevaPregunta.topicoPregunta3);
+                valoresParametros.Add("@topicoPregunta3", nuevaPregunta.topicoPregunta3);
+                Consulta += "INSERT INTO dbo.PreguntasFrecuentesTopicos(idPreguntaFK, topicosPreguntasFrecuentes) VALUES(@identity, @topicoPregunta3);";
             }
             else
             {
-                comandoParaConsulta.Parameters.AddWithValue("@topicoPregunta3", "NULL");
+                valoresParametros.Add("@topicoPregunta3", "NULL");
             }
 
-            comandoParaConsulta.Parameters.AddWithValue("@categoriaPregunta", nuevaPregunta.categoriaPregunta);
-            comandoParaConsulta.Parameters.AddWithValue("@pregunta", nuevaPregunta.pregunta);
-            comandoParaConsulta.Parameters.AddWithValue("@respuesta", nuevaPregunta.respuesta);
-          
-            conexion.Open();
-            bool exito = comandoParaConsulta.ExecuteNonQuery() >= 1;
-            conexion.Close();
+            exito = BaseDatos.InsertarEnBaseDatos(Consulta, valoresParametros);
+
             return exito;
         }
     }

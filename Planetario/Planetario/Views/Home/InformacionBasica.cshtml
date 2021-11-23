@@ -6,48 +6,95 @@
 <head>
     <title>@ViewBag.title</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
+    @Styles.Render("~/Utils/css")
 </head>
 <body>
-    <div class="row">
-        <div class="row">
-            <div class="col">
-                <span class="titulo">
-                    Planetario Halley
-                </span>
+
+    <span class="titulo">
+        Planetario Halley
+    </span>
+
+    <style>
+        .carousel-item {
+            height: 40em;
+        }
+    </style>
+
+    <div class="col-md-12">
+        <div id="carruselNoticias" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carruselNoticias" data-bs-slide-to="0" class="active"></button>
+                <button type="button" data-bs-target="#carruselNoticias" data-bs-slide-to="1"></button>
+                <button type="button" data-bs-target="#carruselNoticias" data-bs-slide-to="2"></button>
             </div>
-            <div col="col">
-                <img src="~/Utils/images/img-01.png" alt="Logo planetario" style="width:20%;height:40%;">
+
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi0.wp.com%2Finsurgentepress.com.mx%2Fwp-content%2Fuploads%2F2020%2F05%2FApophisAsteroid.jpg%3Ffit%3D1600%252C900%26ssl%3D1&f=1&nofb=1" alt="Asteroide" class="d-block w-100">
+                    <div class="carousel-caption">
+                        <h3>Asteroide en direccion hacia la Tierra</h3>
+                        <p style="color:white">Un asteroide de 500 toneladas esta en dirección de colisión a la Tierra en los proximos 100 años</p>
+                        @Html.ActionLink("Ver noticia", "verNoticia", "Noticias", new { stringId = 1, style = "color:white" }, null)
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwallup.net%2Fwp-content%2Fuploads%2F2019%2F09%2F865267-galaxia-andromeda-estrella-espacio.jpg&f=1&nofb=1" alt="Galaxia" class="d-block w-100">
+                    <div class="carousel-caption">
+                        <h3>Se descubre una nueva Galaxia</h3>
+                        <p style="color:white">Cientificos encuentran nueva galaxia cercana a la nuestra.</p>
+                        @Html.ActionLink("Ver noticia", "verNoticia", "Noticias", new { stringId = 2, style = "color:white" }, null)
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.chispa.tv%2F__export%2F1509561633274%2Fsites%2Fdebate%2Fimg%2F2017%2F11%2F01%2F855febf1dce40a0fb692d206fd87c9b9858d100c_crop1509560219671.jpg_242310155.jpg&f=1&nofb=1" alt="New York" class="d-block w-100">
+                    <div class="carousel-caption">
+                        <h3>Se encontró el primer planeta de la galaxia recien descubierta</h3>
+                        <p style="color:white">El planeta será llamado Grupo-03</p>
+                        @Html.ActionLink("Ver noticia", "verNoticia", "Noticias", new { stringId = 3, style = "color:white"}, null)
+                    </div>
+                </div>
             </div>
-        </div>
-        <hr />
-        <div class="col">
-            <div class="card">
-                <b>Mision</b>
-                <p align="justify">
-                    Construir comunidades alrededor del
-                    conocimiento científico, artístico y tecnológico,
-                    donde la diversidad de saberes y la comunicación con
-                    nuestros públicos incidan en la transformación de la
-                    sociedad por medio de un diálogo horizontal e incluyente.
-                </p>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card">
-                <b>Vision</b>
-                <p align="justify">
-                    En el Planetario Halley buscamos estimular los procesos creativos
-                    y el interés por el quehacer científico en el país,
-                    a través de la exploración de diversos lenguajes de comunicación.
-                    Con este propósito, queremos construir una red interdisciplinaria 
-                    en las áreas de divulgación y educación a través del fortalecimiento 
-                    de los espacios y canales que posibilitan el diálogo y el intercambio 
-                    a nivel local e internacional.
-                </p>
-            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#carruselNoticias" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carruselNoticias" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
         </div>
     </div>
-    <hr />
+
+    <div class="row d-flex flex-wrap align-items-center">
+        <div class="col-md-6">
+            <span class="titulo">Mision</span>
+            <p align="justify" class="parrafo">
+                Construir comunidades alrededor del
+                conocimiento científico, artístico y tecnológico,
+                donde la diversidad de saberes y la comunicación con
+                nuestros públicos incidan en la transformación de la
+                sociedad por medio de un diálogo horizontal e incluyente.
+                <br /><br />
+            </p>
+        </div>
+        <div class="col-sm-6 col-md-6">
+            <span class="titulo">Vision</span>
+            <p align="justify" class="parrafo">
+                Estimular el interés por el quehacer científico,
+                a través de la exploración de diversos lenguajes de comunicación.
+                Construir una red interdisciplinaria
+                en las áreas de divulgación y educación a través del fortalecimiento
+                de los espacios que posibilitan el diálogo y el intercambio
+                a nivel local e internacional.
+            </p>
+        </div>
+    </div>
+
+    <div style="margin-top:100px"></div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
 </body>
 </html>

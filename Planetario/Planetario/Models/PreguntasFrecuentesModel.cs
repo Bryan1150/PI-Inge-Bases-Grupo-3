@@ -10,7 +10,7 @@ namespace Planetario.Models
     {
         public int idPregunta { get; set; }
 
-        public int idTopicos { get; set; }
+        public string correoFuncionario { get; set; }
 
         [Display(Name = "Categoría: ")]
         [Required(ErrorMessage = "Es necesario que ingrese la categoría de la pregunta")]

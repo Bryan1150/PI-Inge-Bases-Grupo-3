@@ -2,8 +2,6 @@
 <head>
     <title>Horarios, parqueos y trasnporte del Planetario</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
-
     <style>
         #map {
             height: 400px;
@@ -30,7 +28,7 @@
     <div class="row text-center" style="width: 99%;">
         <div class="col-md-6">
             <span class="titulo">Horario</span>
-            <table class="table table-hover well" style="height: 54px;">
+            <table class="table table-hover" style="height: 54px;">
                 <tbody>
                     <tr style="height: 18px;">
 
@@ -56,7 +54,7 @@
 
         <div class="col-md-6">
             <span class="titulo">Transporte</span>
-            <table class="table table-hover well" style="height: 54px;">
+            <table class="table table-hover table-responsive" style="height: 54px;">
                 <tbody>
                     <tr style="height: 18px;">
 
@@ -86,7 +84,7 @@
     <div class="row text-center" style="width: 99%;">
         <span class="titulo">Estacionamiento</span>
         <div class="container">
-            <p class="text-center well well-lg">
+            <p class="text-center">
                 El estacionamiento consistirá de 50 parqueos para carros que se encuentran al aire libre.
                 Cinco de estos son para gente con discapacidad. Tambien se cuentan con 10 parqueos para motos.
                 El estacionamiento a la misma hora que abre el planetario y cierra una hora después de que el planetario haya cerrado.
@@ -96,12 +94,13 @@
 
     <div class="row text-center">
         <span class="titulo">Ubicación</span>
-        <div class="well">
-            <p>Nos ubicamos en la Ciudad de la Investigación de la UCR, San Pedro de Montes de Oca. Del supermercado Muñoz y Nanne 400 metros Norte (entrada principal a la Ciudad de la Investigación).</p>
-        </div>
+        <p class="text-center">Nos ubicamos en la Ciudad de la Investigación de la UCR, San Pedro de Montes de Oca. Del supermercado Muñoz y Nanne 400 metros Norte (entrada principal a la Ciudad de la Investigación).</p>
         <div id="map"></div>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLElcIYt5Tjb1rNAuONwwL8AXOkskFkak&callback=initMap" async defer></script>
         <hr />
     </div>
+
+    <div style="margin-top:70px"></div>
+
 </body>
 

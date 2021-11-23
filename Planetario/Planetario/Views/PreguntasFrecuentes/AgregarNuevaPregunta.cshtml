@@ -2,12 +2,11 @@
 @{ 
     ViewBag.Title = "Añadir Pregunta";
     List<SelectListItem> categorias = new List<SelectListItem>() {
-            new SelectListItem { Text = "Cuerpos del Sistema Solar" },
-            new SelectListItem { Text = "Objetos de Cielo Profundo" },
-            new SelectListItem { Text = "Astronomia" },
-            new SelectListItem { Text = "General" },
-
-            };
+        new SelectListItem { Text = "Cuerpos del Sistema Solar" },
+        new SelectListItem { Text = "Objetos de Cielo Profundo" },
+        new SelectListItem { Text = "Astronomia" },
+        new SelectListItem { Text = "General" },
+    };
 }
 
 <!DOCTYPE html>
@@ -123,7 +122,7 @@
             $('#categoriaPregunta').change(function () {
                 var categoriaSeleccionada = $(this).val();
                 if (categoriaSeleccionada != null && categoriaSeleccionada != '') {
-                    $.getJSON('@Url.Action("Topicos")', { categoria: categoriaSeleccionada }, function (topicos) {
+                    $.getJSON('@Url.Action("../Topicos/ConseguirTopicos")', { categoria: categoriaSeleccionada }, function (topicos) {
                         var topicoSeleccionado = $('#topicoPregunta');
                         topicoSeleccionado.empty();
                         $.each(topicos, function (index, topico) {
@@ -143,7 +142,7 @@
             $('#categoriaPregunta').change(function () {
                 var categoriaSeleccionada = $(this).val();
                 if (categoriaSeleccionada != null && categoriaSeleccionada != '') {
-                    $.getJSON('@Url.Action("Topicos")', { categoria: categoriaSeleccionada }, function (topicos) {
+                    $.getJSON('@Url.Action("../Topicos/ConseguirTopicos")', { categoria: categoriaSeleccionada }, function (topicos) {
                         var topicoSeleccionado = $('#topicoPregunta2');
                         topicoSeleccionado.empty();
                         $.each(topicos, function (index, topico) {
@@ -161,7 +160,7 @@
             $('#categoriaPregunta').change(function () {
                 var categoriaSeleccionada = $(this).val();
                 if (categoriaSeleccionada != null && categoriaSeleccionada != '') {
-                    $.getJSON('@Url.Action("Topicos")', { categoria: categoriaSeleccionada }, function (topicos) {
+                    $.getJSON('@Url.Action("../Topicos/ConseguirTopicos")', { categoria: categoriaSeleccionada }, function (topicos) {
                         var topicoSeleccionado = $('#topicoPregunta3');
                         topicoSeleccionado.empty();
                         $.each(topicos, function (index, topico) {

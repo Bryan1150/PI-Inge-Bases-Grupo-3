@@ -14,21 +14,24 @@
         Noticias
     </span>
 
-    <table class="table table-hover well">
+    @foreach (Planetario.Models.NoticiaModel noticia in ViewBag.noticias)
+    {
+        <h1>@Html.ActionLink(noticia.Titulo, "verNoticia", "Noticias", new { stringId = @noticia.id.ToString() }, new { @class="h4"})</h1>
+        <p><strong>Autor: </strong>@noticia.CorreoAutor</p>
+        <p><strong>Fecha: </strong>@noticia.Fecha</p>
+        <p><strong>Categoria: </strong>@noticia.CategoriaNoticia</p>
+        if (noticia.Cuerpo.Length > 200)
+        {
+        <p>@noticia.Cuerpo.Substring(0, 200) ... @Html.ActionLink("ver mas", "verNoticia", "Noticias", new { stringId = @noticia.id.ToString() }, null) </p>
+            
+        }
+        else
+        {
+            @noticia.Cuerpo
+        }
 
-        <tr>
-            <th>Noticia</th>
-            <th>Autor</th>
-            <th>Fecha</th>
-        </tr>
-        @foreach(Planetario.Models.NoticiaModel noticia in ViewBag.noticias)
-            {
-                <tr>
-                    <td>@Html.ActionLink(noticia.titulo, "verNoticia", "Noticias", new {stringId = @noticia.id.ToString()}, null)</td>
-                    <td>@noticia.correoAutor</td>
-                    <td>@noticia.fecha</td>
-                </tr>
-            }
-    </table>
+        <hr /><br />
+    }
+
 </body>
 </html>
