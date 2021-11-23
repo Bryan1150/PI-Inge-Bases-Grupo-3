@@ -14,7 +14,7 @@ namespace Planetario.Controllers
         public ActionResult ListaFuncionarios()
         {
             FuncionariosHandler AcessoDatos = new FuncionariosHandler();
-            ViewBag.ListaFuncionarios = AcessoDatos.obtenerFuncionariosSimple();
+            ViewBag.ListaFuncionarios = AcessoDatos.ObtenerTodosLosFuncionarios();
             return View();
         }
 
@@ -30,10 +30,10 @@ namespace Planetario.Controllers
         public ActionResult VerFuncionario(string correo)
         {
             FuncionariosHandler AcessoDatos = new FuncionariosHandler();
-            ViewBag.Funcionario = AcessoDatos.buscarFuncionario(correo);
-            ViewBag.Idiomas = AcessoDatos.obtenerIdiomasFuncionario(correo);
-            ViewBag.Titulos = AcessoDatos.obtenerTitulosFuncionario(correo);
-            ViewBag.Roles = AcessoDatos.obtenerRolesFuncionario(correo);
+            ViewBag.Funcionario = AcessoDatos.ObtenerFuncionario(correo);
+            ViewBag.Idiomas = AcessoDatos.ObtenerIdiomasFuncionario(correo);
+            ViewBag.Titulos = AcessoDatos.ObtenerTitulosFuncionario(correo);
+            ViewBag.Roles = AcessoDatos.ObtenerRolesFuncionario(correo);
 
             return View();
         }
@@ -53,9 +53,9 @@ namespace Planetario.Controllers
             FuncionariosHandler funcionarioHandler = new FuncionariosHandler();
 
 
-            if (funcionarioHandler.esFuncionarioValido(funcionario.Contrasena, funcionario.CorreoContacto))
+            if (funcionarioHandler.EsFuncionarioValido(funcionario.Contrasena, funcionario.correo))
             {
-                FormsAuthentication.SetAuthCookie(funcionario.CorreoContacto, false);
+                FormsAuthentication.SetAuthCookie(funcionario.correo, false);
                 return RedirectToAction("InformacionBasica", "Home");
 
             }
@@ -77,14 +77,10 @@ namespace Planetario.Controllers
         [HttpGet]
         public ActionResult AgregarFuncionario()
         {
-            EstadisticasHandler accesoDatos = new EstadisticasHandler();
-
-            List<string> listaDeIdiomas = accesoDatos.obtenerListaIdiomas();
-
-            List<SelectListItem> opcionIdiomas = new List<SelectListItem>();
-            opcionIdiomas = obtenerIdiomas();
-            ViewBag.opcionIdiomas = opcionIdiomas;
-
+            DatosHandler dataHandler = new DatosHandler();
+            ViewBag.paises = dataHandler.SelectListPaises();
+            ViewBag.generos = dataHandler.SelectListGeneros();
+            ViewBag.opcionIdiomas = obtenerIdiomas();
             return View();
         }
 
@@ -105,13 +101,13 @@ namespace Planetario.Controllers
                     string[] idioma = idiomas.Split(';');
                     List<string> idiomasSelect = new List<string>(idioma);
 
-                    ViewBag.ExitoAlCrear = accesoDatos.insertarFuncionario(funcionario);
+                    ViewBag.ExitoAlCrear = accesoDatos.InsertarFuncionario(funcionario);
                     if (ViewBag.ExitoAlCrear)
                     {
-                        ViewBag.Message = "El funcionario "  + funcionario.Nombre + " fue agregado con éxito.";
+                        ViewBag.Message = "El funcionario "  + funcionario.nombre + " fue agregado con éxito.";
                         foreach(var variable in idiomasSelect)
                         {
-                            accesoDatos.insertarIdiomas(variable, funcionario.CorreoContacto);
+                            accesoDatos.InsertarIdiomas(variable, funcionario.correo);
                         }
                         ModelState.Clear();
                     }

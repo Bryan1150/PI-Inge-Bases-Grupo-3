@@ -30,12 +30,6 @@ namespace Planetario.Models
         [Required(ErrorMessage = "Es necesario que ingrese la categoría de la noticia")]
         [MaxLength(100, ErrorMessage = "Se tiene un máximo de 100 cáracteres")]
         public string CategoriaNoticia { get; set; }
-        
-        /**Hay que implementar seleccion de topicos en el handler y vista.
-        [Display(Name = "Tópicos")]
-        [Required(ErrorMessage = "Es necesario que ingrese al menos un tópico")]
-        public IList<string> TopicosNoticia { get; set; }
-        */
 
         [Display(Name = "Imagen1")]
         public HttpPostedFileBase Imagen1 { get; set; }

@@ -20,7 +20,7 @@
 
 <body>
     <span class="titulo">
-        @ViewBag.Funcionario.Nombre @ViewBag.Funcionario.Apellido1 @ViewBag.Funcionario.Apellido2
+        @ViewBag.Funcionario.nombre @ViewBag.Funcionario.apellido1 @ViewBag.Funcionario.apellido2
     </span>
 
     <div class="row d-flex flex-wrap align-items-center">
@@ -29,24 +29,24 @@
 
 
         <div class="col-md-4">
-            <img src=@Url.Action("ObtenerImagen", "Funcionarios", new { correo = @ViewBag.Funcionario.CorreoContacto })>
+            <img src=@Url.Action("ObtenerImagen", "Funcionarios", new { correo = @ViewBag.Funcionario.correo })>
         </div>
         <div class="col-md-4">
             <h4>Contacto</h4>
-            <p>@ViewBag.Funcionario.CorreoContacto</p>
+            <p>@ViewBag.Funcionario.correo</p>
             <br />
 
             <h4>Información personal</h4>
-            <p>Pais: @ViewBag.Funcionario.Pais</p>
-            <p>Genero: @ViewBag.Funcionario.Genero</p>
+            <p>Pais: @ViewBag.Funcionario.pais</p>
+            <p>Genero: @ViewBag.Funcionario.genero</p>
             <br />
 
             <h5>Información profesional</h5>
-            <p>Area Expertis: @ViewBag.Funcionario.AreaExpertis</p>
-            <p>Fecha Incorporacion: @ViewBag.Funcionario.FechaIncorporacion</p>
+            <p>Area Expertis: @ViewBag.Funcionario.areaExpertis</p>
+            <p>Fecha Incorporacion: @ViewBag.Funcionario.fechaIncorporacion</p>
         </div>
         <div class="col-md-4">
-            @if (ViewBag.Idiomas.Count > 1)
+            @if (ViewBag.idiomas.Count > 1)
             {
                 <h4>Idiomas</h4>
             }
@@ -54,12 +54,12 @@
             {
                 <h4>Idioma</h4>
             }
-            @foreach (var idioma in ViewBag.Idiomas)
+            @foreach (var idioma in ViewBag.idiomas)
             {
                 <p>- @idioma</p>
             }
             <br />
-            @if (ViewBag.Titulos.Count > 1)
+            @if (ViewBag.titulos.Count > 1)
             {
                 <h4>Títulos</h4>
             }
@@ -67,12 +67,12 @@
             {
                 <h4>Título</h4>
             }
-            @foreach (var titulo in ViewBag.Titulos)
+            @foreach (var titulo in ViewBag.titulos)
             {
                 <p>- @titulo</p>
             }
             <br />
-            @if (ViewBag.Roles.Count > 1)
+            @if (ViewBag.roles.Count > 1)
             {
                 <h4>Roles</h4>
             }
@@ -80,7 +80,7 @@
             {
                 <h4>Rol</h4>
             }
-            @foreach (var roles in ViewBag.Roles)
+            @foreach (var roles in ViewBag.roles)
             {
                 <p>- @roles</p>
             }
@@ -90,7 +90,7 @@
     <br />
 
     <h4>Descripción</h4>
-    <p>@ViewBag.Funcionario.Descripcion</p>
+    <p>@ViewBag.Funcionario.descripcion</p>
 
     <div style="margin-top:100px"></div>
 

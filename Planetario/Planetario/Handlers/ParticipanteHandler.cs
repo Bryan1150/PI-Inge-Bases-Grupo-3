@@ -9,7 +9,40 @@ namespace Planetario.Handlers
 {
     public class ParticipanteHandler : BaseDatosHandler
     {
-        public bool AlmacenarParticipante(ParticipanteModel participante)
+        private List<UsuarioModel> ConvertirTablaALista(DataTable tabla)
+        {
+            List<UsuarioModel> participantes = new List<UsuarioModel>();
+            foreach (DataRow columna in tabla.Rows)
+            {
+                participantes.Add(new UsuarioModel
+                {
+                    correo = Convert.ToString(columna["correoParticipantePK"]),
+                    nombre = Convert.ToString(columna["nombre"]),
+                    apellido1 = Convert.ToString(columna["apellido1"]),
+                    apellido2 = Convert.ToString(columna["apellido2"]),
+                    genero = Convert.ToString(columna["genero"]),
+                    pais = Convert.ToString(columna["pais"]),
+                    fechaNacimiento = TranslateFecha(Convert.ToString(columna["fechaNacimiento"])),
+                    nivelEducativo = Convert.ToString(columna["nivelEducativo"])
+                });
+            }
+            return participantes;
+        }
+
+        private List<UsuarioModel> ObtenerParticipantes(string consulta)
+        {
+            DataTable tabla = LeerBaseDeDatos(consulta);
+            List<UsuarioModel> lista = ConvertirTablaALista(tabla);
+            return lista;
+        }
+
+        public UsuarioModel ObtenerParticipante(string correo)
+        {
+            string consulta = "SELECT * FROM Participante WHERE correoParticipantePK = '" + correo + "';";
+            return (ObtenerParticipantes(consulta)[0]);
+        }
+
+        public bool AlmacenarParticipante(UsuarioModel participante)
         {
             string consulta = "INSERT INTO Participante ";
             string columnas = "(  correoParticipantePK, nombre, apellido1, apellido2, genero, pais, fechaNacimiento, nivelEducativo )";
@@ -18,14 +51,14 @@ namespace Planetario.Handlers
 
             Dictionary<string, object> valoresParametros = new Dictionary<string, object>()
             {
-                { "@correoParticipantePK", participante.Correo },
-                { "@nombre", participante.Nombre },
-                { "@apellido1", participante.Apellido1 },
-                { "@apellido2", participante.Apellido2 },
-                { "@genero", participante.Genero },
-                { "@pais", participante.Pais },
-                { "@fechaNacimiento", participante.FechaNacimiento },
-                { "@nivelEducativo" , participante.NivelEducativo }
+                { "@correoParticipantePK", participante.correo },
+                { "@nombre", participante.nombre },
+                { "@apellido1", participante.apellido1 },
+                { "@apellido2", participante.apellido2 },
+                { "@genero", participante.genero },
+                { "@pais", participante.pais },
+                { "@fechaNacimiento", participante.fechaNacimiento },
+                { "@nivelEducativo" , participante.nivelEducativo }
             };
 
             bool exito = InsertarEnBaseDatos(consulta, valoresParametros);
@@ -79,21 +112,6 @@ namespace Planetario.Handlers
             string resultado = year + '-' + month + '-' + day;
             return resultado;
         }
-        public ParticipanteModel GetParticipante(string correo)
-        {
-            string consulta = "SELECT * FROM Participante WHERE correoParticipantePK = '" + correo + "';";
-            DataTable resultado = LeerBaseDeDatos(consulta);
-            return (new ParticipanteModel()
-            {
-                Correo = Convert.ToString(resultado.Rows[0]["correoParticipantePK"]),
-                Nombre = Convert.ToString(resultado.Rows[0]["nombre"]),
-                Apellido1 = Convert.ToString(resultado.Rows[0]["apellido1"]),
-                Apellido2 = Convert.ToString(resultado.Rows[0]["apellido2"]),
-                Genero = Convert.ToString(resultado.Rows[0]["genero"]),
-                Pais = Convert.ToString(resultado.Rows[0]["pais"]),
-                FechaNacimiento = TranslateFecha(Convert.ToString(resultado.Rows[0]["fechaNacimiento"])),
-                NivelEducativo = Convert.ToString(resultado.Rows[0]["nivelEducativo"])
-            });
-        }
+
     }
 }

@@ -15,12 +15,10 @@ namespace Planetario.Handlers
 {
     public class NoticiasHandler : BaseDatosHandler
     {
-        public List<NoticiaModel> obtenerTodasLasNoticias()
+        private List<NoticiaModel> ConvertirTablaALista(DataTable tabla)
         {
             List<NoticiaModel> noticias = new List<NoticiaModel>();
-            String Consulta = "SELECT * FROM Noticia ORDER BY fecha DESC";
-            DataTable tablaResultado = LeerBaseDeDatos(Consulta);
-            foreach (DataRow columna in tablaResultado.Rows)
+            foreach (DataRow columna in tabla.Rows)
                 noticias.Add(
                 new NoticiaModel
                 {
@@ -28,13 +26,32 @@ namespace Planetario.Handlers
                     Titulo = Convert.ToString(columna["titulo"]),
                     Cuerpo = Convert.ToString(columna["cuerpo"]),
                     CorreoAutor = Convert.ToString(columna["correoFuncionarioAutorFK"]),
-                    Fecha = Convert.ToString(tablaResultado.Rows[0]["fecha"]),
+                    Fecha = Convert.ToString(columna["fecha"]),
                     CategoriaNoticia = Convert.ToString(columna["categoriaNoticia"])
                 });
             return noticias;
         }
 
-        public IList<string> obtenerTopicos(String idNoticiaPK)
+        private List<NoticiaModel> ObtenerNoticias(string consulta)
+        {
+            DataTable tabla = LeerBaseDeDatos(consulta);
+            List<NoticiaModel> lista = ConvertirTablaALista(tabla);
+            return lista;
+        }
+
+        public List<NoticiaModel> ObtenerTodasLasNoticias()
+        {
+            string consulta = "SELECT * FROM Noticia ORDER BY fecha DESC";
+            return (ObtenerNoticias(consulta));
+        }
+
+        public NoticiaModel ObtenerNoticia(string stringId)
+        {
+            string consulta = "SELECT * FROM Noticia WHERE idNoticiaPK = '" + stringId + "';";
+            return (ObtenerNoticias(consulta)[0]);
+        }
+
+        public IList<string> ObtenerTopicos(string idNoticiaPK)
         {
             string consulta = "SELECT TN.topicosNoticia FROM NoticiaTopicos TN WHERE TN.idNoticiaFK = '" + idNoticiaPK + "';";
             DataTable tablaResultados = LeerBaseDeDatos(consulta);
@@ -46,10 +63,9 @@ namespace Planetario.Handlers
             return topicos;
         }
 
-        public bool crearNoticia(NoticiaModel noticia)
+        public bool InsertarNoticia(NoticiaModel noticia)
         {
-            bool exito;
-            String Consulta =
+            string consulta =
             "INSERT INTO dbo.Noticia(titulo, cuerpo, fecha, correoFuncionarioAutorFK, categoriaNoticia, Imagen1, tipoImagen1, Imagen2, tipoImagen2) VALUES(@titulo, @cuerpo, @fecha, @correo, @categoriaNoticia, " +
             "@imagen1, @tipoImagen1, @imagen2, @tipoImagen2);" +
             "DECLARE @identity int = scope_identity();" +
@@ -67,8 +83,7 @@ namespace Planetario.Handlers
                 { "@tipoImagen1",       noticia.TipoImagen1},
                 { "@tipoImagen2",       noticia.TipoImagen2}
             };
-            exito = InsertarEnBaseDatos(Consulta, valoresParametros);
-            return exito;
+            return (InsertarEnBaseDatos(consulta, valoresParametros));
         }
 
         public Tuple<byte[], string> ObtenerFoto(string numNoticia)
@@ -76,34 +91,8 @@ namespace Planetario.Handlers
             string nombreArchivo = "imagen", tipoArchivo = "tipoImagen";
             String Consulta  = "SELECT " + nombreArchivo + ", " + tipoArchivo + " FROM Noticia WHERE idNoticiaPK = @id";
             int id = Int32.Parse(numNoticia);
-
-            Dictionary<string, object> valoresParametros = new Dictionary<string, object>
-            {
-                { "@id",             id },
-            };
-
+            KeyValuePair<string, object> valoresParametros = new KeyValuePair<string, object>("@id", id );
             return ObtenerArchivo(Consulta, valoresParametros, nombreArchivo, tipoArchivo);
         }
-
-        public NoticiaModel buscarNoticia(string stringId)
-        {
-            String Consulta  = "SELECT * FROM Noticia WHERE idNoticiaPK = '" + stringId + "';";
-            DataTable tablaResultado = LeerBaseDeDatos(Consulta);
-            NoticiaModel resultado = null;
-            if (tablaResultado.Rows[0] != null)
-            {
-                resultado = new NoticiaModel
-                {
-                    id = Convert.ToInt32(tablaResultado.Rows[0]["idNoticiaPK"]),
-                    Titulo = Convert.ToString(tablaResultado.Rows[0]["titulo"]),
-                    Cuerpo = Convert.ToString(tablaResultado.Rows[0]["cuerpo"]),
-                    CorreoAutor = Convert.ToString(tablaResultado.Rows[0]["correoFuncionarioAutorFK"]),
-                    Fecha = Convert.ToString(tablaResultado.Rows[0]["fecha"]),
-                    CategoriaNoticia = Convert.ToString(tablaResultado.Rows[0]["categoriaNoticia"])
-                };
-            }
-            return resultado;
-        }
-
     }
 }

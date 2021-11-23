@@ -11,10 +11,52 @@ namespace Planetario.Handlers
 {
     public class EstadisticasHandler : BaseDatosHandler
     {
+        public struct Filtro
+        {
+            public string columna;
+            public List<string> opciones;
+        }      
+        /*
+        private string CrearStringParaFiltrarUnaColumna(Filtro filtro)
+        {
+            string stringFiltro = filtro.columna + " = " + filtro.opciones[0];
+            for (int i = 1; i < filtro.opciones.Count; ++i)
+            {
+                stringFiltro += " OR " + filtro.columna + " = " + filtro.opciones[i];
+            }
+            return stringFiltro;
+        }
 
+        private string CrearStringParaFiltrarVariasColumnas(List<Filtro> filtros)
+        {
+            string consulta = "";
+            if (filtros.Count > 0)
+            {
+                consulta += " WHERE (" + CrearStringParaFiltrarUnaColumna(filtros[0]) + ") ";
+                for (int i = 1; i < filtros.Count; ++i)
+                {
+                    consulta += " AND (" + CrearStringParaFiltrarUnaColumna(filtros[i]) + ") ";
+                }
+            }
+            return consulta;
+        }
+        
+        public int ContarParticipantesConFiltro(List<Filtro> filtros)
+        {
+            string consulta = "SELECT COUNT(*) as 'Participantes' " +
+                              "FROM Factura F JOIN Actividad A " +
+                              "ON A.nombreActividadPK = F.nombreActividadFK " +
+                              "JOIN ActividadTopicos T " +
+                              "ON A.nombreActividadPK = T.nombreActividadFK " +
+                              CrearStringParaFiltrarVariasColumnas(filtros) + ";";
+
+            DataTable tabla = LeerBaseDeDatos(consulta);
+            return (Convert.ToInt32(tabla.Rows[0]["Participantes"]));
+        }        
+        */
         public int obtenerCantidadDeParticipantes(string diaSemana, string publicoMeta, string nivelComplejidad, string categoria, string topico)
         {
-            int cantidadTotal;
+            int cantidadTotal; 
 
             string consulta = crearStringDeConsultaCantidad(diaSemana, publicoMeta, nivelComplejidad, categoria, topico);
 
@@ -25,6 +67,7 @@ namespace Planetario.Handlers
 
             return cantidadTotal;
         }
+        
 
         public List<string> obtenerListaIdiomas()
         {
