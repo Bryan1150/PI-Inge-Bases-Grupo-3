@@ -15,9 +15,9 @@ namespace Planetario.Controllers
         public ActionResult Inscribirme()
         {
             DatosHandler datosHandler = new DatosHandler();
-            ViewBag.paises = datosHandler.paises;
-            ViewBag.nivelesEducativos = datosHandler.nivelesEducativos;
-            ViewBag.generos = datosHandler.generos;
+            ViewBag.paises = datosHandler.SelectListPaises();
+            ViewBag.nivelesEducativos = datosHandler.SelectListNivelesEducativos();
+            ViewBag.generos = datosHandler.SelectListGeneros();
             return View();
         }
 
@@ -37,12 +37,12 @@ namespace Planetario.Controllers
                         ModelState.Clear();
                     }
                 }
-                return View();
+                return RedirectToAction("InformacionBasica", "Home");
             }
             catch
             {
                 ViewBag.Message = "Algo salió mal y no fue posible crear su cuenta :(";
-                return View();
+                return RedirectToAction("InformacionBasica", "Home");
             }
         }
     }

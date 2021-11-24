@@ -1,25 +1,9 @@
 ﻿@model Planetario.Models.ClienteModel
 @{ 
     ViewBag.Title = "Inscribirme";
-
-    List<string> listapaises = ViewBag.paises;
-    List<string> listagenros = ViewBag.generos;
-    List<string> listaniveles = ViewBag.nivelesEducativos;
-    List<SelectListItem> paises = new List<SelectListItem>();
-    List<SelectListItem> generos = new List<SelectListItem>();
-    List<SelectListItem> nivelesEducativos = new List<SelectListItem>();
-    foreach (string item in listapaises)
-    {
-        paises.Add(new SelectListItem { Text = item, Value = item });
-    }
-    foreach (string item in listagenros)
-    {
-        generos.Add(new SelectListItem { Text = item, Value = item });
-    }
-    foreach (string item in listaniveles)
-    {
-        nivelesEducativos.Add(new SelectListItem { Text = item, Value = item });
-    }
+    List<SelectListItem> paises = ViewBag.paises;
+    List<SelectListItem> generos = ViewBag.generos;
+    List<SelectListItem> nivelesEducativos = ViewBag.nivelesEducativos;
 }
 
 <body>
