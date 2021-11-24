@@ -29,6 +29,7 @@ namespace Planetario.Handlers
                     descripcion = Convert.ToString(columna["descripcion"]),
                     pais = Convert.ToString(columna["pais"]),
                     fechaIncorporacion = Convert.ToString(columna["fechaIncorporacion"]),
+                    fechaNacimiento = Convert.ToString(columna["fechaNacimiento"]),
                     genero = Convert.ToString(columna["genero"]),
                     areaExpertis = Convert.ToString(columna["areaExpertis"])
                 });
@@ -45,42 +46,51 @@ namespace Planetario.Handlers
 
         public List<FuncionarioModel> ObtenerTodosLosFuncionarios()
         {
-            string consulta = "Select * FROM Funcionario";
+            string consulta = "Select * FROM Funcionario F JOIN Persona P ON F.correoPK = P.correoPersonaPK";
             return (ObtenerFuncionarios(consulta));
         }
 
         public FuncionarioModel ObtenerFuncionario(string correo)
         {
-            string consulta = "Select * FROM Funcionario WHERE correoPK = '" + correo + "';";
+            string consulta = "Select * FROM Funcionario F JOIN Persona P ON F.correoPK = P.correoPersonaPK WHERE correoPK = '" + correo + "';";
             return (ObtenerFuncionarios(consulta)[0]);
         }
 
         public bool EstaEnTabla(string correo)
         {
-            string consulta = "Select * FROM Funcionario WHERE correoPK = '" + correo + "';";
+            string consulta = "Select * FROM Funcionario F JOIN Persona P ON F.correoPK = P.correoPersonaPK WHERE correoPK = '" + correo + "';";
             return (ObtenerFuncionarios(consulta).Count > 0);
         }
 
         public bool InsertarFuncionario(FuncionarioModel funcionario)
         {
-            string Consulta = "INSERT INTO Funcionario ( correoPK, nombre, apellido1, apellido2, genero, areaExpertis, fechaIncorporacion, fotoArchivo, fotoTipo, descripcion, pais ) "
-                + "VALUES ( @correo, @nombre, @apellido1, @apellido2, @genero, @area, @fecha, @fotoArchivo, @fotoTipo, @descripcion, @pais );";
+            string consultaTablaPersona = "INSERT INTO Persona ( correoPersonaPK, nombre, apellido1, apellido2, genero, pais, fechaNacimiento ) "
+                + "VALUES ( @correo, @nombre, @apellido1, @apellido2, @genero, @pais, @nacimiento );";
 
-            Dictionary<string, object> valoresParametros = new Dictionary<string, object> {
+            string consultaTablaFuncionario = "INSERT INTO Funcionario ( correoPK, areaExpertis, fechaIncorporacion, fotoTipo, fotoArchivo, descripcion ) "
+                + "VALUES ( @correo, @area, @fechaIncorporacion, @fotoTipo, @fotoArchivo, descripcion);";
+
+            Dictionary<string, object> parametrosPersona = new Dictionary<string, object> {
                 {"@correo", funcionario.correo },
                 {"@nombre", funcionario.nombre },
                 {"@apellido1", funcionario.apellido1 },
                 {"@apellido2", funcionario.apellido2 },
-                {"@genero", funcionario.genero },
-                {"@area", funcionario.areaExpertis },
-                {"@fecha", funcionario.fechaIncorporacion },
-                {"@fotoTipo", funcionario.FotoArchivo.ContentType },
-                {"@descripcion", funcionario.descripcion },
-                {"@pais", funcionario.pais }
+                {"@genero", funcionario.genero }, 
+                {"@pais", funcionario.pais },
+                {"@nacimiento", funcionario.fechaNacimiento}
             };
-            valoresParametros.Add("@fotoArchivo", manejadorDeImagen.ConvertirArchivoABytes(funcionario.FotoArchivo));
 
-            return (InsertarEnBaseDatos(Consulta, valoresParametros));
+            Dictionary<string, object> parametrosFuncionario = new Dictionary<string, object>
+            {
+                {"@correo", funcionario.correo },
+                {"@area", funcionario.areaExpertis },
+                {"@fechaIncorporacion", funcionario.fechaIncorporacion },
+                {"@descripcion", funcionario.descripcion },
+                {"@fotoTipo", funcionario.FotoArchivo.ContentType },
+            };
+            parametrosFuncionario.Add("@fotoArchivo", manejadorDeImagen.ConvertirArchivoABytes(funcionario.FotoArchivo));
+
+            return (InsertarEnBaseDatos(consultaTablaPersona,parametrosPersona) && InsertarEnBaseDatos(consultaTablaFuncionario, parametrosFuncionario));
         }
 
         public bool InsertarIdiomas(string idioma, string correo)
@@ -131,7 +141,6 @@ namespace Planetario.Handlers
             return roles;
         }
 
-
         public Tuple<byte[], string> ObtenerFoto(string correo)
         {
             string columnaContenido = "fotoArchivo";
@@ -139,8 +148,6 @@ namespace Planetario.Handlers
             string consulta = "SELECT " + columnaContenido + ", "+ columnaTipo + " FROM Funcionario WHERE correoPK = @correo";
             KeyValuePair<string, object> parametro = new KeyValuePair<string, object>("@correo", correo);
             return ObtenerArchivo(consulta, parametro, columnaContenido, columnaTipo);
-        }    
-        
-        
+        }       
     }
 }

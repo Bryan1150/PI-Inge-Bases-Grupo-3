@@ -32,5 +32,20 @@ namespace Planetario.Handlers
             FuncionariosHandler funcionariosHandler = new FuncionariosHandler();
             return (funcionariosHandler.EstaEnTabla(correo));
         }
+
+        public string ObtenerTipoUsuario(string correo)
+        {
+            FuncionariosHandler funcionariosHandler = new FuncionariosHandler();
+            string tipoUsuario;
+            if (funcionariosHandler.EstaEnTabla(correo))
+            {
+                tipoUsuario = "Funcionario";
+            }
+            else
+            {
+                tipoUsuario = "Cliente";
+            }
+            return tipoUsuario;
+        }
     }
 }

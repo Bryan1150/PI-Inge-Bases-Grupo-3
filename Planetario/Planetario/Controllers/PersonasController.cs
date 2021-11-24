@@ -23,20 +23,10 @@ namespace Planetario.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult IniciarSesion(PersonaModel persona)
         {
-            PersonaHandler personasHandler = new PersonaHandler();
-            string tipoUsuario;            
+            PersonaHandler personasHandler = new PersonaHandler();          
 
             if (personasHandler.EsUsuarioValido(persona.correo, persona.contrasena))
             {
-                if (personasHandler.EsFuncionario(persona.correo))
-                {
-                    tipoUsuario = "funcionario";
-                }
-                else
-                {
-                    tipoUsuario = "cliente";
-                }
-
                 HttpCookie cookie = FormsAuthentication.GetAuthCookie(persona.correo, true);
                 FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(cookie.Value);
                 FormsAuthenticationTicket ticketNuevo = new FormsAuthenticationTicket(
@@ -45,7 +35,7 @@ namespace Planetario.Controllers
                     ticket.IssueDate,
                     ticket.Expiration,
                     ticket.IsPersistent,
-                    tipoUsuario);
+                    personasHandler.ObtenerTipoUsuario(persona.correo));
 
                 cookie.Value = FormsAuthentication.Encrypt(ticketNuevo);
                 HttpContext.Response.Cookies.Add(cookie);

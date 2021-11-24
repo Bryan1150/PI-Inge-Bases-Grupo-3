@@ -119,6 +119,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ClientesController.cs" />
     <Compile Include="Controllers\DatosController.cs" />
     <Compile Include="Controllers\PersonasController.cs" />
     <Compile Include="Handlers\ClientesHandler.cs" />
@@ -407,6 +408,7 @@
     <Content Include="Views\Actividades\verFacturasDeActividad.cshtml" />
     <Content Include="Views\MaterialEducativo\verMaterial.cshtml" />
     <Content Include="Views\Personas\IniciarSesion.cshtml" />
+    <Content Include="Views\Clientes\Inscribirme.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Data\" />
