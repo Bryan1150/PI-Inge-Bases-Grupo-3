@@ -81,7 +81,6 @@ namespace Planetario.Handlers
             valoresParametros.Add("@fotoArchivo", manejadorDeImagen.ConvertirArchivoABytes(funcionario.FotoArchivo));
 
             return (InsertarEnBaseDatos(Consulta, valoresParametros));
-
         }
 
         public bool InsertarIdiomas(string idioma, string correo)

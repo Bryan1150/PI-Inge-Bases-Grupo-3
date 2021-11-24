@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Planetario.Models
 {
-    public class UsuarioModel: PersonaModel
+    public class ClienteModel: PersonaModel
     {
         [Display(Name = "Nivel Educativo")]
         [Required(ErrorMessage = "Es necesario que ingrese un nivel educativo")]
