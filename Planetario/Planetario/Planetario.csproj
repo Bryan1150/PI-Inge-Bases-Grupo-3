@@ -120,6 +120,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\DatosController.cs" />
+    <Compile Include="Controllers\PersonasController.cs" />
     <Compile Include="Handlers\DatosHandler.cs" />
     <Compile Include="Handlers\FacturasHandler.cs" />
     <Compile Include="Controllers\ActividadesController.cs" />
@@ -143,6 +144,7 @@
     <Compile Include="Handlers\BaseDatosHandler.cs" />
     <Compile Include="Handlers\EventosHandler.cs" />
     <Compile Include="Handlers\ParticipanteHandler.cs" />
+    <Compile Include="Handlers\PersonaHandler.cs" />
     <Compile Include="Models\CompraModel.cs" />
     <Compile Include="Models\EntradaModel.cs" />
     <Compile Include="Models\EventoModel.cs" />
@@ -403,10 +405,12 @@
     <Content Include="Views\Actividades\Inscribirme.cshtml" />
     <Content Include="Views\Actividades\verFacturasDeActividad.cshtml" />
     <Content Include="Views\MaterialEducativo\verMaterial.cshtml" />
+    <Content Include="Views\Personas\IniciarSesion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Data\" />
     <Folder Include="Views\Datos\" />
+    <Folder Include="Views\Persona\" />
     <Folder Include="Views\Topicos\" />
   </ItemGroup>
   <ItemGroup>

@@ -132,25 +132,6 @@ namespace Planetario.Handlers
             return roles;
         }
 
-        public bool EsFuncionarioValido(string contrasena, string correo)
-        {
-            bool esValido = false;
-            string contrasenaFuncionario;
-
-            string consulta = "SELECT [dbo].UFN_compararContrasenas('" + contrasena + "', contraseña) AS 'resultado' FROM Credenciales WHERE correoFuncionarioFK = '" + correo + "';";
-
-            DataTable tablaResultados = LeerBaseDeDatos(consulta);
-
-            if (tablaResultados.Rows.Count > 0)
-            {
-                foreach (DataRow columna in tablaResultados.Rows)
-                {
-                    contrasenaFuncionario = Convert.ToString(columna["resultado"]);
-                    if (contrasenaFuncionario == "correcta") { esValido = true; }
-                }
-            }
-            return esValido;
-        }
 
         public Tuple<byte[], string> ObtenerFoto(string correo)
         {

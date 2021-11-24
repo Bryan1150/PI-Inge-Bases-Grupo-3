@@ -39,50 +39,6 @@ namespace Planetario.Controllers
         }
 
         [HttpGet]
-        public ActionResult iniciarSesion()
-        {
-            String contrasena = " ";
-            ViewBag.contrasena = contrasena;
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult iniciarSesion(FuncionarioModel funcionario)
-        {
-            FuncionariosHandler funcionarioHandler = new FuncionariosHandler();
-            string tipoUsuario;
-            if(funcionarioHandler.EstaEnTabla(funcionario.correo))
-            {
-                tipoUsuario = "funcionario";
-            }
-            else
-            {
-                tipoUsuario = "cliente";
-            }
-
-            if (funcionarioHandler.EsFuncionarioValido(funcionario.Contrasena, funcionario.correo))
-            {
-                FormsAuthentication.SetAuthCookie(funcionario.correo + " " + tipoUsuario, false);
-                return RedirectToAction("InformacionBasica", "Home");
-
-            }
-            else
-            {
-                ModelState.AddModelError("", "El correo o la contraseña es incorrecta");
-                ViewBag.Message = "El correo o la contraseña es incorrecta.";
-            }
-            return View();
-        }
-
-        public ActionResult cerrarSesion()
-        {
-            FormsAuthentication.SignOut();
-            return RedirectToAction("InformacionBasica", "Home");
-        }
-
-
-        [HttpGet]
         public ActionResult AgregarFuncionario()
         {
             DatosHandler dataHandler = new DatosHandler();

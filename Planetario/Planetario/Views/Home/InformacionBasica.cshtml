@@ -93,7 +93,8 @@
 
         @if (Request.IsAuthenticated)
             {
-        <p>@Context.User.Identity.Name.Split(' ')[1]</p>
+        <p>@Context.User.Identity.Name</p>
+        <p>@((Context.User.Identity as FormsIdentity).Ticket.UserData)</p>
             }
 
 
