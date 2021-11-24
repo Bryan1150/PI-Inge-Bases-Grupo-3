@@ -51,11 +51,19 @@ namespace Planetario.Controllers
         public ActionResult iniciarSesion(FuncionarioModel funcionario)
         {
             FuncionariosHandler funcionarioHandler = new FuncionariosHandler();
-
+            string tipoUsuario;
+            if(funcionarioHandler.EstaEnTabla(funcionario.correo))
+            {
+                tipoUsuario = "funcionario";
+            }
+            else
+            {
+                tipoUsuario = "cliente";
+            }
 
             if (funcionarioHandler.EsFuncionarioValido(funcionario.Contrasena, funcionario.correo))
             {
-                FormsAuthentication.SetAuthCookie(funcionario.correo, false);
+                FormsAuthentication.SetAuthCookie(funcionario.correo + " " + tipoUsuario, false);
                 return RedirectToAction("InformacionBasica", "Home");
 
             }

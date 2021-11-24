@@ -55,6 +55,12 @@ namespace Planetario.Handlers
             return (ObtenerFuncionarios(consulta)[0]);
         }
 
+        public bool EstaEnTabla(string correo)
+        {
+            string consulta = "Select * FROM Funcionario WHERE correoPK = '" + correo + "';";
+            return (ObtenerFuncionarios(consulta).Count > 0);
+        }
+
         public bool InsertarFuncionario(FuncionarioModel funcionario)
         {
             string Consulta = "INSERT INTO Funcionario ( correoPK, nombre, apellido1, apellido2, genero, areaExpertis, fechaIncorporacion, fotoArchivo, fotoTipo, descripcion, pais ) "
@@ -153,6 +159,8 @@ namespace Planetario.Handlers
             string consulta = "SELECT " + columnaContenido + ", "+ columnaTipo + " FROM Funcionario WHERE correoPK = @correo";
             KeyValuePair<string, object> parametro = new KeyValuePair<string, object>("@correo", correo);
             return ObtenerArchivo(consulta, parametro, columnaContenido, columnaTipo);
-        }       
+        }    
+        
+        
     }
 }
