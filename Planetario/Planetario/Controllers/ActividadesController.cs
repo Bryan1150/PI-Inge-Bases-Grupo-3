@@ -14,27 +14,40 @@ namespace Planetario.Controllers
         {
             return View();
         }
+
         [HttpPost]
-        public ActionResult crearActividad(ActividadModel actividad)
+        public ActionResult crearActividad(ActividadModel actividad, string topicos)
         {
             ViewBag.ExitoAlCrear = false;
+            string[] topicosSeleccionados = topicos.Split(';');
             try
             {
-                if(ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
                     ActividadHandler accesoDatos = new ActividadHandler();
                     ViewBag.ExitoAlCrear = accesoDatos.crearActividad(actividad);
-                    if(ViewBag.ExitoAlCrear)
+                    if (ViewBag.ExitoAlCrear)
                     {
-                        ViewBag.Message = "La actividad " + actividad.nombre + " fue creada con éxito.";
+                        ViewBag.Message = "La actividad " + actividad.NombreActividad + " fue creada con éxito.";
+                        foreach(string topico in topicosSeleccionados)
+                        {
+                            accesoDatos.agregarTopico(actividad.NombreActividad, topico);
+                        }
                         ModelState.Clear();
+                    } else
+                    {
+                        ViewBag.Message = "Hubo un error al guardar los datos ingresados.";
                     }
+                }
+                else
+                {
+                    ViewBag.Message = "Hay un error en los datos ingresados";
                 }
                 return View();
             }
             catch
             {
-                ViewBag.Message = "Algo salió mal.";
+                ViewBag.Message = "Hubo un error al crear el cuestionario " + actividad.NombreActividad;
                 return View();
             }
         }
@@ -42,14 +55,16 @@ namespace Planetario.Controllers
         public ActionResult listadoDeActividades()
         {
             ActividadHandler accesoDatos = new ActividadHandler();
-            ViewBag.actividades = accesoDatos.obtenerTodasLasActividades();
+            ViewBag.actividades = accesoDatos.obtenerTodasLasActividadesAprobadas();
             return View();
         }
 
-        public ActionResult verActividad(string stringId)
+        public ActionResult verActividad(string nombre)
         {
             ActividadHandler accesoDatos = new ActividadHandler();
-            ViewBag.actividad = accesoDatos.buscarActividad(stringId);
+            ViewBag.actividad = accesoDatos.buscarActividad(nombre);
+            ViewBag.topicos = accesoDatos.obtenerTopicosActividades(nombre);
+            ViewBag.actividades = accesoDatos.obtenerTodasLasActividadesRecomendadas(ViewBag.actividad.PublicoDirigido, ViewBag.actividad.Complejidad);
             return View();
         }
 
@@ -66,5 +81,72 @@ namespace Planetario.Controllers
             ViewBag.actividadesUnicas = accesoDatos.obtenerActividadBuscada(palabra);
             return View();
         }
+
+        [HttpGet]
+        public ActionResult Inscribirme(string titulo)
+        {
+            ActividadHandler accesoDatos = new ActividadHandler();
+            ViewBag.precio = accesoDatos.getPrecio(titulo);
+            ViewBag.titulo = titulo;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Inscribirme(InscripcionModel info)
+        {
+            ViewBag.exitoAlInscribir = false;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    ParticipanteHandler accesoDatos = new ParticipanteHandler();
+                    ActividadHandler actividad = new ActividadHandler();
+                    bool estaAlmacenado = accesoDatos.ParticipanteEstaAlmacenado(info.infoParticipante.Correo);
+                    if (!estaAlmacenado)
+                        estaAlmacenado = accesoDatos.AlmacenarParticipante(info.infoParticipante);
+                    if (estaAlmacenado)
+                        ViewBag.exitoAlInscribir = accesoDatos.AlmacenarParticipacion(info.infoParticipante.Correo, Request.Form["TituloActividad"], Double.Parse(Request.Form["PrecioActividad"]));
+
+                    if (ViewBag.exitoAlInscribir)
+                    {
+                        ViewBag.Message = "Usted ha está inscrito en la actividad " + Request.Form["TituloActividad"];
+                        ModelState.Clear();
+                    }
+                }
+                return View();
+            }
+            catch
+            {
+                ViewBag.Message = "Algo salió mal.";
+                return View();
+            }
+        }
+
+        [HttpGet]
+        public ActionResult verFacturasDeActividad(string actividadNombre)
+        {
+            ActividadHandler accesoDatos = new ActividadHandler();
+            ViewBag.facturas = accesoDatos.obtenerTodasLasFacturas(actividadNombre);
+            ViewBag.nombreActividad = actividadNombre;
+            return View();
+        }
+
+        [HttpGet]
+        public JsonResult ValidarCorreo(string correo)
+        {
+            ParticipanteHandler accesoDatos = new ParticipanteHandler();
+            bool existe = accesoDatos.ParticipanteEstaAlmacenado(correo);
+            if (existe)
+            {
+                var participante = accesoDatos.GetParticipante(correo);
+                return Json(new{estaAlmacenado = true, infoPersonal = participante}, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new {estaAlmacenado = false, infoPersonal = ""}, JsonRequestBehavior.AllowGet);
+            }
+            
+        }
+
     }
 }

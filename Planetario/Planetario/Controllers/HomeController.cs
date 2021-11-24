@@ -12,7 +12,6 @@ namespace Planetario.Controllers
         public ActionResult InformacionBasica()
         {
             ViewBag.Message = "La informacion basica del planetario.";
-
             return View();
         }
 
@@ -20,6 +19,11 @@ namespace Planetario.Controllers
         {
             ViewBag.Message = "Informacion sobre horarios, parqueo  transporte";
 
+            return View();
+        }
+
+        public ActionResult PanelDeAdministracion()
+        {
             return View();
         }
     }

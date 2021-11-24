@@ -1,4 +1,4 @@
-﻿﻿@model Planetario.Models.UsuarioModel
+﻿﻿@model Planetario.Models.FuncionarioModel
 
 @{
     ViewBag.Title = "InicioSesion";
@@ -35,7 +35,7 @@
                     </span>
 
                     <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
-                        @Html.TextBoxFor(model => model.correo, new { @class = "input100", placeholder = "Correo eletrónico" })
+                        @Html.TextBoxFor(model => model.CorreoContacto, new { @class = "input100", placeholder = "Correo eletrónico" })
                         <span class="focus-input100"></span>
                         <span class="symbol-input100">
                             <i class="fa fa-envelope" aria-hidden="true"></i>
@@ -43,7 +43,7 @@
                     </div>
 
                     <div class="wrap-input100 validate-input" data-validate="Password is required">
-                        @Html.PasswordFor(model => model.contrasena, new { @class = "input100", placeholder = "Contraseña" })
+                        @Html.PasswordFor(model => model.Contrasena, new { @class = "input100", placeholder = "Contraseña" })
                         <span class="focus-input100"></span>
                         <span class="symbol-input100">
                             <i class="fa fa-lock" aria-hidden="true"></i>

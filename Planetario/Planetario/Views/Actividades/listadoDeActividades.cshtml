@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Actividades";
 }
 
@@ -9,36 +8,51 @@
     <title>Actividades</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
+    <style>
+        .cuadro {
+            border-radius: 0.3em;
+            border: 1px solid #aaa;
+            margin: 1em;
+            padding: 1em;
+            height: 12em;
+            box-shadow: 7px 7px 0px 0px #aaa;
+        }
+            .cuadro:hover {
+                box-shadow: 10px 10px 0px 0px #aaa;
+            }
+
+    </style>
 </head>
 <body>
     <span class="titulo"> Actividades </span>
 
     <form method="post" class="navbar-form navbar-right" action="@Url.Action("buscarActividad", "Actividades")">
-        <div class="form-group">
-            <input type="text" name="palabra" class="form-control" placeholder="Buscar actividad">
+        <div class="row">
+            <div class="col-3 col-md-3 col-sm-2">
+                <input type="text" name="palabra" class="form-control" placeholder="Buscar actividad">
+            </div>
+            <div class="col-3 col-md-3 col-sm-2">
+                <button type="submit" class="btn btn-secondary"> <span class="fa fa-search" aria-hidden="true"></span> Buscar</button>
+            </div>
         </div>
-        <button type="submit" class="btn btn-secondary"> <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Buscar</button>
     </form>
 
-    <table class="table table-hover well">
-        <tr>
-            <th>ID</th>
-            <th>Actividad</th>
-            <th>Tema</th>
-            <th>Tipo</th>
-            <th>Organizador</th>
-        </tr>
+    <div class="row d-flex flex-wrap align-items-center">
         @foreach (Planetario.Models.ActividadModel actividad in ViewBag.actividades)
         {
-            <tr>
-                <td>@actividad.id  </td>
-                <td>@Html.ActionLink(actividad.nombre, "verActividad", "Actividades", new { stringId = actividad.id.ToString() }, null)</td>
-                <td>@actividad.tema</td>
-                <td>@actividad.tipo</td>
-                <td>@actividad.correoFK</td>
-            </tr>
+        <div class="col-4">
+            <div class="cuadro">
+                <h5>@Html.ActionLink(actividad.NombreActividad.ToString(),"verActividad","Actividades",new { nombre = actividad.NombreActividad.ToString() }, new { @class="h5"})</h5>
+                <p><strong>Categoria: </strong>@actividad.Categoria</p>
+                <p><strong>Fecha: </strong>@actividad.Fecha</p>
+                <p><strong>Precio: </strong>@actividad.PrecioAproximado colones</p>
+                <br /><br /><br /><br />
+            </div>
+        </div>
         }
-    </table>
+    </div>
+    <br /><br /><br />
+
 
 </body>
 </html>

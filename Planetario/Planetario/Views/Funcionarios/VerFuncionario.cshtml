@@ -1,0 +1,97 @@
+﻿@model Planetario.Models.FuncionarioModel
+@{
+    var listaFuncionarios = ViewBag.listaFuncionarios;
+}
+<head>
+    <link href="~/Styles/ListaFuncionarios.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
+</head>
+
+<style>
+    img {
+        border-radius: 0.5em;
+        border: 2px solid #133b5c;
+        box-shadow: 0px 0px 0px #ccc;
+        height: 400px;
+        width: 400px;
+        object-fit: cover;
+    }
+</style>
+
+<body>
+    <span class="titulo">
+        @ViewBag.Funcionario.Nombre @ViewBag.Funcionario.Apellido1 @ViewBag.Funcionario.Apellido2
+    </span>
+
+    <div class="row d-flex flex-wrap align-items-center">
+
+
+
+
+        <div class="col-md-4">
+            <img src=@Url.Action("ObtenerImagen", "Funcionarios", new { correo = @ViewBag.Funcionario.CorreoContacto })>
+        </div>
+        <div class="col-md-4">
+            <h4>Contacto</h4>
+            <p>@ViewBag.Funcionario.CorreoContacto</p>
+            <br />
+
+            <h4>Información personal</h4>
+            <p>Pais: @ViewBag.Funcionario.Pais</p>
+            <p>Genero: @ViewBag.Funcionario.Genero</p>
+            <br />
+
+            <h5>Información profesional</h5>
+            <p>Area Expertis: @ViewBag.Funcionario.AreaExpertis</p>
+            <p>Fecha Incorporacion: @ViewBag.Funcionario.FechaIncorporacion</p>
+        </div>
+        <div class="col-md-4">
+            @if (ViewBag.Idiomas.Count > 1)
+            {
+                <h4>Idiomas</h4>
+            }
+            else
+            {
+                <h4>Idioma</h4>
+            }
+            @foreach (var idioma in ViewBag.Idiomas)
+            {
+                <p>- @idioma</p>
+            }
+            <br />
+            @if (ViewBag.Titulos.Count > 1)
+            {
+                <h4>Títulos</h4>
+            }
+            else
+            {
+                <h4>Título</h4>
+            }
+            @foreach (var titulo in ViewBag.Titulos)
+            {
+                <p>- @titulo</p>
+            }
+            <br />
+            @if (ViewBag.Roles.Count > 1)
+            {
+                <h4>Roles</h4>
+            }
+            else
+            {
+                <h4>Rol</h4>
+            }
+            @foreach (var roles in ViewBag.Roles)
+            {
+                <p>- @roles</p>
+            }
+        </div>
+    </div>
+
+    <br />
+
+    <h4>Descripción</h4>
+    <p>@ViewBag.Funcionario.Descripcion</p>
+
+    <div style="margin-top:100px"></div>
+
+</body>

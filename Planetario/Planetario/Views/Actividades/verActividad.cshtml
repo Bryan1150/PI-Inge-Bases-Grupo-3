@@ -1,30 +1,186 @@
-﻿
+@{
+    ViewBag.Title = "Actividades";
+}
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>@ViewBag.actividad.nombre</title>
+    <title>@ViewBag.actividad.NombreActividad</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
+    <style>
+        header,
+        section,
+        aside {
+            margin: 0 1.5% 24px 1.5%;
+        }
+        section {
+            float: left;
+            width: 63%;
+        }
+        aside {
+            float: right;
+            width: 30%;
+        }
+        row {
+            text-align: center;
+        }
+
+        .col {
+            margin-bottom: 1em;
+        }
+
+        .card {
+            margin: 1%;
+            border-radius: 15%;
+            border-color: #133b5c;
+            border-width: .15em;
+            box-shadow: 3px 7px #133b5c;
+        }
+        .site-footer {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-    <h1>@ViewBag.actividad.nombre</h1>
-    <div class="card">
-        <small>
-            <i>Autor: @ViewBag.actividad.correoFK</i><br />
-            <i>Id: @ViewBag.actividad.id</i>
-        </small>
-        <hr />
-
-        <h5><b>Tema:</b> @ViewBag.actividad.tema</h5>
-
-        <h5><b>Tipo:</b> @ViewBag.actividad.tipo</h5>
-
-        <h5><b>Publico Dirigido:</b> @ViewBag.actividad.publicoDirigido</h5>
-
-        <h5><b>Duracion:</b> @ViewBag.actividad.duracion minutos.</h5>
-
-        <h4><b>Descripcion:</b></h4>
-        @ViewBag.actividad.descripcion
+    <div class="row text-center">
+        <span class="titulo">@ViewBag.actividad.NombreActividad</span>
     </div>
+    <section>
+        <div class="row">
+            <p class="card-title"> <b>Descripcion:</b> </p>
+            <p class="card-text">@ViewBag.actividad.Descripcion</p>
+        </div>
+        <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 text-center">
+                <div class="col">
+                    <p><span> <i class="fa fa-check"></i><b>Categoria</b> </span></p>
+                    <p> @ViewBag.actividad.Categoria </p>
+                </div>
+                <div class="col">
+                    <p><span> <i class="fa fa-check"></i><b>Publico Dirigido</b> </span></p>
+                    <p> @ViewBag.actividad.PublicoDirigido </p>
+                </div>
+                <div class="col">
+                    <p><span> <i class="fa fa-check"></i><b>Duracion</b> </span></p>
+                    <p> @ViewBag.actividad.Duracion minutos</p>
+                </div>
+                <div class="col">
+                    <p><span> <i class="fa fa-check"></i><b>Complejidad</b> </span></p>
+                    <p> @ViewBag.actividad.Complejidad </p>
+                </div>
+                <div class="col">
+                    <p><span> <i class="fa fa-check"></i><b>Precio</b> </span></p>
+                    <p> @ViewBag.actividad.PrecioAproximado Colones</p>
+                </div>
+                <div class="col">
+                    <p><span> <i class="fa fa-check"></i><b>Fecha</b> </span></p>
+                    <p> @ViewBag.actividad.Fecha </p>
+                </div>
+                <div class="col">
+                    <p><span> <i class="fa fa-check"></i><b>Tipo</b> </span></p>
+                    <p> @ViewBag.actividad.Tipo </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <p><span> <i class="fa fa-check"></i><b>Topicos</b></span></p>
+            @foreach (var topico in ViewBag.topicos)
+            {
+                <p style="display:inline;">-@topico</p>
+            }
+        </div>
+        <div class="row">
+            <p>Contacto del organizador: @ViewBag.actividad.PropuestoPor</p>
+        </div>
+
+        <div id="twitch-embed"></div>
+
+        <div class="row">
+            <div class="col col-md-4 col-sm-12">
+                @Html.ActionLink("Inscribirme", "Inscribirme",
+                    new { titulo = ViewBag.actividad.NombreActividad },
+                    new
+                            {
+                            @class = "btn btn-success",
+                        }
+                )
+            </div>
+            @if (Request.IsAuthenticated)
+            {
+                <div class="col col-md-4 col-sm-12">
+                    @Html.ActionLink("Ver facturas", "verFacturasDeActividad",
+                        new { actividadNombre = ViewBag.actividad.NombreActividad },
+                        new
+                             {
+                                @class = "btn btn-success",
+                            }
+                    )
+                </div>
+            }
+        </div>
+
+        <div style="margin-top:75px"></div>
+
+        <script src="https://embed.twitch.tv/embed/v1.js"></script>
+
+        <script type="text/javascript">
+        var Link = '@ViewBag.actividad.Link';
+        console.log(Link);
+        Link = Link.toLowerCase();
+        if (Link != null) {
+            //Twitch embed.
+            new Twitch.Embed("twitch-embed", {
+                width: 800,
+                height: 700,
+                channel: Link,
+                theme: 'light'
+            });
+        };
+        </script>
+
+    </section>
+
+    <aside>
+        <span class="titulo">Actividades Similares:</span>
+
+        @foreach (Planetario.Models.ActividadModel actividad in ViewBag.actividades)
+        {
+            if (ViewBag.actividad.NombreActividad != actividad.NombreActividad)
+            {
+                <div class="col">
+                    <div class="card">
+                        <span class="titulo">
+                            @if (@actividad.Tipo == "Charla")
+                            {
+                                <i class="fa fa-commenting" aria-hidden="true"></i>
+                            }
+                            else
+                            {
+                                <i class="fa fa-book" aria-hidden="true"></i>
+                            }
+                            <br />
+                            @Html.ActionLink(@actividad.NombreActividad, "verActividad", "Actividades", new { nombre = @actividad.NombreActividad.ToString() }, new { style = "font-size: 30px" })
+                        </span>
+                        <div class="detallesActividad" , style="text-align:center">
+                            <div>
+                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                <b>Publico Dirigido: </b>@actividad.PublicoDirigido
+                            </div>
+                            <div>
+                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                <b>Categoria: </b>@actividad.Categoria
+                            </div>
+                            <div>
+                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                <b>Complejidad: </b>@actividad.Complejidad
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </aside>
 </body>
 </html>

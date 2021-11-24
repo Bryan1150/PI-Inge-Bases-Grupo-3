@@ -9,128 +9,101 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Data.SqlTypes;
 
+
+
 namespace Planetario.Handlers
 {
-    public class NoticiasHandler
+    public class NoticiasHandler : BaseDatosHandler
     {
-        private SqlConnection conexion;
-        private string rutaConexion;
-
-        public NoticiasHandler()
-        {
-            rutaConexion = ConfigurationManager.ConnectionStrings["ConexionBaseDatosServidor"].ToString();
-            conexion = new SqlConnection(rutaConexion);
-        }
-
-        private DataTable crearTablaConsulta(string consulta)
-        {
-            SqlCommand comandoParaConsulta = new SqlCommand(consulta, conexion);
-            SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
-            DataTable consultaFormatoTabla = new DataTable();
-            conexion.Open();
-            adaptadorParaTabla.Fill(consultaFormatoTabla);
-            conexion.Close();
-            return consultaFormatoTabla;
-        }
-
         public List<NoticiaModel> obtenerTodasLasNoticias()
         {
             List<NoticiaModel> noticias = new List<NoticiaModel>();
-            string consulta = "SELECT idNoticiaPK, titulo, cuerpo, CONVERT(VARCHAR(20), fecha, 1) AS 'fecha', correoFuncionarioAutorFK FROM Noticia ORDER BY fecha DESC";
-            DataTable tablaResultado = crearTablaConsulta(consulta);
-
-            foreach(DataRow columna in tablaResultado.Rows)
-            {
+            String Consulta = "SELECT * FROM Noticia ORDER BY fecha DESC";
+            DataTable tablaResultado = LeerBaseDeDatos(Consulta);
+            foreach (DataRow columna in tablaResultado.Rows)
                 noticias.Add(
-                    new NoticiaModel
-                    {
-                        id = Convert.ToInt32(columna["idNoticiaPK"]),
-                        titulo = Convert.ToString(columna["titulo"]),
-                        cuerpo = Convert.ToString(columna["cuerpo"]),
-                        fecha = Convert.ToString(columna["fecha"]),
-                        correoAutor = Convert.ToString(columna["correoFuncionarioAutorFK"]),
-                    });
-            }
+                new NoticiaModel
+                {
+                    id = Convert.ToInt32(columna["idNoticiaPK"]),
+                    Titulo = Convert.ToString(columna["titulo"]),
+                    Cuerpo = Convert.ToString(columna["cuerpo"]),
+                    CorreoAutor = Convert.ToString(columna["correoFuncionarioAutorFK"]),
+                    Fecha = Convert.ToString(tablaResultado.Rows[0]["fecha"]),
+                    CategoriaNoticia = Convert.ToString(columna["categoriaNoticia"])
+                });
             return noticias;
         }
 
-        public NoticiaModel buscarNoticia(string stringId)
+        public IList<string> obtenerTopicos(String idNoticiaPK)
         {
-            string consulta = "SELECT idNoticiaPK, titulo, cuerpo, CONVERT(VARCHAR(20), fecha, 1) AS 'fecha', correoFuncionarioAutorFK FROM Noticia WHERE idNoticiaPK = " + stringId + ";";
-            DataTable tablaResultado = crearTablaConsulta(consulta);
-            NoticiaModel resultado = null;
-            if(tablaResultado.Rows[0] != null)
+            string consulta = "SELECT TN.topicosNoticia FROM NoticiaTopicos TN WHERE TN.idNoticiaFK = '" + idNoticiaPK + "';";
+            DataTable tablaResultados = LeerBaseDeDatos(consulta);
+            List<string> topicos = new List<string>();
+            foreach (DataRow fila in tablaResultados.Rows)
             {
-                resultado = new NoticiaModel
-                {
-                    id = Convert.ToInt32(tablaResultado.Rows[0]["idNoticiaPK"]),
-                    titulo = Convert.ToString(tablaResultado.Rows[0]["titulo"]),
-                    cuerpo = Convert.ToString(tablaResultado.Rows[0]["cuerpo"]),
-                    fecha = Convert.ToString(tablaResultado.Rows[0]["fecha"]),
-                    correoAutor = Convert.ToString(tablaResultado.Rows[0]["correoFuncionarioAutorFK"]),
-                };
+                topicos.Add(Convert.ToString(fila["topicosNoticia"]));
             }
-            return resultado;
-        }
-
-        private byte[] obtenerBytes(HttpPostedFileBase archivo)
-        {
-            byte[] bytes;
-            BinaryReader lector = new BinaryReader(archivo.InputStream); //
-            bytes = lector.ReadBytes(archivo.ContentLength);
-            return bytes;
+            return topicos;
         }
 
         public bool crearNoticia(NoticiaModel noticia)
         {
-            string consulta = "INSERT INTO Noticia (titulo, cuerpo, fecha, correoFuncionarioAutorFK , imagen, tipoImagen)" +
-            "VALUES (@tituloN,@cuerpoN,@fechaN,@correoN,@imagenN,@tipoImagenN) ";
-            SqlCommand comandoParaConsulta = new SqlCommand(consulta, conexion);
-            SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
-
-            comandoParaConsulta.Parameters.AddWithValue("@tituloN", noticia.titulo);
-            comandoParaConsulta.Parameters.AddWithValue("@cuerpoN", noticia.cuerpo);
-            comandoParaConsulta.Parameters.AddWithValue("@fechaN", noticia.fecha); 
-            comandoParaConsulta.Parameters.AddWithValue("@correoN", noticia.correoAutor);
-
-            if (noticia.imagen == null)
+            bool exito;
+            String Consulta =
+            "INSERT INTO dbo.Noticia(titulo, cuerpo, fecha, correoFuncionarioAutorFK, categoriaNoticia, Imagen1, tipoImagen1, Imagen2, tipoImagen2) VALUES(@titulo, @cuerpo, @fecha, @correo, @categoriaNoticia, " +
+            "@imagen1, @tipoImagen1, @imagen2, @tipoImagen2);" +
+            "DECLARE @identity int = scope_identity();" +
+            "INSERT INTO dbo.NoticiaTopicos(idNoticiaFK, topicosNoticia) VALUES(@identity, @topicoNoticia);";
+            Dictionary<string, object> valoresParametros = new Dictionary<string, object>
             {
-                comandoParaConsulta.Parameters.AddWithValue("@imagenN", SqlBinary.Null);
-                comandoParaConsulta.Parameters.AddWithValue("@tipoImagenN", SqlBinary.Null);
-            }
-            else 
-            {
-                comandoParaConsulta.Parameters.AddWithValue("@imagenN", obtenerBytes(noticia.imagen));
-                comandoParaConsulta.Parameters.AddWithValue("@tipoImagenN", noticia.imagen.ContentType);
-            }
-            
-
-            conexion.Open();
-            bool exito = comandoParaConsulta.ExecuteNonQuery() >= 1;
-            conexion.Close();
+                { "@topicoNoticia",     "Placeholder"}, //noticia.TopicosNoticia 
+                { "@categoriaNoticia",  noticia.CategoriaNoticia },
+                { "@titulo",            noticia.Titulo },
+                { "@cuerpo",            noticia.Cuerpo },
+                { "@correo",            HttpContext.Current.User.Identity.Name},
+                { "@fecha",             noticia.Fecha},
+                { "@imagen1",           noticia.Imagen1},
+                { "@imagen2",           noticia.Imagen2},
+                { "@tipoImagen1",       noticia.TipoImagen1},
+                { "@tipoImagen2",       noticia.TipoImagen2}
+            };
+            exito = InsertarEnBaseDatos(Consulta, valoresParametros);
             return exito;
         }
 
         public Tuple<byte[], string> ObtenerFoto(string numNoticia)
         {
-            byte[] bytes;
-            string contentType;
-            string consulta = "SELECT imagen, tipoImagen FROM Noticia WHERE idNoticiaPK = @id";
+            string nombreArchivo = "imagen", tipoArchivo = "tipoImagen";
+            String Consulta  = "SELECT " + nombreArchivo + ", " + tipoArchivo + " FROM Noticia WHERE idNoticiaPK = @id";
             int id = Int32.Parse(numNoticia);
-            SqlCommand comandoParaConsulta = new SqlCommand(consulta, conexion);
-            comandoParaConsulta.Parameters.AddWithValue("@id", id);
-            conexion.Open();
 
-            SqlDataReader lectorDeDatos = comandoParaConsulta.ExecuteReader();
-            lectorDeDatos.Read();
+            Dictionary<string, object> valoresParametros = new Dictionary<string, object>
+            {
+                { "@id",             id },
+            };
 
-            bytes = (byte[])lectorDeDatos["imagen"];
-            contentType = lectorDeDatos["tipoImagen"].ToString();
-
-            conexion.Close();
-            return new Tuple<byte[], string>(bytes, contentType);
+            return ObtenerArchivo(Consulta, valoresParametros, nombreArchivo, tipoArchivo);
         }
 
+        public NoticiaModel buscarNoticia(string stringId)
+        {
+            String Consulta  = "SELECT * FROM Noticia WHERE idNoticiaPK = '" + stringId + "';";
+            DataTable tablaResultado = LeerBaseDeDatos(Consulta);
+            NoticiaModel resultado = null;
+            if (tablaResultado.Rows[0] != null)
+            {
+                resultado = new NoticiaModel
+                {
+                    id = Convert.ToInt32(tablaResultado.Rows[0]["idNoticiaPK"]),
+                    Titulo = Convert.ToString(tablaResultado.Rows[0]["titulo"]),
+                    Cuerpo = Convert.ToString(tablaResultado.Rows[0]["cuerpo"]),
+                    CorreoAutor = Convert.ToString(tablaResultado.Rows[0]["correoFuncionarioAutorFK"]),
+                    Fecha = Convert.ToString(tablaResultado.Rows[0]["fecha"]),
+                    CategoriaNoticia = Convert.ToString(tablaResultado.Rows[0]["categoriaNoticia"])
+                };
+            }
+            return resultado;
+        }
 
     }
 }

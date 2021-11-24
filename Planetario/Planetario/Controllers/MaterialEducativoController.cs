@@ -37,6 +37,10 @@ namespace Planetario.Controllers
                         ViewBag.Mensaje = "Hubo un error en la base de datos ☹";
                     }
                 }
+                else
+                {
+                    ViewBag.Mensaje = "El modelo no es valido!";
+                }
                 return View();
             }
             catch
@@ -54,20 +58,30 @@ namespace Planetario.Controllers
         }
 
         [HttpGet]
-        public FileResult accederArchivo(int identificador)
+        public FileResult descargarArchivo(string titulo)
         {
             MaterialesEducativosHandler accesoDatos = new MaterialesEducativosHandler();
-            var tupla = accesoDatos.descargarContenido(identificador);
+            var tupla = accesoDatos.descargarContenido(titulo);
+            return File(tupla.Item1, tupla.Item2);
+        }
+
+        public ActionResult verMaterial(string nombre)
+        {
+            MaterialesEducativosHandler accesoDatos = new MaterialesEducativosHandler();
+            ViewBag.material = accesoDatos.buscarActividad(nombre);
+            ViewBag.materiales = accesoDatos.obtenerTodasLosMaterialesRecomendados(ViewBag.material.PublicoDirigido, ViewBag.material.Categoria);
+            return View();
+        }
+
+        [HttpGet]
+        public FileResult descargarVistaPrevia(string titulo)
+        {
+            MaterialesEducativosHandler accesoDatos = new MaterialesEducativosHandler();
+            var tupla = accesoDatos.descargarVistaPrevia(titulo);
             return File(tupla.Item1, tupla.Item2);
         }
 
         [HttpGet]
-        public ActionResult buscarMaterialesEducativos()
-        {
-            return View();
-        }
-
-        [HttpPost]
         public ActionResult buscarMaterialesEducativos(string palabra)
         {
             MaterialesEducativosHandler accesoDatos = new MaterialesEducativosHandler();

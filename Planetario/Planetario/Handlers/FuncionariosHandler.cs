@@ -1,116 +1,177 @@
-﻿using Planetario.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Configuration;
 using System.Data;
+using System.Text;
+using Planetario.Models;
+using Planetario.Handlers;
 using System.Data.SqlClient;
-using System.IO;
+using System.Web.Security;
+using System.Data.SqlTypes;
 
 namespace Planetario.Handlers
 {
-    public class FuncionariosHandler
+    public class FuncionariosHandler : BaseDatosHandler
     {
-        private readonly SqlConnection Conexion;
-        private readonly string RutaConexion;
+        FileHandler manejadorDeImagen = new FileHandler();
 
-        public FuncionariosHandler()
+        public List<FuncionarioModel> obtenerFuncionariosSimple()
         {
-            RutaConexion = ConfigurationManager.ConnectionStrings["ConexionBaseDatosServidor"].ToString();
-            Conexion = new SqlConnection(RutaConexion);
-        }
-
-        private DataTable CrearTablaConsulta(string consulta)
-        {
-            SqlCommand comandoParaConsulta = new SqlCommand(consulta, Conexion);
-            SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
-            DataTable consultaFormatoTabla = new DataTable();
-
-            Conexion.Open();
-            adaptadorParaTabla.Fill(consultaFormatoTabla);
-            Conexion.Close();
-            return consultaFormatoTabla;
-        }
-
-        public List<FuncionarioModel> ObtenerTodosLosFuncionarios()
-        {
-            List<FuncionarioModel> ListaFuncionarios = new List<FuncionarioModel>();
-            string Consulta = " SELECT F.correoFK AS 'correo', F.cedula AS 'cedula'," +
-                " CONVERT(VARCHAR(20), fechaIncorporacion, 1) AS fechaIncorporacion," +
-                " F.rolTrabajo, F.titulo, U.nombre + ' ' + U.apellido1 AS 'nombre', F.descripcion AS 'descripcion' " +
-                "FROM Funcionario F JOIN Usuario U ON F.correoFK = U.correoPK; ";
-            DataTable tablaResultado = CrearTablaConsulta(Consulta);
-
+            List<FuncionarioModel> funcionarios = new List<FuncionarioModel>();
+            string consulta = "Select * FROM Funcionario";
+            DataTable tablaResultado = LeerBaseDeDatos(consulta);
             foreach (DataRow columna in tablaResultado.Rows)
             {
-                ListaFuncionarios.Add(
-                    new FuncionarioModel
-                    {
-                        Cedula = Convert.ToInt32(columna["cedula"]),
-                        Nombre = Convert.ToString(columna["nombre"]),
-                        FechaIncorporacion = Convert.ToString(columna["fechaIncorporacion"]),
-                        Titulo = Convert.ToString(columna["titulo"]),
-                        RolTrabajo = Convert.ToString(columna["rolTrabajo"]),
-                        CorreoContacto = Convert.ToString(columna["correo"]),
-                        Descripcion = Convert.ToString(columna["descripcion"])
-                    }
-                );
+                funcionarios.Add(
+                new FuncionarioModel
+                {
+                    CorreoContacto = Convert.ToString(columna["correoPK"]),
+                    Nombre = Convert.ToString(columna["nombre"]),
+                    Apellido1 = Convert.ToString(columna["apellido1"]),
+                    Apellido2 = Convert.ToString(columna["apellido2"]),
+                    Descripcion = Convert.ToString(columna["descripcion"]),
+                    Pais = Convert.ToString(columna["pais"]),
+                    FechaIncorporacion = Convert.ToString(columna["fechaIncorporacion"]),
+                    Genero = Convert.ToString(columna["genero"]),
+                    AreaExpertis = Convert.ToString(columna["areaExpertis"])
+                });
             }
-
-            return ListaFuncionarios;
+            return funcionarios;
         }
 
-        public bool crearFuncionario(FuncionarioModel funcionario)
+        public FuncionarioModel buscarFuncionario(string correo)
         {
-            string consulta = "INSERT INTO dbo.Funcionario (correoFK, cedula, fechaIncorporacion, titulo, rolTrabajo, foto, tipoArchivoFoto, descripcion) " +
-            "VALUES (@correo, @cedula, @fecha, @titulo, @trabajo, @foto, @tipoArchivo, @descripcion) ";
+            FuncionarioModel funcionario = null;
+            string consulta = "Select * FROM Funcionario WHERE correoPK = '" + correo + "';";
+            DataTable tablaResultado = LeerBaseDeDatos(consulta);
+            if(tablaResultado.Rows[0] != null)
+            {
+                funcionario = new FuncionarioModel
+                {
+                    CorreoContacto = Convert.ToString(tablaResultado.Rows[0]["correoPK"]),
+                    Nombre = Convert.ToString(tablaResultado.Rows[0]["nombre"]),
+                    Apellido1 = Convert.ToString(tablaResultado.Rows[0]["apellido1"]),
+                    Apellido2 = Convert.ToString(tablaResultado.Rows[0]["apellido2"]),
+                    Descripcion = Convert.ToString(tablaResultado.Rows[0]["descripcion"]),
+                    Pais = Convert.ToString(tablaResultado.Rows[0]["pais"]),
+                    FechaIncorporacion = Convert.ToString(tablaResultado.Rows[0]["fechaIncorporacion"]),
+                    Genero = Convert.ToString(tablaResultado.Rows[0]["genero"]),
+                    AreaExpertis = Convert.ToString(tablaResultado.Rows[0]["areaExpertis"])
+                };
+            }
+            return funcionario;
+        }
 
-            SqlCommand comandoParaConsulta = new SqlCommand(consulta, Conexion);
-            SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
+        public bool insertarFuncionario(FuncionarioModel funcionario)
+        {
+            bool exito;
+            string Consulta = "INSERT INTO Funcionario ( correoPK, nombre, apellido1, apellido2, genero, areaExpertis, fechaIncorporacion, fotoArchivo, fotoTipo, descripcion, pais ) "
+                + "VALUES ( @correo, @nombre, @apellido1, @apellido2, @genero, @area, @fecha, @fotoArchivo, @fotoTipo, @descripcion, @pais );";
 
-            comandoParaConsulta.Parameters.AddWithValue("@correo", funcionario.CorreoContacto);
-            comandoParaConsulta.Parameters.AddWithValue("@cedula", funcionario.Cedula);
-            comandoParaConsulta.Parameters.AddWithValue("@fecha", funcionario.FechaIncorporacion);
-            comandoParaConsulta.Parameters.AddWithValue("@titulo", funcionario.Titulo);
-            comandoParaConsulta.Parameters.AddWithValue("@trabajo", funcionario.RolTrabajo);
-            comandoParaConsulta.Parameters.AddWithValue("@foto", obtenerBytes(funcionario.Foto));
-            comandoParaConsulta.Parameters.AddWithValue("@tipoArchivo", funcionario.Foto.ContentType);
-            comandoParaConsulta.Parameters.AddWithValue("@descripcion", funcionario.Descripcion);
+            Dictionary<string, object> valoresParametros = new Dictionary<string, object> {
+                {"@correo", funcionario.CorreoContacto },
+                {"@nombre", funcionario.Nombre },
+                {"@apellido1", funcionario.Apellido1 },
+                {"@apellido2", funcionario.Apellido2 },
+                {"@genero", funcionario.Genero },
+                {"@area", funcionario.AreaExpertis },
+                {"@fecha", funcionario.FechaIncorporacion },
+                {"@fotoTipo", funcionario.FotoArchivo.ContentType },
+                {"@descripcion", funcionario.Descripcion },
+                {"@pais", funcionario.Pais }
+            };
 
-            Conexion.Open();
-            bool exito = comandoParaConsulta.ExecuteNonQuery() >= 1; 
-            Conexion.Close();
+            valoresParametros.Add("@fotoArchivo", manejadorDeImagen.ConvertirArchivoABytes(funcionario.FotoArchivo));
+
+            exito = InsertarEnBaseDatos(Consulta, valoresParametros);
+
             return exito;
         }
 
-        private byte[] obtenerBytes(HttpPostedFileBase archivo)
+        public bool insertarIdiomas(string idioma, string correo)
         {
-            byte[] bytes;
-            BinaryReader lector = new BinaryReader(archivo.InputStream); //
-            bytes = lector.ReadBytes(archivo.ContentLength);
-            return bytes;
+            bool exito;
+            string Consulta = "INSERT INTO FuncionarioIdioma VALUES (@correo, @idioma)";
+
+            Dictionary<string, object> valoresParametros = new Dictionary<string, object> {
+                {"@correo", correo },
+                {"@idioma", idioma }
+            };
+
+            exito = InsertarEnBaseDatos(Consulta, valoresParametros);
+
+            return exito;
         }
 
-
-        public Tuple<byte[], string> ObtenerFoto(int Cedula)
+        public IList<string> obtenerIdiomasFuncionario(string correo) 
         {
-            byte[] bytes;
-            string contentType;
-            string consulta = "SELECT foto, tipoArchivoFoto FROM Funcionario WHERE cedula = @cedula"; 
-            SqlCommand comandoParaConsulta = new SqlCommand(consulta, Conexion);
-            comandoParaConsulta.Parameters.AddWithValue("@cedula", Cedula);
-            Conexion.Open();
+            string consulta = "SELECT FI.idioma FROM FuncionarioIdioma FI WHERE FI.correoFuncionarioFK = '" + correo + "';";
+            DataTable tablaResultados = LeerBaseDeDatos(consulta);
+            List<string> idiomas = new List<string>();
 
-            SqlDataReader lectorDeDatos = comandoParaConsulta.ExecuteReader();
-            lectorDeDatos.Read();
+            foreach(DataRow fila in tablaResultados.Rows)
+            {
+                idiomas.Add(Convert.ToString(fila["idioma"]));
+            }
 
-            bytes = (byte[])lectorDeDatos["foto"];
-            contentType = lectorDeDatos["tipoArchivoFoto"].ToString();
-
-            Conexion.Close();
-            return new Tuple<byte[], string>(bytes, contentType);
+            return idiomas;
         }
 
+        public IList<string> obtenerTitulosFuncionario(string correo) { 
+            string consulta = "SELECT FT.titulo FROM FuncionarioTitulo FT WHERE FT.correoFuncionarioFK = '" + correo + "';";
+            DataTable tablaResultados = LeerBaseDeDatos(consulta);
+            List<string> titulos = new List<string>();
+
+            foreach(DataRow fila in tablaResultados.Rows)
+            {
+                titulos.Add(Convert.ToString(fila["titulo"]));
+            }
+            return titulos;
+        }
+
+        public IList<string> obtenerRolesFuncionario(string correo) { 
+            string consulta = "SELECT FR.rol FROM FuncionarioRol FR WHERE FR.correoFuncionarioFK = '" + correo + "';";
+            DataTable tablaResultados = LeerBaseDeDatos(consulta);
+            List<string> roles = new List<string>();
+
+            foreach(DataRow fila in tablaResultados.Rows)
+            {
+                roles.Add(Convert.ToString(fila["rol"]));
+            }
+            return roles;
+        }
+
+        public bool esFuncionarioValido(string contrasena, string correo)
+        {
+            bool esValido = false;
+            string contrasenaFuncionario;
+
+            string consulta = "SELECT [dbo].UFN_compararContrasenas('" + contrasena + "', contraseña) AS 'resultado' FROM Credenciales WHERE correoFuncionarioFK = '" + correo + "';";
+
+            DataTable tablaResultados = LeerBaseDeDatos(consulta);
+
+            if (tablaResultados.Rows.Count > 0)
+            {
+                foreach (DataRow columna in tablaResultados.Rows)
+                {
+                    contrasenaFuncionario = Convert.ToString(columna["resultado"]);
+                    if (contrasenaFuncionario == "correcta") { esValido = true; }
+                }
+            }
+            return esValido;
+        }
+
+        public Tuple<byte[], string> ObtenerFoto(string correo)
+        {
+            string nombreArchivo = "fotoArchivo", tipoArchivo = "fotoTipo";
+            string consulta = "SELECT " + nombreArchivo + ", "+ tipoArchivo + " FROM Funcionario WHERE correoPK = @correo";
+            
+            Dictionary<string, object> valoresParametros = new Dictionary<string, object>
+            {
+                { "@correo", correo }
+            };
+
+            return ObtenerArchivo(consulta, valoresParametros, nombreArchivo, tipoArchivo);
+        }
+        
     }
 }

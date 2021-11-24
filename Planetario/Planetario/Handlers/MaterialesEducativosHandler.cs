@@ -1,152 +1,169 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.IO;
-
 using Planetario.Models;
+using System.Configuration;
+using System.Web;
 
 namespace Planetario.Handlers
 {
     public class MaterialesEducativosHandler
     {
-        private readonly SqlConnection Conexion;
-        private readonly string RutaConexion;
+        private readonly BaseDatosHandler BaseDatos;
+        private string Consulta;
 
         public MaterialesEducativosHandler()
         {
-            RutaConexion = ConfigurationManager.ConnectionStrings["ConexionBaseDatosServidor"].ToString();
-            Conexion = new SqlConnection(RutaConexion);
-        }
-
-        private byte[] ObtenerBytes(HttpPostedFileBase archivo)
-        {
-            byte[] bytes;
-            BinaryReader lector = new BinaryReader(archivo.InputStream);
-            bytes = lector.ReadBytes(archivo.ContentLength);
-            return bytes;
+            BaseDatos = new BaseDatosHandler();
         }
 
         public bool AlmacenarMaterialEducativo(MaterialEducativoModel material)
         {
-            bool HayVistaPrevia = material.HayVistaPrevia();
-            string Consulta = "INSERT INTO MaterialEducativo " +
-                "( titulo, fechaSubida, correoResponsableFK, publicoDirigido, ";
-            if(HayVistaPrevia)
+            FileHandler manejadorArchivo = new FileHandler();
+            string columnas, valores;
+            object archivoVistaPrevia = System.Data.SqlTypes.SqlBinary.Null;
+            object tipoArchivoVistaPrevia = System.Data.SqlTypes.SqlBinary.Null; ;
+
+            columnas = "( tituloMaterialEducativoPK, categoriaMaterialEducativo, imagenVistaPrevia, " +
+                "tipoArchivoVistaPrevia, materialArchivo, materialTipoArchivo, correoFuncionarioFK, publicoDirigidoMaterial )";
+            valores  = "( @titulo, @categoria, @imagenVistaPrevia, @tipoArchivoVistaPrevia, @archivo, " +
+                "@tipoArchivo, @correoResponsable, @publicoDirigidoMaterial ); ";
+            Consulta = "INSERT INTO MaterialEducativo " + columnas + " VALUES " + valores;
+
+            Dictionary<string, object> valoresParametros = new Dictionary<string, object>
             {
-                Consulta += "imagenVistaPrevia, tipoArchivoVistaPrevia, ";
-            }
+                { "@titulo", material.Titulo },
+                { "@categoria", material.Categoria },
+                { "@correoResponsable",  HttpContext.Current.User.Identity.Name},
+                { "@tipoArchivo", material.MaterialArchivo.ContentType },
+                { "@publicoDirigidoMaterial", material.PublicoDirigido }
+            };
+            valoresParametros.Add("@archivo", manejadorArchivo.ConvertirArchivoABytes(material.MaterialArchivo));
 
-            Consulta += "archivo, tipoArchivo ) " +
-            "VALUES ( @titulo, GETDATE(), @correoResponsable, @publicoDirigido, ";
-            
-            if(HayVistaPrevia)
+            if (material.HayVistaPrevia())
             {
-                Consulta += "@imagenVistaPrevia, @tipoArchivoVistaPrevia, ";
+                archivoVistaPrevia = manejadorArchivo.ConvertirArchivoABytes(material.ImagenVistaPrevia);
+                tipoArchivoVistaPrevia = material.ImagenVistaPrevia.ContentType;
             }
-            Consulta += "@archivo, @tipoArchivo );";
+            valoresParametros.Add("@imagenVistaPrevia", archivoVistaPrevia);
+            valoresParametros.Add("@tipoArchivoVistaPrevia", tipoArchivoVistaPrevia);
 
-            SqlCommand ComandoParaConsulta = new SqlCommand(Consulta, Conexion);
+            bool exito = BaseDatos.InsertarEnBaseDatos(Consulta, valoresParametros);
 
-            ComandoParaConsulta.Parameters.AddWithValue("@titulo", material.Titulo);
-            ComandoParaConsulta.Parameters.AddWithValue("@correoResponsable", material.CorreoResponsable);
-            ComandoParaConsulta.Parameters.AddWithValue("@publicoDirigido", material.PublicoDirigido);
-            
-            if(HayVistaPrevia)
-            {
-                ComandoParaConsulta.Parameters.AddWithValue("@imagenVistaPrevia", ObtenerBytes(material.ImagenVistaPrevia));
-                ComandoParaConsulta.Parameters.AddWithValue("@tipoArchivoVistaPrevia", material.ImagenVistaPrevia.ContentType);
-            }
-
-            ComandoParaConsulta.Parameters.AddWithValue("@archivo", ObtenerBytes(material.Archivo));
-            ComandoParaConsulta.Parameters.AddWithValue("@tipoArchivo", material.Archivo.ContentType);
-            
-            Conexion.Open();
-            bool exito = ComandoParaConsulta.ExecuteNonQuery() >= 1;
-            Conexion.Close();
             return exito;
-        }
-
-        private DataTable crearTablaConsulta(string consulta)
-        {
-            SqlCommand comandoParaConsulta = new SqlCommand(consulta, Conexion);
-            SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
-            DataTable consultaFormatoTabla = new DataTable();
-            Conexion.Open();
-            adaptadorParaTabla.Fill(consultaFormatoTabla);
-            Conexion.Close();
-            return consultaFormatoTabla;
         }
 
         public List<MaterialEducativoModel> obtenerMateriales()
         {
             List<MaterialEducativoModel> material = new List<MaterialEducativoModel>();
-            string consulta = "SELECT * FROM MaterialEducativo ";
-            DataTable tablaResultado = crearTablaConsulta(consulta);
+            Consulta = "SELECT E.tituloMaterialEducativoPK, E.categoriaMaterialEducativo, E.correoFuncionarioFK, " +
+                                "E.publicoDirigidoMaterial, F.nombre + F.apellido1 AS nombre " +
+                                "FROM MaterialEducativo E " +
+                                "JOIN Funcionario F " +
+                                "ON E.correoFuncionarioFK = F.correoPK ;";
+            DataTable tablaResultado = BaseDatos.LeerBaseDeDatos(Consulta);
             foreach (DataRow columna in tablaResultado.Rows)
             {
-                material.Add(
-                new MaterialEducativoModel
+                MaterialEducativoModel modelo = new MaterialEducativoModel
                 {
-                    Titulo = Convert.ToString(columna["titulo"]),
-                    Fecha = Convert.ToString(columna["fechaSubida"]),
-                    Id = Convert.ToInt32(columna["idMaterialPK"]),
-                    CorreoResponsable = Convert.ToString(columna["correoResponsableFK"]),
-                    PublicoDirigido = Convert.ToString(columna["publicoDirigido"])
-                });
+                    Titulo = Convert.ToString(columna["tituloMaterialEducativoPK"]),
+                    Categoria = Convert.ToString(columna["categoriaMaterialEducativo"]),
+                    CorreoResponsable = Convert.ToString(columna["correoFuncionarioFK"]),
+                    PublicoDirigido = Convert.ToString(columna["publicoDirigidoMaterial"]),
+                    NombreResponsable = Convert.ToString(columna["nombre"])
+                };
+                material.Add(modelo);
             }
             return material;
         }
 
-        public Tuple<byte[], string> descargarContenido(int id)
+        public Tuple<byte[], string> descargarContenido(string titulo)
         {
-            byte[] bytes;
-            string contentType;
-            string consulta = "SELECT archivo, tipoArchivo FROM MaterialEducativo WHERE idMaterialPK = @materialId";
+            string nombreArchivo = "materialArchivo", tipoArchivo = "materialTipoArchivo";
+            Consulta = "SELECT "+ nombreArchivo +", "+ tipoArchivo + ", tituloMaterialEducativoPK FROM MaterialEducativo WHERE tituloMaterialEducativoPK = @titulo";
 
-            SqlCommand comandoParaConsulta = new SqlCommand(consulta, Conexion);
-            SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
-            comandoParaConsulta.Parameters.AddWithValue("@materialId", id);
+            Dictionary<string, object> valoresParametros = new Dictionary<string, object>
+            {
+                { "@titulo",  titulo }
+            };
 
-            Conexion.Open();
-            SqlDataReader lectorDeDatos = comandoParaConsulta.ExecuteReader();
-            lectorDeDatos.Read();
+            return BaseDatos.ObtenerArchivo(Consulta, valoresParametros, nombreArchivo, tipoArchivo);
+        }
 
-            bytes = (byte[])lectorDeDatos["archivo"];
-            contentType = lectorDeDatos["tipoArchivo"].ToString();
-            Conexion.Close();
-            return new Tuple<byte[], string>(bytes, contentType);
+        public Tuple<byte[], string> descargarVistaPrevia(string titulo)
+        {
+            string nombreColumnaArchivo = "imagenVistaPrevia", columnaTipoArchivo = "tipoArchivoVistaPrevia";
+            Consulta = "SELECT " + nombreColumnaArchivo + ", " + columnaTipoArchivo + ", titulo FROM MaterialEducativo WHERE tituloMaterialEducativo = @titulo";
+
+            Dictionary<string, object> valoresParametros = new Dictionary<string, object>
+            {
+                { "@titulo",  titulo }
+            };
+
+            return BaseDatos.ObtenerArchivo(Consulta, valoresParametros, nombreColumnaArchivo, columnaTipoArchivo);
         }
 
         public List<MaterialEducativoModel> obtenerMaterialBuscado(string palabra)
         {
-            List<MaterialEducativoModel> materialesUnicos = new List<MaterialEducativoModel>();
-            string consulta = "SELECT * FROM MaterialEducativo WHERE titulo LIKE '%" + palabra + "%'";
-
-            SqlCommand comandoParaConsulta = new SqlCommand(consulta, Conexion);
-            SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
-
-            DataTable TablaResultado = crearTablaConsulta(consulta);
-
-
-            foreach (DataRow columna in TablaResultado.Rows)
+            List<MaterialEducativoModel> material = new List<MaterialEducativoModel>();
+            Consulta = "SELECT E.tituloMaterialEducativoPK, E.categoriaMaterialEducativo, E.correoFuncionarioFK, " +
+                                "E.publicoDirigidoMaterial, F.nombre + F.apellido1 AS nombre " +
+                                "FROM MaterialEducativo E " +
+                                "JOIN Funcionario F " +
+                                "ON E.correoFuncionarioFK = F.correoPK " +
+                        "WHERE E.tituloMaterialEducativoPK LIKE '%" + palabra + "%';";
+            DataTable tablaResultado = BaseDatos.LeerBaseDeDatos(Consulta);
+            foreach (DataRow columna in tablaResultado.Rows)
             {
-                materialesUnicos.Add(
-                    new MaterialEducativoModel
-                    {
-                        Titulo = Convert.ToString(columna["titulo"]),
-                        Fecha = Convert.ToString(columna["fechaSubida"]),
-                        Id = Convert.ToInt32(columna["idMaterialPK"]),
-                        CorreoResponsable = Convert.ToString(columna["correoResponsableFK"]),
-                        PublicoDirigido = Convert.ToString(columna["publicoDirigido"])
-                    });
+                MaterialEducativoModel modelo = new MaterialEducativoModel
+                {
+                    Titulo = Convert.ToString(columna["tituloMaterialEducativoPK"]),
+                    Categoria = Convert.ToString(columna["categoriaMaterialEducativo"]),
+                    CorreoResponsable = Convert.ToString(columna["correoFuncionarioFK"]),
+                    PublicoDirigido = Convert.ToString(columna["publicoDirigidoMaterial"]),
+                    NombreResponsable = Convert.ToString(columna["nombre"])
+                };
+                material.Add(modelo);
             }
-            return materialesUnicos;
+            return material;
         }
 
+        public List<MaterialEducativoModel> obtenerTodasLosMaterialesRecomendados(string publicoDirigido, string categoria)
+        {
+            List<MaterialEducativoModel> material = new List<MaterialEducativoModel>();
+            string Consulta = "SELECT * FROM MaterialEducativo WHERE publicoDirigidoMaterial = '" + publicoDirigido + "'AND categoriaMaterialEducativo = '" + categoria + "';"; ;
+            DataTable tablaResultado = BaseDatos.LeerBaseDeDatos(Consulta);
+            foreach (DataRow columna in tablaResultado.Rows)
+            {
+                MaterialEducativoModel modelo = new MaterialEducativoModel
+                {
+                    Titulo = Convert.ToString(columna["tituloMaterialEducativoPK"]),
+                    Categoria = Convert.ToString(columna["categoriaMaterialEducativo"]),
+                    CorreoResponsable = Convert.ToString(columna["correoFuncionarioFK"]),
+                    PublicoDirigido = Convert.ToString(columna["publicoDirigidoMaterial"]),
+                };
+                material.Add(modelo);
+            }
+            return material;
+        }
 
-
+         public MaterialEducativoModel buscarActividad(string nombre)
+        {
+            MaterialEducativoModel material = null;
+            string Consulta = "Select * FROM MaterialEducativo WHERE tituloMaterialEducativoPK = '" + nombre + "';";
+            DataTable tablaResultado = BaseDatos.LeerBaseDeDatos(Consulta);
+            if (tablaResultado.Rows.Count >= 1)
+            {
+                material = new MaterialEducativoModel
+                {
+                    Titulo = Convert.ToString(tablaResultado.Rows[0]["tituloMaterialEducativoPK"]),
+                    Categoria = Convert.ToString(tablaResultado.Rows[0]["categoriaMaterialEducativo"]),
+                    CorreoResponsable = Convert.ToString(tablaResultado.Rows[0]["correoFuncionarioFK"]),
+                    PublicoDirigido = Convert.ToString(tablaResultado.Rows[0]["publicoDirigidoMaterial"]),              
+                };
+            }
+            return material;
+        }
     }
 }

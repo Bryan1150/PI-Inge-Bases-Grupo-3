@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<h1 class=titulo>Facturas de @ViewBag.nombreActividad</h1>
+<div class="row d-flex flex-wrap align-items-center">
+    @foreach (Planetario.Models.FacturaModel factura in ViewBag.facturas)
+    {
+        <div class="col-md-6">
+        <h4>@factura.CorreoParticipante</h4>
+        <p><strong>Id de la factura:</strong> @factura.ID</p>
+        <p><strong>Fecha:</strong> @factura.FechaCompra</p>
+        <p><strong>Pago: </strong>@factura.PagoTotal colones</p>
+        <br><br>
+        </div>
+    }
+</div>
+</body>
+</hmtl>

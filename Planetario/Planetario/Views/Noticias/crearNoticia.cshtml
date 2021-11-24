@@ -1,7 +1,14 @@
 ﻿@model Planetario.Models.NoticiaModel
 @{
     ViewBag.Title = "Crear noticia";
+    List<SelectListItem> Categorias = new List<SelectListItem>() {
+        new SelectListItem { Text = "Cuerpos del Sistema Solar", Value = null },
+        new SelectListItem { Text = "Objetos de Cielo Profundo", Value = "Objetos de Cielo Profundo"  },
+        new SelectListItem { Text = "Astronomia", Value = "Astronomia" },
+        new SelectListItem { Text = "General", Value = "General" },
+    };
 }
+
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
@@ -35,40 +42,45 @@
                 <h4>Ingrese los datos para crear una Noticia</h4>
                 <hr />
                 <div class="form-group">
-                    @Html.LabelFor(model => model.titulo, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.Titulo, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.TextBoxFor(model => model.titulo, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.titulo, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(model => model.Titulo, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Titulo, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(model => model.cuerpo, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.Cuerpo, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.TextAreaFor(model => model.cuerpo, new { @class = "form-control", @rows = 10, @cols = 80 })
-                        @Html.ValidationMessageFor(model => model.cuerpo, "", new { @class = "text-danger" })
+                        @Html.TextAreaFor(model => model.Cuerpo, new { @class = "form-control", @rows = 10, @cols = 80 })
+                        @Html.ValidationMessageFor(model => model.Cuerpo, "", new { @class = "text-danger" })
                     </div>
                 </div>
+
                 <div class="form-group">
-                    @Html.LabelFor(model => model.correoAutor, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.Fecha, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.TextBoxFor(model => model.correoAutor, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.correoAutor, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(model => model.Fecha, new { @type = "date", @class = "form-​control datepicker" })
+                        @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
                     </div>
                 </div>
+
                 <div class="form-group">
-                    @Html.LabelFor(model => model.imagen, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.CategoriaNoticia, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.TextBoxFor(model => model.imagen, new { type = "file", @class = "btn btn alert-info" })
-                        @Html.ValidationMessageFor(model => model.imagen, "", new { @class = "text-danger" })
+                        @Html.DropDownListFor(model => model.CategoriaNoticia, Categorias, "- - -", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.CategoriaNoticia, "", new { @class = "text-danger" })
                     </div>
                 </div>
+
                 <div class="form-group">
-                    @Html.LabelFor(model => model.fecha, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.Imagen1, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.TextBoxFor(model => model.fecha, new { @type = "date", @class = "form-​control datepicker" })
-                        @Html.ValidationMessageFor(model => model.fecha, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(model => model.Imagen1, new { type = "file", @class = "btn btn alert-info" })
+                        @Html.ValidationMessageFor(model => model.Imagen1, "", new { @class = "text-danger" })
                     </div>
                 </div>
+
+
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
                         <input type="submit" class="btn btn-success" value="Crear" />
