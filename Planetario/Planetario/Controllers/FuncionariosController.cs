@@ -13,8 +13,8 @@ namespace Planetario.Controllers
     {
         public ActionResult ListaFuncionarios()
         {
-            FuncionariosHandler AcessoDatos = new FuncionariosHandler();
-            ViewBag.ListaFuncionarios = AcessoDatos.ObtenerTodosLosFuncionarios();
+            FuncionariosHandler AccesoDatos = new FuncionariosHandler();
+            ViewBag.ListaFuncionarios = AccesoDatos.ObtenerTodosLosFuncionarios();
             return View();
         }
 
@@ -29,11 +29,11 @@ namespace Planetario.Controllers
 
         public ActionResult VerFuncionario(string correo)
         {
-            FuncionariosHandler AcessoDatos = new FuncionariosHandler();
-            ViewBag.Funcionario = AcessoDatos.ObtenerFuncionario(correo);
-            ViewBag.Idiomas = AcessoDatos.ObtenerIdiomasFuncionario(correo);
-            ViewBag.Titulos = AcessoDatos.ObtenerTitulosFuncionario(correo);
-            ViewBag.Roles = AcessoDatos.ObtenerRolesFuncionario(correo);
+            FuncionariosHandler AccesoDatos = new FuncionariosHandler();
+            ViewBag.Funcionario = AccesoDatos.ObtenerFuncionario(correo);
+            ViewBag.Idiomas = AccesoDatos.ObtenerIdiomasFuncionario(correo);
+            ViewBag.Titulos = AccesoDatos.ObtenerTitulosFuncionario(correo);
+            ViewBag.Roles = AccesoDatos.ObtenerRolesFuncionario(correo);
 
             return View();
         }

@@ -54,6 +54,50 @@ namespace Planetario.Handlers
             return exito;
         }
 
+        public bool EliminarEnBaseDatos(string consulta, Dictionary<string, object> valoresParametros)
+        {
+            bool exito;
+            SqlCommand comandoParaConsulta = new SqlCommand(consulta, conexion);
+
+            foreach (KeyValuePair<string, object> parejaValores in valoresParametros)
+            {
+                comandoParaConsulta.Parameters.AddWithValue(parejaValores.Key, parejaValores.Value);
+            }
+
+            conexion.Open();
+            
+            try
+            {
+                comandoParaConsulta.ExecuteNonQuery();
+                exito = true;
+            }
+            catch(System.Exception ex)
+            {
+                System.Console.WriteLine(ex.Message);
+                exito = false;
+            }
+
+            conexion.Close();
+            return exito;
+        }
+
+        public bool ActualizarEnBaseDatos(string consulta, Dictionary<string, object> valoresParametros)
+        {
+            bool exito;
+            SqlCommand comandoParaConsulta = new SqlCommand(consulta, conexion);
+
+            foreach (KeyValuePair<string, object> parejaValores in valoresParametros)
+            {
+                comandoParaConsulta.Parameters.AddWithValue(parejaValores.Key, parejaValores.Value);
+            }
+
+            conexion.Open();
+            exito = comandoParaConsulta.ExecuteNonQuery() >= 1;
+            conexion.Close();
+
+            return exito;
+        }
+
         public Tuple<byte[],string> ObtenerArchivo (string consulta, KeyValuePair<string,object> parametro, string columnaContenido, string columnaTipo)
         {
             SqlCommand comandoParaConsulta = new SqlCommand(consulta, conexion);
