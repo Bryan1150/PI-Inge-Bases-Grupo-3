@@ -140,9 +140,6 @@
     <Compile Include="Controllers\PreguntasFrecuentesController.cs" />
     <Compile Include="Controllers\NoticiasController.cs" />
     <Compile Include="Controllers\MaterialEducativoController.cs" />
-    <Compile Include="Global.asax.cs">
-      <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
     <Compile Include="Handlers\ActividadHandler.cs" />
     <Compile Include="Handlers\BaseDatosHandler.cs" />
     <Compile Include="Handlers\EventosHandler.cs" />
@@ -157,7 +154,6 @@
     <Compile Include="Models\EstadisticasModel.cs" />
     <Compile Include="Handlers\CuestionarioHandler.cs" />
     <Compile Include="Handlers\ArchivosHandler.cs" />
-    <Compile Include="Handlers\ParticipanteHandler.cs" />
     <Compile Include="Handlers\PreguntasFrecuentesHandler.cs" />
     <Compile Include="Models\CuestionarioModel.cs" />
     <Compile Include="Models\FacturaModel.cs" />

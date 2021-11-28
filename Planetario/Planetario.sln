@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Planetario", "Planetario\Planetario.csproj", "{0A8340CF-46B6-4E4F-B352-0D2AD9347E6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Planetario.Tests", "Planetario.Tests\Planetario.Tests.csproj", "{CC48B99D-93F9-47CD-85A4-08C6C8E05D76}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PruebasPlanetarios", "PruebasPlanetarios\PruebasPlanetarios.csproj", "{F58C2192-9CB9-4D0B-8681-B838155C1197}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{0A8340CF-46B6-4E4F-B352-0D2AD9347E6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A8340CF-46B6-4E4F-B352-0D2AD9347E6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A8340CF-46B6-4E4F-B352-0D2AD9347E6F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CC48B99D-93F9-47CD-85A4-08C6C8E05D76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CC48B99D-93F9-47CD-85A4-08C6C8E05D76}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CC48B99D-93F9-47CD-85A4-08C6C8E05D76}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CC48B99D-93F9-47CD-85A4-08C6C8E05D76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F58C2192-9CB9-4D0B-8681-B838155C1197}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F58C2192-9CB9-4D0B-8681-B838155C1197}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F58C2192-9CB9-4D0B-8681-B838155C1197}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F58C2192-9CB9-4D0B-8681-B838155C1197}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
