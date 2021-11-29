@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Planetario.Handlers;
 using Planetario.Models;
@@ -65,6 +62,7 @@ namespace Planetario.Controllers
             ViewBag.actividad = accesoDatos.ObtenerActividad(nombre);
             ViewBag.topicos = accesoDatos.ObtenerTopicosActividad(nombre);
             ViewBag.actividades = accesoDatos.ObtenerActividadesRecomendadas(ViewBag.actividad.PublicoDirigido, ViewBag.actividad.Complejidad);
+            ViewBag.entradasDisponibles = this.ObtenerCantidadEntradasDisponibles(nombre);
             return View();
         }
 
@@ -153,5 +151,11 @@ namespace Planetario.Controllers
             
         }
 
+        public int ObtenerCantidadEntradasDisponibles(string nombreActividad)
+        {
+            ActividadHandler accesoDatos = new ActividadHandler();
+            int cantidad = accesoDatos.ObtenerEntradasDisponiblesPorActividad(nombre);
+            return cantidad;
+        }
     }
 }

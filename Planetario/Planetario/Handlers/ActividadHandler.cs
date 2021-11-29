@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Text;
 using Planetario.Models;
-using System.Data.SqlClient;
-using System.Web.Security;
-using System.Data.SqlTypes;
 using System.Web;
 
 namespace Planetario.Handlers
@@ -52,7 +48,7 @@ namespace Planetario.Handlers
 
         public List<ActividadModel> ObtenerActividadesAprobadas()
         {
-            string consulta  = "SELECT * FROM Actividad WHERE aprobado = 1";
+            string consulta = "SELECT * FROM Actividad WHERE aprobado = 1";
             return (ObtenerActividades(consulta));
         }
 
@@ -72,6 +68,31 @@ namespace Planetario.Handlers
         {
             string consulta = "Select * FROM Actividad WHERE nombreActividadPK = '" + nombre + "';";
             return (ObtenerActividades(consulta)[0]);
+        }
+
+        public bool InsertarEntrada(EntradaModel entrada, int cantidadEntradasInicial, string nombreActividad)
+        {
+            string consultaTablaComprable = "INSERT INTO Comprable (nombre, precio, cantidadDisponible) " +
+                                           "VALUES (@nombre, @precio, @cantidadDisponible);";
+
+            string consultaTablaEntrada = "DECLARE @identity int=IDENT_CURRENT('Comprable');" +
+                                           "INSERT INTO Entrada " +
+                                           "VALUES ( @identity, @fechaCompra, @correoParticipanteFK, @nombreActividadFK); ";
+
+            Dictionary<string, object> parametrosComprable = new Dictionary<string, object> {
+                {"@nombre", entrada.Nombre },
+                {"@precio", entrada.Precio },
+                {"@cantidadDisponible", entrada.CantidadDisponible }
+            };
+
+            Dictionary<string, object> parametrosEntrada = new Dictionary<string, object> {
+                {"@fechaCompra", entrada.FechaCompra },
+                {"@correoParticipanteFK", entrada.CorreoParticipante },
+                {"@nombreActividadFK", entrada.NombreActividad }
+            };
+
+            return (InsertarEnBaseDatos(consultaTablaComprable, parametrosComprable) && InsertarEnBaseDatos(consultaTablaEntrada, parametrosEntrada));
+
         }
 
         public bool InsertarActividad(ActividadModel actividad)
@@ -123,6 +144,94 @@ namespace Planetario.Handlers
                 topicos.Add(Convert.ToString(fila["topicosActividad"]));
             }
             return topicos;
-        }   
+        }
+
+        public int ObtenerEntradasDisponiblesPorActividad(string nombre)
+        {
+            int cantidad = 0;
+            string consulta = "SELECT C.cantidadDisponible FROM Entrada E" +
+                "JOIN Comprable C ON C.idComprablePK = E.idComprableFK" +
+                "WHERE E.nombreActividadFK = '" + nombre + "';";
+
+            DataTable tabla = LeerBaseDeDatos(consulta);
+            foreach (DataRow columna in tabla.Rows)
+            {
+                cantidad = Convert.ToInt32(columna["cantidadDisponible"]);
+            };
+
+            return cantidad;
+        }
+
+        public List<AsientoModel> ObtenerAsientos(string nombreActividad)
+        {
+            string consulta = " SELECT * FROM Asientos A JOIN " +
+                "Entrada E on E.idComprablePK = A.idComprableFK " +
+                "WHERE E.nombreActividadFK = '" + nombreActividad + "';"
+            DataTable tabla = LeerBaseDeDatos(consulta);
+            List<AsientoModel> lista = ConvertirTablaALista(tabla);
+            
+            List<AsientoModel> asientos = new List<AsientoModel>();
+            foreach (DataRow columna in tabla.Rows)
+            {
+                actividades.Add(
+                    new AsientoModel
+                    {
+                        IdComprable = Convert.ToInt32(columna["idComprableFK"]),
+                        Fila = Convert.ToInt32(columna["fila"]),
+                        Columna = Convert.ToInt32(columna["columna"]),
+                        Vendido = Convert.ToBoolean(columna["vendido"]), 
+                        Reservado = Convert.ToBoolean(columna["reservado"]),
+                        FechaCompra = Convert.ToString(columna["fechaCompra"]),
+                        CorreoParticipante = Convert.ToString(columna["correoParticipanteFK"])
+                    });
+            }
+            return actividades;
+        }
+
+        public bool AñadirAsientos(int cantidadFilas, int cantidadColumnas)
+        {
+            string consulta = "DECLARE @identity int= IDENT_CURRENT('Entrada');";
+
+            consulta += "INSERT INTO Asientos VALUES ";
+            for (int filas = 0; filas < cantidadFilas; filas++) {
+                for(int columnas = 0; columnas < cantidadColumnas; columnas++)
+                {
+                    consulta += "( @identity, " + filas + ", " + columnas + ", 0, 0, NULL, NULL),";
+                }                                    
+            };
+            consulta = consulta.Remove(consulta.Length - 1);
+            consulta += ";";
+            return InsertarEnBaseDatos(consulta, null);
+        }
+
+        public bool ActualizarReservarAsiento(int fila, int columna, string correo, bool reservado)
+        {
+            string consulta = "UPDATE Asientos SET reservado = @reservado, correoParticipanteFK = @correoParticipanteFK " +
+                "WHERE fila = @fila AND columna = @columna ;";
+
+            Dictionary<string, object> parametrosReserva = new Dictionary<string, object> {
+                {"@fila"   , fila },
+                {"@columna" , columna},
+                {"@correParticipanteFK", correo},
+                {"@reservado", reservado }
+            };
+
+            return ActualizarEnBaseDatos(consulta, parametrosReserva);
+        }
+
+        public bool VenderAsiento(int fila, int columna)
+        {
+            string consulta = "UPDATE Asientos SET vendido = 1" +
+                "WHERE fila = @fila AND columna = @columna ;";
+
+            Dictionary<string, object> parametrosVenta = new Dictionary<string, object> {
+                {"@fila"   , fila },
+                {"@columna" , columna},
+            };
+
+            return ActualizarEnBaseDatos(consulta, parametrosVenta);
+        }
+
+
     }
 }

@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
+
 
 namespace Planetario.Models
 {
-    public class EntradaModel: ProductoModel
+    public class EntradaModel: ComprableModel
     {
-        
+        public string NombreActividad { get;  set; }
     }
 }

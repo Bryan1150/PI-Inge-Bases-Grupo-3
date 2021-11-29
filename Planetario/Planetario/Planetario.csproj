@@ -153,6 +153,7 @@
     <Compile Include="Handlers\ParticipanteHandler.cs" />
     <Compile Include="Handlers\PersonaHandler.cs" />
     <Compile Include="Handlers\VentasHandler.cs" />
+    <Compile Include="Models\AsientoModel.cs" />
     <Compile Include="Models\ComprableModel.cs" />
     <Compile Include="Models\CompraModel.cs" />
     <Compile Include="Models\EntradaModel.cs" />
@@ -272,6 +273,7 @@
     <Content Include="Utils\fonts\montserrat\OFL.txt" />
     <Content Include="Utils\images\icons\favicon.ico" />
     <Content Include="Utils\images\img-01.png" />
+    <Content Include="Utils\js\bootstrap-input-spinner.js" />
     <Content Include="Utils\js\estadisticas.js" />
     <Content Include="Utils\js\estadisticasIdiomas.js" />
     <Content Include="Utils\js\formularioInscripcion.js" />
