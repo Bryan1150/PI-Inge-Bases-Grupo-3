@@ -1,17 +1,13 @@
 ﻿using Planetario.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
-using System.IO;
 using System.Data;
-using System.Data.SqlClient;
-using System.Configuration;
-using System.Data.SqlTypes;
+
 
 namespace Planetario.Handlers
 {
-    public class VentasHandler : BaseDatosHandler
+    public class VentasHandler : BaseDatosHandler, IVentasService
     {
         ArchivosHandler manejadorDeImagen = new ArchivosHandler();
 

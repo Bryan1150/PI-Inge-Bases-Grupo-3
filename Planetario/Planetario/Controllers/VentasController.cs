@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Planetario.Handlers;
 using Planetario.Models;
 
@@ -11,11 +7,16 @@ namespace Planetario.Controllers
     public class VentasController : Controller
     {
 
-        VentasHandler AccesoDatos;
+        readonly IVentasService AccesoDatos;
 
         public VentasController()
         {
             AccesoDatos = new VentasHandler();
+        }
+
+        public VentasController(IVentasService _servicio)
+        {
+            AccesoDatos = _servicio;
         }
 
         public ActionResult ListaProductos()
@@ -40,24 +41,24 @@ namespace Planetario.Controllers
         }
 
         [HttpGet]
-        public ActionResult EliminarElementoDelCarritoDelUsuario(string correoUsuario, int idComprable)
+        public JsonResult EliminarElementoDelCarritoDelUsuario(string correoUsuario, int idComprable)
         {
-            ViewBag.ListaProductos = AccesoDatos.EliminarDelCarrito(correoUsuario, idComprable);
-            return View();
+            var exito = AccesoDatos.EliminarDelCarrito(correoUsuario, idComprable);
+            return Json(new { Exito = exito }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
-        public ActionResult DisminiuirLaCantidadDelElementoDelCarritoDelUsuario(string correoUsuario, int idComprable)
+        public JsonResult DisminiuirLaCantidadDelElementoDelCarritoDelUsuario(string correoUsuario, int idComprable)
         {
-            ViewBag.ListaProductos = AccesoDatos.DisminiuirLaCantidadDelElementoDelCarrito(correoUsuario, idComprable);
-            return View();
+            var exito = AccesoDatos.DisminiuirLaCantidadDelElementoDelCarrito(correoUsuario, idComprable);
+            return Json(new { Exito = exito }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
-        public ActionResult AumentarLaCantidadDelElementoDelCarritoDelUsuario(string correoUsuario, int idComprable)
+        public JsonResult AumentarLaCantidadDelElementoDelCarritoDelUsuario(string correoUsuario, int idComprable)
         {
-            ViewBag.ListaProductos = AccesoDatos.AumentarLaCantidadDelElementoDelCarrito(correoUsuario, idComprable);
-            return View();
+            var exito = AccesoDatos.AumentarLaCantidadDelElementoDelCarrito(correoUsuario, idComprable);
+            return Json(new { Exito = exito }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -77,24 +78,32 @@ namespace Planetario.Controllers
                     ViewBag.ExitoAlCrear = AccesoDatos.InsertarProducto(producto);
                     if (ViewBag.ExitoAlCrear)
                     {
-                        ViewBag.Message = "El producto" + " " + producto.Nombre + " fue agregado con éxito";
+                        ViewBag.Mensaje = "El producto" + " " + producto.Nombre + " fue agregado con éxito";
                         ModelState.Clear();
                     }
+                    else
+                    {
+                        ViewBag.Mensaje = "Hubo un error en el servidor";
+                    }
+                } 
+                else
+                {
+                    ViewBag.Mensaje = "Hubo un error en los datos ingresados";
                 }
                 return View();
             }
             catch
             {
-                ViewBag.Message = "El producto" + " " + producto.Nombre + " no pudo ser agregado";
+                ViewBag.Mensaje = "Hubo un error en el servidor";
                 return View();
             }
         }
         
         [HttpGet]
-        public ActionResult AgregarAlCarrito(int idComprable, int cantidad)
+        public JsonResult AgregarAlCarrito(int idComprable, int cantidad)
         {
-            AccesoDatos.AgregarAlCarrito(idComprable, cantidad);
-            return View();
+            var exito = AccesoDatos.AgregarAlCarrito(idComprable, cantidad);
+            return Json(new { Exito = exito }, JsonRequestBehavior.AllowGet);
         }
 
     }

@@ -17,6 +17,8 @@ namespace Planetario.Models
 
         public string Descripcion { get; set; }
 
+        [Display(Name = "Fecha de ingreso")]
+        [Required(ErrorMessage = "Es necesario que ingrese una fecha de ingreso")]
         public string FechaIngreso { get; set; }
 
         public string FechaUltimaVenta { get; set; }
