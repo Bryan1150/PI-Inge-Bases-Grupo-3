@@ -77,7 +77,7 @@ namespace Planetario.Handlers
 
             string consultaTablaEntrada = "DECLARE @identity int=IDENT_CURRENT('Comprable');" +
                                            "INSERT INTO Entrada " +
-                                           "VALUES ( @identity, @fechaCompra, @correoParticipanteFK, @nombreActividadFK); ";
+                                           "VALUES ( @identity, @nombreActividadFK); ";
 
             Dictionary<string, object> parametrosComprable = new Dictionary<string, object> {
                 {"@nombre", entrada.Nombre },
@@ -86,8 +86,6 @@ namespace Planetario.Handlers
             };
 
             Dictionary<string, object> parametrosEntrada = new Dictionary<string, object> {
-                {"@fechaCompra", entrada.FechaCompra },
-                {"@correoParticipanteFK", entrada.CorreoParticipante },
                 {"@nombreActividadFK", entrada.NombreActividad }
             };
 
@@ -162,30 +160,35 @@ namespace Planetario.Handlers
             return cantidad;
         }
 
-        public List<AsientoModel> ObtenerAsientos(string nombreActividad)
+        private List<AsientoModel> ConvertirTablaAListaDeAsientos(DataTable tabla)
         {
-            string consulta = " SELECT * FROM Asientos A JOIN " +
-                "Entrada E on E.idComprablePK = A.idComprableFK " +
-                "WHERE E.nombreActividadFK = '" + nombreActividad + "';"
-            DataTable tabla = LeerBaseDeDatos(consulta);
-            List<AsientoModel> lista = ConvertirTablaALista(tabla);
-            
             List<AsientoModel> asientos = new List<AsientoModel>();
             foreach (DataRow columna in tabla.Rows)
             {
-                actividades.Add(
+                asientos.Add(
                     new AsientoModel
                     {
                         IdComprable = Convert.ToInt32(columna["idComprableFK"]),
                         Fila = Convert.ToInt32(columna["fila"]),
                         Columna = Convert.ToInt32(columna["columna"]),
-                        Vendido = Convert.ToBoolean(columna["vendido"]), 
+                        Vendido = Convert.ToBoolean(columna["vendido"]),
                         Reservado = Convert.ToBoolean(columna["reservado"]),
                         FechaCompra = Convert.ToString(columna["fechaCompra"]),
                         CorreoParticipante = Convert.ToString(columna["correoParticipanteFK"])
                     });
             }
-            return actividades;
+            return asientos;
+        }
+
+        public List<AsientoModel> ObtenerAsientos(string nombreActividad)
+        {
+            string consulta = " SELECT * FROM Asientos A JOIN " +
+                "Entrada E on E.idComprablePK = A.idComprableFK " +
+                "WHERE E.nombreActividadFK = '" + nombreActividad + "';";
+            DataTable tabla = LeerBaseDeDatos(consulta);
+
+            List<AsientoModel> asientos = ConvertirTablaAListaDeAsientos(tabla);
+            return asientos;
         }
 
         public bool AñadirAsientos(int cantidadFilas, int cantidadColumnas)
