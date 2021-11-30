@@ -13,7 +13,7 @@ namespace Planetario.Controllers
         }
 
         [HttpPost]
-        public ActionResult CrearActividad(ActividadModel actividad, string topicos)
+        public ActionResult crearActividad(ActividadModel actividad, string topicos)
         {
             ViewBag.ExitoAlCrear = false;
             string[] topicosSeleccionados = topicos.Split(';');
@@ -49,14 +49,14 @@ namespace Planetario.Controllers
             }
         }
 
-        public ActionResult ListadoDeActividades()
+        public ActionResult listadoDeActividades()
         {
             ActividadHandler accesoDatos = new ActividadHandler();
             ViewBag.actividades = accesoDatos.ObtenerActividadesAprobadas();
             return View();
         }
 
-        public ActionResult VerActividad(string nombreDeLaActividad)
+        public ActionResult verActividad(string nombreDeLaActividad)
         {
             ActividadHandler accesoDatos = new ActividadHandler();
             ViewBag.actividad = accesoDatos.ObtenerActividad(nombreDeLaActividad);
@@ -68,13 +68,13 @@ namespace Planetario.Controllers
         }
 
         [HttpGet]
-        public ActionResult BuscarActividad()
+        public ActionResult buscarActividad()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult BuscarActividad(string palabra)
+        public ActionResult buscarActividad(string palabra)
         {
             ActividadHandler accesoDatos = new ActividadHandler();
             ViewBag.actividadesUnicas = accesoDatos.ObtenerActividadesPorBusqueda(palabra);
@@ -127,7 +127,7 @@ namespace Planetario.Controllers
         }
 
         [HttpGet]
-        public ActionResult VerFacturasDeActividad(string actividadNombre)
+        public ActionResult verFacturasDeActividad(string actividadNombre)
         {
             FacturasHandler accesoDatos = new FacturasHandler();
             ViewBag.facturas = accesoDatos.ObtenerFacturasDeActividad(actividadNombre);

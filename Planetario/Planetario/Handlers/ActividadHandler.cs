@@ -147,8 +147,8 @@ namespace Planetario.Handlers
         public int ObtenerEntradasDisponiblesPorActividad(string nombre)
         {
             int cantidad = 0;
-            string consulta = "SELECT C.cantidadDisponible FROM Entrada E" +
-                "JOIN Comprable C ON C.idComprablePK = E.idComprableFK" +
+            string consulta = "SELECT C.cantidadDisponible FROM Entrada E " +
+                "JOIN Comprable C ON C.idComprablePK = E.idComprableFK " +
                 "WHERE E.nombreActividadFK = '" + nombre + "';";
 
             DataTable tabla = LeerBaseDeDatos(consulta);
@@ -183,7 +183,7 @@ namespace Planetario.Handlers
         public List<AsientoModel> ObtenerAsientos(string nombreActividad)
         {
             string consulta = " SELECT * FROM Asientos A JOIN " +
-                "Entrada E on E.idComprablePK = A.idComprableFK " +
+                "Entrada E on E.idComprableFK = A.idComprableFK " +
                 "WHERE E.nombreActividadFK = '" + nombreActividad + "';";
             DataTable tabla = LeerBaseDeDatos(consulta);
 
@@ -234,7 +234,6 @@ namespace Planetario.Handlers
 
             return ActualizarEnBaseDatos(consulta, parametrosVenta);
         }
-
 
     }
 }
