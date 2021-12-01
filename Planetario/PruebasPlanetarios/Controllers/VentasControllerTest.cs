@@ -38,6 +38,19 @@ namespace PruebasPlanetarios
         }
 
         [TestMethod]
+        public void ListaProductosListaDeProductosEsTipoLista()
+        {
+            var mockVentas = new Mock<IVentasService>();
+            mockVentas.Setup(servicio => servicio.ObtenerTodosLosProductos()).Returns(new List<ProductoModel>());
+            VentasController ventasController = new VentasController(mockVentas.Object);
+
+            ViewResult vistaResultado = ventasController.ListaProductos() as ViewResult;
+            var listaProductos = vistaResultado.ViewBag.ListaProductos;
+
+            Assert.IsInstanceOfType(listaProductos, typeof(List<ProductoModel>));
+        }
+
+        [TestMethod]
         public void ListaProductosListaDeProductosNoTienesNulos()
         {
             var mockVentas = new Mock<IVentasService>();
@@ -119,6 +132,74 @@ namespace PruebasPlanetarios
             var listaEntradas = vistaResultado.ViewBag.ListaEntradas;
 
             Assert.IsNotNull(listaEntradas);
+        }
+
+        [TestMethod]
+        public void VerCarritoDelUsuarioRetornaTotalNoNulo()
+        {
+            var mockVentas = new Mock<IVentasService>();
+            string correoUsuario = "danielmonge25@hotmail.com";
+            mockVentas.Setup(servicio => servicio.ObtenerTodosLosProductosDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
+            mockVentas.Setup(servicio => servicio.ObtenerTodasLasEntradasDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
+            mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeProductosDelCarrito(correoUsuario)).Returns(5);
+            mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeEntradasDelCarrito(correoUsuario)).Returns(5);
+            VentasController ventasController = new VentasController(mockVentas.Object);
+
+            ViewResult vistaResultado = ventasController.VerCarritoDelUsuario(correoUsuario) as ViewResult;
+            var total = vistaResultado.ViewBag.PrecioTotal;
+
+            Assert.IsNotNull(total);
+        }
+
+        [TestMethod]
+        public void VerCarritoListaDeProductosEsTipoLista()
+        {
+            var mockVentas = new Mock<IVentasService>();
+            string correoUsuario = "danielmonge25@hotmail.com";
+            mockVentas.Setup(servicio => servicio.ObtenerTodosLosProductosDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
+            mockVentas.Setup(servicio => servicio.ObtenerTodasLasEntradasDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
+            mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeProductosDelCarrito(correoUsuario)).Returns(5);
+            mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeEntradasDelCarrito(correoUsuario)).Returns(5);
+            VentasController ventasController = new VentasController(mockVentas.Object);
+
+            ViewResult vistaResultado = ventasController.VerCarritoDelUsuario(correoUsuario) as ViewResult;
+            var listaProductos = vistaResultado.ViewBag.ListaProductos;
+
+            Assert.IsInstanceOfType(listaProductos, typeof(List<ProductoModel>));
+        }
+
+        [TestMethod]
+        public void VerCarritoListaDeEntradasEsTipoLista()
+        {
+            var mockVentas = new Mock<IVentasService>();
+            string correoUsuario = "danielmonge25@hotmail.com";
+            mockVentas.Setup(servicio => servicio.ObtenerTodosLosProductosDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
+            mockVentas.Setup(servicio => servicio.ObtenerTodasLasEntradasDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
+            mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeProductosDelCarrito(correoUsuario)).Returns(5);
+            mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeEntradasDelCarrito(correoUsuario)).Returns(5);
+            VentasController ventasController = new VentasController(mockVentas.Object);
+
+            ViewResult vistaResultado = ventasController.VerCarritoDelUsuario(correoUsuario) as ViewResult;
+            var listaEntradas = vistaResultado.ViewBag.ListaEntradas;
+
+            Assert.IsInstanceOfType(listaEntradas, typeof(List<ProductoModel>));
+        }
+
+        [TestMethod]
+        public void VerCarritoPrecioTotalsEsTipoDouble()
+        {
+            var mockVentas = new Mock<IVentasService>();
+            string correoUsuario = "danielmonge25@hotmail.com";
+            mockVentas.Setup(servicio => servicio.ObtenerTodosLosProductosDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
+            mockVentas.Setup(servicio => servicio.ObtenerTodasLasEntradasDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
+            mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeProductosDelCarrito(correoUsuario)).Returns(5);
+            mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeEntradasDelCarrito(correoUsuario)).Returns(5);
+            VentasController ventasController = new VentasController(mockVentas.Object);
+
+            ViewResult vistaResultado = ventasController.VerCarritoDelUsuario(correoUsuario) as ViewResult;
+            var total = vistaResultado.ViewBag.PrecioTotal;
+
+            Assert.IsInstanceOfType(total, typeof(double));
         }
 
         [TestMethod]
