@@ -13,7 +13,7 @@
     @using (Html.BeginForm("AgregarProducto", "Ventas", FormMethod.Post, new { enctype = "multipart/form-data", onsubmit = "listar()" }))
     {
         <span class="titulo">Agregar Producto</span>
-        <p class="alert-success">@ViewBag.Message</p>
+        <p class="alert-success">@ViewBag.Mensaje</p>
         <h4> Formulario de agregar productos</h4>
         <hr />
 
@@ -68,12 +68,6 @@
                 <div class="col-md-6 col-sm-12">
                     @Html.TextBoxFor(model => model.FechaIngreso, new { @type = "date", @class = "form-control datepicker" })
                     @Html.ValidationMessageFor(model => model.FechaIngreso, "", new { @class = "text-danger" })
-                </div>
-
-                @Html.LabelFor(model => model.FechaUltimaVenta, htmlAttributes: new { @class = "control-label" })
-                <div class="col-md-6 col-sm-12">
-                    @Html.TextBoxFor(model => model.FechaUltimaVenta, new { @type = "date", @class = "form-control datepicker" })
-                    @Html.ValidationMessageFor(model => model.FechaUltimaVenta, "", new { @class = "text-danger" })
                 </div>
 
                 @Html.LabelFor(model => model.FotoArchivo, htmlAttributes: new { @class = "control-label" })

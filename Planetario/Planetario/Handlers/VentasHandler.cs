@@ -45,7 +45,8 @@ namespace Planetario.Handlers
         {
             string consulta = "SELECT idComprablePK, nombre, precio, cantidadDisponible, cantidadRebastecer, tamano, categoria, descripcion, fechaIngreso, fechaUltimaVenta " +
                               "FROM Producto JOIN Comprable " +
-                              "ON idComprablePK = idComprableFK";
+                              "ON idComprablePK = idComprableFK" +
+                              "WHERE cantidadDisponible > 0";
             return (ObtenerProductos(consulta));
         }
 
@@ -55,8 +56,8 @@ namespace Planetario.Handlers
                                             "VALUES (@nombre, @precio, @cantidadDisponible);";
 
             string consultaTablaProducto = "DECLARE @identity int=IDENT_CURRENT('Comprable');" +
-                                           "INSERT INTO Producto " +
-                                           "VALUES ( @identity, @cantidadRebastecer, @tamano, @categoria, @descripcion, @fechaIngreso, @fechaUltimaVenta, @fotoArchivo, @fotoTipo ); ";
+                                           "INSERT INTO Producto (idComprableFK, cantidadRebastecer, tamano, categoria, descripcion, fechaIngreso, fechaUltimaVenta, fotoArchivo, fotoTipo, cantidadVendidos) " +
+                                           "VALUES ( @identity, @cantidadRebastecer, @tamano, @categoria, @descripcion, @fechaIngreso, NULL, @fotoArchivo, @fotoTipo, 0 ); ";
 
             Dictionary<string, object> parametrosComprable = new Dictionary<string, object> {
                 {"@nombre", producto.Nombre },
@@ -70,7 +71,6 @@ namespace Planetario.Handlers
                 {"@categoria", producto.Categoria },
                 {"@descripcion", producto.Descripcion },
                 {"@fechaIngreso", producto.FechaIngreso },
-                {"@fechaUltimaVenta", producto.FechaUltimaVenta },
                 {"@fotoTipo", producto.FotoArchivo.ContentType }
             };
 
