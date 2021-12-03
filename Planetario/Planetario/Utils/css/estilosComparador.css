@@ -1,12 +1,14 @@
-html, body {
+akahtml, body {
 	height: 100%;
 }
+
 body {
 	overflow: auto;
 	margin: 70px;
 	font-family: sans-serif;
 	color: #ddd;
 	background-color: #000;
+	padding-top: 0px;
 	background: no-repeat center url("/Utils/images/imagenesComparador/milky-way.jpg");
 }
 
@@ -98,15 +100,18 @@ select {
 	text-align-last: center;
 	text-overflow: ellipsis;
 }
+
 optgroup {
 	color: #555;
 	font-size: 12px;
 	background-color: #111;
 }
+
 optgroup,
 option {
 	padding: 4px 0;
 }
+
 option {
 	color: #aaa;
 	font-size: 14px;
@@ -122,9 +127,12 @@ option[value="moon"] {
 }
 .object-size {
 	margin: 10px 0;
+	font-size: 1.2em;
 }
 .object-aka {
-	margin: 300px 0;
+	font-weight: bold;
+	margin: 10px 0;
+	font-size: 1.2em;
 }
 
 .object-aka:empty,
@@ -135,8 +143,8 @@ option[value="moon"] {
 .object-aka::before,
 .object-size::before,
 .object-size::after {
-	content: "Dato\A0:\A0";
-	font-size: 11px;
+	content: "\A0\A0";
+	font-size: 0.7em;
 	font-style: normal;
 	font-weight: bold;
 	opacity: .5;

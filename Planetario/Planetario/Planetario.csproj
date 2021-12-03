@@ -439,6 +439,7 @@
     <Content Include="Views\Actividades\verFacturasDeActividad.cshtml" />
     <Content Include="Views\MaterialEducativo\verMaterial.cshtml" />
     <Content Include="Views\Home\CompararCuerpos.cshtml" />
+    <Content Include="Views\Shared\_LayoutAlternativo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Data\" />
