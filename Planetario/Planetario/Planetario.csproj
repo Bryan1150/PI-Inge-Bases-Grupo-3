@@ -119,6 +119,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\JuegosController.cs" />
     <Compile Include="Models\ClasesYTopicosModel.cs" />
     <Compile Include="Controllers\ActividadesController.cs" />
     <Compile Include="Controllers\EstadisticasController.cs" />
@@ -235,6 +236,9 @@
     <Content Include="Scripts\jquery-3.6.0.slim.min.map" />
     <Content Include="Scripts\jquery-3.6.0.min.map" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Utils\css\rompecabezas.css" />
+    <Content Include="Utils\css\memoria.css" />
+    <Content Include="Utils\css\ahorcado.css" />
     <Content Include="Utils\css\background.css" />
     <Content Include="Utils\css\fonts.css" />
     <Content Include="Utils\css\main.css" />
@@ -247,13 +251,31 @@
     <Content Include="Utils\fonts\font-awesome-4.7.0\fonts\fontawesome-webfont.svg" />
     <Content Include="Utils\fonts\font-awesome-4.7.0\HELP-US-OUT.txt" />
     <Content Include="Utils\fonts\montserrat\OFL.txt" />
+    <Content Include="Utils\images\01.png" />
+    <Content Include="Utils\images\02.png" />
+    <Content Include="Utils\images\03.png" />
+    <Content Include="Utils\images\04.png" />
+    <Content Include="Utils\images\05.png" />
+    <Content Include="Utils\images\06.png" />
+    <Content Include="Utils\images\07.png" />
+    <Content Include="Utils\images\08.png" />
+    <Content Include="Utils\images\09.png" />
+    <Content Include="Utils\images\ahorcado.png" />
+    <Content Include="Utils\images\cobertura.png" />
+    <Content Include="Utils\images\donde.png" />
+    <Content Include="Utils\images\fin.jpg" />
     <Content Include="Utils\images\icons\favicon.ico" />
+    <Content Include="Utils\images\imagenSistemaSolar.png" />
     <Content Include="Utils\images\img-01.png" />
+    <Content Include="Utils\images\memoria.png" />
+    <Content Include="Utils\js\memoria.js" />
+    <Content Include="Utils\js\ahorcado.js" />
     <Content Include="Utils\js\estadisticas.js" />
     <Content Include="Utils\js\estadisticasIdiomas.js" />
     <Content Include="Utils\js\formularioInscripcion.js" />
     <Content Include="Utils\js\main.js" />
     <Content Include="Utils\js\msfmultiselect.js" />
+    <Content Include="Utils\js\rompecabezas.js" />
     <Content Include="Utils\vendor\animate\animate.css" />
     <Content Include="Utils\vendor\bootstrap\css\bootstrap-grid.css" />
     <Content Include="Utils\vendor\bootstrap\css\bootstrap-grid.min.css" />
@@ -390,6 +412,10 @@
     <Content Include="Views\Actividades\Inscribirme.cshtml" />
     <Content Include="Views\Actividades\verFacturasDeActividad.cshtml" />
     <Content Include="Views\MaterialEducativo\verMaterial.cshtml" />
+    <Content Include="Views\Juegos\memoria.cshtml" />
+    <Content Include="Views\Juegos\ahorcado.cshtml" />
+    <Content Include="Views\Juegos\rompecabezas.cshtml" />
+    <Content Include="Views\Juegos\principalJuegos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
