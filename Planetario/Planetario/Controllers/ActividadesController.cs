@@ -91,7 +91,6 @@ namespace Planetario.Controllers
             ViewBag.generos = datosHandler.SelectListGeneros();
             ViewBag.precio = accesoDatos.ObtenerActividad(titulo).PrecioAproximado;
             ViewBag.titulo = titulo;
-            
             return View();
         }
 
