@@ -113,23 +113,22 @@
                     <div class="modal-dialog modal-dialog-centered modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Escoja la cantidad de entrada</h5>
+                                <h5 class="modal-title" id="exampleModalLabel">Indique la cantidad y escoja los asientos</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <div class="modal-body">
-                                <label for="cantidadEntradas">Cantidad:</label>
-                                <input type="number" id="cantidadEntradas" name="cantidadEntradas" min="1" max="50">
-                                <body onload="onLoaderFunc()">
+                            <div class="modal-body text-center">
+                                <div onload="onLoaderFunc()">
 
                                     <div class="inputForm">
                                         <center>
-                                            Name *: <input type="text" id="Username" required>
-                                            Number of Seats *: <input type="number" id="Numseats" required>
+                                            <input type="hidden" id="Username" value = "@Context.User.Identity.Name" required>
+                                            Cantidad de entradas: <input type="number" class="form-control" id="Numseats" min="1" max="10" required>
                                             <br /><br />
-                                            <button onclick="takeData()">Start Selecting</button>
+                                            <button class="btn btn-outline-primary" onclick="takeData()">Seleccionar asientos</button>
+                                            <br />
                                         </center>
                                     </div>
-
+                                    <br /><br />
 
                                     <div class="seatStructure">
                                         <center>
@@ -137,14 +136,13 @@
                                             <table id="seatsBlock">
                                                 <p id="notification"></p>
                                                 <tr>
-                                                    <td colspan="14"><div class="screen">SCREEN</div></td>
+                                                    <td colspan="14"><div class="screen">Escenario</div></td>
                                                     <td rowspan="20">
                                                         <div class="smallBox greenBox">Selected Seat</div> <br />
                                                         <div class="smallBox redBox">Reserved Seat</div><br />
                                                         <div class="smallBox emptyBox">Empty Seat</div><br />
                                                     </td>
 
-                                                    <br />
                                                 </tr>
 
                                                 <tr>
@@ -339,7 +337,7 @@
 
                                             </table>
 
-                                            <br /><button onclick="updateTextArea()">Confirm Selection</button>
+                                            <br /><button class="btn btn-outline-primary" onclick="updateTextArea()">Confirmar elección de asientos</button>
                                         </center>
                                     </div>
 
@@ -361,9 +359,8 @@
                                             </table>
                                         </center>
                                     </div>
-
-
-</div>
+                                </div>
+                            </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
                                 <button type="button" class="btn btn-success" onclick="agregarAlCarrito()">
@@ -383,10 +380,7 @@
                 <div class="col col-md-4 col-sm-12">
                     @Html.ActionLink("Ver facturas", "verFacturasDeActividad",
                         new { actividadNombre = ViewBag.actividad.NombreActividad },
-                        new
-                             {
-                                @class = "btn btn-success",
-                            }
+                        new { @class = "btn btn-success", }
                     )
                 </div>
             }
@@ -453,7 +447,8 @@
             }
         }
     </aside>
-    <script src="~/Utils/js/bootstrap-input-spinner.js"></script>
+
+    @*<script src="~/Utils/js/bootstrap-input-spinner.js"></script>
     <script>
         $("input[type='number']").inputSpinner()
 
@@ -470,6 +465,6 @@
         function comprarAhora() {
 
         }
-    </script>
+    </script>*@
 </body>
 </html>
