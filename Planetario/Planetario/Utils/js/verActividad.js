@@ -3,13 +3,14 @@
     $(".displayerBoxes *").prop("disabled", true);
 }
 function takeData() {
-    if (($("#Username").val().length == 0) || ($("#Numseats").val().length == 0)) {
+    if (($("#Username").val().length == 0) || ($("#Numseats").val().length == 0) || ($("#Numseats").val() <= 0) ){
         alert("Por favor ingrese el número de entradas");
     }
     else {
         $(".inputForm *").prop("disabled", true);
         $(".seatStructure *").prop("disabled", false);
         document.getElementById("notification").innerHTML = "<b style='margin-bottom:0px;background:yellow;'>Escoja sus asientos</b>";
+        $("#botonConfirmarAsientos").prop("disabled", false);
     }
 }
 
@@ -18,6 +19,9 @@ function updateTextArea() {
 
     if ($("input:checked").length == ($("#Numseats").val())) {
         $(".seatStructure *").prop("disabled", true);
+
+        $("#botonComprar").prop("disabled", false);
+        $("#botonAgregarAlCarrito").prop("disabled", false);
 
         var allNameVals = [];
         var allNumberVals = [];
@@ -33,7 +37,7 @@ function updateTextArea() {
         //Displaying 
         $('#nameDisplay').val(allNameVals);
         $('#NumberDisplay').val(allNumberVals);
-        $('#seatsDisplay').val(allSeatsVals);
+        $('#seatsDisplay').val(allSeatsVals);   
     }
     else {
         alert("Por favor escoja " + ($("#Numseats").val()) + " asientos")

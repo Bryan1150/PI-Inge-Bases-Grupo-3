@@ -337,7 +337,7 @@
 
                                             </table>
 
-                                            <br /><button class="btn btn-outline-primary" onclick="updateTextArea()">Confirmar elección de asientos</button>
+                                            <br /><button disabled id="botonConfirmarAsientos" class="btn btn-outline-primary" onclick="updateTextArea()">Confirmar elección de asientos</button>
                                         </center>
                                     </div>
 
@@ -362,12 +362,12 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                                <button type="button" class="btn btn-success" onclick="agregarAlCarrito()">
+                                <button id="botonCancelar" type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                                <button id="botonAgregarAlCarrito" type="button" disabled class="btn btn-success" onclick="agregarAlCarrito()">
                                     <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                                     Agregar al carrito
                                 </button>
-                                <button type="button" class="btn btn-primary" onclick="comprarAhora()">Comprar ahora</button>
+                                <button id="botonComprar" type="button" disabled class="btn btn-primary" onclick="comprarAhora()">Comprar ahora</button>
                             </div>
                         </div>
                     </div>
@@ -448,9 +448,7 @@
         }
     </aside>
 
-    @*<script src="~/Utils/js/bootstrap-input-spinner.js"></script>
     <script>
-        $("input[type='number']").inputSpinner()
 
         function agregarAlCarrito() {
             fetch("@funcionAgregarAlCarrito?idComprable=algo;cantidad=4")
@@ -465,6 +463,6 @@
         function comprarAhora() {
 
         }
-    </script>*@
+    </script>
 </body>
 </html>
