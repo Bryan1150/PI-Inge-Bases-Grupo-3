@@ -28,7 +28,8 @@ namespace Planetario.Handlers
                     Categoria = Convert.ToString(columna["categoria"]),
                     Descripcion = Convert.ToString(columna["descripcion"]),
                     FechaIngreso = Convert.ToString(columna["fechaIngreso"]),
-                    FechaUltimaVenta = Convert.ToString(columna["fechaUltimaVenta"])
+                    FechaUltimaVenta = Convert.ToString(columna["fechaUltimaVenta"]),
+                    CantidadVendidos = Convert.ToInt32(columna["cantidadVendidos"])
                 });
             }
             return productos;
@@ -43,7 +44,7 @@ namespace Planetario.Handlers
 
         public List<ProductoModel> ObtenerTodosLosProductos()
         {
-            string consulta = "SELECT idComprablePK, nombre, precio, cantidadDisponible, cantidadRebastecer, tamano, categoria, descripcion, fechaIngreso, fechaUltimaVenta " +
+            string consulta = "SELECT idComprablePK, nombre, precio, cantidadDisponible, cantidadRebastecer, tamano, categoria, descripcion, fechaIngreso, fechaUltimaVenta, cantidadVendidos " +
                               "FROM Producto JOIN Comprable " +
                               "ON idComprablePK = idComprableFK" +
                               "WHERE cantidadDisponible > 0";

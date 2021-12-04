@@ -23,6 +23,8 @@ namespace Planetario.Models
 
         public string FechaUltimaVenta { get; set; }
 
+        public int CantidadVendidos { get; set; }
+
         [Display(Name = "Foto del Producto")]
         public HttpPostedFileBase FotoArchivo { get; set; }
 

@@ -128,9 +128,11 @@
     <Compile Include="Controllers\ClientesController.cs" />
     <Compile Include="Controllers\DatosController.cs" />
     <Compile Include="Controllers\PersonasController.cs" />
+    <Compile Include="Controllers\ReportesController.cs" />
     <Compile Include="Controllers\VentasController.cs" />
     <Compile Include="Handlers\ClientesHandler.cs" />
     <Compile Include="Handlers\DatosHandler.cs" />
+    <Compile Include="Handlers\ReportesHandler.cs" />
     <Compile Include="Handlers\FacturasHandler.cs" />
     <Compile Include="Controllers\ActividadesController.cs" />
     <Compile Include="Controllers\EstadisticasController.cs" />
@@ -418,6 +420,7 @@
     <Content Include="Views\Personas\IniciarSesion.cshtml" />
     <Content Include="Views\Clientes\Inscribirme.cshtml" />
     <Content Include="Views\Ventas\AgregarProducto.cshtml" />
+    <Content Include="Views\Reportes\Reporte.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Data\" />
