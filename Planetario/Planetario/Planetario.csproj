@@ -416,6 +416,8 @@
     <Content Include="Views\Juegos\ahorcado.cshtml" />
     <Content Include="Views\Juegos\rompecabezas.cshtml" />
     <Content Include="Views\Juegos\principalJuegos.cshtml" />
+    <Content Include="Views\Juegos\SpaceConnect.cshtml" />
+    <Content Include="Views\Juegos\Lista.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

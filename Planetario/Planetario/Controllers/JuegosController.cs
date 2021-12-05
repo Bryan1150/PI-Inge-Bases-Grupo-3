@@ -13,7 +13,16 @@ namespace Planetario.Controllers
             return View();
         }
 
-        // GET: Juegos
+        public ActionResult Lista()
+        {
+            return View();
+        }
+
+        public ActionResult SpaceConnect()
+        {
+            return View();
+        }
+
         public ActionResult memoria()
         {
             return View();
