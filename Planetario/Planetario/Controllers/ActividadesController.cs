@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using Planetario.Handlers;
 using Planetario.Models;
+using System.Collections.Generic;
 
 namespace Planetario.Controllers
 {
@@ -63,8 +64,37 @@ namespace Planetario.Controllers
             ViewBag.topicos = accesoDatos.ObtenerTopicosActividad(nombreDeLaActividad);
             ViewBag.actividades = accesoDatos.ObtenerActividadesRecomendadas(ViewBag.actividad.PublicoDirigido, ViewBag.actividad.Complejidad);
             ViewBag.entradasDisponibles = accesoDatos.ObtenerEntradasDisponiblesPorActividad(nombreDeLaActividad);
-            ViewBag.asientosDisponibles = accesoDatos.ObtenerAsientos(nombreDeLaActividad);
+            ViewBag.asientosRelacionadosActividad = accesoDatos.ObtenerAsientos(nombreDeLaActividad);
             return View();
+        }
+
+        [HttpGet]
+        public ActionResult ComprarEntradas(string nombreDeLaActividad)
+        {
+            ActividadHandler accesoDatos = new ActividadHandler();
+            ViewBag.actividad = accesoDatos.ObtenerActividad(nombreDeLaActividad);
+            ViewBag.topicos = accesoDatos.ObtenerTopicosActividad(nombreDeLaActividad);
+            ViewBag.actividades = accesoDatos.ObtenerActividadesRecomendadas(ViewBag.actividad.PublicoDirigido, ViewBag.actividad.Complejidad);
+            ViewBag.entradasDisponibles = accesoDatos.ObtenerEntradasDisponiblesPorActividad(nombreDeLaActividad);
+            ViewBag.asientosRelacionadosActividad = accesoDatos.ObtenerAsientos(nombreDeLaActividad);
+            return View();
+        }
+
+        [HttpGet]
+        public JsonResult ObtenerAsientosReservados(string nombreDeLaActividad)
+        {
+            ActividadHandler accesoDatos = new ActividadHandler();
+            List<AsientoModel> asientosRelacionadosActividad = accesoDatos.ObtenerAsientos(nombreDeLaActividad);
+            List<int> reservados = new List<int>();
+            for (int i = 0; i < asientosRelacionadosActividad.Count; i++)
+            {
+                AsientoModel asiento = asientosRelacionadosActividad[i];
+                if (asiento.Reservado || asiento.Vendido)
+                {
+                    reservados.Add(i);
+                }
+            }
+            return Json(reservados, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]

@@ -1,0 +1,57 @@
+﻿<link rel="stylesheet" href="~/Utils/css/SelectorAsientos.css">
+
+<span class="titulo">@ViewBag.actividad.NombreActividad</span>
+<p class="lead">Escoja sus entradas</p>
+<div class="row" style="margin-top:5%;">
+    <div class="col-6">
+        <div id="map-container"></div>
+        <div id="legend-container"></div>
+    </div>
+    <div class="col-6">
+        <div id="cart-container"></div>
+    
+    </div>
+</div>
+
+<script type="text/javascript" src="~/Utils/js/SelectorAsientos.js"></script>
+<script>
+    @{ string linkAsientosReservados = Url.Content("~/Actividades/ObtenerAsientosReservados"); }
+    fetch("@linkAsientosReservados" + "?nombreDeLaActividad=" + "@ViewBag.actividad.NombreActividad")
+        .then(respuesta => {
+            console.log(respuesta)
+            return respuesta.json()
+        })
+        .then(data => {
+            var options = {
+                map: {
+                    id: 'map-container',
+                    rows: 5,
+                    columns: 10,
+                    reserved: {
+                        seats: data,
+                    },
+                    disabled: {
+                    }
+                },
+                types: [
+                    { type: "regular", backgroundColor: "#006c80", price: @ViewBag.Actividad.PrecioAproximado, selected: [23, 24] },
+                ],
+                cart: {
+                    id: 'cart-container',
+                    width: 280,
+                    height: 250,
+                    currency: '₡',
+                },
+                legend: {
+                    id: 'legend-container',
+                },
+                assets: {
+                    path: "/Utils/images/assets",
+                }
+            };
+
+            var sc = new Seatchart(options);
+        })
+
+
+</script>

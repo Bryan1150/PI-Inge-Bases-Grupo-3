@@ -191,6 +191,17 @@ namespace Planetario.Handlers
             return asientos;
         }
 
+        public List<AsientoModel> ObtenerAsientosOcupados(string nombreActividad)
+        {
+            string consulta = " SELECT * FROM Asientos A JOIN " +
+                "Entrada E on E.idComprableFK = A.idComprableFK " +
+                "WHERE E.nombreActividadFK = '" + nombreActividad + "' AND ( A.reservado = 1 OR A.vendido = 1 );";
+            DataTable tabla = LeerBaseDeDatos(consulta);
+
+            List<AsientoModel> asientos = ConvertirTablaAListaDeAsientos(tabla);
+            return asientos;
+        }
+
         public bool AñadirAsientos(int cantidadFilas, int cantidadColumnas)
         {
             string consulta = "DECLARE @identity int= IDENT_CURRENT('Entrada');";

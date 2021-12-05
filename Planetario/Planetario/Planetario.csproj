@@ -266,7 +266,6 @@
     <Content Include="Utils\css\msfmultiselect.css" />
     <Content Include="Utils\css\SelectorAsientos.css" />
     <Content Include="Utils\css\util.css" />
-    <Content Include="Utils\css\verActividad.css" />
     <Content Include="Utils\css\vistaPagos.css" />
     <Content Include="Utils\fonts\font-awesome-4.7.0\css\font-awesome.css" />
     <Content Include="Utils\fonts\font-awesome-4.7.0\css\font-awesome.min.css" />
@@ -284,7 +283,6 @@
     <Content Include="Utils\js\main.js" />
     <Content Include="Utils\js\msfmultiselect.js" />
     <Content Include="Utils\js\SelectorAsientos.js" />
-    <Content Include="Utils\js\verActividad.js" />
     <Content Include="Utils\vendor\animate\animate.css" />
     <Content Include="Utils\vendor\bootstrap\css\bootstrap-grid.css" />
     <Content Include="Utils\vendor\bootstrap\css\bootstrap-grid.min.css" />
