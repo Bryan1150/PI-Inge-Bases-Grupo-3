@@ -264,6 +264,7 @@
     <Content Include="Utils\css\main.css" />
     <Content Include="Utils\css\rows.css" />
     <Content Include="Utils\css\msfmultiselect.css" />
+    <Content Include="Utils\css\SelectorAsientos.css" />
     <Content Include="Utils\css\util.css" />
     <Content Include="Utils\css\verActividad.css" />
     <Content Include="Utils\css\vistaPagos.css" />
@@ -272,14 +273,17 @@
     <Content Include="Utils\fonts\font-awesome-4.7.0\fonts\fontawesome-webfont.svg" />
     <Content Include="Utils\fonts\font-awesome-4.7.0\HELP-US-OUT.txt" />
     <Content Include="Utils\fonts\montserrat\OFL.txt" />
+    <Content Include="Utils\images\assets\icons\bin.svg" />
     <Content Include="Utils\images\icons\favicon.ico" />
     <Content Include="Utils\images\img-01.png" />
+    <Content Include="Utils\images\assets\icons\shoppingcart.svg" />
     <Content Include="Utils\js\bootstrap-input-spinner.js" />
     <Content Include="Utils\js\estadisticas.js" />
     <Content Include="Utils\js\estadisticasIdiomas.js" />
     <Content Include="Utils\js\formularioInscripcion.js" />
     <Content Include="Utils\js\main.js" />
     <Content Include="Utils\js\msfmultiselect.js" />
+    <Content Include="Utils\js\SelectorAsientos.js" />
     <Content Include="Utils\js\verActividad.js" />
     <Content Include="Utils\vendor\animate\animate.css" />
     <Content Include="Utils\vendor\bootstrap\css\bootstrap-grid.css" />
@@ -420,6 +424,7 @@
     <Content Include="Views\Personas\IniciarSesion.cshtml" />
     <Content Include="Views\Clientes\Inscribirme.cshtml" />
     <Content Include="Views\Ventas\AgregarProducto.cshtml" />
+    <Content Include="Views\Actividades\ComprarEntradas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Data\" />
