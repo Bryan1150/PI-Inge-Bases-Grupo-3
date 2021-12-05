@@ -267,6 +267,9 @@
     <Content Include="Utils\images\icons\favicon.ico" />
     <Content Include="Utils\images\imagenSistemaSolar.png" />
     <Content Include="Utils\images\img-01.png" />
+    <Content Include="Utils\images\Juegos\OuterSpaceArkanoid.jpg" />
+    <Content Include="Utils\images\Juegos\SpaceConnect.jpg" />
+    <Content Include="Utils\images\Juegos\UFO2048.jpg" />
     <Content Include="Utils\images\memoria.png" />
     <Content Include="Utils\js\memoria.js" />
     <Content Include="Utils\js\ahorcado.js" />
@@ -418,6 +421,8 @@
     <Content Include="Views\Juegos\principalJuegos.cshtml" />
     <Content Include="Views\Juegos\SpaceConnect.cshtml" />
     <Content Include="Views\Juegos\Lista.cshtml" />
+    <Content Include="Views\Juegos\UFO2048.cshtml" />
+    <Content Include="Views\Juegos\OuterSpaceArkanoid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

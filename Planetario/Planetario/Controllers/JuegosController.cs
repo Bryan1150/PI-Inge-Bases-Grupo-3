@@ -37,5 +37,15 @@ namespace Planetario.Controllers
         {
             return View();
         }
+
+        public ActionResult UFO2048()
+        {
+            return View();
+        }
+
+        public ActionResult OuterSpaceArkanoid()
+        {
+            return View();
+        }
     }
 }
