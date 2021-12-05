@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Planetario.Handlers
 {
-    public class ActividadHandler : BaseDatosHandler
+    public class ActividadHandler : BaseDatosHandler, IActividadesService
     {
         private List<ActividadModel> ConvertirTablaALista(DataTable tabla)
         {
