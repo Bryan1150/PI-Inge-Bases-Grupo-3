@@ -32,11 +32,11 @@ class Juego {
                     cartas_abiertas.push(cartas_pares[1], cartas_pares[3]); // guardamos id de todas las cartas abiertas iguales
                     limpiar();
                     if (cartas_abiertas.length === 18) {
-                        document.getElementById("fin").innerHTML = "¡¡Has logrado terminar el juego!! ¡¡Felicitaciones!!";
+                        document.getElementById("fin").innerHTML = "¡Has logrado terminar el juego! ¡Felicitaciones!";
                         for (let i = 0; i < cartas_abiertas.length; i++)
                             document.getElementById("memory_board").removeChild(document.getElementById(`caja_${i}`));
-                        document.getElementById("memory_board").style.height = "145px";
-                        document.getElementById("memory_board").style.width = "145px";
+                        document.getElementById("memory_board").style.height = "724px";
+                        document.getElementById("memory_board").style.width = "1024px";
                         document.getElementById("memory_board").style.background = "url('/Utils/images/fin.jpg')";
                         //fin juego
                     }
