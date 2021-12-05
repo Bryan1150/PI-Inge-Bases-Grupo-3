@@ -11,11 +11,16 @@ namespace Planetario.Controllers
 {
     public class ReportesController : Controller
     {
-        private ReportesHandler AccesoDatos;
+        readonly IReportesService AccesoDatos;
 
-        ReportesController()
+        public ReportesController()
         {
             AccesoDatos = new ReportesHandler();
+        }
+
+        public ReportesController(IReportesService servicio)
+        {
+            AccesoDatos = servicio;
         }
 
         [HttpGet]

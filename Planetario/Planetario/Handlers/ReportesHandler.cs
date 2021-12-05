@@ -9,7 +9,7 @@ using System.Data.SqlTypes;
 
 namespace Planetario.Handlers
 {
-    public class ReportesHandler : BaseDatosHandler
+    public class ReportesHandler : BaseDatosHandler, IReportesService
     {
         private List<ProductoModel> ObtenerProductosPorFiltro(string consulta)
         {
