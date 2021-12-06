@@ -11,14 +11,14 @@ namespace Planetario.Controllers
 
         private readonly IActividadesService AccesoDatos;
 
-        ActividadesController()
+        public ActividadesController()
         {
-            IActividadesService AccesoDatos = new ActividadHandler();
+            AccesoDatos = new ActividadHandler();
         }
 
-        ActividadesController(IActividadesService service)
+        public ActividadesController(IActividadesService service)
         {
-            IActividadesService AccesoDatos = service;
+            AccesoDatos = service;
         }
 
         public ActionResult CrearActividad()
@@ -65,7 +65,7 @@ namespace Planetario.Controllers
 
         public ActionResult listadoDeActividades()
         {
-            
+
             ViewBag.actividades = AccesoDatos.ObtenerActividadesAprobadas();
             return View();
         }
