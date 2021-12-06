@@ -24,8 +24,6 @@
     </style>
 </head>
 <body>
-    <span class="titulo"> Actividades </span>
-
     <form method="post" class="navbar-form navbar-right" action="@Url.Action("buscarActividad", "Actividades")">
         <div class="row">
             <div class="col-3 col-md-3 col-sm-2">
@@ -40,17 +38,18 @@
     <div class="row d-flex flex-wrap align-items-center">
         @foreach (Planetario.Models.ActividadModel actividad in ViewBag.actividades)
         {
-        <div class="col-4">
-            <div class="cuadro">
-                <h5>@Html.ActionLink(actividad.NombreActividad.ToString(),"verActividad","Actividades",new { nombre = actividad.NombreActividad.ToString() }, new { @class="h5"})</h5>
-                <p><strong>Categoria: </strong>@actividad.Categoria</p>
-                <p><strong>Fecha: </strong>@actividad.Fecha</p>
-                <p><strong>Precio: </strong>@actividad.PrecioAproximado colones</p>
-                <br /><br /><br /><br />
+            <div class="col-4">
+                <div class="cuadro">
+                    <h5>@Html.ActionLink(actividad.NombreActividad.ToString(), "verActividad", "Actividades", new { nombre = actividad.NombreActividad.ToString() }, new { @class = "h5" })</h5>
+                    <p><strong>Categoria: </strong>@actividad.Categoria</p>
+                    <p><strong>Fecha: </strong>@actividad.Fecha</p>
+                    <p><strong>Precio: </strong>@actividad.PrecioAproximado colones</p>
+                    <br /><br /><br /><br />
+                </div>
             </div>
-        </div>
         }
     </div>
+    <iframe src="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fimgur.com%2Fa%2FRfPVpdJ&layout=box_count&size=large&appId=175191305830549&width=103&height=58" width="103" height="58" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
     <br /><br /><br />
 
 
