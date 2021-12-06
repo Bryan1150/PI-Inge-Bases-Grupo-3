@@ -33,17 +33,26 @@ namespace Planetario.Controllers
             if (Request.IsAuthenticated){
                 string correoUsuario;
                 correoUsuario = HttpContext.User.Identity.Name;
-                ViewBag.ListaProductos = AccesoDatos.ObtenerTodosLosProductosDelCarrito(correoUsuario);
-                ViewBag.ListaEntradas = AccesoDatos.ObtenerTodasLasEntradasDelCarrito(correoUsuario);
 
-                int cantidad = 0;
-                cantidad += AccesoDatos.ObtenerCantidadDeEntradasDelCarrito(correoUsuario);
-                cantidad += AccesoDatos.ObtenerCantidadDeProductosDelCarrito(correoUsuario);
-                ViewBag.CantidadItems = cantidad;
-
+                int cantidadEntradas = AccesoDatos.ObtenerCantidadDeEntradasDelCarrito(correoUsuario);
+                int cantidadProductos = AccesoDatos.ObtenerCantidadDeProductosDelCarrito(correoUsuario);
+                int cantidadItems = cantidadEntradas + cantidadProductos;
                 double total = 0;
-                total += AccesoDatos.ObtenerPrecioTotalDeProductosDelCarrito(correoUsuario);
-                total += AccesoDatos.ObtenerPrecioTotalDeEntradasDelCarrito(correoUsuario);
+
+                ViewBag.CantidadItems = cantidadItems;
+
+                if (cantidadEntradas != 0) 
+                {
+                    ViewBag.ListaEntradas = AccesoDatos.ObtenerTodasLasEntradasDelCarrito(correoUsuario);
+                    total += AccesoDatos.ObtenerPrecioTotalDeEntradasDelCarrito(correoUsuario);
+                }
+
+                if (cantidadProductos != 0)
+                {
+                    ViewBag.ListaProductos = AccesoDatos.ObtenerTodosLosProductosDelCarrito(correoUsuario);
+                    total += AccesoDatos.ObtenerPrecioTotalDeProductosDelCarrito(correoUsuario);
+                }
+
                 ViewBag.Precio = total;
                 ViewBag.IVA = total * 0.13;
                 ViewBag.PrecioTotal = ViewBag.Precio + ViewBag.IVA;
