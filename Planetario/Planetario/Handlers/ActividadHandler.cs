@@ -155,7 +155,7 @@ namespace Planetario.Handlers
             foreach (DataRow columna in tabla.Rows)
             {
                 cantidad = Convert.ToInt32(columna["cantidadDisponible"]);
-            };
+            };  
 
             return cantidad;
         }
