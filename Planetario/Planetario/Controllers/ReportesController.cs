@@ -30,6 +30,7 @@ namespace Planetario.Controllers
             return View("Reporte");
         }
 
+        /**
         [HttpPost]
         public ActionResult Reporte(int cantidadMostrar, string fechaInicio, string fechaFinal, string orden)
         {
@@ -37,6 +38,7 @@ namespace Planetario.Controllers
             ViewBag.listaDeCategorias = AccesoDatos.ObtenerTodasLasCategorias();
             return View("Reporte");
         }
+        */
 
         [HttpPost]
         public ActionResult Reporte(string categoria, string fechaInicio, string fechaFinal)
@@ -45,5 +47,6 @@ namespace Planetario.Controllers
             ViewBag.listaDeCategorias = AccesoDatos.ObtenerTodasLasCategorias();
             return View("Reporte");
         }
+       
     }
 }

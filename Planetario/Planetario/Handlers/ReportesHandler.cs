@@ -26,14 +26,8 @@ namespace Planetario.Handlers
                 productos.Add(
                 new ProductoModel
                 {
-                    Id = Convert.ToInt32(columna["idComprablePK"]),
                     Nombre = Convert.ToString(columna["nombre"]),
                     Precio = Convert.ToDouble(columna["precio"]),
-                    CantidadDisponible = Convert.ToInt32(columna["cantidadDisponible"]),
-                    CantidadRebastecer = Convert.ToInt32(columna["cantidadRebastecer"]),
-                    Tamano = Convert.ToString(columna["tamano"]),
-                    Categoria = Convert.ToString(columna["categoria"]),
-                    Descripcion = Convert.ToString(columna["descripcion"]),
                     FechaIngreso = Convert.ToString(columna["fechaIngreso"]),
                     FechaUltimaVenta = Convert.ToString(columna["fechaUltimaVenta"]),
                     CantidadVendidos = Convert.ToInt32(columna["cantidadVendidos"])
@@ -44,7 +38,7 @@ namespace Planetario.Handlers
 
         public List<ProductoModel> ObtenerTodosLosProductosFiltradosPorRanking(int cantidadMostrar, string fechaInicio, string fechaFinal, string orden)
         {
-            string consulta = "SELECT TOP '" + cantidadMostrar + "' nombre, cantidadVendidos, categoria " +
+            string consulta = "SELECT TOP " + cantidadMostrar + " * " +
                               "FROM Producto JOIN Comprable C " +
                               "ON idComprablePK = idComprableFK " +
                               "WHERE DATEDIFF(MINUTE, '" + fechaInicio + "', fechaUltimaVenta) >= 0 " +
@@ -56,11 +50,11 @@ namespace Planetario.Handlers
 
         public List<ProductoModel> ObtenerTodosLosProductosFiltradosPorCategoria(string categoria, string fechaInicio, string fechaFinal)
         {
-            string consulta = "SELECT nombre, cantidadVendidos " +
+            string consulta = "SELECT * " +
                               "FROM Producto JOIN Comprable C " +
                               "ON idComprablePK = idComprableFK " +
                               "WHERE categoria = '" + categoria + "' " +
-                              "DATEDIFF(MINUTE, '" + fechaInicio + "', fechaUltimaVenta) >= 0 " + 
+                              "AND DATEDIFF(MINUTE, '" + fechaInicio + "', fechaUltimaVenta) >= 0 " + 
                               "AND DATEDIFF(MINUTE, '" + fechaFinal + "', fechaUltimaVenta ) <= 0 " +
                               "ORDER by nombre ";
 

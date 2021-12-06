@@ -1,1 +1,171 @@
-﻿
+﻿@{
+    List<SelectListItem> ListaOrden = new List<SelectListItem>() {
+        new SelectListItem { Text = "Más vendido", Value = "ASC" },
+        new SelectListItem { Text = "Menos vendido", Value = "DESC" }
+    };
+
+    List<SelectListItem> ListaCategoria = new List<SelectListItem>();
+    foreach(var item in ViewBag.listaDeCategorias)
+    {
+        ListaCategoria.Add(new SelectListItem { Text = item, Value = item });
+    }
+
+    List<string> ListaProductos = new List<string>();
+    List<int> ListaCantidadVendidos = new List<int>();
+    if (ViewBag.listadoFiltroPorCategoria != null)
+    {
+        foreach (var item in ViewBag.listadoFiltroPorCategoria)
+        {
+            ListaProductos.Add(item.Nombre);
+            ListaCantidadVendidos.Add(item.CantidadVendidos);
+        }
+    }
+};
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Actividades</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
+</head>
+<body>
+    <span class="titulo">
+        Reporte de ventas
+    </span>
+
+    <div>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="well bs-component">
+                <h4> Filtrar Participantes:  </h4>
+                <h5><strong>@ViewBag.Mensaje</strong></h5>
+                <hr />
+                <div class="row">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="col">
+                        <div class="form-group">
+                            @Html.Label("Orden")
+                            @Html.DropDownList("orden", ListaOrden, "---")
+                        </div>
+                    </div>
+
+
+                    <div class="col">
+                        <div>
+                            <label for="fechaInicio">Fecha Inicio:</label>
+                            <input type="date" id="fechaInicio" name="fechaInicio">
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div>
+                            <label for="fechaFinal">Fecha Final:</label>
+                            <input type="date" id="fechaFinal" name="fechaFinal">
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-group">
+                            <input type="number" id="cantidadMostrar" name="cantidadMostrar" min="1" value="1">
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top:25px"></div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary"> Buscar</button>
+                </div>
+            </div>
+        }
+        <br />
+        @if (ViewBag.listadoFiltroPorRanking != null)
+        {
+            <div class="row align-items-center">
+                <div class="col">
+                    <p><strong>Producto</strong></p>
+                </div>
+                <div class="col">
+                    <p><strong>Cantidad vendida</strong></p>
+                </div>
+                <div class="col">
+                    <p><strong>Categoria</strong></p>
+                </div>
+            </div>
+            <hr>
+            foreach (var producto in ViewBag.listadoFiltroPorRanking)
+            {
+                <div class="row align-items-center">
+                    <div class="col">
+                        <p>@producto.Nombre</p>
+                    </div>
+                    <div class="col">
+                        <p>@producto.Precio</p>
+                    </div>
+                    <div class="col">
+                        <p>@producto.Categoria</p>
+                    </div>
+                </div>
+            }
+        }
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="well bs-component">
+                <h4> Filtrar Participantes:  </h4>
+                <h5><strong>@ViewBag.Mensaje</strong></h5>
+                <hr />
+                <div class="row">
+
+                    <div class="col">
+                        <div class="form-group">
+                            @Html.Label("Categoria")
+                            @Html.DropDownList("categoria", ListaCategoria, "---")
+                        </div>
+                    </div>
+
+
+                    <div class="col">
+                        <div>
+                            <label for="FechaInicio">Fecha Inicio:</label>
+                            <input type="date" id="FechaInicio" name="FechaInicio">
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div>
+                            <label for="FechaFinal">Fecha Final:</label>
+                            <input type="date" id="FechaFinal" name="FechaFinal">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div style="margin-top:25px"></div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary"> Buscar</button>
+                </div>
+            </div>
+        }
+
+        @if (ViewBag.listadoFiltroPorCategoria != null)
+        {
+            <div id="chart" style="height: 300px; width: 100%;"></div>
+            <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+            <script src="~/Utils/js/reportes.js"></script>
+            <script>
+                var productos = @Html.Raw(Json.Encode(ListaProductos))
+                var cantidad = @Html.Raw(Json.Encode(ListaCantidadVendidos))
+            </script>
+        }
+    </div>
+</body>
+</html>
