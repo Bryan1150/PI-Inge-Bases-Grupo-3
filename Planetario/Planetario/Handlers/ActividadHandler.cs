@@ -218,15 +218,19 @@ namespace Planetario.Handlers
             return InsertarEnBaseDatos(consulta, null);
         }
 
-        public bool ActualizarReservarAsiento(int fila, int columna, string correo, bool reservado)
+        public bool ActualizarReservarAsiento(int fila, int columna, string correo, bool reservado, string nombreActividad)
         {
-            string consulta = "UPDATE Asientos SET reservado = @reservado, correoParticipanteFK = @correoParticipanteFK " +
-                "WHERE fila = @fila AND columna = @columna ;";
+            string consulta = "DECLARE @id INT;" +
+                "SET @id = (SELECT TOP 1 A.idComprableFK FROM Asientos A JOIN Entrada E on E.idComprableFK = A.idComprableFK " +
+                "WHERE E.nombreActividadFK = 'Analizar muestras de Marte');"+
+                "UPDATE Asientos SET reservado = @reservado, correoParticipanteFK = @correoParticipanteFK " +
+                "WHERE fila = @fila AND columna = @columna;";
 
             Dictionary<string, object> parametrosReserva = new Dictionary<string, object> {
+                {"@nombreActividad", nombreActividad },
                 {"@fila"   , fila },
                 {"@columna" , columna},
-                {"@correParticipanteFK", correo},
+                {"@correoParticipanteFK", correo},
                 {"@reservado", reservado }
             };
 

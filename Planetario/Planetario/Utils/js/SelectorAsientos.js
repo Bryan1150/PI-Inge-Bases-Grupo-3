@@ -311,9 +311,15 @@
              * @private
              */
             var addToCartDict = function addToCartDict(id, type) {
+                
+                const Asientos = id.split('_');
+                $.getJSON('/Actividades/ActualizarReservacionAsiento', { fila: Asientos[0], columna: Asientos[1], correo: "bryan.umaa@hotmail.com", reservado: true, nombreActividad: nombreActividadVar }, function (data) {
+                    console.log(data);
+                });
                 if (type in cartDict) {
                     if ({}.hasOwnProperty.call(cartDict, type)) {
                         cartDict[type].push(id);
+                        console.log(cartDict);
                         return true;
                     }
                 }
@@ -370,7 +376,6 @@
             var loadCart = function loadCart() {
                 // create array of seat types
                 initializeSeatTypes();
-
                 // Add selected seats to shopping cart
                 for (var n = 0; n < options.types.length; n += 1) {
                     var seatType = options.types[n];
@@ -441,7 +446,7 @@
              * @param {string} id - The dom id of the seat in the seatmap.
              * @private
              */
-            var releaseSeat = function releaseSeat(id) {
+            var releaseSeat = function releaseSeat(id) {               
                 var seat = document.getElementById(id);
                 seat.style.cssText = '';
                 seat.className = 'sc-seat available';
@@ -455,6 +460,10 @@
              * @private
              */
             var removeFromCartDict = function removeFromCartDict(id, type) {
+                const Asientos = id.split('_');
+                $.getJSON('/Actividades/ActualizarReservacionAsiento', { fila: Asientos[0], columna: Asientos[1], correo: "bryan.umaa@hotmail.com", reservado: false, nombreActividad: nombreActividadVar }, function (data) {
+                    console.log(data);
+                });
                 if (type !== undefined) {
                     if (type in cartDict) {
                         var index = cartDict[type].indexOf(id);
@@ -1678,7 +1687,7 @@
                 deleteBtn.className += ' all';
 
                 var label = document.createElement('p');
-                label.textContent = 'All';
+                label.textContent = 'Borrar todo';
                 deleteBtn.appendChild(label);
 
                 container.appendChild(cartTotal);
