@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using System.Configuration;
 using Planetario.Handlers;
 using Planetario.Models;
 
@@ -26,18 +27,28 @@ namespace Planetario.Controllers
         }
 
         [HttpGet]
-        public ActionResult VerCarritoDelUsuario(string correoUsuario)
-        {
-            ViewBag.ListaProductos = AccesoDatos.ObtenerTodosLosProductosDelCarrito(correoUsuario);
-            ViewBag.ListaEntradas = AccesoDatos.ObtenerTodasLasEntradasDelCarrito(correoUsuario);
+        public ActionResult Carrito()
+        {            
+            ActionResult resultado;
+            if (Request.IsAuthenticated){
+                string correoUsuario;
+                correoUsuario = HttpContext.User.Identity.Name;
+                ViewBag.ListaProductos = AccesoDatos.ObtenerTodosLosProductosDelCarrito(correoUsuario);
+                ViewBag.ListaEntradas = AccesoDatos.ObtenerTodasLasEntradasDelCarrito(correoUsuario);
 
-            double total = 0;
-            total += AccesoDatos.ObtenerPrecioTotalDeProductosDelCarrito(correoUsuario);
-            total += AccesoDatos.ObtenerPrecioTotalDeEntradasDelCarrito(correoUsuario);
-
-            ViewBag.PrecioTotal = total;
-
-            return View();
+                double total = 0;
+                total += AccesoDatos.ObtenerPrecioTotalDeProductosDelCarrito(correoUsuario);
+                total += AccesoDatos.ObtenerPrecioTotalDeEntradasDelCarrito(correoUsuario);
+                ViewBag.Precio = total;
+                ViewBag.IVA = total * 0.13;
+                ViewBag.PrecioTotal = ViewBag.Precio + ViewBag.IVA;
+                resultado = View();
+            }
+            else
+            {
+                resultado = RedirectToAction("IniciarSesion", "Personas");                
+            }
+            return resultado;
         }
 
         [HttpGet]
@@ -104,6 +115,14 @@ namespace Planetario.Controllers
         {
             var exito = AccesoDatos.AgregarAlCarrito(idComprable, cantidad);
             return Json(new { Exito = exito }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult ObtenerImagen(int id)
+        {
+            VentasHandler ventasHandler = new VentasHandler();
+            var tupla = ventasHandler.ObtenerFoto(id);
+            return File(tupla.Item1, tupla.Item2);
         }
 
     }

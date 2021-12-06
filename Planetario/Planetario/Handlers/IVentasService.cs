@@ -1,7 +1,6 @@
 ﻿using Planetario.Models;
 using System.Collections.Generic;
 
-
 namespace Planetario.Handlers
 {
     public interface IVentasService
@@ -10,7 +9,7 @@ namespace Planetario.Handlers
 
         bool InsertarProducto(ProductoModel producto);
 
-        List<ProductoModel> ObtenerTodasLasEntradasDelCarrito(string correoUsuario);
+        List<EntradaModel> ObtenerTodasLasEntradasDelCarrito(string correoUsuario);
 
         List<ProductoModel> ObtenerTodosLosProductosDelCarrito(string correoUsuario);
 

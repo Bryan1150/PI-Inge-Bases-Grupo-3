@@ -1,0 +1,64 @@
+﻿<style>
+    img {
+        border-radius: 0.5em;
+        border: 2px solid #133b5c;
+        box-shadow: 0px 0px 0px #ccc;
+        height:160px;
+        width:160px;
+        object-fit:cover;
+    }
+</style>
+
+<body>
+    <span class="titulo">Carrito</span>
+    <p class="text-center">Cantidad de productos: </p>
+
+    <div class="row">
+        <div class="col-md-8">
+            <h1>Productos</h1><br />
+            @foreach (var producto in ViewBag.ListaProductos)
+            {
+        <div class="row">
+            <div class="col-3">
+                <img src="@Url.Action("ObtenerImagen", "Ventas", new { id = producto.Id })">
+            </div>
+            <div class="col-9">
+                <h3>@producto.Nombre</h3>
+                <p>@producto.Descripcion</p>
+                <p><strong>Precio: </strong>@producto.Precio</p>
+                <br>
+            </div>
+            <hr />
+        </div>
+                
+                
+                
+            }
+            <br><h1>Entradas a actividades</h1><br />
+            @foreach (var entrada in ViewBag.ListaEntradas)
+            {
+                <h3>@entrada.Nombre</h3>
+                <p><strong>Precio: </strong>@entrada.Precio</p>
+                <hr />
+            }
+        </div>
+        <div class="col-md-3 offset-md-1">
+            
+            <div class="card">                
+                <div class="card-body">
+                    <div class="card-text">
+                        <h5><strong>Precio: </strong>@ViewBag.Precio</h5>
+                        <h5><strong>IVA: </strong>@ViewBag.IVA</h5>
+                        <h5><strong>Precio Total: </strong>@ViewBag.PrecioTotal</h5>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-primary">Seguir comprando</a>
+                    <a class="btn btn-success">Pagar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+</body>
