@@ -149,6 +149,7 @@
     <Compile Include="Handlers\ActividadHandler.cs" />
     <Compile Include="Handlers\BaseDatosHandler.cs" />
     <Compile Include="Handlers\EventosHandler.cs" />
+    <Compile Include="Handlers\IActividadesService.cs" />
     <Compile Include="Handlers\IVentasService.cs" />
     <Compile Include="Handlers\ParticipanteHandler.cs" />
     <Compile Include="Handlers\PersonaHandler.cs" />
