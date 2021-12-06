@@ -11,7 +11,7 @@ namespace Planetario.Handlers
     {
         ArchivosHandler manejadorDeImagen = new ArchivosHandler();
 
-        private List<ProductoModel> ConvertirTablaALista(DataTable tabla)
+        private List<ProductoModel> ConvertirTablaProductoALista(DataTable tabla)
         {
             List<ProductoModel> productos = new List<ProductoModel>();
             foreach (DataRow columna in tabla.Rows)
@@ -19,10 +19,10 @@ namespace Planetario.Handlers
                 productos.Add(
                 new ProductoModel
                 {
-                    Id = Convert.ToInt32(columna["idComprablePK"]),
+                    Id = Convert.ToInt32(columna["idComprableFK"]),
                     Nombre = Convert.ToString(columna["nombre"]),
                     Precio = Convert.ToDouble(columna["precio"]),
-                    CantidadDisponible = Convert.ToInt32(columna["cantidadDisponible"]),
+                    CantidadDisponible = Convert.ToInt32(columna["cantidadDisponible"]),                  
                     CantidadRebastecer = Convert.ToInt32(columna["cantidadRebastecer"]),
                     Tamano = Convert.ToString(columna["tamano"]),
                     Categoria = Convert.ToString(columna["categoria"]),
@@ -34,10 +34,34 @@ namespace Planetario.Handlers
             return productos;
         }
 
+        private List<EntradaModel> ConvertirTablaEntradaALista(DataTable tabla)
+        {
+            List<EntradaModel> entradas = new List<EntradaModel>();
+            foreach (DataRow columna in tabla.Rows)
+            {
+                entradas.Add(
+                new EntradaModel
+                {
+                    Id = Convert.ToInt32(columna["idComprableFK"]),
+                    Nombre = Convert.ToString(columna["nombreActividadFK"]),
+                    Precio = Convert.ToDouble(columna["precio"]),
+                    CantidadDisponible = Convert.ToInt32(columna["cantidadDisponible"]),
+                });
+            }
+            return entradas;
+        }
+
         private List<ProductoModel> ObtenerProductos(string consulta)
         {
             DataTable tabla = LeerBaseDeDatos(consulta);
-            List<ProductoModel> productos = ConvertirTablaALista(tabla);
+            List<ProductoModel> productos = ConvertirTablaProductoALista(tabla);
+            return productos;
+        }
+
+        private List<EntradaModel> ObtenerEntradas(string consulta)
+        {
+            DataTable tabla = LeerBaseDeDatos(consulta);
+            List<EntradaModel> productos = ConvertirTablaEntradaALista(tabla);
             return productos;
         }
 
@@ -79,19 +103,25 @@ namespace Planetario.Handlers
             return (InsertarEnBaseDatos(consultaTablaComprable, parametrosComprable) && InsertarEnBaseDatos(consultaTablaProducto, parametrosProducto));
         }
 
-        public List<ProductoModel> ObtenerTodasLasEntradasDelCarrito(string correoUsuario) 
+        public List<EntradaModel> ObtenerTodasLasEntradasDelCarrito(string correoUsuario) 
         {
             string consulta = "SELECT * FROM Carrito C " +
                               "JOIN Entrada E " +
-                              "ON C.idComprableFK = E.idComprableFK ;";
-            return (ObtenerProductos(consulta));
+                              "ON C.idComprableFK = E.idComprableFK " +
+                              "JOIN Comprable CO " +
+                              "ON E.idComprableFK = CO.idComprablePK " + 
+                              "WHERE correoPersonaFK = '" + correoUsuario + "' ";
+            return (ObtenerEntradas(consulta));
         }
 
         public List<ProductoModel> ObtenerTodosLosProductosDelCarrito(string correoUsuario) 
         {
             string consulta = "SELECT * FROM Carrito C " +
                               "JOIN Producto P " +
-                              "ON C.idComprableFK = P.idComprableFK ;";
+                              "ON C.idComprableFK = P.idComprableFK " +
+                              "JOIN Comprable CO " +
+                              "ON P.idComprableFK = CO.idComprablePK " +
+                              "WHERE correoPersonaFK = '" + correoUsuario + "' ";
             return (ObtenerProductos(consulta));
         }
 
@@ -180,6 +210,38 @@ namespace Planetario.Handlers
             return total;
         }
 
+        public int ObtenerCantidadDeEntradasDelCarrito(string correoUsuario)
+        {
+            string consulta = "SELECT COUNT(*) AS 'Cantidad' FROM Carrito C " +
+                              "JOIN Entrada E " +
+                              "ON C.idComprableFK = E.idComprableFK " +
+                              "JOIN Comprable CO " +
+                              "ON E.idComprableFK = CO.idComprablePK " +
+                              "WHERE correoPersonaFK = '" + correoUsuario + "' ";
+
+            int total = 0;
+            DataTable tabla = LeerBaseDeDatos(consulta);
+            total = ConvertirTablaAInt(tabla);
+
+            return total;
+        }
+
+        public int ObtenerCantidadDeProductosDelCarrito(string correoUsuario)
+        {
+            string consulta = "SELECT COUNT(*) AS 'Cantidad' FROM Carrito C " +
+                              "JOIN Producto P " +
+                              "ON C.idComprableFK = P.idComprableFK " +
+                              "JOIN Comprable CO " +
+                              "ON P.idComprableFK = CO.idComprablePK " +
+                              "WHERE correoPersonaFK = '" + correoUsuario + "' ";
+
+            int total = 0;
+            DataTable tabla = LeerBaseDeDatos(consulta);
+            total = ConvertirTablaAInt(tabla);
+
+            return total;
+        }
+
         private double ConvertirTablaADouble(DataTable tabla)
         {
             double total = 0;
@@ -190,6 +252,26 @@ namespace Planetario.Handlers
 
             return total;
         }
+
+        private int ConvertirTablaAInt(DataTable tabla)
+        {
+            int total = 0;
+            foreach (DataRow columna in tabla.Rows)
+            {
+                total = Convert.ToInt32(columna["Cantidad"]);
+            };
+
+            return total;
+        }
+
+        public Tuple<byte[], string> ObtenerFoto(int id)
+        {
+            string columnaContenido = "fotoArchivo";
+            string columnaTipo = "fotoTipo";
+            string consulta = "SELECT " + columnaContenido + ", "+ columnaTipo + " FROM Producto WHERE idComprableFK = @id";
+            KeyValuePair<string, object> parametro = new KeyValuePair<string, object>("@id", id);
+            return ObtenerArchivo(consulta, parametro, columnaContenido, columnaTipo);
+        }      
 
     }
 }

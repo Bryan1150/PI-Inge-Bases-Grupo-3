@@ -195,10 +195,10 @@ namespace Planetario.Controllers
         }
 
         [HttpGet]
-        public JsonResult ActualizarReservacionAsiento(int fila, int columna, string correo, bool reservado)
+        public JsonResult ActualizarReservacionAsiento(int fila, int columna, string correo, bool reservado, string nombreActividad)
         {
-            
-            bool exito = AccesoDatos.ActualizarReservarAsiento(fila, columna, correo, reservado);
+            ActividadHandler accesoDatos = new ActividadHandler();
+            bool exito = accesoDatos.ActualizarReservarAsiento(fila, columna, correo, reservado, nombreActividad);
             return Json(new {Exito = exito }, JsonRequestBehavior.AllowGet);
         }
     }

@@ -424,6 +424,7 @@
     <Content Include="Views\Clientes\Inscribirme.cshtml" />
     <Content Include="Views\Ventas\AgregarProducto.cshtml" />
     <Content Include="Views\Actividades\ComprarEntradas.cshtml" />
+    <Content Include="Views\Ventas\Carrito.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Data\" />

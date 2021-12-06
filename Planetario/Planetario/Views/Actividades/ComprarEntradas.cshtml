@@ -9,16 +9,16 @@
     </div>
     <div class="col-6">
         <div id="cart-container"></div>
-    
+        @Html.ActionLink("Agregar al carrito", "Envio_PagoDatos", "Pagos", new { area = "" }, new { @class = "btn btn-success", @style = "color:#fff; width: 40%;" })
     </div>
 </div>
 
 <script type="text/javascript" src="~/Utils/js/SelectorAsientos.js"></script>
 <script>
+    var nombreActividadVar = '@(ViewBag.actividad.NombreActividad)';
     @{ string linkAsientosReservados = Url.Content("~/Actividades/ObtenerAsientosReservados"); }
     fetch("@linkAsientosReservados" + "?nombreDeLaActividad=" + "@ViewBag.actividad.NombreActividad")
         .then(respuesta => {
-            console.log(respuesta)
             return respuesta.json()
         })
         .then(data => {
@@ -34,7 +34,7 @@
                     }
                 },
                 types: [
-                    { type: "regular", backgroundColor: "#006c80", price: @ViewBag.Actividad.PrecioAproximado, selected: [23, 24] },
+                    { type: "regular", backgroundColor: "#006c80", price: @ViewBag.Actividad.PrecioAproximado},
                 ],
                 cart: {
                     id: 'cart-container',
@@ -52,6 +52,4 @@
 
             var sc = new Seatchart(options);
         })
-
-
 </script>
