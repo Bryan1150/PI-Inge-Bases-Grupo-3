@@ -944,7 +944,7 @@
             var createFrontHeader = function createFrontHeader() {
                 // set the perfect width of the front indicator
                 var front = document.createElement('div');
-                front.textContent = 'Front';
+                front.textContent = 'Frente';
                 front.className = 'sc-front';
 
                 return front;
@@ -1703,7 +1703,7 @@
             var createLegend = function createLegend() {
                 // create legend container
                 var legendContainer = createContainer('legend', 'column');
-                var legendTitle = createTitle('Legend');
+                var legendTitle = createTitle('Legenda');
 
                 var seatsList = createLegendList();
 
