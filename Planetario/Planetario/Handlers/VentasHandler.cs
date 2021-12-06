@@ -210,12 +210,55 @@ namespace Planetario.Handlers
             return total;
         }
 
+        public int ObtenerCantidadDeEntradasDelCarrito(string correoUsuario)
+        {
+            string consulta = "SELECT COUNT(*) AS 'Cantidad' FROM Carrito C " +
+                              "JOIN Entrada E " +
+                              "ON C.idComprableFK = E.idComprableFK " +
+                              "JOIN Comprable CO " +
+                              "ON E.idComprableFK = CO.idComprablePK " +
+                              "WHERE correoPersonaFK = '" + correoUsuario + "' ";
+
+            int total = 0;
+            DataTable tabla = LeerBaseDeDatos(consulta);
+            total = ConvertirTablaAInt(tabla);
+
+            return total;
+        }
+
+        public int ObtenerCantidadDeProductosDelCarrito(string correoUsuario)
+        {
+            string consulta = "SELECT COUNT(*) AS 'Cantidad' FROM Carrito C " +
+                              "JOIN Producto P " +
+                              "ON C.idComprableFK = P.idComprableFK " +
+                              "JOIN Comprable CO " +
+                              "ON P.idComprableFK = CO.idComprablePK " +
+                              "WHERE correoPersonaFK = '" + correoUsuario + "' ";
+
+            int total = 0;
+            DataTable tabla = LeerBaseDeDatos(consulta);
+            total = ConvertirTablaAInt(tabla);
+
+            return total;
+        }
+
         private double ConvertirTablaADouble(DataTable tabla)
         {
             double total = 0;
             foreach (DataRow columna in tabla.Rows)
             {
                 total = Convert.ToDouble(columna["Total"]);
+            };
+
+            return total;
+        }
+
+        private int ConvertirTablaAInt(DataTable tabla)
+        {
+            int total = 0;
+            foreach (DataRow columna in tabla.Rows)
+            {
+                total = Convert.ToInt32(columna["Cantidad"]);
             };
 
             return total;

@@ -36,6 +36,11 @@ namespace Planetario.Controllers
                 ViewBag.ListaProductos = AccesoDatos.ObtenerTodosLosProductosDelCarrito(correoUsuario);
                 ViewBag.ListaEntradas = AccesoDatos.ObtenerTodasLasEntradasDelCarrito(correoUsuario);
 
+                int cantidad = 0;
+                cantidad += AccesoDatos.ObtenerCantidadDeEntradasDelCarrito(correoUsuario);
+                cantidad += AccesoDatos.ObtenerCantidadDeProductosDelCarrito(correoUsuario);
+                ViewBag.CantidadItems = cantidad;
+
                 double total = 0;
                 total += AccesoDatos.ObtenerPrecioTotalDeProductosDelCarrito(correoUsuario);
                 total += AccesoDatos.ObtenerPrecioTotalDeEntradasDelCarrito(correoUsuario);
@@ -52,8 +57,9 @@ namespace Planetario.Controllers
         }
 
         [HttpGet]
-        public JsonResult EliminarElementoDelCarritoDelUsuario(string correoUsuario, int idComprable)
+        public JsonResult EliminarElementoDelCarritoDelUsuario(int idComprable)
         {
+            string correoUsuario = HttpContext.User.Identity.Name;
             var exito = AccesoDatos.EliminarDelCarrito(correoUsuario, idComprable);
             return Json(new { Exito = exito }, JsonRequestBehavior.AllowGet);
         }
