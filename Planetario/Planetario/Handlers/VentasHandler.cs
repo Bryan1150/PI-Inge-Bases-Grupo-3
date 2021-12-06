@@ -24,6 +24,7 @@ namespace Planetario.Handlers
                     Precio = Convert.ToDouble(columna["precio"]),
                     CantidadDisponible = Convert.ToInt32(columna["cantidadDisponible"]),                  
                     CantidadRebastecer = Convert.ToInt32(columna["cantidadRebastecer"]),
+                    CantidadCarrito = Convert.ToInt32(columna["cantidadProductos"]),
                     Tamano = Convert.ToString(columna["tamano"]),
                     Categoria = Convert.ToString(columna["categoria"]),
                     Descripcion = Convert.ToString(columna["descripcion"]),
@@ -131,8 +132,8 @@ namespace Planetario.Handlers
                               "WHERE idComprableFK = @idComprable " + 
                               "AND correoPersonaFK = @correoPersona ;";
             Dictionary<string, object> parametrosProducto = new Dictionary<string, object> {
-                {"@idComprable"   , correoUsuario },
-                {"@correoPersona" , idComprable },
+                {"@idComprable"   , idComprable },
+                {"@correoPersona" , correoUsuario },
             };
 
             return EliminarEnBaseDatos(consulta, parametrosProducto);
@@ -144,8 +145,8 @@ namespace Planetario.Handlers
                               "WHERE idComprableFK = @idComprable AND correoPersonaFK = @correoPersona ;";
             
             Dictionary<string, object> parametrosProducto = new Dictionary<string, object> {
-                {"@idComprable"   , correoUsuario },
-                {"@correoPersona" , idComprable },
+                {"@idComprable"   , idComprable },
+                {"@correoPersona" , correoUsuario },
             };
 
             return ActualizarEnBaseDatos(consulta, parametrosProducto);
@@ -157,8 +158,8 @@ namespace Planetario.Handlers
             " WHERE idComprableFK = @idComprable AND correoPersonaFK = @correoPersona ;";
             
             Dictionary<string, object> parametrosProducto = new Dictionary<string, object> {
-                {"@idComprable"   , correoUsuario },
-                {"@correoPersona" , idComprable },
+                {"@idComprable"   , idComprable },
+                {"@correoPersona" , correoUsuario },
             };
 
             return ActualizarEnBaseDatos(consulta, parametrosProducto);
