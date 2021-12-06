@@ -38,7 +38,7 @@ namespace Planetario.Handlers
 
         public List<ProductoModel> ObtenerTodosLosProductosFiltradosPorRanking(int cantidadMostrar, string fechaInicio, string fechaFinal, string orden)
         {
-            string consulta = "SELECT TOP " + cantidadMostrar + " * " +
+            string consulta = "SELECT TOP " + cantidadMostrar + " nombre, precio, fechaIngreso, fechaUltimaVenta, cantidadVendidos " +
                               "FROM Producto JOIN Comprable C " +
                               "ON idComprablePK = idComprableFK " +
                               "WHERE DATEDIFF(MINUTE, '" + fechaInicio + "', fechaUltimaVenta) >= 0 " +
@@ -50,7 +50,7 @@ namespace Planetario.Handlers
 
         public List<ProductoModel> ObtenerTodosLosProductosFiltradosPorCategoria(string categoria, string fechaInicio, string fechaFinal)
         {
-            string consulta = "SELECT * " +
+            string consulta = "SELECT nombre, precio, fechaIngreso, fechaUltimaVenta, cantidadVendidos " +
                               "FROM Producto JOIN Comprable C " +
                               "ON idComprablePK = idComprableFK " +
                               "WHERE categoria = '" + categoria + "' " +
