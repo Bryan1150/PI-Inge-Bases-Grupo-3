@@ -121,6 +121,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\DatosController.cs" />
     <Compile Include="Handlers\DatosHandler.cs" />
+    <Compile Include="Handlers\EvaluacionHandler.cs" />
     <Compile Include="Handlers\FacturasHandler.cs" />
     <Compile Include="Controllers\ActividadesController.cs" />
     <Compile Include="Controllers\EstadisticasController.cs" />
@@ -144,6 +145,8 @@
     <Compile Include="Handlers\EventosHandler.cs" />
     <Compile Include="Handlers\ParticipanteHandler.cs" />
     <Compile Include="Models\CompraModel.cs" />
+    <Compile Include="Models\CuestionarioEvaluacionRecibirModel.cs" />
+    <Compile Include="Models\CuestionarioEvaluacionModel.cs" />
     <Compile Include="Models\EntradaModel.cs" />
     <Compile Include="Models\EventoModel.cs" />
     <Compile Include="Handlers\EstadisticasHandler.cs" />
