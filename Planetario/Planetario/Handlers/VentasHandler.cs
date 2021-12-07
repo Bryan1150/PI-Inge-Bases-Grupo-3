@@ -35,22 +35,6 @@ namespace Planetario.Handlers
             return productos;
         }
 
-<<<<<<< HEAD
-        private List<DescuentoModel> ConvertirTablaAListaDescuento(DataTable tabla)
-        {
-            List<DescuentoModel> productos = new List<DescuentoModel>();
-            foreach (DataRow columna in tabla.Rows)
-            {
-                productos.Add(
-                new DescuentoModel
-                {
-                    Codigo = Convert.ToString(columna["codigoDescuentoPK"]),
-                    Descuento = Convert.ToInt32(columna["porcentajeDescuent"]),
-                    Membresia = Convert.ToString(columna["membresia"]),
-                });
-            }
-            return productos;
-=======
         private List<EntradaModel> ConvertirTablaEntradaALista(DataTable tabla)
         {
             List<EntradaModel> entradas = new List<EntradaModel>();
@@ -66,7 +50,22 @@ namespace Planetario.Handlers
                 });
             }
             return entradas;
->>>>>>> 1d106cef8373f97bd78e61dcfb57388ef48c7f3f
+        }
+
+        private List<DescuentoModel> ConvertirTablaAListaDescuento(DataTable tabla)
+        {
+            List<DescuentoModel> productos = new List<DescuentoModel>();
+            foreach (DataRow columna in tabla.Rows)
+            {
+                productos.Add(
+                new DescuentoModel
+                {
+                    Codigo = Convert.ToString(columna["codigoDescuentoPK"]),
+                    Descuento = Convert.ToInt32(columna["porcentajeDescuent"]),
+                    Membresia = Convert.ToString(columna["membresia"]),
+                });
+            }
+            return productos;
         }
 
         private List<ProductoModel> ObtenerProductos(string consulta)
