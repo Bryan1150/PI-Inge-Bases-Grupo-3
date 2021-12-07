@@ -326,10 +326,10 @@
     <Content Include="Views\Noticias\crearNoticia.cshtml" />
     <Content Include="Views\MaterialEducativo\listadoDeMateriales.cshtml" />
     <Content Include="Views\Home\InformacionBasica.cshtml" />
-    <Content Include="Views\Actividades\listadoDeActividades.cshtml" />
-    <Content Include="Views\Actividades\verActividad.cshtml" />
+    <Content Include="Views\Actividades\ListadoDeActividades.cshtml" />
+    <Content Include="Views\Actividades\VerActividad.cshtml" />
     <Content Include="Views\MaterialEducativo\buscarMaterialesEducativos.cshtml" />
-    <Content Include="Views\Actividades\buscarActividad.cshtml" />
+    <Content Include="Views\Actividades\BuscarActividad.cshtml" />
     <Content Include="Utils\fonts\font-awesome-4.7.0\fonts\fontawesome-webfont.eot" />
     <Content Include="Utils\fonts\font-awesome-4.7.0\fonts\fontawesome-webfont.ttf" />
     <Content Include="Utils\fonts\font-awesome-4.7.0\fonts\fontawesome-webfont.woff" />
@@ -405,7 +405,7 @@
     <Content Include="Utils\vendor\bootstrap\css\bootstrap-reboot.min.css.map" />
     <Content Include="Utils\vendor\bootstrap\css\bootstrap.css.map" />
     <Content Include="Utils\vendor\bootstrap\css\bootstrap.min.css.map" />
-    <Content Include="Views\Actividades\crearActividad.cshtml" />
+    <Content Include="Views\Actividades\CrearActividad.cshtml" />
     <Content Include="Views\Funcionarios\VerFuncionario.cshtml" />
     <Content Include="Views\Home\PanelDeAdministracion.cshtml" />
     <Content Include="Views\Funcionarios\iniciarSesion.cshtml" />
@@ -418,7 +418,7 @@
     <Content Include="Views\Eventos\AgregarEvento.cshtml" />
     <Content Include="Views\Eventos\VerEvento.cshtml" />
     <Content Include="Views\Actividades\Inscribirme.cshtml" />
-    <Content Include="Views\Actividades\verFacturasDeActividad.cshtml" />
+    <Content Include="Views\Actividades\VerFacturasDeActividad.cshtml" />
     <Content Include="Views\MaterialEducativo\verMaterial.cshtml" />
     <Content Include="Views\Personas\IniciarSesion.cshtml" />
     <Content Include="Views\Clientes\Inscribirme.cshtml" />
