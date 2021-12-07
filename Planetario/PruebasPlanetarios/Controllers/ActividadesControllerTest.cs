@@ -4,7 +4,6 @@ using Planetario.Controllers;
 using Planetario.Models;
 using Moq;
 using System.Web.Mvc;
-using System;
 using System.Collections.Generic;
 
 namespace PruebasPlanetarios.Controllers
@@ -36,7 +35,7 @@ namespace PruebasPlanetarios.Controllers
             mockActividades.Setup( mock => mock.InsertarTopico("Nombre", topicos)).Returns(true);
 
 
-            ViewResult vistaResultado = actividadesController.crearActividad(actividad, topicos) as ViewResult;
+            ViewResult vistaResultado = actividadesController.CrearActividad(actividad, topicos) as ViewResult;
 
             Assert.IsNotNull(vistaResultado);
         }
@@ -52,7 +51,7 @@ namespace PruebasPlanetarios.Controllers
             mockActividades.Setup(mock => mock.InsertarActividad(actividad)).Returns(true);
             mockActividades.Setup(mock => mock.InsertarTopico(actividad.NombreActividad, topicos)).Returns(true);
 
-            ViewResult vistaResultado = actividadesController.crearActividad(actividad, topicos) as ViewResult;
+            ViewResult vistaResultado = actividadesController.CrearActividad(actividad, topicos) as ViewResult;
 
             Assert.AreEqual("La actividad " + actividad.NombreActividad + " fue creada con éxito.", vistaResultado.ViewBag.Message);
         }
@@ -68,7 +67,7 @@ namespace PruebasPlanetarios.Controllers
             mockActividades.Setup(mock => mock.InsertarActividad(actividad)).Returns(false);
             mockActividades.Setup(mock => mock.InsertarTopico(actividad.NombreActividad, topicos)).Returns(false);
 
-            ViewResult vistaResultado = actividadesController.crearActividad(actividad, topicos) as ViewResult;
+            ViewResult vistaResultado = actividadesController.CrearActividad(actividad, topicos) as ViewResult;
 
             Assert.AreEqual("Hubo un error al guardar los datos ingresados.", vistaResultado.ViewBag.Message);
         }
@@ -85,7 +84,7 @@ namespace PruebasPlanetarios.Controllers
             mockActividades.Setup(mock => mock.InsertarActividad(actividad)).Returns(false);
             mockActividades.Setup(mock => mock.InsertarTopico(actividad.NombreActividad, topicos)).Returns(false);
 
-            ViewResult vistaResultado = actividadesController.crearActividad(actividad, topicos) as ViewResult;
+            ViewResult vistaResultado = actividadesController.CrearActividad(actividad, topicos) as ViewResult;
 
             Assert.AreEqual("Hay un error en los datos ingresados", vistaResultado.ViewBag.Message);
         }
@@ -104,7 +103,7 @@ namespace PruebasPlanetarios.Controllers
             actividadesController.ModelState.AddModelError("NombreActividad", "Es necesario ingresar un nombre");
             mockActividades.Setup(mock => mock.ObtenerActividadesAprobadas()).Returns(listaActividades);
 
-            ViewResult vistaResultado = actividadesController.listadoDeActividades() as ViewResult;
+            ViewResult vistaResultado = actividadesController.ListadoDeActividades() as ViewResult;
 
             Assert.IsNotNull(vistaResultado);
         }
@@ -123,7 +122,7 @@ namespace PruebasPlanetarios.Controllers
             actividadesController.ModelState.AddModelError("NombreActividad", "Es necesario ingresar un nombre");
             mockActividades.Setup(mock => mock.ObtenerActividadesAprobadas()).Returns(listaActividades);
 
-            ViewResult vistaResultado = actividadesController.listadoDeActividades() as ViewResult;
+            ViewResult vistaResultado = actividadesController.ListadoDeActividades() as ViewResult;
 
             Assert.IsNotNull(vistaResultado.ViewBag.actividades);
         }
@@ -145,7 +144,7 @@ namespace PruebasPlanetarios.Controllers
             mockActividades.Setup(mock => mock.ObtenerEntradasDisponiblesPorActividad(nombreActividad)).Returns(0);
             mockActividades.Setup(mock => mock.ObtenerAsientos(nombreActividad)).Returns(listaAscientos);
 
-            ViewResult vistaResultado = actividadesController.listadoDeActividades() as ViewResult;
+            ViewResult vistaResultado = actividadesController.ListadoDeActividades() as ViewResult;
 
             Assert.IsNotNull(vistaResultado);
         }
@@ -167,7 +166,7 @@ namespace PruebasPlanetarios.Controllers
             mockActividades.Setup(mock => mock.ObtenerEntradasDisponiblesPorActividad(nombreActividad)).Returns(0);
             mockActividades.Setup(mock => mock.ObtenerAsientos(nombreActividad)).Returns(listaAscientos);
 
-            ViewResult vistaResultado = actividadesController.verActividad(nombreActividad) as ViewResult;
+            ViewResult vistaResultado = actividadesController.VerActividad(nombreActividad) as ViewResult;
 
             Assert.IsNotNull(vistaResultado.ViewBag.actividad);
         }
@@ -201,7 +200,7 @@ namespace PruebasPlanetarios.Controllers
 
             ActividadesController actividadesController = new ActividadesController(mockActividades.Object);
 
-            ViewResult vistaResultado = actividadesController.buscarActividad() as ViewResult;
+            ViewResult vistaResultado = actividadesController.BuscarActividad() as ViewResult;
 
             Assert.IsNotNull(vistaResultado);
         }
@@ -217,7 +216,7 @@ namespace PruebasPlanetarios.Controllers
             ActividadesController actividadesController = new ActividadesController(mockActividades.Object);
             mockActividades.Setup(mock => mock.ObtenerActividadesPorBusqueda(palabra)).Returns(listaActividades);
 
-            ViewResult vistaResultado = actividadesController.buscarActividad(palabra) as ViewResult;
+            ViewResult vistaResultado = actividadesController.BuscarActividad(palabra) as ViewResult;
 
             Assert.IsNotNull(vistaResultado);
         }
@@ -233,7 +232,7 @@ namespace PruebasPlanetarios.Controllers
             ActividadesController actividadesController = new ActividadesController(mockActividades.Object);
             mockActividades.Setup(mock => mock.ObtenerActividadesPorBusqueda(palabra)).Returns(listaActividades);
 
-            ViewResult vistaResultado = actividadesController.buscarActividad(palabra) as ViewResult;
+            ViewResult vistaResultado = actividadesController.BuscarActividad(palabra) as ViewResult;
 
             CollectionAssert.AllItemsAreNotNull(vistaResultado.ViewBag.actividadesUnicas);
         }
