@@ -72,12 +72,12 @@ namespace PruebasPlanetarios
             var mockVentas = new Mock<IVentasService>();
             string correoUsuario = "diazfonseca.diego@gmail.com";
             mockVentas.Setup(servicio => servicio.ObtenerTodosLosProductosDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
-            mockVentas.Setup(servicio => servicio.ObtenerTodasLasEntradasDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
+            mockVentas.Setup(servicio => servicio.ObtenerTodasLasEntradasDelCarrito(correoUsuario)).Returns(new List<EntradaModel>());
             mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeProductosDelCarrito(correoUsuario)).Returns(5);
             mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeEntradasDelCarrito(correoUsuario)).Returns(5);
             VentasController ventasController = new VentasController(mockVentas.Object);
 
-            ViewResult vistaResultado = ventasController.VerCarritoDelUsuario(correoUsuario) as ViewResult;
+            ViewResult vistaResultado = ventasController.Carrito() as ViewResult;
 
             Assert.IsNotNull(vistaResultado);
         }
@@ -88,13 +88,13 @@ namespace PruebasPlanetarios
             var mockVentas = new Mock<IVentasService>();
             string correoUsuario = "diazfonseca.diego@gmail.com";
             mockVentas.Setup(servicio => servicio.ObtenerTodosLosProductosDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
-            mockVentas.Setup(servicio => servicio.ObtenerTodasLasEntradasDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
+            mockVentas.Setup(servicio => servicio.ObtenerTodasLasEntradasDelCarrito(correoUsuario)).Returns(new List<EntradaModel>());
             mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeProductosDelCarrito(correoUsuario)).Returns(5);
             mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeEntradasDelCarrito(correoUsuario)).Returns(5);
             VentasController ventasController = new VentasController(mockVentas.Object);
             double precioEsperado = 10;
 
-            ViewResult vistaResultado = ventasController.VerCarritoDelUsuario(correoUsuario) as ViewResult;
+            ViewResult vistaResultado = ventasController.Carrito() as ViewResult;
             double precioRecivido = vistaResultado.ViewBag.PrecioTotal;
 
             Assert.AreEqual(precioEsperado, precioRecivido);
@@ -106,12 +106,12 @@ namespace PruebasPlanetarios
             var mockVentas = new Mock<IVentasService>();
             string correoUsuario = "diazfonseca.diego@gmail.com";
             mockVentas.Setup(servicio => servicio.ObtenerTodosLosProductosDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
-            mockVentas.Setup(servicio => servicio.ObtenerTodasLasEntradasDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
+            mockVentas.Setup(servicio => servicio.ObtenerTodasLasEntradasDelCarrito(correoUsuario)).Returns(new List<EntradaModel>());
             mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeProductosDelCarrito(correoUsuario)).Returns(5);
             mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeEntradasDelCarrito(correoUsuario)).Returns(5);
             VentasController ventasController = new VentasController(mockVentas.Object);
 
-            ViewResult vistaResultado = ventasController.VerCarritoDelUsuario(correoUsuario) as ViewResult;
+            ViewResult vistaResultado = ventasController.Carrito() as ViewResult;
             var listaProductos = vistaResultado.ViewBag.ListaProductos;
 
             Assert.IsNotNull(listaProductos);
@@ -123,12 +123,12 @@ namespace PruebasPlanetarios
             var mockVentas = new Mock<IVentasService>();
             string correoUsuario = "diazfonseca.diego@gmail.com";
             mockVentas.Setup(servicio => servicio.ObtenerTodosLosProductosDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
-            mockVentas.Setup(servicio => servicio.ObtenerTodasLasEntradasDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
+            mockVentas.Setup(servicio => servicio.ObtenerTodasLasEntradasDelCarrito(correoUsuario)).Returns(new List<EntradaModel>());
             mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeProductosDelCarrito(correoUsuario)).Returns(5);
             mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeEntradasDelCarrito(correoUsuario)).Returns(5);
             VentasController ventasController = new VentasController(mockVentas.Object);
 
-            ViewResult vistaResultado = ventasController.VerCarritoDelUsuario(correoUsuario) as ViewResult;
+            ViewResult vistaResultado = ventasController.Carrito() as ViewResult;
             var listaEntradas = vistaResultado.ViewBag.ListaEntradas;
 
             Assert.IsNotNull(listaEntradas);
@@ -140,12 +140,12 @@ namespace PruebasPlanetarios
             var mockVentas = new Mock<IVentasService>();
             string correoUsuario = "danielmonge25@hotmail.com";
             mockVentas.Setup(servicio => servicio.ObtenerTodosLosProductosDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
-            mockVentas.Setup(servicio => servicio.ObtenerTodasLasEntradasDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
+            mockVentas.Setup(servicio => servicio.ObtenerTodasLasEntradasDelCarrito(correoUsuario)).Returns(new List<EntradaModel>());
             mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeProductosDelCarrito(correoUsuario)).Returns(5);
             mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeEntradasDelCarrito(correoUsuario)).Returns(5);
             VentasController ventasController = new VentasController(mockVentas.Object);
 
-            ViewResult vistaResultado = ventasController.VerCarritoDelUsuario(correoUsuario) as ViewResult;
+            ViewResult vistaResultado = ventasController.Carrito() as ViewResult;
             var total = vistaResultado.ViewBag.PrecioTotal;
 
             Assert.IsNotNull(total);
@@ -157,12 +157,12 @@ namespace PruebasPlanetarios
             var mockVentas = new Mock<IVentasService>();
             string correoUsuario = "danielmonge25@hotmail.com";
             mockVentas.Setup(servicio => servicio.ObtenerTodosLosProductosDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
-            mockVentas.Setup(servicio => servicio.ObtenerTodasLasEntradasDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
+            mockVentas.Setup(servicio => servicio.ObtenerTodasLasEntradasDelCarrito(correoUsuario)).Returns(new List<EntradaModel>());
             mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeProductosDelCarrito(correoUsuario)).Returns(5);
             mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeEntradasDelCarrito(correoUsuario)).Returns(5);
             VentasController ventasController = new VentasController(mockVentas.Object);
 
-            ViewResult vistaResultado = ventasController.VerCarritoDelUsuario(correoUsuario) as ViewResult;
+            ViewResult vistaResultado = ventasController.Carrito() as ViewResult;
             var listaProductos = vistaResultado.ViewBag.ListaProductos;
 
             Assert.IsInstanceOfType(listaProductos, typeof(List<ProductoModel>));
@@ -174,12 +174,12 @@ namespace PruebasPlanetarios
             var mockVentas = new Mock<IVentasService>();
             string correoUsuario = "danielmonge25@hotmail.com";
             mockVentas.Setup(servicio => servicio.ObtenerTodosLosProductosDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
-            mockVentas.Setup(servicio => servicio.ObtenerTodasLasEntradasDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
+            mockVentas.Setup(servicio => servicio.ObtenerTodasLasEntradasDelCarrito(correoUsuario)).Returns(new List<EntradaModel>());
             mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeProductosDelCarrito(correoUsuario)).Returns(5);
             mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeEntradasDelCarrito(correoUsuario)).Returns(5);
             VentasController ventasController = new VentasController(mockVentas.Object);
 
-            ViewResult vistaResultado = ventasController.VerCarritoDelUsuario(correoUsuario) as ViewResult;
+            ViewResult vistaResultado = ventasController.Carrito() as ViewResult;
             var listaEntradas = vistaResultado.ViewBag.ListaEntradas;
 
             Assert.IsInstanceOfType(listaEntradas, typeof(List<ProductoModel>));
@@ -191,12 +191,12 @@ namespace PruebasPlanetarios
             var mockVentas = new Mock<IVentasService>();
             string correoUsuario = "danielmonge25@hotmail.com";
             mockVentas.Setup(servicio => servicio.ObtenerTodosLosProductosDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
-            mockVentas.Setup(servicio => servicio.ObtenerTodasLasEntradasDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
+            mockVentas.Setup(servicio => servicio.ObtenerTodasLasEntradasDelCarrito(correoUsuario)).Returns(new List<EntradaModel>());
             mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeProductosDelCarrito(correoUsuario)).Returns(5);
             mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeEntradasDelCarrito(correoUsuario)).Returns(5);
             VentasController ventasController = new VentasController(mockVentas.Object);
 
-            ViewResult vistaResultado = ventasController.VerCarritoDelUsuario(correoUsuario) as ViewResult;
+            ViewResult vistaResultado = ventasController.Carrito() as ViewResult;
             var total = vistaResultado.ViewBag.PrecioTotal;
 
             Assert.IsInstanceOfType(total, typeof(double));
@@ -211,7 +211,7 @@ namespace PruebasPlanetarios
             mockVentas.Setup(servicio => servicio.EliminarDelCarrito(correoUsuario,idComprable)).Returns(false);
             VentasController ventasController = new VentasController(mockVentas.Object);
 
-            JsonResult resultado = ventasController.EliminarElementoDelCarritoDelUsuario(correoUsuario, idComprable);
+            JsonResult resultado = ventasController.EliminarElementoDelCarritoDelUsuario(idComprable);
 
             Assert.IsNotNull(resultado);
         }
@@ -225,7 +225,7 @@ namespace PruebasPlanetarios
             mockVentas.Setup(servicio => servicio.EliminarDelCarrito(correoUsuario, idComprable)).Returns(false);
             VentasController ventasController = new VentasController(mockVentas.Object);
 
-            JsonResult resultado = ventasController.EliminarElementoDelCarritoDelUsuario(correoUsuario, idComprable);
+            JsonResult resultado = ventasController.EliminarElementoDelCarritoDelUsuario(idComprable);
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             string dataRecibida = serializer.Serialize(resultado.Data);
 
@@ -243,7 +243,7 @@ namespace PruebasPlanetarios
             mockVentas.Setup(servicio => servicio.EliminarDelCarrito(correoUsuario, idComprable)).Returns(true);
             VentasController ventasController = new VentasController(mockVentas.Object);
 
-            JsonResult resultado = ventasController.EliminarElementoDelCarritoDelUsuario(correoUsuario, idComprable);
+            JsonResult resultado = ventasController.EliminarElementoDelCarritoDelUsuario(idComprable);
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             string dataRecibida = serializer.Serialize(resultado.Data);
 

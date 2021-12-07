@@ -9,9 +9,9 @@ namespace Planetario.Handlers
 {
     public class VentasHandler : BaseDatosHandler, IVentasService
     {
-        ArchivosHandler manejadorDeImagen = new ArchivosHandler();
+        private readonly ArchivosHandler ManejadorDeImagen = new ArchivosHandler();
 
-        private List<ProductoModel> ConvertirTablaALista(DataTable tabla)
+        private List<ProductoModel> ConvertirTablaProductoALista(DataTable tabla)
         {
             List<ProductoModel> productos = new List<ProductoModel>();
             foreach (DataRow columna in tabla.Rows)
@@ -19,11 +19,12 @@ namespace Planetario.Handlers
                 productos.Add(
                 new ProductoModel
                 {
-                    Id = Convert.ToInt32(columna["idComprablePK"]),
+                    Id = Convert.ToInt32(columna["idComprableFK"]),
                     Nombre = Convert.ToString(columna["nombre"]),
                     Precio = Convert.ToDouble(columna["precio"]),
-                    CantidadDisponible = Convert.ToInt32(columna["cantidadDisponible"]),
+                    CantidadDisponible = Convert.ToInt32(columna["cantidadDisponible"]),                  
                     CantidadRebastecer = Convert.ToInt32(columna["cantidadRebastecer"]),
+                    CantidadCarrito = Convert.ToInt32(columna["cantidadProductos"]),
                     Tamano = Convert.ToString(columna["tamano"]),
                     Categoria = Convert.ToString(columna["categoria"]),
                     Descripcion = Convert.ToString(columna["descripcion"]),
@@ -34,6 +35,7 @@ namespace Planetario.Handlers
             return productos;
         }
 
+<<<<<<< HEAD
         private List<DescuentoModel> ConvertirTablaAListaDescuento(DataTable tabla)
         {
             List<DescuentoModel> productos = new List<DescuentoModel>();
@@ -48,12 +50,36 @@ namespace Planetario.Handlers
                 });
             }
             return productos;
+=======
+        private List<EntradaModel> ConvertirTablaEntradaALista(DataTable tabla)
+        {
+            List<EntradaModel> entradas = new List<EntradaModel>();
+            foreach (DataRow columna in tabla.Rows)
+            {
+                entradas.Add(
+                new EntradaModel
+                {
+                    Id = Convert.ToInt32(columna["idComprableFK"]),
+                    Nombre = Convert.ToString(columna["nombreActividadFK"]),
+                    Precio = Convert.ToDouble(columna["precio"]),
+                    CantidadDisponible = Convert.ToInt32(columna["cantidadDisponible"]),
+                });
+            }
+            return entradas;
+>>>>>>> 1d106cef8373f97bd78e61dcfb57388ef48c7f3f
         }
 
         private List<ProductoModel> ObtenerProductos(string consulta)
         {
             DataTable tabla = LeerBaseDeDatos(consulta);
-            List<ProductoModel> productos = ConvertirTablaALista(tabla);
+            List<ProductoModel> productos = ConvertirTablaProductoALista(tabla);
+            return productos;
+        }
+
+        private List<EntradaModel> ObtenerEntradas(string consulta)
+        {
+            DataTable tabla = LeerBaseDeDatos(consulta);
+            List<EntradaModel> productos = ConvertirTablaEntradaALista(tabla);
             return productos;
         }
 
@@ -81,6 +107,13 @@ namespace Planetario.Handlers
                 {"@cantidadDisponible", producto.CantidadDisponible }
             };
 
+            Dictionary<string, object> parametrosProducto = CrearDiccionarioParametrosDeProductos(producto);
+
+            return (InsertarEnBaseDatos(consultaTablaComprable, parametrosComprable) && InsertarEnBaseDatos(consultaTablaProducto, parametrosProducto));
+        }
+
+        private Dictionary<string, object>  CrearDiccionarioParametrosDeProductos(ProductoModel producto)
+        {
             Dictionary<string, object> parametrosProducto = new Dictionary<string, object> {
                 {"@cantidadRebastecer", producto.CantidadRebastecer },
                 {"@tamano", producto.Tamano },
@@ -90,24 +123,30 @@ namespace Planetario.Handlers
                 {"@fotoTipo", producto.FotoArchivo.ContentType }
             };
 
-            parametrosProducto.Add("@fotoArchivo", manejadorDeImagen.ConvertirArchivoABytes(producto.FotoArchivo));
+            parametrosProducto.Add("@fotoArchivo", ManejadorDeImagen.ConvertirArchivoABytes(producto.FotoArchivo));
 
-            return (InsertarEnBaseDatos(consultaTablaComprable, parametrosComprable) && InsertarEnBaseDatos(consultaTablaProducto, parametrosProducto));
+            return parametrosProducto;
         }
 
-        public List<ProductoModel> ObtenerTodasLasEntradasDelCarrito(string correoUsuario) 
+        public List<EntradaModel> ObtenerTodasLasEntradasDelCarrito(string correoUsuario) 
         {
             string consulta = "SELECT * FROM Carrito C " +
                               "JOIN Entrada E " +
-                              "ON C.idComprableFK = E.idComprableFK ;";
-            return (ObtenerProductos(consulta));
+                              "ON C.idComprableFK = E.idComprableFK " +
+                              "JOIN Comprable CO " +
+                              "ON E.idComprableFK = CO.idComprablePK " + 
+                              "WHERE correoPersonaFK = '" + correoUsuario + "' ";
+            return (ObtenerEntradas(consulta));
         }
 
         public List<ProductoModel> ObtenerTodosLosProductosDelCarrito(string correoUsuario) 
         {
             string consulta = "SELECT * FROM Carrito C " +
                               "JOIN Producto P " +
-                              "ON C.idComprableFK = P.idComprableFK ;";
+                              "ON C.idComprableFK = P.idComprableFK " +
+                              "JOIN Comprable CO " +
+                              "ON P.idComprableFK = CO.idComprablePK " +
+                              "WHERE correoPersonaFK = '" + correoUsuario + "' ";
             return (ObtenerProductos(consulta));
         }
 
@@ -116,10 +155,8 @@ namespace Planetario.Handlers
             string consulta = "DELETE FROM Carrito " + 
                               "WHERE idComprableFK = @idComprable " + 
                               "AND correoPersonaFK = @correoPersona ;";
-            Dictionary<string, object> parametrosProducto = new Dictionary<string, object> {
-                {"@idComprable"   , correoUsuario },
-                {"@correoPersona" , idComprable },
-            };
+
+            Dictionary<string, object> parametrosProducto = CrearDiccionarioDiccionarioCarrito(correoUsuario, idComprable);
 
             return EliminarEnBaseDatos(consulta, parametrosProducto);
         }
@@ -128,11 +165,8 @@ namespace Planetario.Handlers
             string consulta = "UPDATE Carrito " +
                               "SET cantidadProductos = cantidadProductos - 1 " +
                               "WHERE idComprableFK = @idComprable AND correoPersonaFK = @correoPersona ;";
-            
-            Dictionary<string, object> parametrosProducto = new Dictionary<string, object> {
-                {"@idComprable"   , correoUsuario },
-                {"@correoPersona" , idComprable },
-            };
+
+            Dictionary<string, object> parametrosProducto = CrearDiccionarioDiccionarioCarrito(correoUsuario, idComprable);
 
             return ActualizarEnBaseDatos(consulta, parametrosProducto);
         }
@@ -141,13 +175,19 @@ namespace Planetario.Handlers
             string consulta = "UPDATE Carrito" +
             " SET cantidadProductos = cantidadProductos + 1" +
             " WHERE idComprableFK = @idComprable AND correoPersonaFK = @correoPersona ;";
-            
-            Dictionary<string, object> parametrosProducto = new Dictionary<string, object> {
-                {"@idComprable"   , correoUsuario },
-                {"@correoPersona" , idComprable },
-            };
+
+            Dictionary<string, object> parametrosProducto = CrearDiccionarioDiccionarioCarrito(correoUsuario, idComprable);
 
             return ActualizarEnBaseDatos(consulta, parametrosProducto);
+        }
+
+        private Dictionary<string, object> CrearDiccionarioDiccionarioCarrito(string correoUsuario, int idComprable)
+        {
+            Dictionary<string, object> parametrosProducto = new Dictionary<string, object> {
+                {"@idComprable"   , idComprable },
+                {"@correoPersona" , correoUsuario },
+            };
+            return parametrosProducto;
         }
 
         public bool AgregarAlCarrito(int productID, int cantidad)
@@ -173,9 +213,8 @@ namespace Planetario.Handlers
                               "ON CO.idComprablePK = P.idComprableFK " +
                               "WHERE C.correoPersonaFK = '" + correoUsuario + "';";
 
-            double total = 0;
             DataTable tabla = LeerBaseDeDatos(consulta);
-            total = ConvertirTablaADouble(tabla);
+            double total  = ConvertirTablaADouble(tabla);
 
             return total;
         }
@@ -189,9 +228,38 @@ namespace Planetario.Handlers
                               "ON CO.idComprablePK = E.idComprableFK " +
                               "WHERE C.correoPersonaFK = '" + correoUsuario + "';";
 
-            double total = 0;
             DataTable tabla = LeerBaseDeDatos(consulta);
-            total = ConvertirTablaADouble(tabla);
+            double total = ConvertirTablaADouble(tabla);
+
+            return total;
+        }
+
+        public int ObtenerCantidadDeEntradasDelCarrito(string correoUsuario)
+        {
+            string consulta = "SELECT COUNT(*) AS 'Cantidad' FROM Carrito C " +
+                              "JOIN Entrada E " +
+                              "ON C.idComprableFK = E.idComprableFK " +
+                              "JOIN Comprable CO " +
+                              "ON E.idComprableFK = CO.idComprablePK " +
+                              "WHERE correoPersonaFK = '" + correoUsuario + "' ";
+
+            DataTable tabla = LeerBaseDeDatos(consulta);
+            int total = ConvertirTablaAInt(tabla);
+
+            return total;
+        }
+
+        public int ObtenerCantidadDeProductosDelCarrito(string correoUsuario)
+        {
+            string consulta = "SELECT COUNT(*) AS 'Cantidad' FROM Carrito C " +
+                              "JOIN Producto P " +
+                              "ON C.idComprableFK = P.idComprableFK " +
+                              "JOIN Comprable CO " +
+                              "ON P.idComprableFK = CO.idComprablePK " +
+                              "WHERE correoPersonaFK = '" + correoUsuario + "' ";
+
+            DataTable tabla = LeerBaseDeDatos(consulta);
+            int total = ConvertirTablaAInt(tabla);
 
             return total;
         }
@@ -245,6 +313,26 @@ namespace Planetario.Handlers
 
             return total;
         }
+
+        private int ConvertirTablaAInt(DataTable tabla)
+        {
+            int total = 0;
+            foreach (DataRow columna in tabla.Rows)
+            {
+                total = Convert.ToInt32(columna["Cantidad"]);
+            };
+
+            return total;
+        }
+
+        public Tuple<byte[], string> ObtenerFoto(int id)
+        {
+            string columnaContenido = "fotoArchivo";
+            string columnaTipo = "fotoTipo";
+            string consulta = "SELECT " + columnaContenido + ", "+ columnaTipo + " FROM Producto WHERE idComprableFK = @id";
+            KeyValuePair<string, object> parametro = new KeyValuePair<string, object>("@id", id);
+            return ObtenerArchivo(consulta, parametro, columnaContenido, columnaTipo);
+        }      
 
     }
 }

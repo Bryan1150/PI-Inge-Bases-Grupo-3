@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using System.Configuration;
 using Planetario.Handlers;
 using Planetario.Models;
 
@@ -26,23 +27,48 @@ namespace Planetario.Controllers
         }
 
         [HttpGet]
-        public ActionResult VerCarritoDelUsuario(string correoUsuario)
-        {
-            ViewBag.ListaProductos = AccesoDatos.ObtenerTodosLosProductosDelCarrito(correoUsuario);
-            ViewBag.ListaEntradas = AccesoDatos.ObtenerTodasLasEntradasDelCarrito(correoUsuario);
+        public ActionResult Carrito()
+        {            
+            ActionResult resultado;
+            if (Request.IsAuthenticated){
+                string correoUsuario;
+                correoUsuario = HttpContext.User.Identity.Name;
 
-            double total = 0;
-            total += AccesoDatos.ObtenerPrecioTotalDeProductosDelCarrito(correoUsuario);
-            total += AccesoDatos.ObtenerPrecioTotalDeEntradasDelCarrito(correoUsuario);
+                int cantidadEntradas = AccesoDatos.ObtenerCantidadDeEntradasDelCarrito(correoUsuario);
+                int cantidadProductos = AccesoDatos.ObtenerCantidadDeProductosDelCarrito(correoUsuario);
+                int cantidadItems = cantidadEntradas + cantidadProductos;
+                double total = 0;
 
-            ViewBag.PrecioTotal = total;
+                ViewBag.CantidadItems = cantidadItems;
 
-            return View();
+                if (cantidadEntradas != 0) 
+                {
+                    ViewBag.ListaEntradas = AccesoDatos.ObtenerTodasLasEntradasDelCarrito(correoUsuario);
+                    total += AccesoDatos.ObtenerPrecioTotalDeEntradasDelCarrito(correoUsuario);
+                }
+
+                if (cantidadProductos != 0)
+                {
+                    ViewBag.ListaProductos = AccesoDatos.ObtenerTodosLosProductosDelCarrito(correoUsuario);
+                    total += AccesoDatos.ObtenerPrecioTotalDeProductosDelCarrito(correoUsuario);
+                }
+
+                ViewBag.Precio = total;
+                ViewBag.IVA = total * 0.13;
+                ViewBag.PrecioTotal = ViewBag.Precio + ViewBag.IVA;
+                resultado = View();
+            }
+            else
+            {
+                resultado = RedirectToAction("IniciarSesion", "Personas");                
+            }
+            return resultado;
         }
 
         [HttpGet]
-        public JsonResult EliminarElementoDelCarritoDelUsuario(string correoUsuario, int idComprable)
+        public JsonResult EliminarElementoDelCarritoDelUsuario(int idComprable)
         {
+            string correoUsuario = HttpContext.User.Identity.Name;
             var exito = AccesoDatos.EliminarDelCarrito(correoUsuario, idComprable);
             return Json(new { Exito = exito }, JsonRequestBehavior.AllowGet);
         }
@@ -104,6 +130,14 @@ namespace Planetario.Controllers
         {
             var exito = AccesoDatos.AgregarAlCarrito(idComprable, cantidad);
             return Json(new { Exito = exito }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult ObtenerImagen(int id)
+        {
+            VentasHandler ventasHandler = new VentasHandler();
+            var tupla = ventasHandler.ObtenerFoto(id);
+            return File(tupla.Item1, tupla.Item2);
         }
 
     }
