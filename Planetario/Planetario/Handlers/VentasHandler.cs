@@ -9,7 +9,7 @@ namespace Planetario.Handlers
 {
     public class VentasHandler : BaseDatosHandler, IVentasService
     {
-        ArchivosHandler manejadorDeImagen = new ArchivosHandler();
+        ArchivosHandler ManejadorDeImagen = new ArchivosHandler();
 
         private List<ProductoModel> ConvertirTablaProductoALista(DataTable tabla)
         {
@@ -105,7 +105,7 @@ namespace Planetario.Handlers
                 {"@fotoTipo", producto.FotoArchivo.ContentType }
             };
 
-            parametrosProducto.Add("@fotoArchivo", manejadorDeImagen.ConvertirArchivoABytes(producto.FotoArchivo));
+            parametrosProducto.Add("@fotoArchivo", ManejadorDeImagen.ConvertirArchivoABytes(producto.FotoArchivo));
 
             return parametrosProducto;
         }
