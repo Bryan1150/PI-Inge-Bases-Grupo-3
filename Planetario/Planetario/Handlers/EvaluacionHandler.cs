@@ -30,9 +30,8 @@ namespace Planetario.Handlers
         
         public List<string> ObtenerPreguntasDeCuestionario(string nombreCuestionario)
         {
-            string consulta = "SELECT PE.pregunta FROM PreguntasEvaluacion PE " +
-                "JOIN Cuestionario C ON C.nombreCuestionarioPK = PE.nombreCuestionarioFK " +
-                "WHERE C.nombreCuestionarioPK = '" + nombreCuestionario + "';";
+            string consulta = "SELECT pregunta FROM PreguntasEvaluacion " +
+                "WHERE nombreCuestionarioFK = '" + nombreCuestionario + "';";
 
             DataTable tablaResultados = LeerBaseDeDatos(consulta);
             List<string> preguntas = new List<string>();
