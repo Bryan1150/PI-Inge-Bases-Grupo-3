@@ -51,6 +51,22 @@ namespace Planetario.Handlers
             return entradas;
         }
 
+        private List<DescuentoModel> ConvertirTablaAListaDescuento(DataTable tabla)
+        {
+            List<DescuentoModel> productos = new List<DescuentoModel>();
+            foreach (DataRow columna in tabla.Rows)
+            {
+                productos.Add(
+                new DescuentoModel
+                {
+                    Codigo = Convert.ToString(columna["codigoDescuentoPK"]),
+                    Descuento = Convert.ToInt32(columna["porcentajeDescuent"]),
+                    Membresia = Convert.ToString(columna["membresia"]),
+                });
+            }
+            return productos;
+        }
+
         private List<ProductoModel> ObtenerProductos(string consulta)
         {
             DataTable tabla = LeerBaseDeDatos(consulta);
@@ -238,6 +254,45 @@ namespace Planetario.Handlers
 
             return total;
         }
+
+        public List<DescuentoModel> obtenerTodosDescuentos(string codigo)
+        {
+            string consulta = "SELECT FROM Descuento WHERE codigoDescuentoPK";
+            DataTable tabla = LeerBaseDeDatos(consulta);
+            List<DescuentoModel> descuento = ConvertirTablaAListaDescuento(tabla);
+            return descuento;
+        }
+
+        public DescuentoModel obtenerDescuento(string codigo) 
+        { 
+            string consulta = "SELECT FROM Descuento WHERE codigoDescuentoPK = '" + codigo +"';";
+            DataTable tabla = LeerBaseDeDatos(consulta);
+            List<DescuentoModel> descuento = ConvertirTablaAListaDescuento(tabla);
+            return descuento[0];
+        }
+
+        public bool insertarDescuento(DescuentoModel descuento)
+        {
+            string consulta = "INSERT INTO Descuento (codigoDescuentoPK, porcentajeDescuento, membresia) " +
+                                "VALUES (@codigo, @porcentaje, @membresia)";
+            Dictionary<string, object> parametrosProducto = new Dictionary<string, object> {
+                {"@codigo"   , descuento.Codigo },
+                {"@porcentaje"   , descuento.Descuento },
+                {"@membresia"   , descuento.Membresia }
+            };
+            return (InsertarEnBaseDatos(consulta, parametrosProducto));
+        }
+
+        public bool eliminarDescuento(string codigo)
+        {
+            string consulta = "DELETE FROM Descuento WHERE codigoDescuentoPK = '@codigo';";
+            Dictionary<string, object> parametrosProducto = new Dictionary<string, object> {
+                {"@codigo"   , codigo }
+            };
+            return EliminarEnBaseDatos(consulta, parametrosProducto);
+        }
+
+
 
         private double ConvertirTablaADouble(DataTable tabla)
         {

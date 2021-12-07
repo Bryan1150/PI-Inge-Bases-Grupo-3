@@ -157,6 +157,7 @@
     <Compile Include="Models\AsientoModel.cs" />
     <Compile Include="Models\ComprableModel.cs" />
     <Compile Include="Models\CompraModel.cs" />
+    <Compile Include="Models\DescuentoModel.cs" />
     <Compile Include="Models\EntradaModel.cs" />
     <Compile Include="Models\EventoModel.cs" />
     <Compile Include="Handlers\EstadisticasHandler.cs" />
