@@ -9,7 +9,7 @@ namespace Planetario.Handlers
 {
     public class VentasHandler : BaseDatosHandler, IVentasService
     {
-        ArchivosHandler ManejadorDeImagen = new ArchivosHandler();
+        private readonly ArchivosHandler ManejadorDeImagen = new ArchivosHandler();
 
         private List<ProductoModel> ConvertirTablaProductoALista(DataTable tabla)
         {
