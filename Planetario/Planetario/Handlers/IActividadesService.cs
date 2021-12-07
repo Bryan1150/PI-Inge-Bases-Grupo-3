@@ -32,7 +32,7 @@ namespace Planetario.Handlers
 
         bool AñadirAsientos(int cantidadFilas, int cantidadColumnas);
 
-        bool ActualizarReservarAsiento(int fila, int columna, string correo, bool reservado);
+        bool ActualizarReservarAsiento(int fila, int columna, string correo, bool reservado, string nombreActividad);
 
         bool VenderAsiento(int fila, int columna);
 
