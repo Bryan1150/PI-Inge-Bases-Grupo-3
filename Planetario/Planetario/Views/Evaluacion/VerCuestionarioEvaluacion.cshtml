@@ -1,0 +1,22 @@
+﻿@model Planetario.Models.CuestionarioEvaluacionRecibirModel
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <span class="titulo">
+        @ViewBag.Cuestionario.NombreCuestionario
+    </span>
+    @for(var i = 0; i < ViewBag.Cuestionario.Preguntas.Count; i++)
+    {
+    <div>
+        @ViewBag.Cuestionario.Preguntas[i]
+        @Html.RadioButtonFor(m => m.Respuestas[0], "Muy en desacuerdo");
+        @Html.RadioButtonFor(m => m.Respuestas[0], "En desacuerdo");
+        @Html.RadioButtonFor(m => m.Respuestas[0], "Neutro");
+        @Html.RadioButtonFor(m => m.Respuestas[0], "De acuerdo");
+        @Html.RadioButtonFor(m => m.Respuestas[0], "Muy de acuerdo");
+    </div>
+    }
+</body>
+</html>

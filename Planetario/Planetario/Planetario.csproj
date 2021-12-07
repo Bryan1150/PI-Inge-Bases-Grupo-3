@@ -120,6 +120,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\DatosController.cs" />
+    <Compile Include="Controllers\EvaluacionController.cs" />
     <Compile Include="Handlers\DatosHandler.cs" />
     <Compile Include="Handlers\EvaluacionHandler.cs" />
     <Compile Include="Handlers\FacturasHandler.cs" />
@@ -406,6 +407,7 @@
     <Content Include="Views\Actividades\Inscribirme.cshtml" />
     <Content Include="Views\Actividades\verFacturasDeActividad.cshtml" />
     <Content Include="Views\MaterialEducativo\verMaterial.cshtml" />
+    <Content Include="Views\Evaluacion\VerCuestionarioEvaluacion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Data\" />

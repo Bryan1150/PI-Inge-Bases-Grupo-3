@@ -11,9 +11,9 @@ namespace Planetario.Models
 
         public List<string> Preguntas { get; set; }
 
-        List<string> Respuestas { get; set; }
+        public List<string> Respuestas { get; set; }
 
-        List<string> Comentario { get; set; }
+        public List<string> Comentario { get; set; }
 
         public CuestionarioEvaluacionRecibirModel()
         {
