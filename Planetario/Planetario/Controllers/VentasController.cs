@@ -22,8 +22,15 @@ namespace Planetario.Controllers
 
         public ActionResult ListaProductos()
         {
-            ViewBag.ListaProductos = AccesoDatos.ObtenerTodosLosProductos();
+            DatosHandler datosHandler = new DatosHandler();
+            ViewBag.categorias = datosHandler.SelectListCategorias();
             return View();
+        }
+
+        public JsonResult ListaProductosFiltrados(double precioMinimo, double precioMaximo, string categoria, string palabraBusqueda, string orden)
+        {
+            ProductosHandler productosHandler = new ProductosHandler();
+            return Json(productosHandler.ObtenerProductosFiltrados(precioMinimo, precioMaximo, categoria, palabraBusqueda, orden), JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -139,6 +146,5 @@ namespace Planetario.Controllers
             var tupla = ventasHandler.ObtenerFoto(id);
             return File(tupla.Item1, tupla.Item2);
         }
-
     }
 }

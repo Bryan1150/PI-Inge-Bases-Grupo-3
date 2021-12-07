@@ -139,7 +139,6 @@
     <Compile Include="Controllers\EventosController.cs" />
     <Compile Include="Controllers\FuncionariosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\TopicosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -153,6 +152,7 @@
     <Compile Include="Handlers\IVentasService.cs" />
     <Compile Include="Handlers\ParticipanteHandler.cs" />
     <Compile Include="Handlers\PersonaHandler.cs" />
+    <Compile Include="Handlers\ProductosHandler.cs" />
     <Compile Include="Handlers\VentasHandler.cs" />
     <Compile Include="Models\AsientoModel.cs" />
     <Compile Include="Models\ComprableModel.cs" />
@@ -425,12 +425,12 @@
     <Content Include="Views\Ventas\AgregarProducto.cshtml" />
     <Content Include="Views\Actividades\ComprarEntradas.cshtml" />
     <Content Include="Views\Ventas\Carrito.cshtml" />
+    <Content Include="Views\Ventas\ListaProductos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Data\" />
     <Folder Include="Views\Datos\" />
     <Folder Include="Views\Persona\" />
-    <Folder Include="Views\Productos\" />
     <Folder Include="Views\Topicos\" />
   </ItemGroup>
   <ItemGroup>

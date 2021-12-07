@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Web;
 using System.Data;
 
-
 namespace Planetario.Handlers
 {
     public class VentasHandler : BaseDatosHandler, IVentasService
@@ -19,7 +18,7 @@ namespace Planetario.Handlers
                 productos.Add(
                 new ProductoModel
                 {
-                    Id = Convert.ToInt32(columna["idComprableFK"]),
+                    Id = Convert.ToInt32(columna["idComprablePK"]),
                     Nombre = Convert.ToString(columna["nombre"]),
                     Precio = Convert.ToDouble(columna["precio"]),
                     CantidadDisponible = Convert.ToInt32(columna["cantidadDisponible"]),                  
@@ -66,14 +65,7 @@ namespace Planetario.Handlers
             return productos;
         }
 
-        public List<ProductoModel> ObtenerTodosLosProductos()
-        {
-            string consulta = "SELECT idComprablePK, nombre, precio, cantidadDisponible, cantidadRebastecer, tamano, categoria, descripcion, fechaIngreso, fechaUltimaVenta " +
-                              "FROM Producto JOIN Comprable " +
-                              "ON idComprablePK = idComprableFK" +
-                              "WHERE cantidadDisponible > 0";
-            return (ObtenerProductos(consulta));
-        }
+        
 
         public bool InsertarProducto(ProductoModel producto)
         {

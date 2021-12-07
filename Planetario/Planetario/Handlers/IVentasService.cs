@@ -1,11 +1,11 @@
 ﻿using Planetario.Models;
 using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace Planetario.Handlers
 {
     public interface IVentasService
     {
-        List<ProductoModel> ObtenerTodosLosProductos();
 
         bool InsertarProducto(ProductoModel producto);
 
@@ -24,7 +24,6 @@ namespace Planetario.Handlers
         double ObtenerPrecioTotalDeProductosDelCarrito(string correoUsuario);
 
         double ObtenerPrecioTotalDeEntradasDelCarrito(string correoUsuario);
-
         int ObtenerCantidadDeProductosDelCarrito(string correoUsuario);
 
         int ObtenerCantidadDeEntradasDelCarrito(string correoUsuario);
