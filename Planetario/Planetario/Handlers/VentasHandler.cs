@@ -89,6 +89,13 @@ namespace Planetario.Handlers
                 {"@cantidadDisponible", producto.CantidadDisponible }
             };
 
+            Dictionary<string, object> parametrosProducto = CrearDiccionarioParametrosDeProductos(producto);
+
+            return (InsertarEnBaseDatos(consultaTablaComprable, parametrosComprable) && InsertarEnBaseDatos(consultaTablaProducto, parametrosProducto));
+        }
+
+        private Dictionary<string, object>  CrearDiccionarioParametrosDeProductos(ProductoModel producto)
+        {
             Dictionary<string, object> parametrosProducto = new Dictionary<string, object> {
                 {"@cantidadRebastecer", producto.CantidadRebastecer },
                 {"@tamano", producto.Tamano },
@@ -100,7 +107,7 @@ namespace Planetario.Handlers
 
             parametrosProducto.Add("@fotoArchivo", manejadorDeImagen.ConvertirArchivoABytes(producto.FotoArchivo));
 
-            return (InsertarEnBaseDatos(consultaTablaComprable, parametrosComprable) && InsertarEnBaseDatos(consultaTablaProducto, parametrosProducto));
+            return parametrosProducto;
         }
 
         public List<EntradaModel> ObtenerTodasLasEntradasDelCarrito(string correoUsuario) 
@@ -130,10 +137,8 @@ namespace Planetario.Handlers
             string consulta = "DELETE FROM Carrito " + 
                               "WHERE idComprableFK = @idComprable " + 
                               "AND correoPersonaFK = @correoPersona ;";
-            Dictionary<string, object> parametrosProducto = new Dictionary<string, object> {
-                {"@idComprable"   , correoUsuario },
-                {"@correoPersona" , idComprable },
-            };
+
+            Dictionary<string, object> parametrosProducto = CrearDiccionarioDiccionarioCarrito(correoUsuario, idComprable);
 
             return EliminarEnBaseDatos(consulta, parametrosProducto);
         }
@@ -142,11 +147,8 @@ namespace Planetario.Handlers
             string consulta = "UPDATE Carrito " +
                               "SET cantidadProductos = cantidadProductos - 1 " +
                               "WHERE idComprableFK = @idComprable AND correoPersonaFK = @correoPersona ;";
-            
-            Dictionary<string, object> parametrosProducto = new Dictionary<string, object> {
-                {"@idComprable"   , correoUsuario },
-                {"@correoPersona" , idComprable },
-            };
+
+            Dictionary<string, object> parametrosProducto = CrearDiccionarioDiccionarioCarrito(correoUsuario, idComprable);
 
             return ActualizarEnBaseDatos(consulta, parametrosProducto);
         }
@@ -155,13 +157,19 @@ namespace Planetario.Handlers
             string consulta = "UPDATE Carrito" +
             " SET cantidadProductos = cantidadProductos + 1" +
             " WHERE idComprableFK = @idComprable AND correoPersonaFK = @correoPersona ;";
-            
+
+            Dictionary<string, object> parametrosProducto = CrearDiccionarioDiccionarioCarrito(correoUsuario, idComprable);
+
+            return ActualizarEnBaseDatos(consulta, parametrosProducto);
+        }
+
+        private Dictionary<string, object> CrearDiccionarioDiccionarioCarrito(string correoUsuario, int idComprable)
+        {
             Dictionary<string, object> parametrosProducto = new Dictionary<string, object> {
                 {"@idComprable"   , correoUsuario },
                 {"@correoPersona" , idComprable },
             };
-
-            return ActualizarEnBaseDatos(consulta, parametrosProducto);
+            return parametrosProducto;
         }
 
         public bool AgregarAlCarrito(int productID, int cantidad)
@@ -187,9 +195,8 @@ namespace Planetario.Handlers
                               "ON CO.idComprablePK = P.idComprableFK " +
                               "WHERE C.correoPersonaFK = '" + correoUsuario + "';";
 
-            double total = 0;
             DataTable tabla = LeerBaseDeDatos(consulta);
-            total = ConvertirTablaADouble(tabla);
+            double total  = ConvertirTablaADouble(tabla);
 
             return total;
         }
@@ -203,9 +210,8 @@ namespace Planetario.Handlers
                               "ON CO.idComprablePK = E.idComprableFK " +
                               "WHERE C.correoPersonaFK = '" + correoUsuario + "';";
 
-            double total = 0;
             DataTable tabla = LeerBaseDeDatos(consulta);
-            total = ConvertirTablaADouble(tabla);
+            double total = ConvertirTablaADouble(tabla);
 
             return total;
         }
@@ -219,9 +225,8 @@ namespace Planetario.Handlers
                               "ON E.idComprableFK = CO.idComprablePK " +
                               "WHERE correoPersonaFK = '" + correoUsuario + "' ";
 
-            int total = 0;
             DataTable tabla = LeerBaseDeDatos(consulta);
-            total = ConvertirTablaAInt(tabla);
+            int total = ConvertirTablaAInt(tabla);
 
             return total;
         }
@@ -235,9 +240,8 @@ namespace Planetario.Handlers
                               "ON P.idComprableFK = CO.idComprablePK " +
                               "WHERE correoPersonaFK = '" + correoUsuario + "' ";
 
-            int total = 0;
             DataTable tabla = LeerBaseDeDatos(consulta);
-            total = ConvertirTablaAInt(tabla);
+            int total = ConvertirTablaAInt(tabla);
 
             return total;
         }
