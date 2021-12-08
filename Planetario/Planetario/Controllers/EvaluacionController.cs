@@ -39,7 +39,7 @@ namespace Planetario.Controllers
                 }
                 else
                 {
-                    ViewBag.Message = "El modelo introducido no es valido.";
+                    ViewBag.Message = "El cuestionario tiene errores. Por favor revise sus respuestas.";
                 }
                 return View();
             }
