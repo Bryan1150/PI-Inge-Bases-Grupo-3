@@ -428,6 +428,7 @@
     <Content Include="Views\Actividades\ComprarEntradas.cshtml" />
     <Content Include="Views\Ventas\Carrito.cshtml" />
     <Content Include="Views\Ventas\ListaProductos.cshtml" />
+    <Content Include="Views\Ventas\RealizarCompra.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Data\" />

@@ -131,7 +131,18 @@ namespace Planetario.Controllers
                 return View();
             }
         }
-        
+
+        [HttpGet]
+        public ActionResult RealizarCompra()
+        {
+
+            DatosHandler datosHandler = new DatosHandler();
+            ViewBag.paises = datosHandler.SelectListPaises();
+            ViewBag.nivelesEducativos = datosHandler.SelectListNivelesEducativos();
+            ViewBag.generos = datosHandler.SelectListGeneros();
+            return View();
+        }
+
         [HttpGet]
         public JsonResult AgregarAlCarrito(int idComprable, int cantidad)
         {
