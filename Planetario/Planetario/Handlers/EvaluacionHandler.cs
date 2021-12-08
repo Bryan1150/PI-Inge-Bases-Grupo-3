@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Text;
 using Planetario.Models;
-using System.Data.SqlClient;
-using System.Web.Security;
-using System.Data.SqlTypes;
 using System.Web;
 
 namespace Planetario.Handlers
