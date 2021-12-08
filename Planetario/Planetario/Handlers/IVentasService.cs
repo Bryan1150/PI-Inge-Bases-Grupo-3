@@ -27,5 +27,7 @@ namespace Planetario.Handlers
         int ObtenerCantidadDeProductosDelCarrito(string correoUsuario);
 
         int ObtenerCantidadDeEntradasDelCarrito(string correoUsuario);
+
+        List<ProductoModel> ObtenerTodosLosProductos();
     }
 }

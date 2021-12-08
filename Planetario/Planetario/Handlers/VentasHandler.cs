@@ -323,7 +323,11 @@ namespace Planetario.Handlers
             string consulta = "SELECT " + columnaContenido + ", "+ columnaTipo + " FROM Producto WHERE idComprableFK = @id";
             KeyValuePair<string, object> parametro = new KeyValuePair<string, object>("@id", id);
             return ObtenerArchivo(consulta, parametro, columnaContenido, columnaTipo);
-        }      
+        }
 
+        public List<ProductoModel> ObtenerTodosLosProductos()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
