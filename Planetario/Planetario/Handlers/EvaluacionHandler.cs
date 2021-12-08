@@ -59,7 +59,7 @@ namespace Planetario.Handlers
             bool exito = false;
             string consulta = "INSERT INTO [dbo].[RespuestasEvaluacion] + " +
                                 "VALUES (@idPregunta, @correoFK, @valorRespuesta, GETDATE())";
-            List<int> idPreguntas = ObtenerIdsPreguntasDeCuestionario(evaluacion.NombreCuestionario);
+            List<int> idPreguntas = ObtenerLasPreguntasDelCuestionario(evaluacion.NombreCuestionario);
             if (evaluacion.Respuestas.Count != idPreguntas.Count)
                 return false;
             for(int index = 0; index < idPreguntas.Count; ++index )
@@ -74,7 +74,7 @@ namespace Planetario.Handlers
             return exito;
         }
 
-        public List<int> ObtenerIdsPreguntasDeCuestionario(string nombreCuestionario)
+        public List<int> ObtenerLasPreguntasDelCuestionario(string nombreCuestionario)
         {
             string consulta = "SELECT PE.idPreguntaFK FROM PreguntasEvaluacion PE " +
                 "JOIN Cuestionario C ON C.nombreCuestionarioPK = PE.nombreCuestionarioFK " +
