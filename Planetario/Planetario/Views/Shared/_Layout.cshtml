@@ -209,17 +209,21 @@
                     </li>
                 </ul>
                 <ul class="navbar-nav ms-auto">
+
                     @if (Request.IsAuthenticated)
                     {
-                        <li class="nav-item">
-                            @Html.ActionLink("Panel de administración", "PanelDeAdministracion", "Home", new { area = "" }, new { @class = "nav-link" })
-                        </li>
-                        <li class="nav-item"><a class="nav-link" href="/Funcionarios/cerrarSesion"><i class="fa fa-sign-out"></i> Logout</a></li>
+                        if (((Context.User.Identity as FormsIdentity).Ticket.UserData) == "Funcionario")
+                        {
+                            <li class="nav-item">
+                                @Html.ActionLink("Panel de administración", "PanelDeAdministracion", "Home", new { area = "" }, new { @class = "nav-link" })
+                            </li>
+                        }
+                        <li class="nav-item"><a class="nav-link" href="/Ventas/Carrito"><i class="fa fa-shopping-cart"></i> Carrito</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/Personas/CerrarSesion"><i class="fa fa-sign-out"></i> Logout</a></li>
                     }
                     else
                     {
-                        <li class="nav-item"><a class="nav-link" href="/Funcionarios/iniciarSesion"><span class="fa fa-sign-in"></span> Login</a></li>
-
+                        <li class="nav-item"><a class="nav-link" href="/Personas/IniciarSesion"><span class="fa fa-sign-in"></span> Login</a></li>
                     }
                 </ul>
             </div>

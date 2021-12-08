@@ -1,22 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Planetario.Handlers;
 using Planetario.Models;
+using System.Collections.Generic;
 
 namespace Planetario.Controllers
 {
     public class ActividadesController : Controller
     {
-        public ActionResult crearActividad()
+
+        private readonly IActividadesService AccesoDatos;
+
+        public ActividadesController()
+        {
+            AccesoDatos = new ActividadHandler();
+        }
+
+        public ActividadesController(IActividadesService service)
+        {
+            AccesoDatos = service;
+        }
+
+        public ActionResult CrearActividad()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult crearActividad(ActividadModel actividad, string topicos)
+        public ActionResult CrearActividad(ActividadModel actividad, string topicos)
         {
             ViewBag.ExitoAlCrear = false;
             string[] topicosSeleccionados = topicos.Split(';');
@@ -24,14 +35,14 @@ namespace Planetario.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    ActividadHandler accesoDatos = new ActividadHandler();
-                    ViewBag.ExitoAlCrear = accesoDatos.crearActividad(actividad);
+                    
+                    ViewBag.ExitoAlCrear = AccesoDatos.InsertarActividad(actividad);
                     if (ViewBag.ExitoAlCrear)
                     {
                         ViewBag.Message = "La actividad " + actividad.NombreActividad + " fue creada con éxito.";
                         foreach(string topico in topicosSeleccionados)
                         {
-                            accesoDatos.agregarTopico(actividad.NombreActividad, topico);
+                            AccesoDatos.InsertarTopico(actividad.NombreActividad, topico);
                         }
                         ModelState.Clear();
                     } else
@@ -52,41 +63,76 @@ namespace Planetario.Controllers
             }
         }
 
-        public ActionResult listadoDeActividades()
+        public ActionResult ListadoDeActividades()
         {
-            ActividadHandler accesoDatos = new ActividadHandler();
-            ViewBag.actividades = accesoDatos.obtenerTodasLasActividadesAprobadas();
+
+            ViewBag.actividades = AccesoDatos.ObtenerActividadesAprobadas();
             return View();
         }
 
-        public ActionResult verActividad(string nombre)
+        public ActionResult VerActividad(string nombreDeLaActividad)
         {
-            ActividadHandler accesoDatos = new ActividadHandler();
-            ViewBag.actividad = accesoDatos.buscarActividad(nombre);
-            ViewBag.topicos = accesoDatos.obtenerTopicosActividades(nombre);
-            ViewBag.actividades = accesoDatos.obtenerTodasLasActividadesRecomendadas(ViewBag.actividad.PublicoDirigido, ViewBag.actividad.Complejidad);
+            
+            ViewBag.actividad = AccesoDatos.ObtenerActividad(nombreDeLaActividad);
+            ViewBag.topicos = AccesoDatos.ObtenerTopicosActividad(nombreDeLaActividad);
+            ViewBag.actividades = AccesoDatos.ObtenerActividadesRecomendadas(ViewBag.actividad.PublicoDirigido, ViewBag.actividad.Complejidad);
+            ViewBag.entradasDisponibles = AccesoDatos.ObtenerEntradasDisponiblesPorActividad(nombreDeLaActividad);
+            ViewBag.asientosRelacionadosActividad = AccesoDatos.ObtenerAsientos(nombreDeLaActividad);
             return View();
         }
 
         [HttpGet]
-        public ActionResult buscarActividad()
+        public ActionResult ComprarEntradas(string nombreDeLaActividad)
+        {
+            
+            ViewBag.actividad = AccesoDatos.ObtenerActividad(nombreDeLaActividad);
+            ViewBag.topicos = AccesoDatos.ObtenerTopicosActividad(nombreDeLaActividad);
+            ViewBag.actividades = AccesoDatos.ObtenerActividadesRecomendadas(ViewBag.actividad.PublicoDirigido, ViewBag.actividad.Complejidad);
+            ViewBag.entradasDisponibles = AccesoDatos.ObtenerEntradasDisponiblesPorActividad(nombreDeLaActividad);
+            ViewBag.asientosRelacionadosActividad = AccesoDatos.ObtenerAsientos(nombreDeLaActividad);
+            return View();
+        }
+
+        [HttpGet]
+        public JsonResult ObtenerAsientosReservados(string nombreDeLaActividad)
+        {
+            
+            List<AsientoModel> asientosRelacionadosActividad = AccesoDatos.ObtenerAsientos(nombreDeLaActividad);
+            List<int> reservados = new List<int>();
+            for (int i = 0; i < asientosRelacionadosActividad.Count; i++)
+            {
+                AsientoModel asiento = asientosRelacionadosActividad[i];
+                if (asiento.Reservado || asiento.Vendido)
+                {
+                    reservados.Add(i);
+                }
+            }
+            return Json(reservados, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult BuscarActividad()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult buscarActividad(string palabra)
+        public ActionResult BuscarActividad(string palabra)
         {
-            ActividadHandler accesoDatos = new ActividadHandler();
-            ViewBag.actividadesUnicas = accesoDatos.obtenerActividadBuscada(palabra);
+            
+            ViewBag.actividadesUnicas = AccesoDatos.ObtenerActividadesPorBusqueda(palabra);
             return View();
         }
 
         [HttpGet]
         public ActionResult Inscribirme(string titulo)
         {
-            ActividadHandler accesoDatos = new ActividadHandler();
-            ViewBag.precio = accesoDatos.getPrecio(titulo);
+            
+            DatosHandler datosHandler = new DatosHandler();
+            ViewBag.paises = datosHandler.SelectListPaises();
+            ViewBag.nivelesEducativos = datosHandler.SelectListNivelesEducativos();
+            ViewBag.generos = datosHandler.SelectListGeneros();
+            ViewBag.precio = AccesoDatos.ObtenerActividad(titulo).PrecioAproximado;
             ViewBag.titulo = titulo;
             return View();
         }
@@ -99,13 +145,13 @@ namespace Planetario.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    ParticipanteHandler accesoDatos = new ParticipanteHandler();
+                    ParticipanteHandler AccesoDatos = new ParticipanteHandler();
                     ActividadHandler actividad = new ActividadHandler();
-                    bool estaAlmacenado = accesoDatos.ParticipanteEstaAlmacenado(info.infoParticipante.Correo);
+                    bool estaAlmacenado = AccesoDatos.ParticipanteEstaAlmacenado(info.infoParticipante.correo);
                     if (!estaAlmacenado)
-                        estaAlmacenado = accesoDatos.AlmacenarParticipante(info.infoParticipante);
+                        estaAlmacenado = AccesoDatos.AlmacenarParticipante(info.infoParticipante);
                     if (estaAlmacenado)
-                        ViewBag.exitoAlInscribir = accesoDatos.AlmacenarParticipacion(info.infoParticipante.Correo, Request.Form["TituloActividad"], Double.Parse(Request.Form["PrecioActividad"]));
+                        ViewBag.exitoAlInscribir = AccesoDatos.AlmacenarParticipacion(info.infoParticipante.correo, Request.Form["TituloActividad"], Double.Parse(Request.Form["PrecioActividad"]));
 
                     if (ViewBag.exitoAlInscribir)
                     {
@@ -123,10 +169,10 @@ namespace Planetario.Controllers
         }
 
         [HttpGet]
-        public ActionResult verFacturasDeActividad(string actividadNombre)
+        public ActionResult VerFacturasDeActividad(string actividadNombre)
         {
-            ActividadHandler accesoDatos = new ActividadHandler();
-            ViewBag.facturas = accesoDatos.obtenerTodasLasFacturas(actividadNombre);
+            FacturasHandler AccesoDatos = new FacturasHandler();
+            ViewBag.facturas = AccesoDatos.ObtenerFacturasDeActividad(actividadNombre);
             ViewBag.nombreActividad = actividadNombre;
             return View();
         }
@@ -134,11 +180,11 @@ namespace Planetario.Controllers
         [HttpGet]
         public JsonResult ValidarCorreo(string correo)
         {
-            ParticipanteHandler accesoDatos = new ParticipanteHandler();
-            bool existe = accesoDatos.ParticipanteEstaAlmacenado(correo);
+            ParticipanteHandler AccesoDatos = new ParticipanteHandler();
+            bool existe = AccesoDatos.ParticipanteEstaAlmacenado(correo);
             if (existe)
             {
-                var participante = accesoDatos.GetParticipante(correo);
+                var participante = AccesoDatos.ObtenerParticipante(correo);
                 return Json(new{estaAlmacenado = true, infoPersonal = participante}, JsonRequestBehavior.AllowGet);
             }
             else
@@ -148,5 +194,12 @@ namespace Planetario.Controllers
             
         }
 
+        [HttpGet]
+        public JsonResult ActualizarReservacionAsiento(int fila, int columna, string correo, bool reservado, string nombreActividad)
+        {
+            ActividadHandler accesoDatos = new ActividadHandler();
+            bool exito = accesoDatos.ActualizarReservarAsiento(fila, columna, correo, reservado, nombreActividad);
+            return Json(new {Exito = exito }, JsonRequestBehavior.AllowGet);
+        }
     }
 }

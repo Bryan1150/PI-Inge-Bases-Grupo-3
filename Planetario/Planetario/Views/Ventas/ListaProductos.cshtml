@@ -1,0 +1,160 @@
+﻿
+@{
+    string urlProductos = Url.Content("/Ventas/ListaProductosFiltrados");
+    List<SelectListItem> categorias = ViewBag.categorias;
+    List<SelectListItem> ordenarPor = new List<SelectListItem>()
+{
+        new SelectListItem{Text="Más nuevos",Value="fechaIngreso DESC"},
+        new SelectListItem{Text="Tamaño (Ascendiente)",Value="tamano ASC"},
+        new SelectListItem{Text="Tamaño (Descendiente)",Value="tamano DESC"},
+        new SelectListItem{Text="Categoría (A - Z)",Value="categoria ASC"},
+        new SelectListItem{Text="Categoría (Z - A)",Value="categoría DESC"},
+        new SelectListItem{Text="Precio (Ascendiente)",Value="precio ASC"},
+        new SelectListItem{Text="Precio (Descendiente)",Value="precio DESC"}
+    };
+}
+
+<style>
+    #columna-filtros {
+        padding: 1em;
+        background: #f2f2f2;
+    }
+
+    #fila-busqueda {
+        padding: 1em;
+        background: #d9d9d9;
+    }
+
+    div.row {
+        margin: 0px;
+    }
+
+    .texto-derecha {
+        text-align: right;
+    }
+    .card-con-imagen-izq {
+        flex-direction: row;
+        align-items: center;
+        min-height: 258px;
+    }
+    .card-con-imagen-izq img {
+        border-radius: 0.5em;
+        width: 240px;
+        height: 240px;
+        object-fit: cover;
+        margin: 8px auto auto 8px;
+        box-shadow: 0px 0px 2px black;
+    }
+</style>
+
+<span class="titulo">Tienda</span>
+<div class="container-fluid">
+    <div class="row align-items-center" id="fila-busqueda">
+        <div class="col-md-3 text-center">
+            <input type="text" id="busqueda" placeholder="Buscar productos..." class="form-control"/>
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-outline-primary" onclick="textoParaBuscar= busqueda.value; obtenerProductos()">Buscar</button>
+        </div>
+        <div class="col-md-6 text-center">
+            @Html.DropDownList("orden", ordenarPor, htmlAttributes: new { @class = "form-select" })
+        </div>
+    </div>
+    <div class="row">
+        <div id="columna-filtros" class="col-3">
+            <h5>Filtros</h5>
+            <label for="filtroPrecioMin">Precio mínimo</label>
+            <div class="row">
+                <div class="col-6">
+                    <p>0</p>
+                </div>
+                <div class="col-6 texto-derecha">
+                    <p>100</p>
+                </div>
+            </div>
+            <input type="range" id="filtroPrecioMin" placeholder="" class="form-range" min="0" step="1000" max="1000000" onchange="obtenerProductos()"/>
+            <label for="filtroPrecioMax">Precio máximo (123)</label>
+            <div class="row">
+                <div class="col-6">
+                    <p>0</p>
+                </div>
+                <div class="col-6 texto-derecha">
+                    <p>100</p>
+                </div>
+            </div>
+            <input type="range" id="filtroPrecioMax" placeholder="" class="form-range" min="0" step="1000" max="1000000" onchange="obtenerProductos()"/>
+            <br /><br />
+            <label for="filtroCategoria">Categoría</label>
+            <br />
+            @Html.DropDownList("categoria", categorias, "Todas", htmlAttributes: new { @class = "form-select", @onchange = "obtenerProductos()" })
+            <br /><br />
+            <a class="btn btn-outline-danger container-fluid" onclick="eliminarFiltros()">Eliminar filtros</a>
+        </div>
+        <div class="col-9">
+            <div id="listaProductos" onload="obtenerProductos()">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var textoParaBuscar = "";
+
+    const categoria = document.getElementById("categoria");
+    const orden = document.getElementById("orden");
+    const precioMin = document.getElementById("filtroPrecioMin");
+    const precioMax = document.getElementById("filtroPrecioMax");
+    const busqueda = document.getElementById("busqueda");
+
+    function eliminarFiltros() {
+        textoParaBuscar = "";
+        categoria.value = "";
+        orden.value = "fechaIngreso DESC";
+        precioMin.value = 0;
+        precioMax.value = 1000000;
+    }
+
+    function obtenerProductos() {
+        let urlProductos = crearUrlProductos()
+        console.log(urlProductos);
+        fetch(urlProductos)
+            .then(response => response.json())
+            .then(data => agregarProductos(data));
+    }
+
+    function crearUrlProductos() {
+        var urlProductos = "@urlProductos" + "?";
+        urlProductos += "precioMinimo=" + precioMin.value;
+        urlProductos += "&precioMaximo=" + precioMax.value;
+        urlProductos += "&categoria=" + categoria.value;
+        urlProductos += "&palabraBusqueda=" + textoParaBuscar;
+        urlProductos += "&orden=" + orden.value;
+        return urlProductos;
+    }
+
+    function agregarProductos(productos) {
+        let divProductos = document.getElementById("listaProductos");
+        divProductos.innerHTML = "";
+        for (let i = 0; i < productos.length; i++) {
+            let producto = productos[i]            
+            let cartaProducto = crearContenedorProducto(producto)
+            divProductos.appendChild(cartaProducto)
+        }
+    }
+
+    function crearContenedorProducto(producto) {
+        let divContenedor = document.createElement("div");
+        divContenedor.className = "card card-con-imagen-izq bg-light"
+        divContenedor.innerHTML = `
+                <img class="border" src="/Ventas/ObtenerImagen/${producto["Id"]}">
+                <div class="card-body">
+                    <h3 class="card-title">${producto["Nombre"]}</h3>
+                    <p class="card-text">${producto["Descripcion"]}</p>
+                    <p class="card-text"><strong>Precio: </strong>₡${producto["Precio"]}</p>
+                </div> `
+        return divContenedor
+    }
+
+    obtenerProductos();
+</script>

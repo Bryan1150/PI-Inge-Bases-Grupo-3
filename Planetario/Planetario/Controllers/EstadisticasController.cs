@@ -32,12 +32,13 @@ namespace Planetario.Controllers
         public void llenarListasParticipacion()
         {
             EstadisticasHandler accesoDatos = new EstadisticasHandler();
+            DatosHandler datosHandler = new DatosHandler();
 
-            ViewBag.listaPublico = listaPublico();
-            ViewBag.listaDias = listaDias();
-            ViewBag.listaComplejidad = listaComplejidad();
-            ViewBag.listaCategorias = listaCategorias();
-            ViewBag.listaTopicos = listaTopicos();
+            ViewBag.listaPublico = datosHandler.SelectListPublicos();
+            ViewBag.listaDias = datosHandler.SelectListDiasDeLaSemana();
+            ViewBag.listaComplejidad = datosHandler.SelectListComplejidades();
+            ViewBag.listaCategorias = datosHandler.SelectListCategorias();
+            ViewBag.listaTopicos = datosHandler.SelectListTodosLosTopicos();
 
             // Gráficos
 
@@ -50,22 +51,27 @@ namespace Planetario.Controllers
             foreach (var dia in ViewBag.listaDias)
             {
                 listaParticipacionesPorDia.Add(accesoDatos.obtenerCantidadDeParticipantes(dia.Text, "", "", "", ""));
+                //listaParticipacionesPorDia.Add(accesoDatos.ContarParticipantesPorDia(dia.Text));
             }
             foreach (var publico in ViewBag.listaPublico)
             {
                 listaParticipacionesPorPublico.Add(accesoDatos.obtenerCantidadDeParticipantes("", publico.Text, "", "", ""));
+                //listaParticipacionesPorPublico.Add(accesoDatos.ContarParticipantesPorPublico(publico.Text));
             }
             foreach (var complejidad in ViewBag.listaComplejidad)
             {
                 listaParticipacionesPorComplejidad.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", complejidad.Text, "", ""));
+                //listaParticipacionesPorComplejidad.Add(accesoDatos.ContarParticipantesPorComplejidad(complejidad.Text));
             }
             foreach (var categoria in ViewBag.listaCategorias)
             {
                 listaParticipacionesPorCategoria.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", categoria.Text, ""));
+                //listaParticipacionesPorCategoria.Add(accesoDatos.ContarParticipantesPorCategoria(categoria.Text));
             }
             foreach (var topico in ViewBag.listaTopicos)
             {
                 listaParticipacionesPorTopicoTodos.Add(accesoDatos.obtenerCantidadDeParticipantes("", "", "", "", topico.Text));
+                //listaParticipacionesPorTopicoTodos.Add(accesoDatos.ContarParticipantesPorTopico(topico.Text));
             }
 
             ViewBag.participacionesPorDia = listaParticipacionesPorDia;
@@ -151,119 +157,6 @@ namespace Planetario.Controllers
             }
 
             return listaIdiomas;
-        }
-
-        public List<SelectListItem> listaDias()
-        {
-            var dias = new List<String>()
-            {
-                "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"
-            };
-
-            List<SelectListItem> listaDias = new List<SelectListItem>();
-            string todos = "Todos";
-
-            for(int i = 0; i < dias.Count(); i++)
-            {
-                listaDias.Add(new SelectListItem()
-                {
-                    Text = dias[i],
-                    Selected = (dias[i] == todos ? true : false)
-                }) ; 
-            }
-
-            return listaDias;
-        }
-
-        public List<SelectListItem> listaPublico()
-        {
-            var publico = new List<String>()
-            {
-                "Niños", "Jóvenes", "Adultos", "Adultos Mayores"
-            };
-
-            List<SelectListItem> listaPublico = new List<SelectListItem>();
-            string todos = "Todos";
-
-            for (int i = 0; i < publico.Count(); i++)
-            {
-                listaPublico.Add(new SelectListItem()
-                {
-                    Text = publico[i],
-                    Selected = (publico[i] == todos ? true : false)
-                });
-            }
-
-            return listaPublico;
-        }
-
-        public List<SelectListItem> listaComplejidad()
-        {
-            var complejidad = new List<String>()
-            {
-                "Simple", "Intermedio", "Avanzado"
-            };
-
-            List<SelectListItem> listaComplejidad = new List<SelectListItem>();
-            string todos = "Todos";
-
-            for (int i = 0; i < complejidad.Count(); i++)
-            {
-                listaComplejidad.Add(new SelectListItem()
-                {
-                    Text = complejidad[i],
-                    Selected = (complejidad[i] == todos ? true : false)
-                });
-            }
-
-            return listaComplejidad;
-        }
-
-        public List<SelectListItem> listaCategorias() 
-        {
-            var categorias = new List<String>()
-            {
-                "Cuerpos del sistema solar", "Objetos de Cielo Profundo", "Astronomia", "General"
-            };
-
-            List<SelectListItem> listaCategorias = new List<SelectListItem>();
-            string todos = "Todos";
-
-            for (int i = 0; i < categorias.Count(); i++)
-            {
-                listaCategorias.Add(new SelectListItem()
-                {
-                    Text = categorias[i],
-                    Selected = (categorias[i] == todos ? true : false)
-                });
-            }
-
-            return listaCategorias;
-        }
-
-        
-        public List<SelectListItem> listaTopicos() 
-        {
-            List<SelectListItem> listaTopicos = new List<SelectListItem>();
-            ClasesYTopicosModel clasesYTopicos = new ClasesYTopicosModel();
-
-            var categorias = listaCategorias();
-
-            for (int i = 0; i < categorias.Count(); i++)
-            {
-                for (int j = 0; j < clasesYTopicos.ConseguirTopicosPorCategoria(categorias[i].Text).Count(); j++)
-                {
-                    listaTopicos.Add(clasesYTopicos.ConseguirTopicosPorCategoria(categorias[i].Text)[j]);
-                }
-            }
-            return listaTopicos;
-        }
-        
-
-        public Dictionary<string, IList<SelectListItem>> diccionarioTopicos()
-        {
-            ClasesYTopicosModel clasesYTopicos = new ClasesYTopicosModel();
-            return(clasesYTopicos.getDiccionario());
         }
 
         public string stringResultado(string dia, string publico, string complejidad, string categoria, string topico, int total)

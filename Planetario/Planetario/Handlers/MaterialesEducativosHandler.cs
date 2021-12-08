@@ -20,7 +20,7 @@ namespace Planetario.Handlers
 
         public bool AlmacenarMaterialEducativo(MaterialEducativoModel material)
         {
-            FileHandler manejadorArchivo = new FileHandler();
+            ArchivosHandler manejadorArchivo = new ArchivosHandler();
             string columnas, valores;
             object archivoVistaPrevia = System.Data.SqlTypes.SqlBinary.Null;
             object tipoArchivoVistaPrevia = System.Data.SqlTypes.SqlBinary.Null; ;
@@ -82,12 +82,7 @@ namespace Planetario.Handlers
         {
             string nombreArchivo = "materialArchivo", tipoArchivo = "materialTipoArchivo";
             Consulta = "SELECT "+ nombreArchivo +", "+ tipoArchivo + ", tituloMaterialEducativoPK FROM MaterialEducativo WHERE tituloMaterialEducativoPK = @titulo";
-
-            Dictionary<string, object> valoresParametros = new Dictionary<string, object>
-            {
-                { "@titulo",  titulo }
-            };
-
+            KeyValuePair<string, object> valoresParametros = new KeyValuePair<string, object>( "@titulo",  titulo);
             return BaseDatos.ObtenerArchivo(Consulta, valoresParametros, nombreArchivo, tipoArchivo);
         }
 
@@ -96,10 +91,7 @@ namespace Planetario.Handlers
             string nombreColumnaArchivo = "imagenVistaPrevia", columnaTipoArchivo = "tipoArchivoVistaPrevia";
             Consulta = "SELECT " + nombreColumnaArchivo + ", " + columnaTipoArchivo + ", titulo FROM MaterialEducativo WHERE tituloMaterialEducativo = @titulo";
 
-            Dictionary<string, object> valoresParametros = new Dictionary<string, object>
-            {
-                { "@titulo",  titulo }
-            };
+            KeyValuePair<string, object> valoresParametros = new KeyValuePair<string, object>( "@titulo",  titulo );
 
             return BaseDatos.ObtenerArchivo(Consulta, valoresParametros, nombreColumnaArchivo, columnaTipoArchivo);
         }

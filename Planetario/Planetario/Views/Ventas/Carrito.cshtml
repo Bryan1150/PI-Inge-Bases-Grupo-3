@@ -1,0 +1,96 @@
+﻿<style>
+    .card-con-imagen-izq {
+        flex-direction: row;
+        align-items: center;
+        min-height: 258px;
+    }
+    .card-con-imagen-izq img {
+        border-radius: 0.5em;
+        width: 240px;
+        height: 240px;
+        object-fit:cover;
+        margin: 8px auto auto 8px;
+        box-shadow: 0px 0px 2px black;
+    }
+</style>
+
+<body>
+    <span class="titulo">Carrito</span>
+    @if(ViewBag.ListaProductos != null || ViewBag.ListaEntradas != null)
+        {
+        <div class="row">
+            <div class="col-md-8">
+                @if (ViewBag.ListaProductos != null)
+                {
+                    <h1>Productos</h1>
+                    foreach (var producto in ViewBag.ListaProductos)
+                    {
+                        <div class="card card-con-imagen-izq bg-light">
+                            <img class="border" src="@Url.Action("ObtenerImagen", "Ventas", new { id = producto.Id })">
+                            <div class="card-body">
+                                <h3 class="card-title">@producto.Nombre</h3>
+                                <p class="card-text">@producto.Descripcion</p>
+                                <div class="row" style="margin-top: 0;">
+                                    <div class="col-6">
+                                        <p class="card-text"><strong>Precio: </strong>₡@producto.Precio</p>
+                                    </div>
+                                    <div class="col-6">
+                                        <p class="card-text"><strong>Cantidad: </strong>@producto.CantidadCarrito</p>
+                                    </div>
+                                </div>
+                                @Html.ActionLink("Eliminar", "EliminarElementoDelCarritoDelUsuario", new { idComprable = producto.Id }, new { @class = "btn btn-outline-danger" })
+                            </div>
+                        </div>
+                        <br />
+                    }
+                }
+
+                @if (ViewBag.ListaEntradas != null)
+                {
+                    <br><h1>Entradas a actividades</h1><br />
+                    foreach (var entrada in ViewBag.ListaEntradas)
+                    {
+                        <div class="card bg-light">
+                            <div class="card-body">
+                                <h3 class="card-title">Entrada para: @entrada.Nombre</h3>
+                                <div class="row" style="margin-top: 0;">
+                                    <div class="col-6">
+                                        <p class="card-text"><strong>Precio: </strong>₡@entrada.Precio</p>
+                                    </div>
+                                    <div class="col-6">
+                                        <p class="card-text"><strong>Cantidad: </strong>1</p>
+                                    </div>
+                                </div>
+                                @Html.ActionLink("Eliminar", "EliminarElementoDelCarritoDelUsuario", new { idComprable = entrada.Id }, new { @class = "btn btn-outline-danger" })
+                            </div>
+                        </div>
+                        <br />
+                    }
+                }
+            </div>
+            <div class="col-md-3 offset-md-1">
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-text">
+                            <h4>Subtotal: (@ViewBag.CantidadItems items)</h4>
+                            <h5><strong>Precio: </strong>₡@ViewBag.Precio</h5>
+                            <h5><strong>IVA: </strong>₡@ViewBag.IVA</h5>
+                            <h5><strong>Precio Total: </strong>₡@ViewBag.PrecioTotal</h5>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a class="btn btn-success container-fluid">Pagar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        } else
+        {
+            <p class="text-center">No tienes artículos.</p>
+        }
+             
+   
+
+    
+</body>

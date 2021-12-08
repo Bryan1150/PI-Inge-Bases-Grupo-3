@@ -1,0 +1,87 @@
+﻿@model Planetario.Models.ClienteModel
+@{ 
+    ViewBag.Title = "Inscribirme";
+    List<SelectListItem> paises = ViewBag.paises;
+    List<SelectListItem> generos = ViewBag.generos;
+    List<SelectListItem> nivelesEducativos = ViewBag.nivelesEducativos;
+}
+
+<body>
+    @using (Html.BeginForm("Inscribirme", "Clientes", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <span class="titulo">Inscribirme</span>
+        <p class="alert-success">@ViewBag.Message</p>
+        <h4> Formulario de inscripción</h4>
+        <hr />
+
+        <div class="row">
+            <div class="col-md-4 col-sm-12">
+                @Html.LabelFor(model => model.nombre, htmlAttributes: new { @class = "control-label" })
+                <div>
+                    @Html.TextBoxFor(model => model.nombre, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
+                </div>
+
+                @Html.LabelFor(model => model.apellido1, htmlAttributes: new { @class = "control-label" })
+                <div>
+                    @Html.TextBoxFor(model => model.apellido1, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.apellido1, "", new { @class = "text-danger" })
+                </div>
+
+                @Html.LabelFor(model => model.apellido2, htmlAttributes: new { @class = "control-label" })
+                <div>
+                    @Html.TextBoxFor(model => model.apellido2, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.apellido2, "", new { @class = "text-danger" })
+                </div>
+
+                @Html.LabelFor(model => model.correo, htmlAttributes: new { @class = "control-label" })
+                <div>
+                    @Html.TextBoxFor(model => model.correo, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.correo, "", new { @class = "text-danger" })
+                </div>
+
+                @Html.LabelFor(model => model.contrasena, htmlAttributes: new { @class = "control-label" })
+                <div>
+                    @Html.TextBoxFor(model => model.contrasena, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.contrasena, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-12">
+
+                @Html.LabelFor(model => model.fechaNacimiento, htmlAttributes: new { @class = "control-label" })
+                <div>
+                    @Html.TextBoxFor(model => model.fechaNacimiento, new { @type = "date", @class = "form-control datepicker" })
+                    @Html.ValidationMessageFor(model => model.fechaNacimiento, "", new { @class = "text-danger" })
+                </div>
+
+                @Html.LabelFor(model => model.pais, htmlAttributes: new { @class = "control-label" })
+                <div>
+                    @Html.DropDownListFor(model => model.pais, paises, "-País-", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.pais, "", new { @class = "text-danger" })
+                </div>
+
+                @Html.LabelFor(model => model.nivelEducativo, htmlAttributes: new { @class = "control-label" })
+                <div>
+                    @Html.DropDownListFor(model => model.nivelEducativo, nivelesEducativos, "-selección-", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.nivelEducativo, "", new { @class = "text-danger" })
+                </div>
+
+                @Html.LabelFor(model => model.genero, htmlAttributes: new { @class = "control-label" })
+                <div>
+                    @Html.DropDownListFor(model => model.genero, generos, "-Selección-", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.genero, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-1 col-md-4 col-sm-2">
+                <input type="submit" class="btn btn-success" value="Aceptar" />
+            </div>
+        </div>
+    }
+    <div>
+        @Html.ActionLink("Regresar a Inicio", "InformacionBasica", "Home")
+    </div>
+</body>

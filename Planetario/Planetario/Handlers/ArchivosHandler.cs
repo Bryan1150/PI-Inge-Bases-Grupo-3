@@ -3,7 +3,7 @@ using System.Web;
 
 namespace Planetario.Handlers
 {
-    public class FileHandler
+    public class ArchivosHandler
     {
         public byte[] ConvertirArchivoABytes(HttpPostedFileBase archivo)
         {

@@ -2,83 +2,117 @@
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Diagnostics;
+using System.IO;
+using System;
 
 namespace Planetario.Handlers
 {
     public class BaseDatosHandler
     {
-        private SqlConnection Conexion;
-        private readonly string RutaConexion;
+        private SqlConnection conexion;
+        private readonly string rutaConexion;
 
         public BaseDatosHandler()
         {
-            RutaConexion = ConfigurationManager.ConnectionStrings["ConexionBaseDatosServidor"].ToString();
-            Conexion = new SqlConnection(RutaConexion);
+            rutaConexion = ConfigurationManager.ConnectionStrings["ConexionBaseDatosServidor"].ToString();
+            conexion = new SqlConnection(rutaConexion);
         }
 
         public DataTable LeerBaseDeDatos(string consulta)
         {
-            SqlCommand comandoParaConsulta = new SqlCommand(consulta, Conexion);
+            SqlCommand comandoParaConsulta = new SqlCommand(consulta, conexion);
             SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
             DataTable consultaFormatoTabla = new DataTable();
 
-            Conexion.Open();
+            conexion.Open();
             adaptadorParaTabla.Fill(consultaFormatoTabla);
-            Conexion.Close();
+            conexion.Close();
             return consultaFormatoTabla;
         }
 
         public bool InsertarEnBaseDatos(string consulta, Dictionary<string, object> valoresParametros)
         {
             bool exito;
-            SqlCommand comandoParaConsulta = new SqlCommand(consulta, Conexion);
+            SqlCommand comandoParaConsulta = new SqlCommand(consulta, conexion);
 
-            foreach (KeyValuePair<string, object> parejaValores in valoresParametros)
-            {
-                comandoParaConsulta.Parameters.AddWithValue(parejaValores.Key, parejaValores.Value);
-            }
+            if(valoresParametros != null)
+                foreach (KeyValuePair<string, object> parejaValores in valoresParametros)
+                {
+                    comandoParaConsulta.Parameters.AddWithValue(parejaValores.Key, parejaValores.Value);
+                }
 
-            Conexion.Open();
+            conexion.Open();
             try
             {
                 comandoParaConsulta.ExecuteNonQuery();
                 exito = true;
             }
-            catch(System.Exception ex)//Ver ex con debugger
+            catch(System.Exception ex)
             {
                 System.Console.WriteLine(ex.Message);
                 exito = false;
             }
-            //exito = comandoParaConsulta.ExecuteNonQuery() >= 1;
-            Conexion.Close();
-
+            conexion.Close();
             return exito;
         }
 
-        public System.Tuple<byte[], string> ObtenerArchivo (string consulta, Dictionary<string, object> valoresParametros, string nombreColumnaArchivo, string nombreColumnaTipo)
+        public bool EliminarEnBaseDatos(string consulta, Dictionary<string, object> valoresParametros)
         {
-            byte[] bytes;
-            string contentType;
-            SqlCommand comandoParaConsulta = new SqlCommand(consulta, Conexion);
-            
+            bool exito;
+            SqlCommand comandoParaConsulta = new SqlCommand(consulta, conexion);
+
             foreach (KeyValuePair<string, object> parejaValores in valoresParametros)
             {
                 comandoParaConsulta.Parameters.AddWithValue(parejaValores.Key, parejaValores.Value);
             }
+
+            conexion.Open();
             
-            Conexion.Open();
+            try
+            {
+                comandoParaConsulta.ExecuteNonQuery();
+                exito = true;
+            }
+            catch(System.Exception ex)
+            {
+                System.Console.WriteLine(ex.Message);
+                exito = false;
+            }
 
-            SqlDataReader lectorDeDatos = comandoParaConsulta.ExecuteReader();
-            lectorDeDatos.Read();
-
-            bytes = (byte[])lectorDeDatos[nombreColumnaArchivo];
-            contentType = lectorDeDatos[nombreColumnaTipo].ToString();
-
-            Conexion.Close();
-
-            return new System.Tuple<byte[], string>(bytes, contentType);
+            conexion.Close();
+            return exito;
         }
 
+        public bool ActualizarEnBaseDatos(string consulta, Dictionary<string, object> valoresParametros)
+        {
+            bool exito;
+            SqlCommand comandoParaConsulta = new SqlCommand(consulta, conexion);
+
+            foreach (KeyValuePair<string, object> parejaValores in valoresParametros)
+            {
+                comandoParaConsulta.Parameters.AddWithValue(parejaValores.Key, parejaValores.Value);
+            }
+
+            conexion.Open();
+            exito = comandoParaConsulta.ExecuteNonQuery() >= 1;
+            conexion.Close();
+
+            return exito;
+        }
+
+        public Tuple<byte[],string> ObtenerArchivo (string consulta, KeyValuePair<string,object> parametro, string columnaContenido, string columnaTipo)
+        {
+            SqlCommand comandoParaConsulta = new SqlCommand(consulta, conexion);
+            comandoParaConsulta.Parameters.AddWithValue(parametro.Key, parametro.Value);
+            
+            conexion.Open();
+            SqlDataReader lectorDeDatos = comandoParaConsulta.ExecuteReader();
+            lectorDeDatos.Read();
+            byte[] bytes = (byte[])lectorDeDatos[columnaContenido];
+            string tipo = tipo = lectorDeDatos[columnaTipo].ToString();
+            conexion.Close();
+
+            return new Tuple<byte[], string>(bytes, tipo);
+        }
     }
 }
