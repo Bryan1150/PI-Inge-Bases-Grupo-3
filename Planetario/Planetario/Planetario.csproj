@@ -243,6 +243,7 @@
     <Content Include="App_Data\TiposDeActividad.json" />
     <Content Include="App_Data\DiasDeLaSemana.json" />
     <Content Include="App_Data\NivelesEducativos.json" />
+    <Content Include="CreateWebApp\azuredeploy.json" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.6.0.js" />
     <Content Include="Scripts\jquery-3.6.0.min.js" />
