@@ -2,22 +2,30 @@
 using System.Configuration;
 using Planetario.Handlers;
 using Planetario.Models;
+using Planetario.Interfaces;
 
 namespace Planetario.Controllers
 {
     public class VentasController : Controller
     {
 
-        readonly IVentasService AccesoDatos;
+        readonly VentasInterfaz ventasInterfaz;
+        readonly ProductosInterfaz productosInterfaz;
 
         public VentasController()
         {
-            AccesoDatos = new VentasHandler();
+            ventasInterfaz = new VentasHandler();
+            productosInterfaz = new ProductosHandler();
         }
 
-        public VentasController(IVentasService _servicio)
+        public VentasController(VentasInterfaz _servicio)
         {
-            AccesoDatos = _servicio;
+            ventasInterfaz = _servicio;
+        }
+
+        public VentasController(ProductosInterfaz _servicio)
+        {
+            productosInterfaz = _servicio;
         }
 
         public ActionResult ListaProductos()
@@ -29,8 +37,7 @@ namespace Planetario.Controllers
 
         public JsonResult ListaProductosFiltrados(double precioMinimo, double precioMaximo, string categoria, string palabraBusqueda, string orden)
         {
-            ProductosHandler productosHandler = new ProductosHandler();
-            return Json(productosHandler.ObtenerProductosFiltrados(precioMinimo, precioMaximo, categoria, palabraBusqueda, orden), JsonRequestBehavior.AllowGet);
+            return Json(productosInterfaz.ObtenerProductosFiltrados(precioMinimo, precioMaximo, categoria, palabraBusqueda, orden), JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -41,8 +48,8 @@ namespace Planetario.Controllers
                 string correoUsuario;
                 correoUsuario = HttpContext.User.Identity.Name;
 
-                int cantidadEntradas = AccesoDatos.ObtenerCantidadDeEntradasDelCarrito(correoUsuario);
-                int cantidadProductos = AccesoDatos.ObtenerCantidadDeProductosDelCarrito(correoUsuario);
+                int cantidadEntradas = ventasInterfaz.ObtenerCantidadDeEntradasDelCarrito(correoUsuario);
+                int cantidadProductos = ventasInterfaz.ObtenerCantidadDeProductosDelCarrito(correoUsuario);
                 int cantidadItems = cantidadEntradas + cantidadProductos;
                 double total = 0;
 
@@ -50,14 +57,14 @@ namespace Planetario.Controllers
 
                 if (cantidadEntradas != 0) 
                 {
-                    ViewBag.ListaEntradas = AccesoDatos.ObtenerTodasLasEntradasDelCarrito(correoUsuario);
-                    total += AccesoDatos.ObtenerPrecioTotalDeEntradasDelCarrito(correoUsuario);
+                    ViewBag.ListaEntradas = ventasInterfaz.ObtenerTodasLasEntradasDelCarrito(correoUsuario);
+                    total += ventasInterfaz.ObtenerPrecioTotalDeEntradasDelCarrito(correoUsuario);
                 }
 
                 if (cantidadProductos != 0)
                 {
-                    ViewBag.ListaProductos = AccesoDatos.ObtenerTodosLosProductosDelCarrito(correoUsuario);
-                    total += AccesoDatos.ObtenerPrecioTotalDeProductosDelCarrito(correoUsuario);
+                    ViewBag.ListaProductos = ventasInterfaz.ObtenerTodosLosProductosDelCarrito(correoUsuario);
+                    total += ventasInterfaz.ObtenerPrecioTotalDeProductosDelCarrito(correoUsuario);
                 }
 
                 ViewBag.Precio = total;
@@ -75,22 +82,26 @@ namespace Planetario.Controllers
         [HttpGet]
         public JsonResult EliminarElementoDelCarritoDelUsuario(int idComprable)
         {
-            string correoUsuario = HttpContext.User.Identity.Name;
-            var exito = AccesoDatos.EliminarDelCarrito(correoUsuario, idComprable);
+            bool exito = false;
+            if(Request.IsAuthenticated)
+            {
+                string correoUsuario = HttpContext.User.Identity.Name;
+                exito = ventasInterfaz.EliminarDelCarrito(correoUsuario, idComprable);
+            }            
             return Json(new { Exito = exito }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
         public JsonResult DisminiuirLaCantidadDelElementoDelCarritoDelUsuario(string correoUsuario, int idComprable)
         {
-            var exito = AccesoDatos.DisminiuirLaCantidadDelElementoDelCarrito(correoUsuario, idComprable);
+            var exito = ventasInterfaz.DisminiuirLaCantidadDelElementoDelCarrito(correoUsuario, idComprable);
             return Json(new { Exito = exito }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
         public JsonResult AumentarLaCantidadDelElementoDelCarritoDelUsuario(string correoUsuario, int idComprable)
         {
-            var exito = AccesoDatos.AumentarLaCantidadDelElementoDelCarrito(correoUsuario, idComprable);
+            var exito = ventasInterfaz.AumentarLaCantidadDelElementoDelCarrito(correoUsuario, idComprable);
             return Json(new { Exito = exito }, JsonRequestBehavior.AllowGet);
         }
 
@@ -108,7 +119,7 @@ namespace Planetario.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    ViewBag.ExitoAlCrear = AccesoDatos.InsertarProducto(producto);
+                    ViewBag.ExitoAlCrear = ventasInterfaz.InsertarProducto(producto);
                     if (ViewBag.ExitoAlCrear)
                     {
                         ViewBag.Mensaje = "El producto" + " " + producto.Nombre + " fue agregado con éxito";
@@ -146,7 +157,7 @@ namespace Planetario.Controllers
         [HttpGet]
         public JsonResult AgregarAlCarrito(int idComprable, int cantidad)
         {
-            var exito = AccesoDatos.AgregarAlCarrito(idComprable, cantidad);
+            var exito = ventasInterfaz.AgregarAlCarrito(idComprable, cantidad);
             return Json(new { Exito = exito }, JsonRequestBehavior.AllowGet);
         }
 

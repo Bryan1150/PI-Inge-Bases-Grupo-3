@@ -3,20 +3,21 @@ using System.Web.Mvc;
 using Planetario.Handlers;
 using Planetario.Models;
 using System.Collections.Generic;
+using Planetario.Interfaces;
 
 namespace Planetario.Controllers
 {
     public class ActividadesController : Controller
     {
 
-        private readonly IActividadesService AccesoDatos;
+        private readonly ActividadesInterfaz AccesoDatos;
 
         public ActividadesController()
         {
             AccesoDatos = new ActividadHandler();
         }
 
-        public ActividadesController(IActividadesService service)
+        public ActividadesController(ActividadesInterfaz service)
         {
             AccesoDatos = service;
         }

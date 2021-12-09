@@ -148,8 +148,9 @@
     <Compile Include="Handlers\ActividadHandler.cs" />
     <Compile Include="Handlers\BaseDatosHandler.cs" />
     <Compile Include="Handlers\EventosHandler.cs" />
-    <Compile Include="Handlers\IActividadesService.cs" />
-    <Compile Include="Handlers\IVentasService.cs" />
+    <Compile Include="Interfaces\ActividadesInterfaz.cs" />
+    <Compile Include="Interfaces\ProductosInterfaz.cs" />
+    <Compile Include="Interfaces\VentasInterfaz.cs" />
     <Compile Include="Handlers\ParticipanteHandler.cs" />
     <Compile Include="Handlers\PersonaHandler.cs" />
     <Compile Include="Handlers\ProductosHandler.cs" />

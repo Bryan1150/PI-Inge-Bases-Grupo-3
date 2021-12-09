@@ -1,11 +1,12 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Planetario.Models;
 using Planetario.Controllers;
-using Planetario.Handlers;
 using System.Web.Mvc;
 using Moq;
 using System.Collections.Generic;
 using System.Web.Script.Serialization;
+using Planetario.Interfaces;
+using System.Web;
 
 namespace PruebasPlanetarios
 {
@@ -15,9 +16,7 @@ namespace PruebasPlanetarios
         [TestMethod]
         public void ListaProductosNoEsNula()
         {
-            var mockVentas = new Mock<IVentasService>();
-            mockVentas.Setup(servicio => servicio.ObtenerTodosLosProductos()).Returns(new List<ProductoModel>());
-            VentasController ventasController = new VentasController(mockVentas.Object);
+            VentasController ventasController = new VentasController();
 
             ViewResult vistaResultado = ventasController.ListaProductos() as ViewResult;
 
@@ -25,51 +24,21 @@ namespace PruebasPlanetarios
         }
 
         [TestMethod]
-        public void ListaProductosListaDeProductosNoEsNula()
+        public void ListaProductosFiltradosNoEsNula()
         {
-            var mockVentas = new Mock<IVentasService>();
-            mockVentas.Setup(servicio => servicio.ObtenerTodosLosProductos()).Returns(new List<ProductoModel>());
-            VentasController ventasController = new VentasController(mockVentas.Object);
+            var mockProductos = new Mock<ProductosInterfaz>();
+            mockProductos.Setup(servicio => servicio.ObtenerProductosFiltrados(0, 1000000, "", "", "")).Returns(new List<ProductoModel>());
+            VentasController ventasController = new VentasController(mockProductos.Object);           
 
-            ViewResult vistaResultado = ventasController.ListaProductos() as ViewResult;
-            var listaProductos = vistaResultado.ViewBag.ListaProductos;
+            JsonResult resultado = ventasController.ListaProductosFiltrados(0, 1000000, "", "", "");
 
-            Assert.IsNotNull(listaProductos);
-        }
-
-        [TestMethod]
-        public void ListaProductosListaDeProductosEsTipoLista()
-        {
-            var mockVentas = new Mock<IVentasService>();
-            mockVentas.Setup(servicio => servicio.ObtenerTodosLosProductos()).Returns(new List<ProductoModel>());
-            VentasController ventasController = new VentasController(mockVentas.Object);
-
-            ViewResult vistaResultado = ventasController.ListaProductos() as ViewResult;
-            var listaProductos = vistaResultado.ViewBag.ListaProductos;
-
-            Assert.IsInstanceOfType(listaProductos, typeof(List<ProductoModel>));
-        }
-
-        [TestMethod]
-        public void ListaProductosListaDeProductosNoTienesNulos()
-        {
-            var mockVentas = new Mock<IVentasService>();
-            var listaProductos = new List<ProductoModel>() {
-                new ProductoModel()
-            };
-            mockVentas.Setup(servicio => servicio.ObtenerTodosLosProductos()).Returns(listaProductos);
-            VentasController ventasController = new VentasController(mockVentas.Object);
-
-            ViewResult vistaResultado = ventasController.ListaProductos() as ViewResult;
-            listaProductos = vistaResultado.ViewBag.ListaProductos;
-
-            CollectionAssert.AllItemsAreNotNull(listaProductos);
+            Assert.IsNotNull(resultado);
         }
 
         [TestMethod]
         public void VerCarritoDelUsuarioNoEsNulo()
         {
-            var mockVentas = new Mock<IVentasService>();
+            var mockVentas = new Mock<VentasInterfaz>();
             string correoUsuario = "diazfonseca.diego@gmail.com";
             mockVentas.Setup(servicio => servicio.ObtenerTodosLosProductosDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
             mockVentas.Setup(servicio => servicio.ObtenerTodasLasEntradasDelCarrito(correoUsuario)).Returns(new List<EntradaModel>());
@@ -85,7 +54,7 @@ namespace PruebasPlanetarios
         [TestMethod]
         public void VerCarritoDelUsuarioRetornaTotalCorrecto()
         {
-            var mockVentas = new Mock<IVentasService>();
+            var mockVentas = new Mock<VentasInterfaz>();
             string correoUsuario = "diazfonseca.diego@gmail.com";
             mockVentas.Setup(servicio => servicio.ObtenerTodosLosProductosDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
             mockVentas.Setup(servicio => servicio.ObtenerTodasLasEntradasDelCarrito(correoUsuario)).Returns(new List<EntradaModel>());
@@ -103,7 +72,7 @@ namespace PruebasPlanetarios
         [TestMethod]
         public void VerCarritoDelUsuarioRetornaListaProductosNoNula()
         {
-            var mockVentas = new Mock<IVentasService>();
+            var mockVentas = new Mock<VentasInterfaz>();
             string correoUsuario = "diazfonseca.diego@gmail.com";
             mockVentas.Setup(servicio => servicio.ObtenerTodosLosProductosDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
             mockVentas.Setup(servicio => servicio.ObtenerTodasLasEntradasDelCarrito(correoUsuario)).Returns(new List<EntradaModel>());
@@ -120,7 +89,7 @@ namespace PruebasPlanetarios
         [TestMethod]
         public void VerCarritoDelUsuarioRetornaListaEntradasNoNula()
         {
-            var mockVentas = new Mock<IVentasService>();
+            var mockVentas = new Mock<VentasInterfaz>();
             string correoUsuario = "diazfonseca.diego@gmail.com";
             mockVentas.Setup(servicio => servicio.ObtenerTodosLosProductosDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
             mockVentas.Setup(servicio => servicio.ObtenerTodasLasEntradasDelCarrito(correoUsuario)).Returns(new List<EntradaModel>());
@@ -137,7 +106,7 @@ namespace PruebasPlanetarios
         [TestMethod]
         public void VerCarritoDelUsuarioRetornaTotalNoNulo()
         {
-            var mockVentas = new Mock<IVentasService>();
+            var mockVentas = new Mock<VentasInterfaz>();
             string correoUsuario = "danielmonge25@hotmail.com";
             mockVentas.Setup(servicio => servicio.ObtenerTodosLosProductosDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
             mockVentas.Setup(servicio => servicio.ObtenerTodasLasEntradasDelCarrito(correoUsuario)).Returns(new List<EntradaModel>());
@@ -154,7 +123,7 @@ namespace PruebasPlanetarios
         [TestMethod]
         public void VerCarritoListaDeProductosEsTipoLista()
         {
-            var mockVentas = new Mock<IVentasService>();
+            var mockVentas = new Mock<VentasInterfaz>();
             string correoUsuario = "danielmonge25@hotmail.com";
             mockVentas.Setup(servicio => servicio.ObtenerTodosLosProductosDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
             mockVentas.Setup(servicio => servicio.ObtenerTodasLasEntradasDelCarrito(correoUsuario)).Returns(new List<EntradaModel>());
@@ -171,7 +140,7 @@ namespace PruebasPlanetarios
         [TestMethod]
         public void VerCarritoListaDeEntradasEsTipoLista()
         {
-            var mockVentas = new Mock<IVentasService>();
+            var mockVentas = new Mock<VentasInterfaz>();
             string correoUsuario = "danielmonge25@hotmail.com";
             mockVentas.Setup(servicio => servicio.ObtenerTodosLosProductosDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
             mockVentas.Setup(servicio => servicio.ObtenerTodasLasEntradasDelCarrito(correoUsuario)).Returns(new List<EntradaModel>());
@@ -188,7 +157,11 @@ namespace PruebasPlanetarios
         [TestMethod]
         public void VerCarritoPrecioTotalsEsTipoDouble()
         {
-            var mockVentas = new Mock<IVentasService>();
+            var mockHttpContext = new Mock<ControllerContext>();
+            mockHttpContext.SetupGet(s => s.HttpContext.Request.IsAuthenticated).Returns(true);
+            mockHttpContext.SetupGet(s => s.HttpContext.User.Identity.Name).Returns("ejemplo");
+
+            var mockVentas = new Mock<VentasInterfaz>();
             string correoUsuario = "danielmonge25@hotmail.com";
             mockVentas.Setup(servicio => servicio.ObtenerTodosLosProductosDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
             mockVentas.Setup(servicio => servicio.ObtenerTodasLasEntradasDelCarrito(correoUsuario)).Returns(new List<EntradaModel>());
@@ -205,7 +178,7 @@ namespace PruebasPlanetarios
         [TestMethod]
         public void EliminarElementoDelCarritoDelUsuarioNoDevuelveNulo()
         {
-            var mockVentas = new Mock<IVentasService>();
+            var mockVentas = new Mock<VentasInterfaz>();
             string correoUsuario = "diazfonseca.diego@gmail.com";
             int idComprable = 5;
             mockVentas.Setup(servicio => servicio.EliminarDelCarrito(correoUsuario,idComprable)).Returns(false);
@@ -219,7 +192,7 @@ namespace PruebasPlanetarios
         [TestMethod]
         public void EliminarElementoDelCarritoDelUsuarioDevuelveFalsoCuandoFalla()
         {
-            var mockVentas = new Mock<IVentasService>();
+            var mockVentas = new Mock<VentasInterfaz>();
             string correoUsuario = "diazfonseca.diego@gmail.com";
             int idComprable = 5;
             mockVentas.Setup(servicio => servicio.EliminarDelCarrito(correoUsuario, idComprable)).Returns(false);
@@ -237,7 +210,7 @@ namespace PruebasPlanetarios
         [TestMethod]
         public void EliminarElementoDelCarritoDelUsuarioDevuelveVerdaderoCuandoCumple()
         {
-            var mockVentas = new Mock<IVentasService>();
+            var mockVentas = new Mock<VentasInterfaz>();
             string correoUsuario = "diazfonseca.diego@gmail.com";
             int idComprable = 5;
             mockVentas.Setup(servicio => servicio.EliminarDelCarrito(correoUsuario, idComprable)).Returns(true);
@@ -254,7 +227,7 @@ namespace PruebasPlanetarios
         [TestMethod]
         public void DisminiuirLaCantidadDelElementoDelCarritoDelUsuarioDevuelveFalsoCuandoFalla()
         {
-            var mockVentas = new Mock<IVentasService>();
+            var mockVentas = new Mock<VentasInterfaz>();
             string correoUsuario = "diazfonseca.diego@gmail.com";
             int idComprable = 5;
             mockVentas.Setup(servicio => servicio.DisminiuirLaCantidadDelElementoDelCarrito(correoUsuario, idComprable)).Returns(false);
@@ -271,7 +244,7 @@ namespace PruebasPlanetarios
         [TestMethod]
         public void DisminiuirLaCantidadDelElementoDelCarritoDelUsuarioDevuelveVerdaderoCuandoCumple()
         {
-            var mockVentas = new Mock<IVentasService>();
+            var mockVentas = new Mock<VentasInterfaz>();
             string correoUsuario = "diazfonseca.diego@gmail.com";
             int idComprable = 5;
             mockVentas.Setup(servicio => servicio.DisminiuirLaCantidadDelElementoDelCarrito(correoUsuario, idComprable)).Returns(true);
@@ -287,7 +260,7 @@ namespace PruebasPlanetarios
         [TestMethod]
         public void AumentarLaCantidadDelElementoDelCarritoDelUsuarioDevuelveFalsoCuandoFalla()
         {
-            var mockVentas = new Mock<IVentasService>();
+            var mockVentas = new Mock<VentasInterfaz>();
             string correoUsuario = "diazfonseca.diego@gmail.com";
             int idComprable = 5;
             mockVentas.Setup(servicio => servicio.AumentarLaCantidadDelElementoDelCarrito(correoUsuario, idComprable)).Returns(false);
@@ -304,7 +277,7 @@ namespace PruebasPlanetarios
         [TestMethod]
         public void AumentarLaCantidadDelElementoDelCarritoDelUsuarioDevuelveVerdaderoCuandoCumple()
         {
-            var mockVentas = new Mock<IVentasService>();
+            var mockVentas = new Mock<VentasInterfaz>();
             string correoUsuario = "diazfonseca.diego@gmail.com";
             int idComprable = 5;
             mockVentas.Setup(servicio => servicio.AumentarLaCantidadDelElementoDelCarrito(correoUsuario, idComprable)).Returns(true);
@@ -320,7 +293,7 @@ namespace PruebasPlanetarios
         [TestMethod]
         public void AgregarAlCarritoDevuelveFalsoCuandoFalla()
         {
-            var mockVentas = new Mock<IVentasService>();
+            var mockVentas = new Mock<VentasInterfaz>();
             int cantidad = 5;
             int idComprable = 5;
             mockVentas.Setup(servicio => servicio.AgregarAlCarrito(idComprable, cantidad)).Returns(false);
@@ -337,7 +310,7 @@ namespace PruebasPlanetarios
         [TestMethod]
         public void AgregarAlCarritoDevuelveVerdaderoCuandoCumple()
         {
-            var mockVentas = new Mock<IVentasService>();
+            var mockVentas = new Mock<VentasInterfaz>();
             int cantidad = 5;
             int idComprable = 5;
             mockVentas.Setup(servicio => servicio.AgregarAlCarrito(idComprable, cantidad)).Returns(true);
@@ -353,7 +326,7 @@ namespace PruebasPlanetarios
         [TestMethod]
         public void AgregarProductoNoDevuelveVistaNula()
         {
-            var mockVentas = new Mock<IVentasService>();
+            var mockVentas = new Mock<VentasInterfaz>();
             VentasController ventasController = new VentasController(mockVentas.Object);
 
             ViewResult vistaResultado = ventasController.AgregarProducto() as ViewResult;
@@ -364,7 +337,7 @@ namespace PruebasPlanetarios
         [TestMethod]
         public void AgregarProductoTieneMensajeCorrectoAlInsertar()
         {
-            var mockVentas = new Mock<IVentasService>();
+            var mockVentas = new Mock<VentasInterfaz>();
             ProductoModel producto = new ProductoModel {
                 Id = 1,
                 Nombre = "Diego",
@@ -389,7 +362,7 @@ namespace PruebasPlanetarios
         [TestMethod]
         public void AgregarProductoTieneMensajeCorrectoCuandoFallaInsertar()
         {
-            var mockVentas = new Mock<IVentasService>();
+            var mockVentas = new Mock<VentasInterfaz>();
             ProductoModel producto = new ProductoModel
             {
                 Id = 1,
