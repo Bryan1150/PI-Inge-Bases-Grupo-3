@@ -48,34 +48,6 @@ namespace Planetario.Handlers
             return tipoUsuario;
         }
 
-        public bool InsertarUsuario(PersonaModel persona)
-        {
-            string consultaTablaPersona = "INSERT INTO Persona ( correoPersonaPK, nombre, apellido1, apellido2, genero, pais, fechaNacimiento, membresia ) "
-                + "VALUES ( @correo, @nombre, @apellido1, @apellido2, @genero, @pais, @nacimiento, @membresia );";
-
-            string consultaTablaCliente = "INSERT INTO Cliente ( correoClienteFK, nivelEducativo ) "
-                + "VALUES ( @correo, @nivelEducativo );";
-
-            Dictionary<string, object> parametrosPersona = new Dictionary<string, object> {
-                {"@correo", persona.correo },
-                {"@nombre", persona.nombre },
-                {"@apellido1", persona.apellido1 },
-                {"@apellido2", persona.apellido2 },
-                {"@genero", persona.genero },
-                {"@pais", persona.pais },
-                {"@nacimiento", persona.fechaNacimiento},
-                {"@membresia", "Terrestre" }
-            };
-
-            Dictionary<string, object> parametrosCliente = new Dictionary<string, object>
-            {
-                {"@correo", persona.correo },
-                {"@nivelEducativo", persona.nivelEducativo },
-            };
-
-            return (InsertarEnBaseDatos(consultaTablaPersona, parametrosPersona) && InsertarEnBaseDatos(consultaTablaCliente, parametrosCliente));
-        }
-
         public string ObtenerMembresia(string correo) 
         {
             string consultaTablaPersona = "SELECT membresia " +
