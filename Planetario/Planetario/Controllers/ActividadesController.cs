@@ -84,7 +84,6 @@ namespace Planetario.Controllers
         [HttpGet]
         public ActionResult ComprarEntradas(string nombreDeLaActividad)
         {
-            
             ViewBag.actividad = AccesoDatos.ObtenerActividad(nombreDeLaActividad);
             ViewBag.topicos = AccesoDatos.ObtenerTopicosActividad(nombreDeLaActividad);
             ViewBag.actividades = AccesoDatos.ObtenerActividadesRecomendadas(ViewBag.actividad.PublicoDirigido, ViewBag.actividad.Complejidad);
