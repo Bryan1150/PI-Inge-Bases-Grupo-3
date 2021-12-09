@@ -10,8 +10,6 @@ namespace Planetario.Models
 
         public List<string> Respuestas { get; set; }
 
-        public List<string> Comentario { get; set; }
-
         public CuestionarioEvaluacionRecibirModel()
         {
             Preguntas = new List<string>();

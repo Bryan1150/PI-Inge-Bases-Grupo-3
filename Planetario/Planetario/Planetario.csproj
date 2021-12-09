@@ -409,6 +409,7 @@
     <Content Include="Views\Actividades\verFacturasDeActividad.cshtml" />
     <Content Include="Views\MaterialEducativo\verMaterial.cshtml" />
     <Content Include="Views\Evaluacion\CuestionarioEvaluacion.cshtml" />
+    <Content Include="Views\Evaluacion\MostrarCuestionarioEvaluacion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Data\" />

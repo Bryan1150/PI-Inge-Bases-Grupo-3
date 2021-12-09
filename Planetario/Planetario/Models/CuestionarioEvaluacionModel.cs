@@ -15,5 +15,7 @@ namespace Planetario.Models
         [Display(Name = "Categoria del cuestionario")]
         [Required(ErrorMessage = "Es necesario que ingrese la categoria del cuestionario.")]
         public string Categoria { get; set; }
+
+        public List<string> Comentario { get; set; }
     }
 }

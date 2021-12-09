@@ -3,8 +3,8 @@
 
 namespace Planetario.Models
 {
-    public class CuestionarioEvaluacionMostrarModel
+    public class CuestionarioEvaluacionMostrarModel: CuestionarioEvaluacionModel
     {
-        public List<List<string>> MatrizRespuestas { get; set; }
+        public List<List<int>> MatrizRespuestas { get; set; }
     }
 }

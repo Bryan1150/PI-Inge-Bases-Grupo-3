@@ -9,7 +9,7 @@ namespace Planetario.Controllers
         public ActionResult CuestionarioEvaluacion()
         {
             EvaluacionHandler acessoDatos = new EvaluacionHandler();
-            ViewBag.Cuestionario = acessoDatos.ObtenerCuestionario("Califica tu experiencia");
+            ViewBag.Cuestionario = acessoDatos.ObtenerCuestionarioRecibir("Califica tu experiencia");
             return View();
         }
 
@@ -18,7 +18,7 @@ namespace Planetario.Controllers
         {
             ViewBag.ExitoAlCrear = false;
             EvaluacionHandler accesoDatos = new EvaluacionHandler();
-            ViewBag.Cuestionario = accesoDatos.ObtenerCuestionario("Califica tu experiencia");
+            ViewBag.Cuestionario = accesoDatos.ObtenerCuestionarioRecibir("Califica tu experiencia");
             try
             {
                 if (ModelState.IsValid)
@@ -48,6 +48,13 @@ namespace Planetario.Controllers
                 ViewBag.Message = "Hubo un error al responder el cuestionario.";
                 return View();
             }
+        }
+
+        public ActionResult MostrarCuestionarioEvaluacion()
+        {
+            EvaluacionHandler acessoDatos = new EvaluacionHandler();
+            ViewBag.Cuestionario = acessoDatos.ObtenerCuestionarioMostrar("Califica tu experiencia");
+            return View();
         }
     }
 }
