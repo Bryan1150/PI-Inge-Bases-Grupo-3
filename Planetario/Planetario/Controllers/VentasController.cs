@@ -3,6 +3,8 @@ using System.Configuration;
 using Planetario.Handlers;
 using Planetario.Models;
 using Planetario.Interfaces;
+using System.Diagnostics;
+using System;
 
 namespace Planetario.Controllers
 {
@@ -11,11 +13,13 @@ namespace Planetario.Controllers
 
         readonly VentasInterfaz ventasInterfaz;
         readonly ProductosInterfaz productosInterfaz;
+        readonly CookiesInterfaz cookiesInterfaz;
 
         public VentasController()
         {
             ventasInterfaz = new VentasHandler();
             productosInterfaz = new ProductosHandler();
+            cookiesInterfaz = new CookiesHandler();
         }
 
         public VentasController(VentasInterfaz _servicio)
@@ -28,10 +32,38 @@ namespace Planetario.Controllers
             productosInterfaz = _servicio;
         }
 
+        public VentasController(VentasInterfaz ventas, ProductosInterfaz productos, CookiesInterfaz cookies)
+        {
+            if(ventas != null)
+            {
+                ventasInterfaz = ventas;
+            }
+            else
+            {
+                ventasInterfaz = new VentasHandler();
+            }
+            if(productos != null)
+            {
+                productosInterfaz = productos;
+            }
+            else
+            {
+                productosInterfaz = new ProductosHandler();
+            }
+            if(cookies != null)
+            {
+                cookiesInterfaz = cookies;
+            }
+            else
+            {
+                cookiesInterfaz = new CookiesHandler();
+            }
+        }
+
         public ActionResult ListaProductos()
         {
-            DatosHandler datosHandler = new DatosHandler();
-            ViewBag.categorias = datosHandler.SelectListCategorias();
+            //DatosHandler datosHandler = new DatosHandler();
+            //ViewBag.categorias = datosHandler.SelectListCategorias();
             return View();
         }
 
@@ -44,21 +76,21 @@ namespace Planetario.Controllers
         public ActionResult Carrito()
         {            
             ActionResult resultado;
-            if (Request.IsAuthenticated){
+            if (cookiesInterfaz.SesionIniciada()){
                 string correoUsuario;
-                correoUsuario = HttpContext.User.Identity.Name;
-
+                correoUsuario = cookiesInterfaz.CorreoUsuario();
                 int cantidadEntradas = ventasInterfaz.ObtenerCantidadDeEntradasDelCarrito(correoUsuario);
                 int cantidadProductos = ventasInterfaz.ObtenerCantidadDeProductosDelCarrito(correoUsuario);
                 int cantidadItems = cantidadEntradas + cantidadProductos;
                 double total = 0;
-
+                Console.WriteLine(cantidadEntradas);
                 ViewBag.CantidadItems = cantidadItems;
 
                 if (cantidadEntradas != 0) 
                 {
                     ViewBag.ListaEntradas = ventasInterfaz.ObtenerTodasLasEntradasDelCarrito(correoUsuario);
                     total += ventasInterfaz.ObtenerPrecioTotalDeEntradasDelCarrito(correoUsuario);
+                    Console.WriteLine(total);
                 }
 
                 if (cantidadProductos != 0)
@@ -83,9 +115,9 @@ namespace Planetario.Controllers
         public JsonResult EliminarElementoDelCarritoDelUsuario(int idComprable)
         {
             bool exito = false;
-            if(Request.IsAuthenticated)
+            if(cookiesInterfaz.SesionIniciada())
             {
-                string correoUsuario = HttpContext.User.Identity.Name;
+                string correoUsuario = cookiesInterfaz.CorreoUsuario();
                 exito = ventasInterfaz.EliminarDelCarrito(correoUsuario, idComprable);
             }            
             return Json(new { Exito = exito }, JsonRequestBehavior.AllowGet);
@@ -146,7 +178,6 @@ namespace Planetario.Controllers
         [HttpGet]
         public ActionResult RealizarCompra()
         {
-
             DatosHandler datosHandler = new DatosHandler();
             ViewBag.paises = datosHandler.SelectListPaises();
             ViewBag.nivelesEducativos = datosHandler.SelectListNivelesEducativos();

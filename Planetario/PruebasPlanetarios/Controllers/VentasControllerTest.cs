@@ -13,6 +13,26 @@ namespace PruebasPlanetarios
     [TestClass]
     public class VentasControllerTest
     {
+        private Mock<CookiesInterfaz> crearMockDeCookies()
+        {
+            var mockCookies = new Mock<CookiesInterfaz>();
+            mockCookies.Setup(servicio => servicio.SesionIniciada()).Returns(true);
+            mockCookies.Setup(servicio => servicio.CorreoUsuario()).Returns("ejemplo@gmail.com");
+            return mockCookies;
+        }
+        private Mock<VentasInterfaz> crearMockDeVentas()
+        {
+            string correoUsuario = "ejemplo@gmail.com";
+            var mockVentas = new Mock<VentasInterfaz>();
+            mockVentas.Setup(servicio => servicio.ObtenerTodosLosProductosDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
+            mockVentas.Setup(servicio => servicio.ObtenerTodasLasEntradasDelCarrito(correoUsuario)).Returns(new List<EntradaModel>());
+            mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeProductosDelCarrito(correoUsuario)).Returns(5);
+            mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeEntradasDelCarrito(correoUsuario)).Returns(5);
+            mockVentas.Setup(servicio => servicio.ObtenerCantidadDeProductosDelCarrito(correoUsuario)).Returns(1);
+            mockVentas.Setup(servicio => servicio.ObtenerCantidadDeEntradasDelCarrito(correoUsuario)).Returns(1);
+            return mockVentas;
+        } 
+
         [TestMethod]
         public void ListaProductosNoEsNula()
         {
@@ -38,13 +58,9 @@ namespace PruebasPlanetarios
         [TestMethod]
         public void VerCarritoDelUsuarioNoEsNulo()
         {
-            var mockVentas = new Mock<VentasInterfaz>();
-            string correoUsuario = "diazfonseca.diego@gmail.com";
-            mockVentas.Setup(servicio => servicio.ObtenerTodosLosProductosDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
-            mockVentas.Setup(servicio => servicio.ObtenerTodasLasEntradasDelCarrito(correoUsuario)).Returns(new List<EntradaModel>());
-            mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeProductosDelCarrito(correoUsuario)).Returns(5);
-            mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeEntradasDelCarrito(correoUsuario)).Returns(5);
-            VentasController ventasController = new VentasController(mockVentas.Object);
+            Mock<VentasInterfaz> mockVentas = crearMockDeVentas();
+            Mock<CookiesInterfaz> mockCookies = crearMockDeCookies();
+            VentasController ventasController = new VentasController(mockVentas.Object,null,mockCookies.Object);
 
             ViewResult vistaResultado = ventasController.Carrito() as ViewResult;
 
@@ -54,17 +70,13 @@ namespace PruebasPlanetarios
         [TestMethod]
         public void VerCarritoDelUsuarioRetornaTotalCorrecto()
         {
-            var mockVentas = new Mock<VentasInterfaz>();
-            string correoUsuario = "diazfonseca.diego@gmail.com";
-            mockVentas.Setup(servicio => servicio.ObtenerTodosLosProductosDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
-            mockVentas.Setup(servicio => servicio.ObtenerTodasLasEntradasDelCarrito(correoUsuario)).Returns(new List<EntradaModel>());
-            mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeProductosDelCarrito(correoUsuario)).Returns(5);
-            mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeEntradasDelCarrito(correoUsuario)).Returns(5);
-            VentasController ventasController = new VentasController(mockVentas.Object);
+            Mock<VentasInterfaz> mockVentas = crearMockDeVentas();
+            Mock<CookiesInterfaz> mockCookies = crearMockDeCookies();
+            VentasController ventasController = new VentasController(mockVentas.Object,null,mockCookies.Object);
             double precioEsperado = 10;
 
             ViewResult vistaResultado = ventasController.Carrito() as ViewResult;
-            double precioRecivido = vistaResultado.ViewBag.PrecioTotal;
+            double precioRecivido = vistaResultado.ViewBag.Precio;
 
             Assert.AreEqual(precioEsperado, precioRecivido);
         }
@@ -72,13 +84,9 @@ namespace PruebasPlanetarios
         [TestMethod]
         public void VerCarritoDelUsuarioRetornaListaProductosNoNula()
         {
-            var mockVentas = new Mock<VentasInterfaz>();
-            string correoUsuario = "diazfonseca.diego@gmail.com";
-            mockVentas.Setup(servicio => servicio.ObtenerTodosLosProductosDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
-            mockVentas.Setup(servicio => servicio.ObtenerTodasLasEntradasDelCarrito(correoUsuario)).Returns(new List<EntradaModel>());
-            mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeProductosDelCarrito(correoUsuario)).Returns(5);
-            mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeEntradasDelCarrito(correoUsuario)).Returns(5);
-            VentasController ventasController = new VentasController(mockVentas.Object);
+            Mock<VentasInterfaz> mockVentas = crearMockDeVentas();
+            Mock<CookiesInterfaz> mockCookies = crearMockDeCookies();
+            VentasController ventasController = new VentasController(mockVentas.Object,null,mockCookies.Object);
 
             ViewResult vistaResultado = ventasController.Carrito() as ViewResult;
             var listaProductos = vistaResultado.ViewBag.ListaProductos;
@@ -89,13 +97,9 @@ namespace PruebasPlanetarios
         [TestMethod]
         public void VerCarritoDelUsuarioRetornaListaEntradasNoNula()
         {
-            var mockVentas = new Mock<VentasInterfaz>();
-            string correoUsuario = "diazfonseca.diego@gmail.com";
-            mockVentas.Setup(servicio => servicio.ObtenerTodosLosProductosDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
-            mockVentas.Setup(servicio => servicio.ObtenerTodasLasEntradasDelCarrito(correoUsuario)).Returns(new List<EntradaModel>());
-            mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeProductosDelCarrito(correoUsuario)).Returns(5);
-            mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeEntradasDelCarrito(correoUsuario)).Returns(5);
-            VentasController ventasController = new VentasController(mockVentas.Object);
+            Mock<VentasInterfaz> mockVentas = crearMockDeVentas();
+            Mock<CookiesInterfaz> mockCookies = crearMockDeCookies(); 
+            VentasController ventasController = new VentasController(mockVentas.Object,null,mockCookies.Object);
 
             ViewResult vistaResultado = ventasController.Carrito() as ViewResult;
             var listaEntradas = vistaResultado.ViewBag.ListaEntradas;
@@ -106,13 +110,9 @@ namespace PruebasPlanetarios
         [TestMethod]
         public void VerCarritoDelUsuarioRetornaTotalNoNulo()
         {
-            var mockVentas = new Mock<VentasInterfaz>();
-            string correoUsuario = "danielmonge25@hotmail.com";
-            mockVentas.Setup(servicio => servicio.ObtenerTodosLosProductosDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
-            mockVentas.Setup(servicio => servicio.ObtenerTodasLasEntradasDelCarrito(correoUsuario)).Returns(new List<EntradaModel>());
-            mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeProductosDelCarrito(correoUsuario)).Returns(5);
-            mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeEntradasDelCarrito(correoUsuario)).Returns(5);
-            VentasController ventasController = new VentasController(mockVentas.Object);
+            Mock<VentasInterfaz> mockVentas = crearMockDeVentas();
+            Mock<CookiesInterfaz> mockCookies = crearMockDeCookies();
+            VentasController ventasController = new VentasController(mockVentas.Object,null,mockCookies.Object);
 
             ViewResult vistaResultado = ventasController.Carrito() as ViewResult;
             var total = vistaResultado.ViewBag.PrecioTotal;
@@ -123,13 +123,9 @@ namespace PruebasPlanetarios
         [TestMethod]
         public void VerCarritoListaDeProductosEsTipoLista()
         {
-            var mockVentas = new Mock<VentasInterfaz>();
-            string correoUsuario = "danielmonge25@hotmail.com";
-            mockVentas.Setup(servicio => servicio.ObtenerTodosLosProductosDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
-            mockVentas.Setup(servicio => servicio.ObtenerTodasLasEntradasDelCarrito(correoUsuario)).Returns(new List<EntradaModel>());
-            mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeProductosDelCarrito(correoUsuario)).Returns(5);
-            mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeEntradasDelCarrito(correoUsuario)).Returns(5);
-            VentasController ventasController = new VentasController(mockVentas.Object);
+            Mock<VentasInterfaz> mockVentas = crearMockDeVentas();
+            Mock<CookiesInterfaz> mockCookies = crearMockDeCookies();
+            VentasController ventasController = new VentasController(mockVentas.Object,null,mockCookies.Object);
 
             ViewResult vistaResultado = ventasController.Carrito() as ViewResult;
             var listaProductos = vistaResultado.ViewBag.ListaProductos;
@@ -140,34 +136,22 @@ namespace PruebasPlanetarios
         [TestMethod]
         public void VerCarritoListaDeEntradasEsTipoLista()
         {
-            var mockVentas = new Mock<VentasInterfaz>();
-            string correoUsuario = "danielmonge25@hotmail.com";
-            mockVentas.Setup(servicio => servicio.ObtenerTodosLosProductosDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
-            mockVentas.Setup(servicio => servicio.ObtenerTodasLasEntradasDelCarrito(correoUsuario)).Returns(new List<EntradaModel>());
-            mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeProductosDelCarrito(correoUsuario)).Returns(5);
-            mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeEntradasDelCarrito(correoUsuario)).Returns(5);
-            VentasController ventasController = new VentasController(mockVentas.Object);
+            Mock<VentasInterfaz> mockVentas = crearMockDeVentas();
+            Mock<CookiesInterfaz> mockCookies = crearMockDeCookies();
+            VentasController ventasController = new VentasController(mockVentas.Object,null,mockCookies.Object);
 
             ViewResult vistaResultado = ventasController.Carrito() as ViewResult;
             var listaEntradas = vistaResultado.ViewBag.ListaEntradas;
 
-            Assert.IsInstanceOfType(listaEntradas, typeof(List<ProductoModel>));
+            Assert.IsInstanceOfType(listaEntradas, typeof(List<EntradaModel>));
         }
 
         [TestMethod]
         public void VerCarritoPrecioTotalsEsTipoDouble()
         {
-            var mockHttpContext = new Mock<ControllerContext>();
-            mockHttpContext.SetupGet(s => s.HttpContext.Request.IsAuthenticated).Returns(true);
-            mockHttpContext.SetupGet(s => s.HttpContext.User.Identity.Name).Returns("ejemplo");
-
-            var mockVentas = new Mock<VentasInterfaz>();
-            string correoUsuario = "danielmonge25@hotmail.com";
-            mockVentas.Setup(servicio => servicio.ObtenerTodosLosProductosDelCarrito(correoUsuario)).Returns(new List<ProductoModel>());
-            mockVentas.Setup(servicio => servicio.ObtenerTodasLasEntradasDelCarrito(correoUsuario)).Returns(new List<EntradaModel>());
-            mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeProductosDelCarrito(correoUsuario)).Returns(5);
-            mockVentas.Setup(servicio => servicio.ObtenerPrecioTotalDeEntradasDelCarrito(correoUsuario)).Returns(5);
-            VentasController ventasController = new VentasController(mockVentas.Object);
+            Mock<VentasInterfaz> mockVentas = crearMockDeVentas();
+            Mock<CookiesInterfaz> mockCookies = crearMockDeCookies();
+            VentasController ventasController = new VentasController(mockVentas.Object,null,mockCookies.Object) { };
 
             ViewResult vistaResultado = ventasController.Carrito() as ViewResult;
             var total = vistaResultado.ViewBag.PrecioTotal;
@@ -178,11 +162,14 @@ namespace PruebasPlanetarios
         [TestMethod]
         public void EliminarElementoDelCarritoDelUsuarioNoDevuelveNulo()
         {
+            string correoUsuario = "danielmonge25@hotmail.com";
+            var mockCookies = new Mock<CookiesInterfaz>();
+            mockCookies.Setup(servicio => servicio.SesionIniciada()).Returns(true);
+            mockCookies.Setup(servicio => servicio.CorreoUsuario()).Returns(correoUsuario);
             var mockVentas = new Mock<VentasInterfaz>();
-            string correoUsuario = "diazfonseca.diego@gmail.com";
             int idComprable = 5;
             mockVentas.Setup(servicio => servicio.EliminarDelCarrito(correoUsuario,idComprable)).Returns(false);
-            VentasController ventasController = new VentasController(mockVentas.Object);
+            VentasController ventasController = new VentasController(mockVentas.Object,null,mockCookies.Object);
 
             JsonResult resultado = ventasController.EliminarElementoDelCarritoDelUsuario(idComprable);
 
@@ -192,11 +179,14 @@ namespace PruebasPlanetarios
         [TestMethod]
         public void EliminarElementoDelCarritoDelUsuarioDevuelveFalsoCuandoFalla()
         {
+            string correoUsuario = "danielmonge25@hotmail.com";
+            var mockCookies = new Mock<CookiesInterfaz>();
+            mockCookies.Setup(servicio => servicio.SesionIniciada()).Returns(true);
+            mockCookies.Setup(servicio => servicio.CorreoUsuario()).Returns(correoUsuario);
             var mockVentas = new Mock<VentasInterfaz>();
-            string correoUsuario = "diazfonseca.diego@gmail.com";
             int idComprable = 5;
             mockVentas.Setup(servicio => servicio.EliminarDelCarrito(correoUsuario, idComprable)).Returns(false);
-            VentasController ventasController = new VentasController(mockVentas.Object);
+            VentasController ventasController = new VentasController(mockVentas.Object,null,mockCookies.Object);
 
             JsonResult resultado = ventasController.EliminarElementoDelCarritoDelUsuario(idComprable);
             JavaScriptSerializer serializer = new JavaScriptSerializer();
@@ -210,11 +200,14 @@ namespace PruebasPlanetarios
         [TestMethod]
         public void EliminarElementoDelCarritoDelUsuarioDevuelveVerdaderoCuandoCumple()
         {
+            string correoUsuario = "danielmonge25@hotmail.com";
+            var mockCookies = new Mock<CookiesInterfaz>();
+            mockCookies.Setup(servicio => servicio.SesionIniciada()).Returns(true);
+            mockCookies.Setup(servicio => servicio.CorreoUsuario()).Returns(correoUsuario);
             var mockVentas = new Mock<VentasInterfaz>();
-            string correoUsuario = "diazfonseca.diego@gmail.com";
             int idComprable = 5;
             mockVentas.Setup(servicio => servicio.EliminarDelCarrito(correoUsuario, idComprable)).Returns(true);
-            VentasController ventasController = new VentasController(mockVentas.Object);
+            VentasController ventasController = new VentasController(mockVentas.Object,null,mockCookies.Object);
 
             JsonResult resultado = ventasController.EliminarElementoDelCarritoDelUsuario(idComprable);
             JavaScriptSerializer serializer = new JavaScriptSerializer();
