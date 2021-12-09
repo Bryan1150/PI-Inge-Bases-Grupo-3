@@ -39,7 +39,7 @@ namespace Planetario.Handlers
         public List<ProductoModel> ObtenerTodosLosProductosFiltradosPorRanking(int cantidadMostrar, string fechaInicio, string fechaFinal, string orden)
         {
             string consulta = "SELECT TOP " + cantidadMostrar + " nombre, precio, fechaIngreso, fechaUltimaVenta, cantidadVendidos " +
-                              "FROM Producto JOIN Comprable C " +
+                              "FROM Producto P JOIN Comprable C " +
                               "ON idComprablePK = idComprableFK " +
                               "WHERE DATEDIFF(MINUTE, '" + fechaInicio + "', fechaUltimaVenta) >= 0 " +
                               "AND DATEDIFF(MINUTE, '" + fechaFinal + "', fechaUltimaVenta ) <= 0 " +
@@ -51,7 +51,7 @@ namespace Planetario.Handlers
         public List<ProductoModel> ObtenerTodosLosProductosFiltradosPorCategoria(string categoria, string fechaInicio, string fechaFinal)
         {
             string consulta = "SELECT nombre, precio, fechaIngreso, fechaUltimaVenta, cantidadVendidos " +
-                              "FROM Producto JOIN Comprable C " +
+                              "FROM Producto P JOIN Comprable C " +
                               "ON idComprablePK = idComprableFK " +
                               "WHERE categoria = '" + categoria + "' " +
                               "AND DATEDIFF(MINUTE, '" + fechaInicio + "', fechaUltimaVenta) >= 0 " + 
@@ -64,7 +64,7 @@ namespace Planetario.Handlers
         public List<string> ObtenerTodasLasCategorias()
         {
             string consulta = "SELECT DISTINCT categoria  " +
-                              "FROM Producto JOIN Comprable C " +
+                              "FROM Producto P JOIN Comprable C " +
                               "ON idComprablePK = idComprableFK " +
                               "ORDER BY categoria ASC;";
 
@@ -77,6 +77,96 @@ namespace Planetario.Handlers
             }
 
             return categorias;
+        }
+
+        public string ConsultaPorCategoriasPersonaExtranjeras(string categoria)
+        {
+            string consulta = "SELECT SUM(F.cantidadComprada) as 'cantidad', Pe.pais, C.nombre, C.precio" +
+                              "FROM Producto Pr JOIN Comprable C " +
+                              "ON C.idComprablePK = Pr.idComprableFK " +
+                              "JOIN Factura F" +
+                              "ON F.idComprableFk = C.idComprablePK " +
+                              "JOIN Persona Pe " +
+                              "ON F.correoPersonaFK = Pe.correoPersonaPK " +
+                              "WHERE Pr.categoria = '" + categoria + "' " +
+                              "AND Pe.pais != 'Costa Rica'" +
+                              "GROUP BY Pe.Pais, C.nombre, C.precio";
+
+            DataTable tablaResultados = LeerBaseDeDatos(consulta);
+
+
+            string datosJson = "[";
+            foreach (DataRow fila in tablaResultados.Rows)
+            {
+                datosJson += "{" +
+                    "Nombre:" + Convert.ToString(fila["nombre"]) + "," +
+                    "Pais:" + Convert.ToString(fila["pais"]) + "," +
+                    "Precio:" + Convert.ToString(fila["precio"]) + "," +
+                    "Cantidad:" + Convert.ToString(fila["cantidad"]) + "," +
+                    "Ingresos:" + (Convert.ToInt32(fila["precio"]) * Convert.ToInt32(fila["cantidad"])) +
+                    "},";
+            }
+            datosJson.Remove(datosJson.Length - 1);
+            datosJson += "]";
+            return datosJson;
+        }
+
+        public string ConsultaPorCategoriaProductoGeneroEdad(string categoria, string genero, string publico)
+        {
+            string consulta = "SELECT SUM(F.cantidadComprada) as 'cantidad', C.nombre, C.precio" +
+                              "FROM Producto Pr JOIN Comprable C " +
+                              "ON C.idComprablePK = Pr.idComprableFK " +
+                              "JOIN Factura F" +
+                              "ON F.idComprableFk = C.idComprablePK " +
+                              "JOIN Persona Pe " +
+                              "ON F.correoPersonaFK = Pe.correoPersonaPK " +
+                              "WHERE Pr.categoria = '" + categoria + "' " +
+                              "AND Pe.genero = '" + genero + "' " +
+                              "AND procx(fechaNacimiento) = '" + publico + "';";
+
+            DataTable tablaResultados = LeerBaseDeDatos(consulta);
+            string datosJson = "[";
+            foreach (DataRow fila in tablaResultados.Rows)
+            {
+                datosJson += "{" +
+                    "Nombre:" + Convert.ToString(fila["nombre"]) + "," +
+                    "Cantidad:" + Convert.ToString(fila["cantidad"]) + "," +
+                    "Precio:" + Convert.ToString(fila["precio"]) + "," +
+                    "Ingresos:" + (Convert.ToInt32(fila["precio"]) * Convert.ToInt32(fila["cantidad"])) + "," +
+                    "},";
+            }
+            datosJson.Remove(datosJson.Length - 1);
+            datosJson += "]";
+            return datosJson;
+        }
+
+        public string ConsultaProductosCompradosJuntos()
+        {
+            string consulta = "WITH TABLA_PRODUCTOS_COMPRADOS_JUNTOS AS " +
+                "( SELECT F1.idComprableFK AS 'Producto', F2.idComprableFK AS 'CompradoCon' " +
+                "FROM Factura F1 INNER JOIN Factura F2 ON F1.idComprableFK = F2.idComprableFK ) " +
+                "SELECT " +
+                "C1.nombre AS 'Producto', " +
+                "C2.nombre AS 'ProductoCompradoCon', " +
+                "COUNT(*) AS 'VecesCompradosJuntos' " +
+                "FROM TABLA_PRODUCTOS_COMPRADOS_JUNTOS PC " +
+                "JOIN Comprable C1 ON PC.Producto = C1.idComprablePK " +
+                "JOIN Comprable C2 ON PC.Producto = C2.idComprablePK " +
+                "GROUP BY C1.nombre, C2.nombre";
+
+            DataTable tablaResultados = LeerBaseDeDatos(consulta);
+            string datosJson = "[";
+            foreach(DataRow fila in tablaResultados.Rows)
+            {
+                datosJson += "{" +
+                    "Producto:" + Convert.ToString(fila["Producto"]) + "," +
+                    "CompradoCon:" + Convert.ToString(fila["ProductoCompradoCon"]) + "," +
+                    "Cantidad de Veces:" + Convert.ToString(fila["VecesCompradosJuntos"]) + "," +
+                    "},";
+            }
+            datosJson.Remove(datosJson.Length - 1);
+            datosJson += "]";
+            return datosJson;
         }
     }
 }

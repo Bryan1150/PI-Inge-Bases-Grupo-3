@@ -48,5 +48,33 @@ namespace Planetario.Controllers
             return View("Reporte");
         }
         */
+
+
+        public ActionResult ReporteAvanzado()
+        {
+            ViewBag.listaDeCategorias = AccesoDatos.ObtenerTodasLasCategorias();
+            return View("ReporteAvanzado");
+        }
+
+        [HttpGet]
+        public JsonResult ObtenerDatosExtranjeros(string categoria)
+        {
+            string resultadoJson = AccesoDatos.ConsultaPorCategoriasPersonaExtranjeras(categoria);
+            return Json(resultadoJson, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult ObtenerDatosPorGeneroYEdad(string categoria, string genero, string publico)
+        {
+            string resultadoJson = AccesoDatos.ConsultaPorCategoriaProductoGeneroEdad(categoria, genero, publico);
+            return Json(resultadoJson, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult ObtenerColeccionProductos()
+        {
+            string resultadoJson = AccesoDatos.ConsultaProductosCompradosJuntos();
+            return Json(resultadoJson, JsonRequestBehavior.AllowGet);
+        }
     }
 }

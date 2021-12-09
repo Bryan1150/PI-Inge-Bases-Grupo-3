@@ -10,5 +10,11 @@ namespace Planetario.Handlers
         List<ProductoModel> ObtenerTodosLosProductosFiltradosPorRanking(int cantidadMostrar, string fechaInicio, string fechaFinal, string orden);
 
         List<ProductoModel> ObtenerTodosLosProductosFiltradosPorCategoria(string categoria, string fechaInicio, string fechaFinal);
+
+        string ConsultaPorCategoriasPersonaExtranjeras(string categoria);
+
+        string ConsultaPorCategoriaProductoGeneroEdad(string categoria, string genero, string publico);
+
+        string ConsultaProductosCompradosJuntos();
     }
 }
