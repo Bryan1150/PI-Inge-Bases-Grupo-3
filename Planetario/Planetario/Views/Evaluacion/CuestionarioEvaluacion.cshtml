@@ -1,6 +1,10 @@
 ﻿@model Planetario.Models.CuestionarioEvaluacionRecibirModel
 @{ 
     string nombreCuestionario = ViewBag.Cuestionario.NombreCuestionario;
+    ViewBag.opcionesFuncionalidades = new List<string>() 
+    {
+        "Compras","Juegos","Calendario","Actividades"
+    };
 }
 <!DOCTYPE html>
 <html>
@@ -10,6 +14,7 @@
             width: 1.25em;
             height: 1.25em;
         }
+
         div.row textarea.form-control {
             -webkit-box-sizing: border-box;
             -moz-box-sizing: border-box;
@@ -17,6 +22,8 @@
             width: 100%;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/gh/minisuperfiles/MSFmultiSelect/msfmultiselect.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/gh/minisuperfiles/MSFmultiSelect/msfmultiselect.min.css" rel="stylesheet" />
 </head>
 <body>
     <span class="titulo">
@@ -77,6 +84,21 @@
             </div>
             <hr /><br />
         }
+        <div class="row">
+        <label for="myselect" class="control-label">Usé las siguientes funcionalidades</label>
+        <div class="row" id="myselect">
+            <select id="multiselect" name="others[]" multiple="multiple" class="form-control-lg" style="width:100%;">
+
+                @foreach (var funcionalidad in ViewBag.opcionesFuncionalidades)
+                {
+                    <option value=@funcionalidad>@funcionalidad</option>
+                }
+
+            </select>
+            @Html.ValidationMessageFor(model => model.Funcionalidades, "", new { @class = "text-danger" })
+            <input type="hidden" id="Funcionalidades" name="Funcionalidades" value="">
+        </div>
+        </div>
         <div class="row text-center justify-content-center">
             <p>Opcionalmente, déjenos un comentario adicional</p>
             @Html.TextAreaFor(model => model.Comentario, new { @class = "form-control-lg", @placeholder = "Comentario" })
@@ -89,5 +111,39 @@
             @Html.Hidden("NombreCuestionario", nombreCuestionario)
         </div>
     }
+    <script>
+        let listaFuncionalidades = @Html.Raw(Json.Encode(ViewBag.opcionesFuncionalidades));
+        let select = new MSFmultiSelect(
+            document.querySelector('#multiselect'),
+            {
+                theme: 'theme2',
+                selectAll: false,
+                searchBox: false,
+                onChange: function (checked, value, instance) {
+                    listar();
+                },
+                placeholder: 'Funcionalidades Usadas',
+                afterSelectAll: function (checked, values, instance) {
+
+                }
+            }
+        );
+
+        function listar()
+        {
+            var seleccion = [];
+            for (i = 0; i < listaFuncionalidades.length; i++) {
+                if (select.data[i] === true) {
+                    seleccion.push(listaFuncionalidades[i])
+                }
+            }
+            document.getElementById("Funcionalidades").value = seleccion.join(";");
+        }
+    </script>
 </body>
+@section Scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
 </html>
