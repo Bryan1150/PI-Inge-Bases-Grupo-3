@@ -253,5 +253,14 @@ namespace Planetario.Controllers
         {
             return Json(descuentosInterfaz.ObtenerPorcentajeDescuento(codigo),JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public JsonResult ObtenerMembresia()
+        {
+            PersonaHandler personasHandler = new PersonaHandler();
+            string correoUsuario = cookiesInterfaz.CorreoUsuario();
+            string membresia = personasHandler.ObtenerMembresia(correoUsuario);
+            return Json(new { membresia = membresia }, JsonRequestBehavior.AllowGet);
+        }
     }
 }

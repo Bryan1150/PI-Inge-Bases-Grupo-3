@@ -53,10 +53,16 @@ namespace Planetario.Handlers
             string consultaTablaPersona = "SELECT membresia " +
                                           "FROM Persona " +
                                           "WHERE correoPersonaPK = '" + correo + "' ";
-
+            string membresia;
             DataTable tabla = LeerBaseDeDatos(consultaTablaPersona);
+            try { 
             DataRow columna = tabla.Rows[0];
-            string membresia = Convert.ToString(columna["membresia"]);
+            membresia = Convert.ToString(columna["membresia"]);
+            }
+            catch
+            {
+                membresia = "No Disponible";
+            }
 
             return membresia;
         }

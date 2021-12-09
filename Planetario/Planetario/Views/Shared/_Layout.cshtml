@@ -206,8 +206,8 @@
 
                     <li class="nav-item">
                         @Html.ActionLink("Cuestionarios", "ListaCuestionarios", "Cuestionario", new { area = "" }, new { @class = "nav-link" })
-                    </li>
-
+                    </li>                  
+                    
                     <li class="nav-item">
                         @Html.ActionLink("Tienda", "ListaProductos", "Ventas", new { area = "" }, new { @class = "nav-link" })
                     </li>
@@ -222,6 +222,9 @@
                                 @Html.ActionLink("Panel de administración", "PanelDeAdministracion", "Home", new { area = "" }, new { @class = "nav-link" })
                             </li>
                         }
+                        <li class="nav-item" id="membresia">
+
+                        </li>
                         <li class="nav-item"><a class="nav-link" href="/Ventas/Carrito"><i class="fa fa-shopping-cart"></i> Carrito</a></li>
                         <li class="nav-item"><a class="nav-link" href="/Personas/CerrarSesion"><i class="fa fa-sign-out"></i> Logout</a></li>
                     }
@@ -261,7 +264,26 @@
             </div>
         </div>
     </footer>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        function obtenerMembresia() {
+            $.getJSON('/Ventas/ObtenerMembresia', function (data) {
+                if (data.membresia != "No Disponible") {
+                let content = "";
+                console.log(data.membresia);
+                const membresia = document.getElementById('membresia');
+                content += `<li class="nav-item"><a class="nav-link" href="/Ventas/Carrito">`
+                content += data.membresia;
+                content += `</a></li>`;
+                membresia.innerHTML = content;
+                }
+            });
+        }
+       
+            obtenerMembresia();
+        
+        
+    </script>
     @RenderSection("scripts", required: false)
 </body>
 </html>
