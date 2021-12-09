@@ -210,7 +210,13 @@
                     
                     <li class="nav-item">
                         @Html.ActionLink("Tienda", "ListaProductos", "Ventas", new { area = "" }, new { @class = "nav-link" })
+                    </li>                   
+                    @if(Request.IsAuthenticated)
+                    {
+                    <li class="nav-item">
+                        @Html.ActionLink("Membresias", "Comprar", "Membresias", new { area = "" }, new { @class = "nav-link" })
                     </li>
+                    }
                 </ul>
                 <ul class="navbar-nav ms-auto">
 
