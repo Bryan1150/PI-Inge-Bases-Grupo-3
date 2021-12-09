@@ -1,8 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.ComponentModel.DataAnnotations;
 
 namespace Planetario.Models
 {
-    public class CuestionarioEvalucionModel
+    public class CuestionarioEvaluacionModel
     {
         [Display(Name = "Nombre del cuestionario")]
         [Required(ErrorMessage = "Es necesario indicar el nombre del cuestionario.")]

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Planetario.Models
 {
-    public class CuestionarioEvaluacionRecibirModel : CuestionarioEvalucionModel
+    public class CuestionarioEvaluacionRecibirModel : CuestionarioEvaluacionModel
     {
 
         public List<string> Preguntas { get; set; }

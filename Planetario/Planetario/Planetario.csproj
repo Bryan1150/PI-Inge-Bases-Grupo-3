@@ -146,6 +146,7 @@
     <Compile Include="Handlers\EventosHandler.cs" />
     <Compile Include="Handlers\ParticipanteHandler.cs" />
     <Compile Include="Models\CompraModel.cs" />
+    <Compile Include="Models\CuestionarioEvaluacionMostrarModel .cs" />
     <Compile Include="Models\CuestionarioEvaluacionRecibirModel.cs" />
     <Compile Include="Models\CuestionarioEvaluacionModel.cs" />
     <Compile Include="Models\EntradaModel.cs" />
