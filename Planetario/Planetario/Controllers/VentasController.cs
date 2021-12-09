@@ -15,12 +15,14 @@ namespace Planetario.Controllers
         readonly VentasInterfaz ventasInterfaz;
         readonly ProductosInterfaz productosInterfaz;
         readonly CookiesInterfaz cookiesInterfaz;
+        readonly DescuentosInterfaz descuentosInterfaz;
 
         public VentasController()
         {
             ventasInterfaz = new VentasHandler();
             productosInterfaz = new ProductosHandler();
             cookiesInterfaz = new CookiesHandler();
+            descuentosInterfaz = new DescuentosHandler();
         }
 
         public VentasController(VentasInterfaz _servicio)
@@ -244,6 +246,12 @@ namespace Planetario.Controllers
             ProductosHandler productosHandler = new ProductosHandler();
             var tupla = productosHandler.ObtenerFoto(id);
             return File(tupla.Item1, tupla.Item2);
+        }
+
+        [HttpGet]
+        public JsonResult ObtenerPorcentajeDescuento(string codigo)
+        {
+            return Json(descuentosInterfaz.ObtenerPorcentajeDescuento(codigo),JsonRequestBehavior.AllowGet);
         }
     }
 }

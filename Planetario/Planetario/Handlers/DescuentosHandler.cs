@@ -19,7 +19,7 @@ namespace Planetario.Handlers
                 new DescuentoModel
                 {
                     Codigo = Convert.ToString(columna["codigoDescuentoPK"]),
-                    Descuento = Convert.ToInt32(columna["porcentajeDescuent"]),
+                    Descuento = Convert.ToInt32(columna["porcentajeDescuento"]),
                     Membresia = Convert.ToString(columna["membresia"]),
                 });
             }
@@ -28,18 +28,23 @@ namespace Planetario.Handlers
 
         public List<DescuentoModel> ObtenerTodosDescuentos(string codigo)
         {
-            string consulta = "SELECT FROM Descuento WHERE codigoDescuentoPK";
+            string consulta = "SELECT * FROM Descuento WHERE codigoDescuentoPK";
             DataTable tabla = LeerBaseDeDatos(consulta);
             List<DescuentoModel> descuento = ConvertirTablaAListaDescuento(tabla);
             return descuento;
         }
 
-        public DescuentoModel ObtenerDescuento(string codigo)
-        {
-            string consulta = "SELECT FROM Descuento WHERE codigoDescuentoPK = '" + codigo + "';";
+        public int ObtenerPorcentajeDescuento(string codigo)
+        {           
+            string consulta = "SELECT * FROM Descuento WHERE codigoDescuentoPK = '" + codigo + "';";
             DataTable tabla = LeerBaseDeDatos(consulta);
             List<DescuentoModel> descuento = ConvertirTablaAListaDescuento(tabla);
-            return descuento[0];
+            int porcentaje = 0;
+            if (descuento.Count != 0)
+            {
+                porcentaje = descuento[0].Descuento;
+            }
+            return porcentaje;
         }
 
         public bool InsertarDescuento(DescuentoModel descuento)
