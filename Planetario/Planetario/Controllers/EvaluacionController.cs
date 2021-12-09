@@ -6,26 +6,30 @@ namespace Planetario.Controllers
 {
     public class EvaluacionController : Controller
     {
-        public ActionResult VerCuestionarioEvaluacion()
+        public ActionResult CuestionarioEvaluacion()
         {
-            EvaluacionHandler AcessoDatos = new EvaluacionHandler();
-            ViewBag.Cuestionario = AcessoDatos.ObtenerCuestionario("Califica tu experiencia");
+            EvaluacionHandler acessoDatos = new EvaluacionHandler();
+            ViewBag.Cuestionario = acessoDatos.ObtenerCuestionario("Califica tu experiencia");
             return View();
         }
 
         [HttpPost]
-        public ActionResult RespuestaCuestionario(CuestionarioEvaluacionRecibirModel cuestionario)
+        public ActionResult CuestionarioEvaluacion(CuestionarioEvaluacionRecibirModel cuestionario)
         {
             ViewBag.ExitoAlCrear = false;
+            EvaluacionHandler accesoDatos = new EvaluacionHandler();
+            ViewBag.Cuestionario = accesoDatos.ObtenerCuestionario("Califica tu experiencia");
             try
             {
                 if (ModelState.IsValid)
                 {
-                    EvaluacionHandler accesoDatos = new EvaluacionHandler();
                     ViewBag.ExitoAlCrear = accesoDatos.InsertarRespuestas(cuestionario);
+                    if(cuestionario.Comentario[0] != "")
+                        ViewBag.ExitoAlCrear = accesoDatos.InsertarComentario(cuestionario);
+                    ViewBag.ExitoAlCrear = accesoDatos.InsertarFuncionalidadesEvaluadas(cuestionario);
                     if (ViewBag.ExitoAlCrear)
                     {
-                        ViewBag.Message = "Se respondio el cuestionario con exito.";                   
+                        ViewBag.Message = "Se respondió el cuestionario con exito.";                   
                         ModelState.Clear();
                     }
                     else
