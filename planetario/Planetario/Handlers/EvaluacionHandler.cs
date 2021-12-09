@@ -9,7 +9,7 @@ namespace Planetario.Handlers
     public class EvaluacionHandler : BaseDatosHandler
     {
         
-        public CuestionarioEvaluacionRecibirModel ObtenerCuestionario(string nombreCuestionario)
+        public CuestionarioEvaluacionRecibirModel ObtenerCuestionarioRecibir(string nombreCuestionario)
         {
             string consulta = "SELECT * FROM CuestionarioEvaluacion WHERE nombreCuestionarioPK = '" + nombreCuestionario + "';";
 
@@ -17,7 +17,7 @@ namespace Planetario.Handlers
             DataRow columna = tablaResultado.Rows[0];
             CuestionarioEvaluacionRecibirModel evaluacion = new CuestionarioEvaluacionRecibirModel
             {
-                NombreCuestionario = Convert.ToString(columna["nombreCuestionarioPK"]),
+                NombreCuestionario = nombreCuestionario,
                 Categoria = Convert.ToString(columna["categoria"]),
                 Preguntas = ObtenerPreguntasDeCuestionario(nombreCuestionario)
             };
@@ -38,20 +38,6 @@ namespace Planetario.Handlers
             }
 
             return preguntas;
-        }
-
-        public List<string> ObtenerComentariosDeCuestionario(string nombreCuestionario)
-        {
-            string consulta = "SELECT comentario FROM CuestionarioEvaluacion WHERE nombreCuestionarioPK = '" + nombreCuestionario + "';";
-            DataTable tablaResultados = LeerBaseDeDatos(consulta);
-            List<string> comentarios = new List<string>();
-
-            foreach (DataRow fila in tablaResultados.Rows)
-            {
-                comentarios.Add(Convert.ToString(fila["pregunta"]));
-            }
-
-            return comentarios;
         }
 
         public bool InsertarRespuestas(CuestionarioEvaluacionRecibirModel evaluacion)
@@ -124,6 +110,93 @@ namespace Planetario.Handlers
             }
 
             return preguntas;
+        }
+
+        public List<string> ObtenerComentariosDeCuestionario(string nombreCuestionario)
+        {
+            string consulta = "SELECT comentario FROM ComentariosEvaluacion WHERE nombreCuestionarioFK = '" + nombreCuestionario + "';";
+            DataTable tablaResultados = LeerBaseDeDatos(consulta);
+            List<string> comentarios = new List<string>();
+
+            foreach (DataRow fila in tablaResultados.Rows)
+            {
+                comentarios.Add(Convert.ToString(fila["comentario"]));
+            }
+
+            return comentarios;
+        }
+
+        public CuestionarioEvaluacionMostrarModel ObtenerCuestionarioMostrar(string nombreCuestionario)
+        {
+            List<int> preguntas = ObtenerLasPreguntasDelCuestionario(nombreCuestionario);
+            List < List<int> > matriz = new List<List<int>>();
+            List<int> respuestas = new List<int>();
+            List<string> opciones = new List<string> { "Muy en desacuerdo", "En desacuerdo", "Neutro", "De acuerdo", "Muy de acuerdo" };
+            foreach (int pregunta in preguntas)
+            {
+                foreach(string opcion in opciones)
+                {
+                    respuestas.Add(ObtenerCantidadRepuestas(pregunta, opcion));
+                }
+                matriz.Add(respuestas);
+                respuestas.Clear();
+            }
+
+            CuestionarioEvaluacionMostrarModel modelo =
+                new CuestionarioEvaluacionMostrarModel {
+                    MatrizRespuestas = matriz,
+                    Comentario = ObtenerComentariosDeCuestionario(nombreCuestionario)
+                };
+
+            return modelo;
+        }
+
+        public int ObtenerCantidadRepuestas(int preguntaID, string opcion)
+        {
+            string consulta = "SELECT COUNT(valorRespuesta) as cantidad FROM PreguntasEvaluacion P " +
+                "JOIN RespuestasEvaluacion R ON P.idPreguntaPK = R.idPreguntaFK " +
+                "WHERE P.idPreguntaPK = " + preguntaID +
+                "AND R.valorRespuesta = '" + opcion + "';";
+
+            DataTable tablaResultado = LeerBaseDeDatos(consulta);
+            return Convert.ToInt32(tablaResultado.Rows[0]["cantidad"]);
+        }
+
+        public int ObtenerCantidadPersonas(string nombreCuestionario)
+        {
+            string consulta = "SELECT COUNT(DISTINCT R.correoFK) as cantidad FROM CuestionarioEvaluacion C " +
+                "JOIN PreguntasEvaluacion P ON C.nombreCuestionarioPK = P.nombreCuestionarioFK " +
+                "JOIN RespuestasEvaluacion R ON P.idPreguntaPK = R.idPreguntaFK;" +
+                "WHERE C.nombreCuestionarioPK = '" + nombreCuestionario + "';";
+
+            DataTable tablaResultado = LeerBaseDeDatos(consulta);
+            return Convert.ToInt32(tablaResultado.Rows[0]["cantidad"]);
+        }
+
+        public string ObtenerRelaciones(string nombreCuestionario, List<string> preguntas, List<string> opciones)
+        {
+            if (preguntas.Count != opciones.Count || preguntas.Count <= 0)
+            {
+                return "error";
+            }
+            string consulta = "SELECT COUNT(DISTINCT R.correoFK) as cantidad FROM CuestionarioEvaluacion C " +
+                 "JOIN PreguntasEvaluacion P ON C.nombreCuestionarioPK = P.nombreCuestionarioFK " +
+                 "JOIN RespuestasEvaluacion R ON P.idPreguntaPK = R.idPreguntaFK " +
+                 "WHERE C.nombreCuestionarioPK = '" + nombreCuestionario + "' AND (" +
+                 "(P.pregunta = " + preguntas[0] + " AND R.valorRespuesta = " + opciones[0] + ";";
+            for (int index = 0; index < preguntas.Count; ++index)
+            {
+                consulta += " OR (P.pregunta = " + preguntas[index] + " AND R.valorRespuesta = " + opciones[index] + ")";
+            }    
+            consulta += ");";
+            DataTable tablaResultado = LeerBaseDeDatos(consulta);
+            int cantidad = Convert.ToInt32(tablaResultado.Rows[0]["cantidad"]);
+            string respuesta = "Unas " + cantidad + " personas están " + opciones[0].ToLower() + " que " + preguntas[0].ToLower();
+            for (int index = 0; index < preguntas.Count; ++index)
+            {
+                respuesta += " y están " + opciones[index].ToLower() + " que " + preguntas[index].ToLower();
+            }
+            return respuesta;
         }
     }
 }
