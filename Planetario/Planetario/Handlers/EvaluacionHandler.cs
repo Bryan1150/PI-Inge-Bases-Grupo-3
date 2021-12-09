@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using Planetario.Models;
-using System.Web;
 
 namespace Planetario.Handlers
 {
@@ -57,27 +56,62 @@ namespace Planetario.Handlers
         public bool InsertarRespuestas(CuestionarioEvaluacionRecibirModel evaluacion)
         {
             bool exito = false;
-            string consulta = "INSERT INTO [dbo].[RespuestasEvaluacion] + " +
-                                "VALUES (@idPregunta, @correoFK, @valorRespuesta, GETDATE())";
+            string correo = HttpContext.Current.User.Identity.Name;
+
+            string consulta = "INSERT INTO [dbo].[RespuestasEvaluacion] VALUES ";
             List<int> idPreguntas = ObtenerLasPreguntasDelCuestionario(evaluacion.NombreCuestionario);
             if (evaluacion.Respuestas.Count != idPreguntas.Count)
                 return false;
             for(int index = 0; index < idPreguntas.Count; ++index )
             {
-                Dictionary<string, object> valoresParametros = new Dictionary<string, object> {
-                    {"@idPregunta", idPreguntas[index] },
-                    {"@correoFK",  HttpContext.Current.User.Identity.Name},
-                    {"@valorRespuesta",  evaluacion.Respuestas[index]}
-                };
-                exito = InsertarEnBaseDatos(consulta, valoresParametros);
+                int idPregunta = idPreguntas[index];
+                string respuesta = evaluacion.Respuestas[index];
+                consulta += "(" + idPregunta + ", '" + correo + "', '" + respuesta + "', GETDATE()),";
             }
+            consulta = consulta.Remove(consulta.Length - 1);
+            exito = InsertarEnBaseDatos(consulta, null);
+            return exito;
+        }
+
+        public bool InsertarComentario(CuestionarioEvaluacionRecibirModel evaluacion)
+        {
+            bool exito = false;
+            string correo = HttpContext.Current.User.Identity.Name;
+
+            string consulta = "INSERT INTO ComentariosEvaluacion VALUES (@nombreCuestionarioFK, @comentario, @correoPersonaFK, GETDATE())";
+
+            Dictionary<string, object> valoresParametros = new Dictionary<string, object> {
+                {"@nombreCuestionarioFK", evaluacion.NombreCuestionario },
+                {"@correoPersonaFK", correo },
+                {"@comentario", evaluacion.Comentario[0] }
+            };
+
+            exito = InsertarEnBaseDatos(consulta, valoresParametros);
+            return exito;
+        }
+
+        public bool InsertarFuncionalidadesEvaluadas(CuestionarioEvaluacionRecibirModel evaluacion)
+        {
+            bool exito = false;
+            string correo = HttpContext.Current.User.Identity.Name;
+
+            string consulta = "INSERT INTO FuncionalidadEvaluada VALUES ";
+            string[] funcionalidades = evaluacion.Funcionalidades.Split(';');
+            for (int index = 0; index < funcionalidades.Length; ++index)
+            {
+                string nombreCuestionario = evaluacion.NombreCuestionario;
+                string funcionalidad = funcionalidades[index];
+                consulta += "('" + nombreCuestionario + "', '" + correo + "', '" + funcionalidad + "', GETDATE()),";
+            }
+            consulta = consulta.Remove(consulta.Length - 1);
+            exito = InsertarEnBaseDatos(consulta, null);
             return exito;
         }
 
         public List<int> ObtenerLasPreguntasDelCuestionario(string nombreCuestionario)
         {
-            string consulta = "SELECT PE.idPreguntaFK FROM PreguntasEvaluacion PE " +
-                "JOIN Cuestionario C ON C.nombreCuestionarioPK = PE.nombreCuestionarioFK " +
+            string consulta = "SELECT PE.idPreguntaPK FROM PreguntasEvaluacion PE " +
+                "JOIN CuestionarioEvaluacion C ON C.nombreCuestionarioPK = PE.nombreCuestionarioFK " +
                 "WHERE C.nombreCuestionarioPK = '" + nombreCuestionario + "';";
 
             DataTable tablaResultados = LeerBaseDeDatos(consulta);
@@ -85,7 +119,7 @@ namespace Planetario.Handlers
 
             foreach (DataRow fila in tablaResultados.Rows)
             {
-                preguntas.Add(Convert.ToInt32(fila["pregunta"]));
+                preguntas.Add(Convert.ToInt32(fila["idPreguntaPK"]));
             }
 
             return preguntas;
