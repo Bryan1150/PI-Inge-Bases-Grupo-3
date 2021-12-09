@@ -127,6 +127,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ClientesController.cs" />
     <Compile Include="Controllers\DatosController.cs" />
+    <Compile Include="Controllers\MembresiasController.cs" />
     <Compile Include="Controllers\PersonasController.cs" />
     <Compile Include="Controllers\VentasController.cs" />
     <Compile Include="Handlers\ClientesHandler.cs" />
@@ -150,6 +151,7 @@
     <Compile Include="Handlers\ActividadHandler.cs" />
     <Compile Include="Handlers\BaseDatosHandler.cs" />
     <Compile Include="Handlers\EventosHandler.cs" />
+    <Compile Include="Handlers\MembresiasHandler.cs" />
     <Compile Include="Interfaces\ActividadesInterfaz.cs" />
     <Compile Include="Interfaces\CookiesInterfaz.cs" />
     <Compile Include="Interfaces\DescuentosInterfaz.cs" />
@@ -270,6 +272,7 @@
     <Content Include="Utils\css\background.css" />
     <Content Include="Utils\css\fonts.css" />
     <Content Include="Utils\css\main.css" />
+    <Content Include="Utils\css\membresias.css" />
     <Content Include="Utils\css\rows.css" />
     <Content Include="Utils\css\msfmultiselect.css" />
     <Content Include="Utils\css\SelectorAsientos.css" />
@@ -435,6 +438,9 @@
     <Content Include="Views\Clientes\Registro.cshtml" />
     <Content Include="Views\Ventas\RealizarCompra.cshtml" />
     <Content Include="Views\Ventas\Pago.cshtml" />
+    <Content Include="Views\Membresias\Comprar.cshtml" />
+    <Content Include="Views\Membresias\Pago.cshtml" />
+    <Content Include="Views\Membresias\Satisfactorio.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Data\" />
