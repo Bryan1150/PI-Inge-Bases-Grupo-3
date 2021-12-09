@@ -5,6 +5,7 @@ using Planetario.Models;
 using Planetario.Interfaces;
 using System.Diagnostics;
 using System;
+using System.Collections.Generic;
 
 namespace Planetario.Controllers
 {
@@ -64,6 +65,12 @@ namespace Planetario.Controllers
         {
             //DatosHandler datosHandler = new DatosHandler();
             //ViewBag.categorias = datosHandler.SelectListCategorias();
+
+            List<SelectListItem> categorias = new List<SelectListItem>()
+            {
+                new SelectListItem(){Text="Telescopios",Value="Telescopios"}
+            };
+            ViewBag.categorias = categorias;
             return View();
         }
 
@@ -151,7 +158,7 @@ namespace Planetario.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    ViewBag.ExitoAlCrear = ventasInterfaz.InsertarProducto(producto);
+                    ViewBag.ExitoAlCrear = productosInterfaz.InsertarProducto(producto);
                     if (ViewBag.ExitoAlCrear)
                     {
                         ViewBag.Mensaje = "El producto" + " " + producto.Nombre + " fue agregado con éxito";
@@ -195,8 +202,8 @@ namespace Planetario.Controllers
         [HttpGet]
         public ActionResult ObtenerImagen(int id)
         {
-            VentasHandler ventasHandler = new VentasHandler();
-            var tupla = ventasHandler.ObtenerFoto(id);
+            ProductosHandler productosHandler = new ProductosHandler();
+            var tupla = productosHandler.ObtenerFoto(id);
             return File(tupla.Item1, tupla.Item2);
         }
     }

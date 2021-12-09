@@ -8,7 +8,8 @@ namespace Planetario.Handlers
 {
     public class ProductosHandler: BaseDatosHandler, ProductosInterfaz
     {
-        private List<ProductoModel> ConvertirTablaProductoALista(DataTable tabla)
+        private readonly ArchivosHandler ManejadorDeImagen = new ArchivosHandler();
+        private static List<ProductoModel> ConvertirTablaProductoALista(DataTable tabla)
         {
             List<ProductoModel> productos = new List<ProductoModel>();
             foreach (DataRow columna in tabla.Rows)
@@ -54,6 +55,50 @@ namespace Planetario.Handlers
             consulta += "ORDER BY " + orden + ";";
 
             return ObtenerProductos(consulta);
+        }
+
+        public bool InsertarProducto(ProductoModel producto)
+        {
+            string consultaTablaComprable = "INSERT INTO Comprable (nombre, precio, cantidadDisponible) " +
+                                            "VALUES (@nombre, @precio, @cantidadDisponible);";
+
+            string consultaTablaProducto = "DECLARE @identity int=IDENT_CURRENT('Comprable');" +
+                                           "INSERT INTO Producto (idComprableFK, cantidadRebastecer, tamano, categoria, descripcion, fechaIngreso, fechaUltimaVenta, fotoArchivo, fotoTipo, cantidadVendidos) " +
+                                           "VALUES ( @identity, @cantidadRebastecer, @tamano, @categoria, @descripcion, @fechaIngreso, NULL, @fotoArchivo, @fotoTipo, 0 ); ";
+
+            Dictionary<string, object> parametrosComprable = new Dictionary<string, object> {
+                {"@nombre", producto.Nombre },
+                {"@precio", producto.Precio },
+                {"@cantidadDisponible", producto.CantidadDisponible }
+            };
+
+            Dictionary<string, object> parametrosProducto = CrearDiccionarioParametrosDeProductos(producto);
+
+            return (InsertarEnBaseDatos(consultaTablaComprable, parametrosComprable) && InsertarEnBaseDatos(consultaTablaProducto, parametrosProducto));
+        }
+
+        private Dictionary<string, object> CrearDiccionarioParametrosDeProductos(ProductoModel producto)
+        {
+            Dictionary<string, object> parametrosProducto = new Dictionary<string, object> {
+                {"@cantidadRebastecer", producto.CantidadRebastecer },
+                {"@tamano", producto.Tamano },
+                {"@categoria", producto.Categoria },
+                {"@descripcion", producto.Descripcion },
+                {"@fechaIngreso", producto.FechaIngreso },
+                {"@fotoTipo", producto.FotoArchivo.ContentType }
+            };
+
+            parametrosProducto.Add("@fotoArchivo", ManejadorDeImagen.ConvertirArchivoABytes(producto.FotoArchivo));
+            return parametrosProducto;
+        }
+
+        public Tuple<byte[], string> ObtenerFoto(int id)
+        {
+            string columnaContenido = "fotoArchivo";
+            string columnaTipo = "fotoTipo";
+            string consulta = "SELECT " + columnaContenido + ", " + columnaTipo + " FROM Producto WHERE idComprableFK = @id";
+            KeyValuePair<string, object> parametro = new KeyValuePair<string, object>("@id", id);
+            return ObtenerArchivo(consulta, parametro, columnaContenido, columnaTipo);
         }
     }
 }

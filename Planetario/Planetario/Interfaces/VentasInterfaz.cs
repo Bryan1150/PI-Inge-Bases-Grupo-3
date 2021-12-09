@@ -6,10 +6,8 @@ namespace Planetario.Interfaces
 {
     public interface VentasInterfaz
     {
-
-        bool InsertarProducto(ProductoModel producto);
-        List<EntradaModel> ObtenerTodasLasEntradasDelCarrito(string correoUsuario);
-        List<ProductoModel> ObtenerTodosLosProductosDelCarrito(string correoUsuario);
+        List<ComprableModel> ObtenerTodasLasEntradasDelCarrito(string correoUsuario);
+        List<ComprableModel> ObtenerTodosLosProductosDelCarrito(string correoUsuario);
         bool EliminarDelCarrito(string correoUsuario, int idComprable);
         bool DisminiuirLaCantidadDelElementoDelCarrito(string correoUsuario, int idComprable);
         bool AumentarLaCantidadDelElementoDelCarrito(string correoUsuario, int idComprable);

@@ -132,6 +132,7 @@
     <Compile Include="Handlers\ClientesHandler.cs" />
     <Compile Include="Handlers\CookiesHandler.cs" />
     <Compile Include="Handlers\DatosHandler.cs" />
+    <Compile Include="Handlers\DescuentosHandler.cs" />
     <Compile Include="Handlers\FacturasHandler.cs" />
     <Compile Include="Controllers\ActividadesController.cs" />
     <Compile Include="Controllers\EstadisticasController.cs" />
@@ -151,6 +152,7 @@
     <Compile Include="Handlers\EventosHandler.cs" />
     <Compile Include="Interfaces\ActividadesInterfaz.cs" />
     <Compile Include="Interfaces\CookiesInterfaz.cs" />
+    <Compile Include="Interfaces\DescuentosInterfaz.cs" />
     <Compile Include="Interfaces\ProductosInterfaz.cs" />
     <Compile Include="Interfaces\VentasInterfaz.cs" />
     <Compile Include="Handlers\ParticipanteHandler.cs" />
