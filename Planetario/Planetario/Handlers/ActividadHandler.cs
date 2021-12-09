@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Data;
 using Planetario.Models;
 using System.Web;
+using Planetario.Interfaces;
 
 namespace Planetario.Handlers
 {
-    public class ActividadHandler : BaseDatosHandler, IActividadesService
+    public class ActividadHandler : BaseDatosHandler, ActividadesInterfaz
     {
         private List<ActividadModel> ConvertirTablaALista(DataTable tabla)
         {

@@ -3,10 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Web;
 using System.Data;
+using Planetario.Interfaces;
 
 namespace Planetario.Handlers
 {
-    public class VentasHandler : BaseDatosHandler, IVentasService
+    public class VentasHandler : BaseDatosHandler, VentasInterfaz
     {
         private readonly ArchivosHandler ManejadorDeImagen = new ArchivosHandler();
 

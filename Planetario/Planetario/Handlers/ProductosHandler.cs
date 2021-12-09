@@ -1,12 +1,12 @@
 ﻿using Planetario.Models;
 using System;
 using System.Collections.Generic;
-using System.Web;
 using System.Data;
+using Planetario.Interfaces;
 
 namespace Planetario.Handlers
 {
-    public class ProductosHandler: BaseDatosHandler
+    public class ProductosHandler: BaseDatosHandler, ProductosInterfaz
     {
         private List<ProductoModel> ConvertirTablaProductoALista(DataTable tabla)
         {
@@ -29,8 +29,6 @@ namespace Planetario.Handlers
                 });
             }
             return productos;
-
-
         }
 
         private List<ProductoModel> ObtenerProductos(string consulta)
