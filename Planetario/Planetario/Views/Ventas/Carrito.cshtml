@@ -28,8 +28,10 @@
                         <div class="card card-con-imagen-izq bg-light">
                             <img class="border" src="@Url.Action("ObtenerImagen", "Ventas", new { id = producto.Id })">
                             <div class="card-body">
+
                                 <h3 class="card-title">@producto.Nombre</h3>
                                 <p class="card-text">@producto.Descripcion</p>
+
                                 <div class="row" style="margin-top: 0;">
                                     <div class="col-6">
                                         <p class="card-text"><strong>Precio: </strong>₡@producto.Precio</p>
@@ -38,7 +40,7 @@
                                         <p class="card-text"><strong>Cantidad: </strong>@producto.CantidadCarrito</p>
                                     </div>
                                 </div>
-                                @Html.ActionLink("Eliminar", "EliminarElementoDelCarritoDelUsuario", new { idComprable = producto.Id }, new { @class = "btn btn-outline-danger" })
+                                <input type="submit" onclick="EliminarElementoDelCarrito(@producto.Id)" class="btn btn-outline-danger" value="Eliminar"/>
                             </div>
                         </div>
                         <br />
@@ -58,16 +60,17 @@
                                         <p class="card-text"><strong>Precio: </strong>₡@entrada.Precio</p>
                                     </div>
                                     <div class="col-6">
-                                        <p class="card-text"><strong>Cantidad: </strong>1</p>
+                                        <p class="card-text"><strong>Cantidad: </strong>@entrada.CantidadCarrito</p>
                                     </div>
                                 </div>
-                                @Html.ActionLink("Eliminar", "EliminarElementoDelCarritoDelUsuario", new { idComprable = entrada.Id }, new { @class = "btn btn-outline-danger" })
+                                <input type="submit" onclick="EliminarElementoDelCarrito(@entrada.Id)" class="btn btn-outline-danger" value="Eliminar" />
                             </div>
                         </div>
                         <br />
                     }
                 }
             </div>
+
             <div class="col-md-3 offset-md-1">
 
                 <div class="card">
@@ -90,7 +93,12 @@
             <p class="text-center">No tienes artículos.</p>
         }
              
-   
-
-    
+    <script>
+        function EliminarElementoDelCarrito(idComprable) {
+            $.getJSON('/Ventas/EliminarElementoDelCarritoDelUsuario', {idComprable: idComprable}, function (data) {
+                console.log(data);
+            });
+            window.location.reload();
+        }
+    </script>
 </body>

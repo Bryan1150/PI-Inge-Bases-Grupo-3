@@ -2,62 +2,108 @@
 using System.Configuration;
 using Planetario.Handlers;
 using Planetario.Models;
+using Planetario.Interfaces;
+using System.Diagnostics;
+using System;
+using System.Collections.Generic;
 
 namespace Planetario.Controllers
 {
     public class VentasController : Controller
     {
 
-        readonly IVentasService AccesoDatos;
+        readonly VentasInterfaz ventasInterfaz;
+        readonly ProductosInterfaz productosInterfaz;
+        readonly CookiesInterfaz cookiesInterfaz;
 
         public VentasController()
         {
-            AccesoDatos = new VentasHandler();
+            ventasInterfaz = new VentasHandler();
+            productosInterfaz = new ProductosHandler();
+            cookiesInterfaz = new CookiesHandler();
         }
 
-        public VentasController(IVentasService _servicio)
+        public VentasController(VentasInterfaz _servicio)
         {
-            AccesoDatos = _servicio;
+            ventasInterfaz = _servicio;
+        }
+
+        public VentasController(ProductosInterfaz _servicio)
+        {
+            productosInterfaz = _servicio;
+        }
+
+        public VentasController(VentasInterfaz ventas, ProductosInterfaz productos, CookiesInterfaz cookies)
+        {
+            if(ventas != null)
+            {
+                ventasInterfaz = ventas;
+            }
+            else
+            {
+                ventasInterfaz = new VentasHandler();
+            }
+            if(productos != null)
+            {
+                productosInterfaz = productos;
+            }
+            else
+            {
+                productosInterfaz = new ProductosHandler();
+            }
+            if(cookies != null)
+            {
+                cookiesInterfaz = cookies;
+            }
+            else
+            {
+                cookiesInterfaz = new CookiesHandler();
+            }
         }
 
         public ActionResult ListaProductos()
         {
-            DatosHandler datosHandler = new DatosHandler();
-            ViewBag.categorias = datosHandler.SelectListCategorias();
+            //DatosHandler datosHandler = new DatosHandler();
+            //ViewBag.categorias = datosHandler.SelectListCategorias();
+
+            List<SelectListItem> categorias = new List<SelectListItem>()
+            {
+                new SelectListItem(){Text="Telescopios",Value="Telescopios"}
+            };
+            ViewBag.categorias = categorias;
             return View();
         }
 
         public JsonResult ListaProductosFiltrados(double precioMinimo, double precioMaximo, string categoria, string palabraBusqueda, string orden)
         {
-            ProductosHandler productosHandler = new ProductosHandler();
-            return Json(productosHandler.ObtenerProductosFiltrados(precioMinimo, precioMaximo, categoria, palabraBusqueda, orden), JsonRequestBehavior.AllowGet);
+            return Json(productosInterfaz.ObtenerProductosFiltrados(precioMinimo, precioMaximo, categoria, palabraBusqueda, orden), JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
         public ActionResult Carrito()
         {            
             ActionResult resultado;
-            if (Request.IsAuthenticated){
+            if (cookiesInterfaz.SesionIniciada()){
                 string correoUsuario;
-                correoUsuario = HttpContext.User.Identity.Name;
-
-                int cantidadEntradas = AccesoDatos.ObtenerCantidadDeEntradasDelCarrito(correoUsuario);
-                int cantidadProductos = AccesoDatos.ObtenerCantidadDeProductosDelCarrito(correoUsuario);
+                correoUsuario = cookiesInterfaz.CorreoUsuario();
+                int cantidadEntradas = ventasInterfaz.ObtenerCantidadDeEntradasDelCarrito(correoUsuario);
+                int cantidadProductos = ventasInterfaz.ObtenerCantidadDeProductosDelCarrito(correoUsuario);
                 int cantidadItems = cantidadEntradas + cantidadProductos;
                 double total = 0;
-
+                Console.WriteLine(cantidadEntradas);
                 ViewBag.CantidadItems = cantidadItems;
 
                 if (cantidadEntradas != 0) 
                 {
-                    ViewBag.ListaEntradas = AccesoDatos.ObtenerTodasLasEntradasDelCarrito(correoUsuario);
-                    total += AccesoDatos.ObtenerPrecioTotalDeEntradasDelCarrito(correoUsuario);
+                    ViewBag.ListaEntradas = ventasInterfaz.ObtenerTodasLasEntradasDelCarrito(correoUsuario);
+                    total += ventasInterfaz.ObtenerPrecioTotalDeEntradasDelCarrito(correoUsuario);
+                    Console.WriteLine(total);
                 }
 
                 if (cantidadProductos != 0)
                 {
-                    ViewBag.ListaProductos = AccesoDatos.ObtenerTodosLosProductosDelCarrito(correoUsuario);
-                    total += AccesoDatos.ObtenerPrecioTotalDeProductosDelCarrito(correoUsuario);
+                    ViewBag.ListaProductos = ventasInterfaz.ObtenerTodosLosProductosDelCarrito(correoUsuario);
+                    total += ventasInterfaz.ObtenerPrecioTotalDeProductosDelCarrito(correoUsuario);
                 }
 
                 ViewBag.Precio = total;
@@ -75,22 +121,26 @@ namespace Planetario.Controllers
         [HttpGet]
         public JsonResult EliminarElementoDelCarritoDelUsuario(int idComprable)
         {
-            string correoUsuario = HttpContext.User.Identity.Name;
-            var exito = AccesoDatos.EliminarDelCarrito(correoUsuario, idComprable);
+            bool exito = false;
+            if(cookiesInterfaz.SesionIniciada())
+            {
+                string correoUsuario = cookiesInterfaz.CorreoUsuario();
+                exito = ventasInterfaz.EliminarDelCarrito(correoUsuario, idComprable);
+            }            
             return Json(new { Exito = exito }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
         public JsonResult DisminiuirLaCantidadDelElementoDelCarritoDelUsuario(string correoUsuario, int idComprable)
         {
-            var exito = AccesoDatos.DisminiuirLaCantidadDelElementoDelCarrito(correoUsuario, idComprable);
+            var exito = ventasInterfaz.DisminiuirLaCantidadDelElementoDelCarrito(correoUsuario, idComprable);
             return Json(new { Exito = exito }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
         public JsonResult AumentarLaCantidadDelElementoDelCarritoDelUsuario(string correoUsuario, int idComprable)
         {
-            var exito = AccesoDatos.AumentarLaCantidadDelElementoDelCarrito(correoUsuario, idComprable);
+            var exito = ventasInterfaz.AumentarLaCantidadDelElementoDelCarrito(correoUsuario, idComprable);
             return Json(new { Exito = exito }, JsonRequestBehavior.AllowGet);
         }
 
@@ -108,7 +158,7 @@ namespace Planetario.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    ViewBag.ExitoAlCrear = AccesoDatos.InsertarProducto(producto);
+                    ViewBag.ExitoAlCrear = productosInterfaz.InsertarProducto(producto);
                     if (ViewBag.ExitoAlCrear)
                     {
                         ViewBag.Mensaje = "El producto" + " " + producto.Nombre + " fue agregado con éxito";
@@ -131,19 +181,29 @@ namespace Planetario.Controllers
                 return View();
             }
         }
-        
+
+        [HttpGet]
+        public ActionResult RealizarCompra()
+        {
+            DatosHandler datosHandler = new DatosHandler();
+            ViewBag.paises = datosHandler.SelectListPaises();
+            ViewBag.nivelesEducativos = datosHandler.SelectListNivelesEducativos();
+            ViewBag.generos = datosHandler.SelectListGeneros();
+            return View();
+        }
+
         [HttpGet]
         public JsonResult AgregarAlCarrito(int idComprable, int cantidad)
         {
-            var exito = AccesoDatos.AgregarAlCarrito(idComprable, cantidad);
+            var exito = ventasInterfaz.AgregarAlCarrito(idComprable, cantidad);
             return Json(new { Exito = exito }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
         public ActionResult ObtenerImagen(int id)
         {
-            VentasHandler ventasHandler = new VentasHandler();
-            var tupla = ventasHandler.ObtenerFoto(id);
+            ProductosHandler productosHandler = new ProductosHandler();
+            var tupla = productosHandler.ObtenerFoto(id);
             return File(tupla.Item1, tupla.Item2);
         }
     }

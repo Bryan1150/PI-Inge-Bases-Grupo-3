@@ -1,0 +1,146 @@
+﻿@model Planetario.Models.InscripcionModel
+@{
+    ViewBag.Title = "Proceso de inscripción";
+    List<SelectListItem> generos = ViewBag.generos;
+    List<SelectListItem> nivelesEducativos = ViewBag.nivelesEducativos;
+    List<SelectListItem> paises = ViewBag.paises;
+}
+
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
+    <link rel="stylesheet" type="text/css" href="~/Utils/css/vistaPagos.css">
+</head>
+<body>
+    <span class="titulo">
+        Carrito
+    </span>
+    @if (ViewBag.Message != null)
+    {
+        if (ViewBag.ExitoAlInscribir)
+        {
+            <div class="alert-success">
+                <h3> @ViewBag.Message </h3>
+            </div>
+        }
+        else
+        {
+            <div class="alert-danger">
+                <h3> @ViewBag.Message </h3>
+            </div>
+        }
+    }
+    else
+    {
+        using (Html.BeginForm("RealizarCompra", "Ventas", FormMethod.Post, new { id = "formularioGeneral", enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="container mt-5 px-5">
+                
+                <section id="formularioDatosPago">
+                    <div class="mb-4">
+                        <h2>Confirmar el pago</h2>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="card p-3">
+                                <h6 class="text-uppercase">Detalles de pago</h6>
+
+                                <div class="form-floating">
+                                    @Html.TextBoxFor(model => model.infoTarjeta.NombreTarjeta, new { @class = "form-control input-lg", @placeholder = ""})
+                                    @Html.LabelFor(model => model.infoTarjeta.NombreTarjeta, htmlAttributes: new { @class = "" })
+                                    @Html.ValidationMessageFor(model => model.infoTarjeta.NombreTarjeta, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            @Html.TextBoxFor(model => model.infoTarjeta.NumeroTarjeta, new { @class = "form-control input-lg", @placeholder = "", @type = "number", @maxLength = "16"})
+                                            @Html.LabelFor(model => model.infoTarjeta.NumeroTarjeta, htmlAttributes: new { @class = "" })
+                                            @Html.ValidationMessageFor(model => model.infoTarjeta.NumeroTarjeta, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="d-flex flex-row">
+                                            <div class="form-floating">
+                                                @Html.TextBoxFor(model => model.infoTarjeta.FechaExpiracion, new { @class = "form-control input-lg", @placeholder = "", @type = "number", @maxLength = "5"  })
+                                                @Html.LabelFor(model => model.infoTarjeta.FechaExpiracion, htmlAttributes: new { @class = "" })
+                                                @Html.ValidationMessageFor(model => model.infoTarjeta.FechaExpiracion, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="form-floating">
+                                                @Html.TextBoxFor(model => model.infoTarjeta.CVV, new { @class = "form-control input-lg", @placeholder = "", @type = "number", @maxLength = "3" })
+                                                @Html.LabelFor(model => model.infoTarjeta.CVV, htmlAttributes: new { @class = "" })
+                                                @Html.ValidationMessageFor(model => model.infoTarjeta.CVV, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+
+                                    <h6 class="text-uppercase">Dirección de cobro</h6>
+
+                                    <div class="row mt-3">
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                @Html.TextBoxFor(model => model.infoTarjeta.provincia, new { @class = "form-control input-lg", @placeholder = "" })
+                                                @Html.LabelFor(model => model.infoTarjeta.provincia, htmlAttributes: new { @class = "" })
+                                                @Html.ValidationMessageFor(model => model.infoTarjeta.provincia, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                @Html.TextBoxFor(model => model.infoTarjeta.ciudad, new { @class = "form-control input-lg", @placeholder = "" })
+                                                @Html.LabelFor(model => model.infoTarjeta.ciudad, htmlAttributes: new { @class = "" })
+                                                @Html.ValidationMessageFor(model => model.infoTarjeta.ciudad, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-2">
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                @Html.TextBoxFor(model => model.infoTarjeta.detallesDireccion, new { @class = "form-control input-lg", @placeholder = "" })
+                                                @Html.LabelFor(model => model.infoTarjeta.detallesDireccion, htmlAttributes: new { @class = "" })
+                                                @Html.ValidationMessageFor(model => model.infoTarjeta.detallesDireccion, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                @Html.TextBoxFor(model => model.infoTarjeta.codigoPostal, new { @class = "form-control input-lg", @placeholder = "", @type = "number", @maxLength = "5" })
+                                                @Html.LabelFor(model => model.infoTarjeta.codigoPostal, htmlAttributes: new { @class = "" })
+                                                @Html.ValidationMessageFor(model => model.infoTarjeta.codigoPostal, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4 mb-4 d-flex justify-content-between">
+                                <label class="text-danger">Cancelar pago</label>
+                                <input type="submit" class="btn btn-success btn-lg btn-lg" value="Pagar" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card card-blue p-3 text-white mb-3">
+                                <span>Usted debe pagar</span>
+                                <div class="d-flex flex-row align-items-end mb-3">
+                                    <h1 class="mb-0 yellow">₡ @ViewBag.precio</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        }
+    }
+
+</body>
+
+@section Scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}
+</html>

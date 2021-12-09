@@ -31,7 +31,7 @@
             .navbar-nav > li > .dropdown-menu a {
                 color: #fcdab7;
             }
-
+            
         .navbar-nav > .nav-item > .nav-link {
             color: #fcdab7;
         }
@@ -206,6 +206,10 @@
 
                     <li class="nav-item">
                         @Html.ActionLink("Cuestionarios", "ListaCuestionarios", "Cuestionario", new { area = "" }, new { @class = "nav-link" })
+                    </li>
+
+                    <li class="nav-item">
+                        @Html.ActionLink("Tienda", "ListaProductos", "Ventas", new { area = "" }, new { @class = "nav-link" })
                     </li>
                 </ul>
                 <ul class="navbar-nav ms-auto">
