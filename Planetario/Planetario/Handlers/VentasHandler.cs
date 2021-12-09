@@ -46,6 +46,7 @@ namespace Planetario.Handlers
                     Nombre = Convert.ToString(columna["nombreActividadFK"]),
                     Precio = Convert.ToDouble(columna["precio"]),
                     CantidadDisponible = Convert.ToInt32(columna["cantidadDisponible"]),
+                    CantidadCarrito = Convert.ToInt32(columna["cantidadProductos"])
                 });
             }
             return entradas;

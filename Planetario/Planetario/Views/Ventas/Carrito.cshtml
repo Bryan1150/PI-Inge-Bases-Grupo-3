@@ -40,8 +40,7 @@
                                         <p class="card-text"><strong>Cantidad: </strong>@producto.CantidadCarrito</p>
                                     </div>
                                 </div>
-
-                                @Html.ActionLink("Eliminar", "EliminarElementoDelCarritoDelUsuario", new { idComprable = producto.Id }, new { @class = "btn btn-outline-danger" })
+                                <input type="submit" onclick="EliminarElementoDelCarrito(@producto.Id)" class="btn btn-outline-danger" value="Eliminar"/>
                             </div>
                         </div>
                         <br />
@@ -61,10 +60,10 @@
                                         <p class="card-text"><strong>Precio: </strong>₡@entrada.Precio</p>
                                     </div>
                                     <div class="col-6">
-                                        <p class="card-text"><strong>Cantidad: </strong>1</p>
+                                        <p class="card-text"><strong>Cantidad: </strong>@entrada.CantidadCarrito</p>
                                     </div>
                                 </div>
-                                @Html.ActionLink("Eliminar", "EliminarElementoDelCarritoDelUsuario", new { idComprable = entrada.Id }, new { @class = "btn btn-outline-danger" })
+                                <input type="submit" onclick="EliminarElementoDelCarrito(@entrada.Id)" class="btn btn-outline-danger" value="Eliminar" />
                             </div>
                         </div>
                         <br />
@@ -94,7 +93,12 @@
             <p class="text-center">No tienes artículos.</p>
         }
              
-   
-
-    
+    <script>
+        function EliminarElementoDelCarrito(idComprable) {
+            $.getJSON('/Ventas/EliminarElementoDelCarritoDelUsuario', {idComprable: idComprable}, function (data) {
+                console.log(data);
+            });
+            window.location.reload();
+        }
+    </script>
 </body>
