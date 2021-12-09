@@ -119,6 +119,45 @@ namespace Planetario.Controllers
         }
 
         [HttpGet]
+        public ActionResult Pago()
+        {
+            ActionResult resultado;
+            if (cookiesInterfaz.SesionIniciada())
+            {
+                string correoUsuario = cookiesInterfaz.CorreoUsuario();
+                int cantidadEntradas = ventasInterfaz.ObtenerCantidadDeEntradasDelCarrito(correoUsuario);
+                int cantidadProductos = ventasInterfaz.ObtenerCantidadDeProductosDelCarrito(correoUsuario);
+                int cantidadItems = cantidadEntradas + cantidadProductos;
+                double total = 0;
+                ViewBag.CantidadItems = cantidadItems;
+
+                if (cantidadEntradas != 0)
+                {
+                    ViewBag.ListaEntradas = ventasInterfaz.ObtenerTodasLasEntradasDelCarrito(correoUsuario);
+                    total += ventasInterfaz.ObtenerPrecioTotalDeEntradasDelCarrito(correoUsuario);
+                    Console.WriteLine(total);
+                }
+
+                if (cantidadProductos != 0)
+                {
+                    ViewBag.ListaProductos = ventasInterfaz.ObtenerTodosLosProductosDelCarrito(correoUsuario);
+                    total += ventasInterfaz.ObtenerPrecioTotalDeProductosDelCarrito(correoUsuario);
+                }
+
+                ViewBag.Precio = total;
+                ViewBag.IVA = total * 0.13;
+                ViewBag.PrecioTotal = ViewBag.Precio + ViewBag.IVA;
+                resultado = View();
+            }
+            else
+            {
+                resultado = RedirectToAction("IniciarSesion", "Personas");
+            }
+            return resultado;
+        }
+
+
+        [HttpGet]
         public JsonResult EliminarElementoDelCarritoDelUsuario(int idComprable)
         {
             bool exito = false;

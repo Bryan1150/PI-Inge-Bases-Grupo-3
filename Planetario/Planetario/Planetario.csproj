@@ -434,6 +434,7 @@
     <Content Include="Views\Ventas\ListaProductos.cshtml" />
     <Content Include="Views\Clientes\Registro.cshtml" />
     <Content Include="Views\Ventas\RealizarCompra.cshtml" />
+    <Content Include="Views\Ventas\Pago.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Data\" />
