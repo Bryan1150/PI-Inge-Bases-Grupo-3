@@ -277,12 +277,14 @@
     <Content Include="Utils\images\icons\favicon.ico" />
     <Content Include="Utils\images\img-01.png" />
     <Content Include="Utils\js\bootstrap-input-spinner.js" />
+    <Content Include="Utils\js\crearTabla.js" />
     <Content Include="Utils\js\estadisticas.js" />
     <Content Include="Utils\js\estadisticasIdiomas.js" />
     <Content Include="Utils\js\formularioInscripcion.js" />
     <Content Include="Utils\js\main.js" />
     <Content Include="Utils\js\msfmultiselect.js" />
     <Content Include="Utils\js\reportes.js" />
+    <Content Include="Utils\js\tablasReporteMercadeo.js" />
     <Content Include="Utils\vendor\animate\animate.css" />
     <Content Include="Utils\vendor\bootstrap\css\bootstrap-grid.css" />
     <Content Include="Utils\vendor\bootstrap\css\bootstrap-grid.min.css" />
@@ -423,6 +425,7 @@
     <Content Include="Views\Clientes\Inscribirme.cshtml" />
     <Content Include="Views\Ventas\AgregarProducto.cshtml" />
     <Content Include="Views\Reportes\Reporte.cshtml" />
+    <Content Include="Views\Reportes\ReporteMercadeo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Data\" />

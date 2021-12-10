@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Text;
 using Planetario.Models;
-using System.Data.SqlClient;
-using System.Web.Security;
-using System.Data.SqlTypes;
 
 namespace Planetario.Handlers
 {
@@ -79,68 +75,68 @@ namespace Planetario.Handlers
             return categorias;
         }
 
-        public string ConsultaPorCategoriasPersonaExtranjeras(string categoria)
+        public List<object> ConsultaPorCategoriasPersonaExtranjeras(string categoria)
         {
-            string consulta = "SELECT SUM(F.cantidadComprada) as 'cantidad', Pe.pais, C.nombre, C.precio" +
+            string consulta = "SELECT SUM(F.cantidadComprada) as 'cantidad', Pe.pais, C.nombre, C.precio AS precio " +
                               "FROM Producto Pr JOIN Comprable C " +
                               "ON C.idComprablePK = Pr.idComprableFK " +
-                              "JOIN Factura F" +
+                              "JOIN Factura F " +
                               "ON F.idComprableFk = C.idComprablePK " +
                               "JOIN Persona Pe " +
                               "ON F.correoPersonaFK = Pe.correoPersonaPK " +
                               "WHERE Pr.categoria = '" + categoria + "' " +
-                              "AND Pe.pais != 'Costa Rica'" +
+                              "AND Pe.pais != 'Costa Rica' " +
                               "GROUP BY Pe.Pais, C.nombre, C.precio";
 
             DataTable tablaResultados = LeerBaseDeDatos(consulta);
+            List<object> info = new List<object>();
 
-
-            string datosJson = "[";
             foreach (DataRow fila in tablaResultados.Rows)
             {
-                datosJson += "{" +
-                    "Nombre:" + Convert.ToString(fila["nombre"]) + "," +
-                    "Pais:" + Convert.ToString(fila["pais"]) + "," +
-                    "Precio:" + Convert.ToString(fila["precio"]) + "," +
-                    "Cantidad:" + Convert.ToString(fila["cantidad"]) + "," +
-                    "Ingresos:" + (Convert.ToInt32(fila["precio"]) * Convert.ToInt32(fila["cantidad"])) +
-                    "},";
+                info.Add( new 
+                { 
+                    Nombre = Convert.ToString(fila["nombre"]),
+                    Pais = Convert.ToString(fila["pais"]),
+                    Precio = Convert.ToString(fila["precio"]),
+                    Cantidad = Convert.ToString(fila["cantidad"]),
+                    Ingresos = (Convert.ToInt32(fila["precio"]) * Convert.ToInt32(fila["cantidad"]))
+                });
             }
-            datosJson.Remove(datosJson.Length - 1);
-            datosJson += "]";
-            return datosJson;
+
+            return info;
         }
 
-        public string ConsultaPorCategoriaProductoGeneroEdad(string categoria, string genero, string publico)
+        public List<object> ConsultaPorCategoriaProductoGeneroEdad(string categoria, string genero, string publico)
         {
-            string consulta = "SELECT SUM(F.cantidadComprada) as 'cantidad', C.nombre, C.precio" +
+            string consulta = "SELECT SUM(F.cantidadComprada) as 'cantidad', C.nombre, C.precio " +
                               "FROM Producto Pr JOIN Comprable C " +
                               "ON C.idComprablePK = Pr.idComprableFK " +
-                              "JOIN Factura F" +
+                              "JOIN Factura F " +
                               "ON F.idComprableFk = C.idComprablePK " +
                               "JOIN Persona Pe " +
                               "ON F.correoPersonaFK = Pe.correoPersonaPK " +
                               "WHERE Pr.categoria = '" + categoria + "' " +
                               "AND Pe.genero = '" + genero + "' " +
-                              "AND procx(fechaNacimiento) = '" + publico + "';";
+                              "AND proc(fechaNacimiento) = '" + publico + "';";
 
             DataTable tablaResultados = LeerBaseDeDatos(consulta);
-            string datosJson = "[";
+            List<object> info = new List<object>();
+
             foreach (DataRow fila in tablaResultados.Rows)
             {
-                datosJson += "{" +
-                    "Nombre:" + Convert.ToString(fila["nombre"]) + "," +
-                    "Cantidad:" + Convert.ToString(fila["cantidad"]) + "," +
-                    "Precio:" + Convert.ToString(fila["precio"]) + "," +
-                    "Ingresos:" + (Convert.ToInt32(fila["precio"]) * Convert.ToInt32(fila["cantidad"])) + "," +
-                    "},";
+                info.Add(new
+                {
+                    Nombre = Convert.ToString(fila["nombre"]),
+                    Precio = Convert.ToString(fila["precio"]),
+                    Cantidad = Convert.ToString(fila["cantidad"]),
+                    Ingresos = (Convert.ToInt32(fila["precio"]) * Convert.ToInt32(fila["cantidad"]))
+                });
             }
-            datosJson.Remove(datosJson.Length - 1);
-            datosJson += "]";
-            return datosJson;
+
+            return info;
         }
 
-        public string ConsultaProductosCompradosJuntos()
+        public List<object> ConsultaProductosCompradosJuntos()
         {
             string consulta = "WITH TABLA_PRODUCTOS_COMPRADOS_JUNTOS AS " +
                 "( SELECT F1.idComprableFK AS 'Producto', F2.idComprableFK AS 'CompradoCon' " +
@@ -155,18 +151,19 @@ namespace Planetario.Handlers
                 "GROUP BY C1.nombre, C2.nombre";
 
             DataTable tablaResultados = LeerBaseDeDatos(consulta);
-            string datosJson = "[";
-            foreach(DataRow fila in tablaResultados.Rows)
+            List<object> info = new List<object>();
+
+            foreach (DataRow fila in tablaResultados.Rows)
             {
-                datosJson += "{" +
-                    "Producto:" + Convert.ToString(fila["Producto"]) + "," +
-                    "CompradoCon:" + Convert.ToString(fila["ProductoCompradoCon"]) + "," +
-                    "Cantidad de Veces:" + Convert.ToString(fila["VecesCompradosJuntos"]) + "," +
-                    "},";
+                info.Add(new
+                {
+                    Producto = Convert.ToString(fila["Producto"]),
+                    CompradoCon = Convert.ToString(fila["ProductoCompradoCon"]),
+                    CantidadVeces = Convert.ToString(fila["VecesCompradosJuntos"])
+                });
             }
-            datosJson.Remove(datosJson.Length - 1);
-            datosJson += "]";
-            return datosJson;
+
+            return info;
         }
     }
 }

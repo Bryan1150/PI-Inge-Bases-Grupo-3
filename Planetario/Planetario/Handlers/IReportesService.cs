@@ -11,10 +11,10 @@ namespace Planetario.Handlers
 
         List<ProductoModel> ObtenerTodosLosProductosFiltradosPorCategoria(string categoria, string fechaInicio, string fechaFinal);
 
-        string ConsultaPorCategoriasPersonaExtranjeras(string categoria);
+        List<object> ConsultaPorCategoriasPersonaExtranjeras(string categoria);
 
-        string ConsultaPorCategoriaProductoGeneroEdad(string categoria, string genero, string publico);
+        List<object> ConsultaPorCategoriaProductoGeneroEdad(string categoria, string genero, string publico);
 
-        string ConsultaProductosCompradosJuntos();
+        List<object> ConsultaProductosCompradosJuntos();
     }
 }

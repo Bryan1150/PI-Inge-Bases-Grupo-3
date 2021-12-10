@@ -12,15 +12,18 @@ namespace Planetario.Controllers
     public class ReportesController : Controller
     {
         readonly IReportesService AccesoDatos;
+        readonly DatosHandler AccesoDatosApp;
 
         public ReportesController()
         {
             AccesoDatos = new ReportesHandler();
+            AccesoDatosApp = new DatosHandler();
         }
 
         public ReportesController(IReportesService servicio)
         {
             AccesoDatos = servicio;
+            AccesoDatosApp = new DatosHandler();
         }
 
         [HttpGet]
@@ -50,30 +53,32 @@ namespace Planetario.Controllers
         */
 
 
-        public ActionResult ReporteAvanzado()
+        public ActionResult ReporteMercadeo()
         {
             ViewBag.listaDeCategorias = AccesoDatos.ObtenerTodasLasCategorias();
-            return View("ReporteAvanzado");
+            ViewBag.listaGeneros = AccesoDatosApp.SelectListGeneros();
+            ViewBag.listaPublicos = AccesoDatosApp.SelectListPublicos();
+            return View("ReporteMercadeo");
         }
 
         [HttpGet]
         public JsonResult ObtenerDatosExtranjeros(string categoria)
         {
-            string resultadoJson = AccesoDatos.ConsultaPorCategoriasPersonaExtranjeras(categoria);
+            var resultadoJson = AccesoDatos.ConsultaPorCategoriasPersonaExtranjeras(categoria);
             return Json(resultadoJson, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
         public JsonResult ObtenerDatosPorGeneroYEdad(string categoria, string genero, string publico)
         {
-            string resultadoJson = AccesoDatos.ConsultaPorCategoriaProductoGeneroEdad(categoria, genero, publico);
+            var resultadoJson = AccesoDatos.ConsultaPorCategoriaProductoGeneroEdad(categoria, genero, publico);
             return Json(resultadoJson, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
-        public JsonResult ObtenerColeccionProductos()
+        public JsonResult ObtenerParesProductos()
         {
-            string resultadoJson = AccesoDatos.ConsultaProductosCompradosJuntos();
+            var resultadoJson = AccesoDatos.ConsultaProductosCompradosJuntos();
             return Json(resultadoJson, JsonRequestBehavior.AllowGet);
         }
     }
