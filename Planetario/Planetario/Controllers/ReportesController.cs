@@ -34,6 +34,13 @@ namespace Planetario.Controllers
             return View("Reporte");
         }
 
+        [HttpGet]
+        public ActionResult ObtenerFiltroPorRanking(string orden, string fechaInicial, string fechaFinal, int cantidadMostrar)
+        {
+            var resultadoJson = AccesoDatos.ObtenerTodosLosProductosFiltradosPorRanking(cantidadMostrar, fechaInicial, fechaFinal, orden);
+            return Json(resultadoJson, JsonRequestBehavior.AllowGet);
+        }
+
         /**
         [HttpPost]
         public ActionResult Reporte(int cantidadMostrar, string fechaInicio, string fechaFinal, string orden)
@@ -71,7 +78,7 @@ namespace Planetario.Controllers
         }
 
         [HttpGet]
-        public JsonResult ObtenerDatosPorGeneroYEdad(string categoria, string genero, string publico)
+        public JsonResult ObtenerDatosPorGeneroYEdad(string categoria, string publico, string genero)
         {
             var resultadoJson = AccesoDatos.ConsultaPorCategoriaProductoGeneroEdad(categoria, genero, publico);
             return Json(resultadoJson, JsonRequestBehavior.AllowGet);

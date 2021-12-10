@@ -1,4 +1,6 @@
 ﻿@{
+    string linkDatos = Url.Content("~/Reportes/ObtenerFiltroPorRanking");
+
     List<SelectListItem> ListaOrden = new List<SelectListItem>() {
         new SelectListItem { Text = "Más vendido", Value = "ASC" },
         new SelectListItem { Text = "Menos vendido", Value = "DESC" }
@@ -20,147 +22,117 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Actividades</title>
+    <title>Reportes simples</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
+    <link href="https://cdn.jsdelivr.net/npm/gridjs/dist/theme/mermaid.min.css" rel="stylesheet" />
 </head>
 <body>
     <span class="titulo">
-        Reporte de ventas
+        Reporte de ventas simple
     </span>
-
-    <div>
-
-        @using (Html.BeginForm())
-        {
-            @Html.AntiForgeryToken()
-
-            <div class="well bs-component">
-                <h4> Filtrar Participantes:  </h4>
-                <h5><strong>@ViewBag.Mensaje</strong></h5>
-                <hr />
-                <div class="row">
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-                    <div class="col">
-                        <div class="form-group">
-                            @Html.Label("Orden")
-                            @Html.DropDownList("orden", ListaOrden, "---")
-                        </div>
-                    </div>
-
-
-                    <div class="col">
-                        <div>
-                            <label for="fechaInicio">Fecha Inicio:</label>
-                            <input type="date" id="fechaInicio" name="fechaInicio">
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div>
-                            <label for="fechaFinal">Fecha Final:</label>
-                            <input type="date" id="fechaFinal" name="fechaFinal">
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="form-group">
-                            <input type="number" id="cantidadMostrar" name="cantidadMostrar" min="1" value="1">
-                        </div>
-                    </div>
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-2"><p>Orden</p></div>
+                <div class="col-2"><p>Fecha inicial</p></div>
+                <div class="col-2"><p>Fecha final</p></div>
+                <div class="col-2"><p>Cantidad de productos</p></div>
+            </div>
+            <div class="row">
+                <div class="col-2">@Html.DropDownList("orden", ListaOrden, new { @class = "form-control", @id = "orden", @onchange = "actualizarTablaPorRanking()" })</div>
+                <div class="col-2">
+                    <input type="date" id="fechaInicial" name="fechaInicial" value = "1999-01-01" class="form-control" onchange="actualizarTablaPorRanking()">
                 </div>
-
-                <div style="margin-top:25px"></div>
-
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary"> Buscar</button>
+                <div class="col-2">
+                    <input type="date" id="fechaFinal" name="fechaFinal" value = "2021-12-31" class="form-control" onchange="actualizarTablaPorRanking()">
+                </div>
+                <div class="col-2">
+                    <input type="number" id="cantidadMostrar" name="cantidadMostrar" min="1" value="1" class="form-control" onchange="actualizarTablaPorRanking()">
                 </div>
             </div>
-        }
-        <br />
-        @if (ViewBag.listadoFiltroPorRanking != null)
-        {
-            <div class="row align-items-center">
+        </div>
+        <div class="card-body">
+            <div id="tablaProductosConFiltro"></div>
+        </div>
+    </div>
+
+    <br>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="well bs-component">
+            <h4> Filtrar Productos:  </h4>
+            <h5><strong>@ViewBag.Mensaje</strong></h5>
+            <hr />
+            <div class="row">
+
                 <div class="col">
-                    <p><strong>Producto</strong></p>
+                    <div class="form-group">
+                        @Html.Label("Nombre")
+                        @Html.DropDownList("nombre", ListaProductos, "---")
+                    </div>
                 </div>
+
+
                 <div class="col">
-                    <p><strong>Cantidad vendida</strong></p>
+                    <div>
+                        <label for="FechaInicio">Fecha Inicio:</label>
+                        <input type="date" id="FechaInicio" name="FechaInicio">
+                    </div>
                 </div>
+
                 <div class="col">
-                    <p><strong>Categoria</strong></p>
+                    <div>
+                        <label for="FechaFinal">Fecha Final:</label>
+                        <input type="date" id="FechaFinal" name="FechaFinal">
+                    </div>
                 </div>
+
             </div>
-            <hr>
-            foreach (var producto in ViewBag.listadoFiltroPorRanking)
-            {
-                <div class="row align-items-center">
-                    <div class="col">
-                        <p>@producto.Nombre</p>
-                    </div>
-                    <div class="col">
-                        <p>@producto.CantidadVendidos</p>
-                    </div>
-                    <div class="col">
-                        <p>@producto.Categoria</p>
-                    </div>
-                </div>
-            }
-        }
 
-        @using (Html.BeginForm())
-        {
-            @Html.AntiForgeryToken()
+            <div style="margin-top:25px"></div>
 
-            <div class="well bs-component">
-                <h4> Filtrar Participantes:  </h4>
-                <h5><strong>@ViewBag.Mensaje</strong></h5>
-                <hr />
-                <div class="row">
-
-                    <div class="col">
-                        <div class="form-group">
-                            @Html.Label("Nombre")
-                            @Html.DropDownList("nombre", ListaProductos, "---")
-                        </div>
-                    </div>
-
-
-                    <div class="col">
-                        <div>
-                            <label for="FechaInicio">Fecha Inicio:</label>
-                            <input type="date" id="FechaInicio" name="FechaInicio">
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div>
-                            <label for="FechaFinal">Fecha Final:</label>
-                            <input type="date" id="FechaFinal" name="FechaFinal">
-                        </div>
-                    </div>
-
-                </div>
-
-                <div style="margin-top:25px"></div>
-
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary"> Buscar</button>
-                </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary"> Buscar</button>
             </div>
-        }
+        </div>
+    }
 
-        @if (ViewBag.listaFechas != null && ViewBag.listaVentas != null)
-        {
-            <div id="chart" style="height: 300px; width: 100%;"></div>
-            <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-            <script src="~/Utils/js/reportes.js"></script>
-            <script>
+    @if (ViewBag.listaFechas != null && ViewBag.listaVentas != null)
+    {
+        <div id="chart" style="height: 300px; width: 100%;"></div>
+        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+        <script src="~/Utils/js/reportes.js"></script>
+        <script>
                 var fecha = @Html.Raw(Json.Encode(ViewBag.listaFechas));
                 var cantidad = @Html.Raw(Json.Encode(ViewBag.listaVentas));
-            </script>
-        }
+        </script>
+    }
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/gridjs/dist/gridjs.umd.js"></script>
+    <script src="~/Utils/js/crearTabla.js"></script>
+    <script src="~/Utils/js/tablasReporteSimple.js"></script>
+
+    <script>
+        main()
+        function actualizarTablaPorRanking() {
+            const ordenEscogido = document.getElementById("orden").value
+            const fechaInicialEscogida = document.getElementById("fechaInicial").value
+            const fechaFinalEscogida = document.getElementById("fechaFinal").value
+            const cantidadMostrarEscogida = document.getElementById("cantidadMostrar").value
+            const diccionarioParametros = {
+                orden: ordenEscogido,
+                fechaInicial: fechaInicialEscogida,
+                fechaFinal: fechaFinalEscogida,
+                cantidadMostrar: cantidadMostrarEscogida
+            }
+            actualizarDatosTabla(gridRanking, "@linkDatos", diccionarioParametros, data => data.map(p => [p.Nombre, p.Precio, p.FechaIngreso, p.FechaUltimaVenta, p.CantidadVendidos]))
+        }
+    </script>
+
 </body>
 </html>

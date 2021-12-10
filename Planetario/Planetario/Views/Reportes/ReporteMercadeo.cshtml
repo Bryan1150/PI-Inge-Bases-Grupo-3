@@ -61,9 +61,9 @@
                                     <div class="col-4" ><p>Género</p></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-4">@Html.DropDownList("Categorias2", ListaCategoria, new { @class = "form-control", @id = "categoriaProductosConFiltro", @onchange = "actualizarTablaProductosConFiltro()" })</div>
-                                    <div class="col-4">@Html.DropDownList("Publicos", ViewBag.listaPublicos as List<SelectListItem>, new { @class = "form-control", @id = "generoProductosConFiltro", @onchange = "actualizarTablaProductosConFiltro()" })</div>
-                                    <div class="col-4">@Html.DropDownList("Generos", ViewBag.listaGeneros as List<SelectListItem>, new { @class = "form-control", @id = "publicoProductosConFiltro", @onchange = "actualizarTablaProductosConFiltro()" })</div>
+                                    <div class="col-4">@Html.DropDownList("categoria", ListaCategoria, new { @class = "form-control", @id = "categoriaProductosConFiltro", @onchange = "actualizarTablaProductosConFiltro()" })</div>
+                                    <div class="col-4">@Html.DropDownList("publico", ViewBag.listaPublicos as List<SelectListItem>, new { @class = "form-control", @id = "publicoProductosConFiltro", @onchange = "actualizarTablaProductosConFiltro()" })</div>
+                                    <div class="col-4">@Html.DropDownList("genero", ViewBag.listaGeneros as List<SelectListItem>, new { @class = "form-control", @id = "generoProductosConFiltro", @onchange = "actualizarTablaProductosConFiltro()" })</div>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -96,7 +96,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/gridjs/dist/gridjs.umd.js"></script>
-    <script src="~/Utils/js/crearTabla.js"></script>
+    <script src="~/Utils/js/crearTabla.js"></script> 
     <script src="~/Utils/js/tablasReporteMercadeo.js"></script>
     <script>
         main()
@@ -107,15 +107,15 @@
         }
 
         function actualizarTablaProductosConFiltro() {
-            const categoriaEscogida = document.getElementById("categoriaProductos").value
+            const categoriaEscogida = document.getElementById("categoriaProductosConFiltro").value
             const generoEscogido = document.getElementById("generoProductosConFiltro").value
             const publicoEscogido = document.getElementById("publicoProductosConFiltro").value
             const diccionariParametros = {
                 categoria: categoriaEscogida,
                 genero: generoEscogido,
-                publicoEscogido: publicoEscogido
+                publico: publicoEscogido
             }
-            actualizarDatosTabla(gridProductosPorFiltro, "@linkDatosPorGeneroYEdad", diccionariParametros, data => data.map(p => [p.Producto, p.CompradoCon, p.CantidadVeces]))
+            actualizarDatosTabla(gridProductosPorFiltro, "@linkDatosPorGeneroYEdad", diccionariParametros, data => data.map(p => [p.Nombre, p.Precio, p.Cantidad, p.Ingresos]))
         }
 
         function actualizarTablaParesDeProductos() {

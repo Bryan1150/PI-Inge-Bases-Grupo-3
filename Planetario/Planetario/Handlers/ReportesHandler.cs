@@ -32,7 +32,7 @@ namespace Planetario.Handlers
             return productos;
         }
 
-        public List<ProductoModel> ObtenerTodosLosProductosFiltradosPorRanking(int cantidadMostrar, string fechaInicio, string fechaFinal, string orden)
+        public List<Object> ObtenerTodosLosProductosFiltradosPorRanking(int cantidadMostrar, string fechaInicio, string fechaFinal, string orden)
         {
             string consulta = "SELECT TOP " + cantidadMostrar + " nombre, precio, fechaIngreso, fechaUltimaVenta, cantidadVendidos " +
                               "FROM Producto P JOIN Comprable C " +
@@ -40,8 +40,21 @@ namespace Planetario.Handlers
                               "WHERE DATEDIFF(MINUTE, '" + fechaInicio + "', fechaUltimaVenta) >= 0 " +
                               "AND DATEDIFF(MINUTE, '" + fechaFinal + "', fechaUltimaVenta ) <= 0 " +
                               "ORDER BY cantidadVendidos " + orden + ";";
-                              
-            return (ObtenerProductosPorFiltro(consulta));
+
+            List<Object> info = new List<Object>();
+            DataTable tabla = LeerBaseDeDatos(consulta);
+            foreach (DataRow columna in tabla.Rows)
+            {
+                info.Add(new
+                {
+                    Nombre = Convert.ToString(columna["nombre"]),
+                    Precio = Convert.ToDouble(columna["precio"]),
+                    FechaIngreso = Convert.ToString(columna["fechaIngreso"]),
+                    FechaUltimaVenta = Convert.ToString(columna["fechaUltimaVenta"]),
+                    CantidadVendidos = Convert.ToInt32(columna["cantidadVendidos"])
+                });
+            }
+            return info;
         }
 
         public List<string> ObtenerTodosLosProductosFiltradosPorCategoriaFechasVentas(string nombre, string fechaInicio, string fechaFinal)
