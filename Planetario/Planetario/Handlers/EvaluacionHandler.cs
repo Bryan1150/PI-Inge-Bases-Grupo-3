@@ -136,7 +136,7 @@ namespace Planetario.Handlers
             {
                 foreach(string opcion in opciones)
                 {
-                    respuestas.Add(ObtenerCantidadRepuestas(pregunta, opcion));
+                    respuestas.Add(ObtenerCantidadRespuestas(pregunta, opcion));
                 }
                 matriz.Add(respuestas);
                 respuestas.Clear();
@@ -151,7 +151,7 @@ namespace Planetario.Handlers
             return modelo;
         }
 
-        public int ObtenerCantidadRepuestas(int preguntaID, string opcion)
+        public int ObtenerCantidadRespuestas(int preguntaID, string opcion)
         {
             string consulta = "SELECT COUNT(valorRespuesta) as cantidad FROM PreguntasEvaluacion P " +
                 "JOIN RespuestasEvaluacion R ON P.idPreguntaPK = R.idPreguntaFK " +
