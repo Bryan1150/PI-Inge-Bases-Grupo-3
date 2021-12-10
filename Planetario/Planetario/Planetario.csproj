@@ -441,6 +441,7 @@
     <Content Include="Views\Membresias\Comprar.cshtml" />
     <Content Include="Views\Membresias\Pago.cshtml" />
     <Content Include="Views\Membresias\Satisfactorio.cshtml" />
+    <Content Include="Views\Ventas\VerProducto.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Data\" />

@@ -39,6 +39,12 @@ namespace Planetario.Handlers
             return productos;
         }
 
+        public ProductoModel ObtenerProducto(int id)
+        {
+            string consulta = "SELECT * FROM Producto P JOIN Comprable C ON P.idComprableFK = C.idComprablePK WHERE C.idComprablePK = '" + id.ToString() + "';";
+            return (ObtenerProductos(consulta)[0]);
+        }
+
         public List<ProductoModel> ObtenerProductosFiltrados(double precioMin, double precioMax, string categoria, string busqueda, string orden)
         {
 

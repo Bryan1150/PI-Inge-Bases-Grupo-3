@@ -76,6 +76,13 @@ namespace Planetario.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult VerProducto(int id)
+        {
+            ViewBag.producto = productosInterfaz.ObtenerProducto(id);
+            return View();
+        }
+
         public JsonResult ListaProductosFiltrados(double precioMinimo, double precioMaximo, string categoria, string palabraBusqueda, string orden)
         {
             return Json(productosInterfaz.ObtenerProductosFiltrados(precioMinimo, precioMaximo, categoria, palabraBusqueda, orden), JsonRequestBehavior.AllowGet);
