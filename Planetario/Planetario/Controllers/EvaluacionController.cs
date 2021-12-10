@@ -52,8 +52,19 @@ namespace Planetario.Controllers
 
         public ActionResult MostrarCuestionarioEvaluacion()
         {
-            EvaluacionHandler acessoDatos = new EvaluacionHandler();
-            ViewBag.Cuestionario = acessoDatos.ObtenerCuestionarioMostrar("Califica tu experiencia");
+            EvaluacionHandler accesoDatos = new EvaluacionHandler();
+            ViewBag.Cuestionario = accesoDatos.ObtenerCuestionarioMostrar("Califica tu experiencia");
+            ViewBag.Cantidad = accesoDatos.ObtenerCantidadPersonas("Califica tu experiencia");
+
+            DatosController datos = new DatosController();
+            ViewBag.Opciones = datos.RespuestasEvaluacion();
+
+            ViewBag.RespuestasEsteticamente = accesoDatos.ObtenerCantidadRespuestasPorPregunta(1);
+            ViewBag.RespuestasNavegar = accesoDatos.ObtenerCantidadRespuestasPorPregunta(2);
+            ViewBag.RespuestasComprar = accesoDatos.ObtenerCantidadRespuestasPorPregunta(3);
+            ViewBag.RespuestasPrecios = accesoDatos.ObtenerCantidadRespuestasPorPregunta(4);
+            ViewBag.RespuestasSatisfecho = accesoDatos.ObtenerCantidadRespuestasPorPregunta(5);
+
             return View();
         }
     }

@@ -17,6 +17,7 @@ namespace Planetario.Handlers
         public List<string> diasDeLaSemana;
         public List<string> nivelesEducativos;
         public Dictionary<string, List<string>> topicosPorCategoria;
+        public List<string> evaluacion;
 
         public DatosHandler()
         {
@@ -27,6 +28,7 @@ namespace Planetario.Handlers
             tiposDeActividad = CargarListaDeStringsDesdeArchivo("TiposDeActividad.json");
             diasDeLaSemana = CargarListaDeStringsDesdeArchivo("DiasDeLaSemana.json");
             nivelesEducativos = CargarListaDeStringsDesdeArchivo("NivelesEducativos.json");
+            evaluacion = CargarListaDeStringsDesdeArchivo("OpcionesEvaluacion.json");
             CargarCategoriasYTopicosDesdeArchivo();
         }
 

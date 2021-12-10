@@ -40,5 +40,12 @@ namespace Planetario.Controllers
             DatosHandler accesoDatos = new DatosHandler();
             return Json(accesoDatos.paises, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public ActionResult RespuestasEvaluacion()
+        {
+            DatosHandler accesoDatos = new DatosHandler();
+            return Json(accesoDatos.evaluacion, JsonRequestBehavior.AllowGet);
+        }
     }
 }
