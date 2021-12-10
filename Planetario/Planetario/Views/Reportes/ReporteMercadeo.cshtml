@@ -57,46 +57,24 @@
                 </button>
             </h2>
             <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
-<<<<<<< HEAD
-                <div class="accordion-body">
-                    <div class="accordion-body">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="row">
-                                    <div class="col-4" ><p>Categoría</p></div>
-                                    <div class="col-4" ><p>Público</p></div>
-                                    <div class="col-4" ><p>Género</p></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-4">@Html.DropDownList("categoria", ListaCategoria, new { @class = "form-control", @id = "categoriaProductosConFiltro", @onchange = "actualizarTablaProductosConFiltro()" })</div>
-                                    <div class="col-4">@Html.DropDownList("publico", ViewBag.listaPublicos as List<SelectListItem>, new { @class = "form-control", @id = "publicoProductosConFiltro", @onchange = "actualizarTablaProductosConFiltro()" })</div>
-                                    <div class="col-4">@Html.DropDownList("genero", ViewBag.listaGeneros as List<SelectListItem>, new { @class = "form-control", @id = "generoProductosConFiltro", @onchange = "actualizarTablaProductosConFiltro()" })</div>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div id="tablaProductosConFiltro"></div>
-                            </div>
-=======
-                
+
                 <div class="card">
                     <div class="card-header">
                         <div class="row">
-                            <div class="col-4" ><p>Categoría</p></div>
-                            <div class="col-4" ><p>Género</p></div>
-                            <div class="col-4" ><p>Público</p></div>
->>>>>>> d7d2a175359af3d1abde21104588106cc1e69d05
+                            <div class="col-4"><p>Categoría</p></div>
+                            <div class="col-4"><p>Género</p></div>
+                            <div class="col-4"><p>Público</p></div>
                         </div>
                         <div class="row">
-                            <div class="col-4">@Html.DropDownList("Categorias2", ListaCategoria, new { @class = "form-control", @id = "categoriaProductosConFiltro", @onchange = "actualizarTablaProductosConFiltro()" })</div>
-                            <div class="col-4">@Html.DropDownList("Generos", ViewBag.listaGeneros as List<SelectListItem>, new { @class = "form-control", @id = "generoProductosConFiltro", @onchange = "actualizarTablaProductosConFiltro()" })</div>
-                            <div class="col-4">@Html.DropDownList("Publicos", ViewBag.listaPublicos as List<SelectListItem>, new { @class = "form-control", @id = "publicoProductosConFiltro", @onchange = "actualizarTablaProductosConFiltro()" })</div>
+                            <div class="col-4">@Html.DropDownList("categoria", ListaCategoria, new { @class = "form-control", @id = "categoriaProductosConFiltro", @onchange = "actualizarTablaProductosConFiltro()" })</div>
+                            <div class="col-4">@Html.DropDownList("publico", ViewBag.listaPublicos as List<SelectListItem>, new { @class = "form-control", @id = "publicoProductosConFiltro", @onchange = "actualizarTablaProductosConFiltro()" })</div>
+                            <div class="col-4">@Html.DropDownList("genero", ViewBag.listaGeneros as List<SelectListItem>, new { @class = "form-control", @id = "generoProductosConFiltro", @onchange = "actualizarTablaProductosConFiltro()" })</div>
                         </div>
                     </div>
                     <div class="card-body">
                         <div id="tablaProductosConFiltro"></div>
                     </div>
                 </div>
-                
             </div>
         </div>
 
@@ -124,10 +102,9 @@
                 </div>
             </div>
         </div>
-    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/gridjs/dist/gridjs.umd.js"></script>
-    <script src="~/Utils/js/crearTabla.js"></script> 
+    <script src="~/Utils/js/crearTabla.js"></script>
     <script src="~/Utils/js/tablasReporteMercadeo.js"></script>
     <script>
         main()
