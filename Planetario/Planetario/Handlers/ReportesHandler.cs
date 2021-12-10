@@ -162,7 +162,10 @@ namespace Planetario.Handlers
                               "ON F.correoPersonaFK = Pe.correoPersonaPK " +
                               "WHERE Pr.categoria = '" + categoria + "' " +
                               "AND Pe.genero = '" + genero + "' " +
-                              "AND proc(fechaNacimiento) = '" + publico + "';";
+                              "AND dbo.UFN_CategoriaPorEdad(DATEDIFF(YEAR, Pe.fechaNacimiento, GETDATE())) = '" + publico + "' " +
+                              "GROUP BY C.nombre, C.precio;";
+
+            
 
             DataTable tablaResultados = LeerBaseDeDatos(consulta);
             List<object> info = new List<object>();
