@@ -10,15 +10,10 @@
         ListaCategoria.Add(new SelectListItem { Text = item, Value = item });
     }
 
-    List<string> ListaProductos = new List<string>();
-    List<int> ListaCantidadVendidos = new List<int>();
-    if (ViewBag.listadoFiltroPorCategoria != null)
+    List<SelectListItem> ListaProductos = new List<SelectListItem>();
+    foreach(var item in ViewBag.listaDeProductos)
     {
-        foreach (var item in ViewBag.listadoFiltroPorCategoria)
-        {
-            ListaProductos.Add(item.Nombre);
-            ListaCantidadVendidos.Add(item.CantidadVendidos);
-        }
+        ListaProductos.Add(new SelectListItem { Text = item, Value = item });
     }
 };
 
@@ -126,8 +121,8 @@
 
                     <div class="col">
                         <div class="form-group">
-                            @Html.Label("Categoria")
-                            @Html.DropDownList("categoria", ListaCategoria, "---")
+                            @Html.Label("Nombre")
+                            @Html.DropDownList("nombre", ListaProductos, "---")
                         </div>
                     </div>
 
@@ -156,14 +151,14 @@
             </div>
         }
 
-        @if (ViewBag.listadoFiltroPorCategoria != null)
+        @if (ViewBag.listaFechas != null && ViewBag.listaVentas != null)
         {
             <div id="chart" style="height: 300px; width: 100%;"></div>
             <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
             <script src="~/Utils/js/reportes.js"></script>
             <script>
-                var productos = @Html.Raw(Json.Encode(ListaProductos))
-                var cantidad = @Html.Raw(Json.Encode(ListaCantidadVendidos))
+                var fecha = @Html.Raw(Json.Encode(ViewBag.listaFechas));
+                var cantidad = @Html.Raw(Json.Encode(ViewBag.listaVentas));
             </script>
         }
     </div>

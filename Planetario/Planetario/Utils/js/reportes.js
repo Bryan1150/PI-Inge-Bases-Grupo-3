@@ -21,5 +21,5 @@
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    graficoLinea(cantidad, productos, { element: "chart", title: "Ventas", axisX: "" })
+    graficoLinea(cantidad, fecha, { element: "chart", title: "Ventas", axisX: "" })
 })

@@ -44,22 +44,49 @@ namespace Planetario.Handlers
             return (ObtenerProductosPorFiltro(consulta));
         }
 
-        public List<ProductoModel> ObtenerTodosLosProductosFiltradosPorCategoria(string categoria, string fechaInicio, string fechaFinal)
+        public List<string> ObtenerTodosLosProductosFiltradosPorCategoriaFechasVentas(string nombre, string fechaInicio, string fechaFinal)
         {
-            string consulta = "SELECT nombre, precio, fechaIngreso, fechaUltimaVenta, cantidadVendidos " +
+            string consulta = "SELECT F.fechaCompra " +
                               "FROM Producto P JOIN Comprable C " +
-                              "ON idComprablePK = idComprableFK " +
-                              "WHERE categoria = '" + categoria + "' " +
+                              "ON C.idComprablePK = P.idComprableFK " +
+                              "JOIN Factura F ON C.idComprablePK = F.idComprableFK " +
+                              "WHERE C.nombre = '" + nombre + "' " +
                               "AND DATEDIFF(MINUTE, '" + fechaInicio + "', fechaUltimaVenta) >= 0 " + 
                               "AND DATEDIFF(MINUTE, '" + fechaFinal + "', fechaUltimaVenta ) <= 0 " +
-                              "ORDER by nombre ";
+                              "ORDER by F.fechaCompra ASC";
 
-            return (ObtenerProductosPorFiltro(consulta));
+            DataTable tabla = LeerBaseDeDatos(consulta);
+            List<string> fechas = new List<string>();
+            foreach (DataRow columna in tabla.Rows)
+            {
+                fechas.Add(Convert.ToString(columna["fechaCompra"]));
+            }
+            return fechas;
+        }
+
+        public List<int> ObtenerTodosLosProductosFiltradosPorCategoriaCantidadVentas(string nombre, string fechaInicio, string fechaFinal)
+        {
+            string consulta = "SELECT F.cantidadComprada " +
+                              "FROM Producto P JOIN Comprable C " +
+                              "ON C.idComprablePK = P.idComprableFK " +
+                              "JOIN Factura F ON C.idComprablePK = F.idComprableFK " +
+                              "WHERE C.nombre = '" + nombre + "' " +
+                              "AND DATEDIFF(MINUTE, '" + fechaInicio + "', fechaUltimaVenta) >= 0 " +
+                              "AND DATEDIFF(MINUTE, '" + fechaFinal + "', fechaUltimaVenta ) <= 0 " +
+                              "ORDER by F.fechaCompra ASC";
+
+            DataTable tabla = LeerBaseDeDatos(consulta);
+            List<int> ventas = new List<int>();
+            foreach (DataRow columna in tabla.Rows)
+            {
+                ventas.Add(Convert.ToInt32(columna["cantidadComprada"]));
+            }
+            return ventas;
         }
 
         public List<string> ObtenerTodasLasCategorias()
         {
-            string consulta = "SELECT DISTINCT categoria  " +
+            string consulta = "SELECT DISTINCT categoria " +
                               "FROM Producto P JOIN Comprable C " +
                               "ON idComprablePK = idComprableFK " +
                               "ORDER BY categoria ASC;";
@@ -73,6 +100,24 @@ namespace Planetario.Handlers
             }
 
             return categorias;
+        }
+
+        public List<string> ObtenerTodosLosProductos()
+        {
+            string consulta = "SELECT DISTINCT C.nombre " +
+                              "FROM Producto P JOIN Comprable C " +
+                              "ON idComprablePK = idComprableFK " +
+                              "ORDER BY C.nombre ASC;";
+
+            DataTable tablaResultados = LeerBaseDeDatos(consulta);
+            List<string> productos = new List<string>();
+
+            foreach (DataRow fila in tablaResultados.Rows)
+            {
+                productos.Add(Convert.ToString(fila["nombre"]));
+            }
+
+            return productos;
         }
 
         public List<object> ConsultaPorCategoriasPersonaExtranjeras(string categoria)

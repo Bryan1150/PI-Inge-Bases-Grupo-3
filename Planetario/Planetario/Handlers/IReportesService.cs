@@ -7,9 +7,13 @@ namespace Planetario.Handlers
     {
         List<string> ObtenerTodasLasCategorias();
 
+        List<string> ObtenerTodosLosProductos();
+
         List<ProductoModel> ObtenerTodosLosProductosFiltradosPorRanking(int cantidadMostrar, string fechaInicio, string fechaFinal, string orden);
 
-        List<ProductoModel> ObtenerTodosLosProductosFiltradosPorCategoria(string categoria, string fechaInicio, string fechaFinal);
+        List<string> ObtenerTodosLosProductosFiltradosPorCategoriaFechasVentas(string categoria, string fechaInicio, string fechaFinal);
+
+        List<int> ObtenerTodosLosProductosFiltradosPorCategoriaCantidadVentas(string categoria, string fechaInicio, string fechaFinal);
 
         List<object> ConsultaPorCategoriasPersonaExtranjeras(string categoria);
 
