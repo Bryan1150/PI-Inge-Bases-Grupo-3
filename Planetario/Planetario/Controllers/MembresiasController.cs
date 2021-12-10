@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Planetario.Handlers;
+using Planetario.Interfaces;
 
 namespace Planetario.Controllers
 {
@@ -11,6 +12,12 @@ namespace Planetario.Controllers
     {
         public ActionResult Comprar()
         {
+            CookiesInterfaz cookiesInterfaz;
+            cookiesInterfaz = new CookiesHandler();
+            PersonaHandler personasHandler = new PersonaHandler();
+            string correoUsuario = cookiesInterfaz.CorreoUsuario();
+            string membresia = personasHandler.ObtenerMembresia(correoUsuario);
+            ViewBag.Membresia = membresia;
             return View();
         }
 

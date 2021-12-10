@@ -38,8 +38,23 @@
             <tr>
                 <th>&nbsp;</th>
                 <td>Membresía por defecto</td>
-                <td><a href="@Url.Action("Pago", "Membresias", new { membresia = "Lunar" })">Adquirir</a></td>
-                <td><a href="@Url.Action("Pago", "Membresias", new { membresia = "Solar" })">Adquirir</a></td>
+                @if (ViewBag.Membresia != "Lunar" && ViewBag.Membresia != "Solar")
+                {
+                    <td><a href="@Url.Action("Pago", "Membresias", new { membresia = "Lunar" })">Adquirir</a></td>
+                }
+                else
+                {
+                    <td>Membresía ya adquirida</td>
+                }
+
+                @if (ViewBag.Membresia != "Solar")
+                {
+                    <td><a href="@Url.Action("Pago", "Membresias", new { membresia = "Solar" })">Adquirir</a></td>
+                }
+                else
+                {
+                    <td>Membresía ya adquirida</td>
+                }
             </tr>
         </tfoot>
 
@@ -95,6 +110,5 @@
         </tbody>
 
     </table>
-
 </body>
 

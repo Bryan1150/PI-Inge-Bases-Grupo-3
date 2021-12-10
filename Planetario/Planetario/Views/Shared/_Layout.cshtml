@@ -223,15 +223,13 @@
                     @if (Request.IsAuthenticated)
                     {
                         if (((Context.User.Identity as FormsIdentity).Ticket.UserData) == "Funcionario")
-                        {
-                            <li class="nav-item">
-                                @Html.ActionLink("Panel de administración", "PanelDeAdministracion", "Home", new { area = "" }, new { @class = "nav-link" })
-                            </li>
+                        {                                             
+                            <li class="nav-item"><a class="nav-link" href="/Home/PanelDeAdministracion"><i class="fa fa-cogs"></i> Panel de administracion</a></li>
+                           
                         }
-                        <li class="nav-item" id="membresia">
+                        <li class="nav-item" id="membresia"></li>
+                        <li class="nav-item" id="carrito"></li>
 
-                        </li>
-                        <li class="nav-item"><a class="nav-link" href="/Ventas/Carrito"><i class="fa fa-shopping-cart"></i> Carrito</a></li>
                         <li class="nav-item"><a class="nav-link" href="/Personas/CerrarSesion"><i class="fa fa-sign-out"></i> Logout</a></li>
                     }
                     else
@@ -276,19 +274,29 @@
             $.getJSON('/Ventas/ObtenerMembresia', function (data) {
                 if (data.membresia != "No Disponible") {
                 let content = "";
-                console.log(data.membresia);
                 const membresia = document.getElementById('membresia');
-                content += `<li class="nav-item"><a class="nav-link" href="/Ventas/Carrito">`
+                    content += `<a class="nav-link" href="/Membresias/Comprar"><span class ="fa fa-address-book-o"</span> `
                 content += data.membresia;
-                content += `</a></li>`;
+                content += `</a>`;
                 membresia.innerHTML = content;
                 }
             });
         }
-       
-            obtenerMembresia();
-        
-        
+
+        function obtenerCantidadCarrito() {
+            $.getJSON('/Ventas/ObtenerCantidadCarrito', function (data) {              
+                let content = "";
+                console.log(data.cantidad);
+                const carrito = document.getElementById('carrito');
+                content += `<a class="nav-link" href="/Ventas/Carrito"><i class="fa fa-shopping-cart"></i> Carrito( `
+                content += data.cantidad;
+                content += ` )</a>`;
+                carrito.innerHTML = content;
+            });
+        }
+        obtenerMembresia();
+        obtenerCantidadCarrito();
+               
     </script>
     @RenderSection("scripts", required: false)
 </body>

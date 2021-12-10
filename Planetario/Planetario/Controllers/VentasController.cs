@@ -262,5 +262,14 @@ namespace Planetario.Controllers
             string membresia = personasHandler.ObtenerMembresia(correoUsuario);
             return Json(new { membresia = membresia }, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public JsonResult ObtenerCantidadCarrito()
+        {
+            VentasHandler ventasHandler = new VentasHandler();
+            string correoUsuario = cookiesInterfaz.CorreoUsuario();
+            int cantidadProductos = ventasHandler.ObtenerCantidadDeProductosDelCarrito(correoUsuario);
+            return Json(new { cantidad = cantidadProductos }, JsonRequestBehavior.AllowGet);
+        }
     }
 }
