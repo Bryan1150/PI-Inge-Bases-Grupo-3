@@ -25,6 +25,7 @@ function mostrarTablaParesDeProductos() {
         { id: "Producto",      name: "Producto" },
         { id: "CompradoCon",   name: "Comprado con" },
         { id: "CantidadVeces", name: "Cantidad de veces" },
+        { id: "Ingresos", name: "Ingresos generados" },
     ]
     const contenedor = document.getElementById("tablaParesDeProductos")
     mostrarTabla(gridParesDeProductos, columnas, contenedor, actualizarTablaParesDeProductos)

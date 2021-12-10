@@ -19,6 +19,6 @@ namespace Planetario.Handlers
 
         List<object> ConsultaPorCategoriaProductoGeneroEdad(string categoria, string genero, string publico);
 
-        List<object> ConsultaProductosCompradosJuntos();
+        List<object> ConsultaProductosCompradosJuntos(string publico, string membresia);
     }
 }
