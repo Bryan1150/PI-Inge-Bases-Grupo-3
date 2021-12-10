@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Security;
+﻿using System.Web.Mvc;
 using Planetario.Handlers;
-using Planetario.Models;
 
 namespace Planetario.Controllers
 {
@@ -78,9 +72,9 @@ namespace Planetario.Controllers
         }
 
         [HttpGet]
-        public JsonResult ObtenerParesProductos()
+        public JsonResult ObtenerParesProductos(string publico, string membresia)
         {
-            var resultadoJson = AccesoDatos.ConsultaProductosCompradosJuntos();
+            var resultadoJson = AccesoDatos.ConsultaProductosCompradosJuntos(publico, membresia);
             return Json(resultadoJson, JsonRequestBehavior.AllowGet);
         }
     }

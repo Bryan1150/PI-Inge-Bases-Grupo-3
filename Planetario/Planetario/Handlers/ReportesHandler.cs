@@ -184,30 +184,41 @@ namespace Planetario.Handlers
             return info;
         }
 
-        public List<object> ConsultaProductosCompradosJuntos()
+        public List<object> ConsultaProductosCompradosJuntos(string publico, string membresia)
         {
-            string consulta = "WITH TABLA_PRODUCTOS_COMPRADOS_JUNTOS AS " +
-                "( SELECT F1.idComprableFK AS 'Producto', F2.idComprableFK AS 'CompradoCon' " +
-                "FROM Factura F1 INNER JOIN Factura F2 ON F1.idComprableFK = F2.idComprableFK ) " +
-                "SELECT " +
-                "C1.nombre AS 'Producto', " +
-                "C2.nombre AS 'ProductoCompradoCon', " +
-                "COUNT(*) AS 'VecesCompradosJuntos' " +
+            string consulta = "WITH TABLA_PRODUCTOS_COMPRADOS_JUNTOS AS ( " +
+                "SELECT F1.idComprableFK AS 'Producto', F2.idComprableFK AS 'CompradoCon', " +
+                "P.membresia, dbo.UFN_CategoriaPorEdad(DATEDIFF(YEAR, P.fechaNacimiento, GETDATE())) AS 'Publico' " +
+                "FROM Factura F1 " +
+                "INNER JOIN Factura F2 " +
+                "ON F1.correoPersonaFK = F2.correoPersonaFK " +
+                "JOIN Persona P    ON F1.correoPersonaFK = P.correoPersonaPK) " +
+                "SELECT C1.nombre AS 'Producto', C1.precio AS 'PrecioProducto', " +
+                "C2.nombre AS 'ProductoCompradoCon', C2.precio AS 'PrecioCompradoCon', " +
+                "COUNT(*) AS 'VecesCompradosJuntos',    PC.membresia AS 'MembresiaCliente', " +
+                "PC.Publico AS 'PublicoCliente' " +
                 "FROM TABLA_PRODUCTOS_COMPRADOS_JUNTOS PC " +
                 "JOIN Comprable C1 ON PC.Producto = C1.idComprablePK " +
-                "JOIN Comprable C2 ON PC.Producto = C2.idComprablePK " +
-                "GROUP BY C1.nombre, C2.nombre";
+                "JOIN Comprable C2 ON PC.CompradoCon = C2.idComprablePK " +
+                "WHERE NOT Producto = CompradoCon " +
+                "AND PC.membresia = '" + membresia + "' " +
+                "AND PC.Publico = '" + publico + "' " +
+                "GROUP BY C1.nombre, C2.nombre, C1.precio, C2.precio, PC.membresia, PC.Publico";
 
             DataTable tablaResultados = LeerBaseDeDatos(consulta);
             List<object> info = new List<object>();
 
             foreach (DataRow fila in tablaResultados.Rows)
             {
+                int vecesCompradosJuntos = Convert.ToInt32(fila["VecesCompradosJuntos"]);
+                int precioProducto = Convert.ToInt32(fila["PrecioProducto"]);
+                int precioCompradoCon = Convert.ToInt32(fila["PrecioCompradoCon"]);
                 info.Add(new
                 {
                     Producto = Convert.ToString(fila["Producto"]),
                     CompradoCon = Convert.ToString(fila["ProductoCompradoCon"]),
-                    CantidadVeces = Convert.ToString(fila["VecesCompradosJuntos"])
+                    CantidadVeces = vecesCompradosJuntos,
+                    Ingresos = (vecesCompradosJuntos * (precioProducto+precioCompradoCon))
                 });
             }
 

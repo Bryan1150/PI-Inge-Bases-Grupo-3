@@ -7,6 +7,12 @@
     {
         ListaCategoria.Add(new SelectListItem { Text = item, Value = item });
     }
+    List<SelectListItem> ListaMembrersias = new List<SelectListItem>()
+    {
+        new SelectListItem { Text = "Terrestre", Value = "Terrestre" },
+        new SelectListItem { Text = "Lunar", Value = "Lunar" },
+        new SelectListItem { Text = "Solar", Value = "Solar" }
+    };
 }
 
 <!DOCTYPE html>
@@ -57,13 +63,13 @@
                             <div class="card-header">
                                 <div class="row">
                                     <div class="col-4" ><p>Categoría</p></div>
-                                    <div class="col-4" ><p>Público</p></div>
                                     <div class="col-4" ><p>Género</p></div>
+                                    <div class="col-4" ><p>Público</p></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-4">@Html.DropDownList("Categorias2", ListaCategoria, new { @class = "form-control", @id = "categoriaProductosConFiltro", @onchange = "actualizarTablaProductosConFiltro()" })</div>
-                                    <div class="col-4">@Html.DropDownList("Publicos", ViewBag.listaPublicos as List<SelectListItem>, new { @class = "form-control", @id = "generoProductosConFiltro", @onchange = "actualizarTablaProductosConFiltro()" })</div>
-                                    <div class="col-4">@Html.DropDownList("Generos", ViewBag.listaGeneros as List<SelectListItem>, new { @class = "form-control", @id = "publicoProductosConFiltro", @onchange = "actualizarTablaProductosConFiltro()" })</div>
+                                    <div class="col-4">@Html.DropDownList("Generos", ViewBag.listaGeneros as List<SelectListItem>, new { @class = "form-control", @id = "generoProductosConFiltro", @onchange = "actualizarTablaProductosConFiltro()" })</div>
+                                    <div class="col-4">@Html.DropDownList("Publicos", ViewBag.listaPublicos as List<SelectListItem>, new { @class = "form-control", @id = "publicoProductosConFiltro", @onchange = "actualizarTablaProductosConFiltro()" })</div>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -85,6 +91,14 @@
                 <div class="accordion-body">
                     <div class="card">
                         <div class="card-header">
+                            <div class="row">
+                                <div class="col-4"><p>Membresía</p></div>
+                                <div class="col-4"><p>Público</p></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">@Html.DropDownList("Membresias", ListaMembrersias, new { @class = "form-control", @id = "membresiaParesProductos", @onchange = "actualizarTablaParesDeProductos()" })</div>
+                                <div class="col-4">@Html.DropDownList("Publicos", ViewBag.listaPublicos as List<SelectListItem>, new { @class = "form-control", @id = "publicoParesProductos", @onchange = "actualizarTablaParesDeProductos()" })</div>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div id="tablaParesDeProductos"></div>
@@ -113,14 +127,19 @@
             const diccionariParametros = {
                 categoria: categoriaEscogida,
                 genero: generoEscogido,
-                publicoEscogido: publicoEscogido
+                publico: publicoEscogido
             }
-            actualizarDatosTabla(gridProductosPorFiltro, "@linkDatosPorGeneroYEdad", diccionariParametros, data => data.map(p => [p.Producto, p.CompradoCon, p.CantidadVeces]))
+            actualizarDatosTabla(gridProductosPorFiltro, "@linkDatosPorGeneroYEdad", diccionariParametros, data => data.map(p => [p.Nombre, p.Precio, p.Cantidad, p.Ingresos]))
         }
 
         function actualizarTablaParesDeProductos() {
-            const diccionariParametros = {}
-            actualizarDatosTabla(gridParesDeProductos, "@linkDatosParesProductos", diccionariParametros, data => data.map(p => [p.Producto, p.CompradoCon, p.CantidadVeces]))
+            const publicoEscogido = document.getElementById("publicoParesProductos").value
+            const membresiaEscogida = document.getElementById("membresiaParesProductos").value
+            const diccionariParametros = {
+                membresia: membresiaEscogida,
+                publico: publicoEscogido
+            }
+            actualizarDatosTabla(gridParesDeProductos, "@linkDatosParesProductos", diccionariParametros, data => data.map(p => [p.Producto, p.CompradoCon, p.CantidadVeces, p.Ingresos]))
         }
     </script>
 </body>
