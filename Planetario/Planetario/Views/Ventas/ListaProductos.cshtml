@@ -1,13 +1,12 @@
-﻿
-@{
-        string urlProductos = Url.Content("/Ventas/ListaProductosFiltrados");
-        List<SelectListItem> categorias = new List<SelectListItem>()
+﻿@{
+    string urlProductos = Url.Content("/Ventas/ListaProductosFiltrados");
+    List<SelectListItem> categorias = new List<SelectListItem>()
         {
             new SelectListItem(){ Text="Ropa", Value = "Ropa"},
             new SelectListItem(){ Text="Accesorios", Value = "Accesorios"},
             new SelectListItem(){ Text="Telescopio", Value = "Telescopios"},
         };
-        List<SelectListItem> ordenarPor = new List<SelectListItem>()
+    List<SelectListItem> ordenarPor = new List<SelectListItem>()
 {
         new SelectListItem{Text="Más nuevos",Value="fechaIngreso DESC"},
         new SelectListItem{Text="Tamaño (Ascendiente)",Value="tamano ASC"},
@@ -19,38 +18,9 @@
     };
             }
 
-<style>
-    #columna-filtros {
-        padding: 1em;
-        background: #f2f2f2;
-    }
-
-#fila-busqueda {
-        padding: 1em;
-        background: #d9d9d9;
-    }
-
-    div.row {
-    margin: 0px;
-    }
-
-    .texto-derecha {
-        text-align: right;
-    }
-    .card-con-imagen-izq {
-        flex-direction: row;
-        align-items: center;
-        min-height: 258px;
-    }
-    .card-con-imagen-izq img {
-        border-radius: 0.5em;
-    width: 240px;
-    height: 240px;
-        object-fit: cover;
-    margin: 8px auto auto 8px;
-        box-shadow: 0px 0px 2px black;
-    }
-</style>
+<head>
+    <link rel="stylesheet" type="text/css" href="~/Utils/css/ventas.css" />
+</head>
 
 <span class="titulo">Tienda</span>
 <div class="container-fluid">
@@ -198,7 +168,7 @@
         let divProductos = document.getElementById("listaProductos");
         divProductos.innerHTML = "";
         for (let i = 0; i < productos.length; i++) {
-            let producto = productos[i]            
+            let producto = productos[i]
             let cartaProducto = crearContenedorProducto(producto)
             divProductos.appendChild(cartaProducto)
         }
@@ -206,7 +176,7 @@
 
     function crearContenedorProducto(producto) {
         let divContenedor = document.createElement("div");
-        divContenedor.className = "card card-con-imagen-izq bg-light"
+        divContenedor.className = "card card-con-imagen-izq card-con-margen bg-light"
         divContenedor.innerHTML = `
                 <img class="border" src="/Ventas/ObtenerImagen/${producto["Id"]}">
                 <div class="card-body">
@@ -215,7 +185,8 @@
                     <p class="card-text"><strong>Precio: </strong>₡${producto["Precio"]}</p>
                     <input type="submit" onclick="agregarAlCarrito(${producto["Id"]})" class="btn btn-success btn-lg btn-lg" value="Agregar al carrito" data-bs-toggle="modal" data-bs-target="#exampleModal" />
                 </div>
-               
+                <a href="/Ventas/VerProducto/${producto["Id"]}" class="hidden stretched-link"></a>
+
         `
         return divContenedor
     }
