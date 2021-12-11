@@ -14,7 +14,7 @@ namespace Planetario.Handlers
 
         public BaseDatosHandler()
         {
-            rutaConexion = ConfigurationManager.ConnectionStrings["ConexionBaseDatosServidor"].ToString();
+            rutaConexion = ConfigurationManager.ConnectionStrings["ConexionBaseAzure"].ToString();
             conexion = new SqlConnection(rutaConexion);
         }
 
