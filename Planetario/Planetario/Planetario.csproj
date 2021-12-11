@@ -436,7 +436,6 @@
     <Content Include="Views\Ventas\Carrito.cshtml" />
     <Content Include="Views\Ventas\ListaProductos.cshtml" />
     <Content Include="Views\Clientes\Registro.cshtml" />
-    <Content Include="Views\Ventas\RealizarCompra.cshtml" />
     <Content Include="Views\Ventas\Pago.cshtml" />
     <Content Include="Views\Membresias\Comprar.cshtml" />
     <Content Include="Views\Membresias\Pago.cshtml" />
