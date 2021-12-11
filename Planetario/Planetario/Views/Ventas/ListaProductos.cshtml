@@ -65,10 +65,13 @@
             @Html.DropDownList("orden", ordenarPor, htmlAttributes: new { @class = "form-select" })
         </div>
     </div>
+
     <div class="row">
+
         <div id="columna-filtros" class="col-3">
             <h5>Filtros</h5>
             <label id="labelPrecioMinimo" for="filtroPrecioMin">Precio mínimo</label>
+
             <div class="row">
                 <div class="col-6">
                     <p>0</p>
@@ -95,6 +98,7 @@
             <br /><br />
             <a class="btn btn-outline-danger container-fluid" onclick="eliminarFiltros()">Eliminar filtros</a>
         </div>
+
         <div class="col-9">
             <div id="listaProductos" onload="obtenerProductos()">
 
@@ -126,7 +130,26 @@
     </div>
 </div>
 
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h3>Producto agregado al carrito!</h3>
+            </div>
+            <div class="modal-footer">
+                @Html.ActionLink("Ir al carrito", "Carrito", "Ventas", new { }, null)
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Seguir Comprando</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
+
+
     var textoParaBuscar = "";
 
     const categoria = document.getElementById("categoria");
@@ -190,7 +213,10 @@
                     <h3 class="card-title">${producto["Nombre"]}</h3>
                     <p class="card-text">${producto["Descripcion"]}</p>
                     <p class="card-text"><strong>Precio: </strong>₡${producto["Precio"]}</p>
-                </div> `
+                    <input type="submit" onclick="agregarAlCarrito(${producto["Id"]})" class="btn btn-success btn-lg btn-lg" value="Agregar al carrito" data-bs-toggle="modal" data-bs-target="#exampleModal" />
+                </div>
+               
+        `
         return divContenedor
     }
 
