@@ -1,5 +1,6 @@
 @{
     ViewBag.Title = "Actividades";
+    string funcionAgregarAlCarrito = Url.Content("~/Ventas/AgregarAlCarrito");
 }
 
 <!DOCTYPE html>
@@ -8,39 +9,7 @@
     <title>@ViewBag.actividad.NombreActividad</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
-    <style>
-        header,
-        section,
-        aside {
-            margin: 0 1.5% 24px 1.5%;
-        }
-        section {
-            float: left;
-            width: 63%;
-        }
-        aside {
-            float: right;
-            width: 30%;
-        }
-        row {
-            text-align: center;
-        }
-
-        .col {
-            margin-bottom: 1em;
-        }
-
-        .card {
-            margin: 1%;
-            border-radius: 15%;
-            border-color: #133b5c;
-            border-width: .15em;
-            box-shadow: 3px 7px #133b5c;
-        }
-        .site-footer {
-            display: none;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="~/Utils/css/actividades.css">
 </head>
 <body>
     <div class="row text-center">
@@ -96,17 +65,60 @@
         </div>
 
         <div id="twitch-embed"></div>
-
-        <div class="row">
-            <div class="col col-md-4 col-sm-12">
-                @Html.ActionLink("Inscribirme", "Inscribirme",
-                    new { titulo = ViewBag.actividad.NombreActividad },
-                    new
-                            {
-                            @class = "btn btn-success",
-                        }
-                )
+        <div>
+            <div class="row">
+                <div class="col col-md-4 col-sm-12">
+                    @Html.ActionLink("Inscribirme", "Inscribirme",
+                        new { titulo = ViewBag.actividad.NombreActividad },
+                        new
+                                {
+                                @class = "btn btn-success",
+                            }
+                    )
+                </div>
+                <div class="col col-md-4 col-sm-12">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Compartir
+                    </button>
+                </div>
             </div>
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Compartir en redes sociales</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Link para compartir
+                            <div class="input-group">
+                                <div id="url"></div>                               
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-primary" onclick="myFunction()">Copiar al portapapeles</button>
+                                </div>
+                            </div>
+                             &nbsp
+                            <ul class="share-buttons" data-source="simplesharingbuttons.com">
+                                <li><a href="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fimgur.com%2Fa%2FRfPVpdJ&layout=button_count&size=small&appId=175191305830549&width=99&height=20" title="Compartir en Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + 'https://imgur.com/a/RfPVpdJ' ); return false;"><img alt="Share on Facebook" src="~/images/flat_web_icon_set/color/Facebook.png" width="50" height="50" /></a></li>
+                                <li><a href="https://twitter.com/intent/tweet?source=https%3A%2F%2Fimgur.com%2Fa%2FRfPVpdJ&text=:%20https%3A%2F%2Fimgur.com%2Fa%2FRfPVpdJ" target="_blank" title="Tweetear" onclick="window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title) + ':%20'  + encodeURIComponent(document.URL) + ':%20' + 'https://imgur.com/a/RfPVpdJ'); return false;"><img alt="Tweet" src="~/images/flat_web_icon_set/color/Twitter.png" width="50" height="50" /></a></li>
+                                <li><a href="http://www.tumblr.com/share?v=3&u=https%3A%2F%2Fimgur.com%2Fa%2FRfPVpdJ&quote=&s=" target="_blank" title="Publicar en Tumblr" onclick="window.open('http://www.tumblr.com/share?v=3&u=' + 'https://imgur.com/a/RfPVpdJ'); return false;"><img alt="Post to Tumblr" src="~/images/flat_web_icon_set/color/Tumblr.png" width="50" height="50" /></a></li>
+                                <li><a href="http://pinterest.com/pin/create/button/?url=https%3A%2F%2Fimgur.com%2Fa%2FRfPVpdJ&description=" target="_blank" title="Pinterest" onclick="window.open('http://pinterest.com/pin/create/button/?url=' + encodeURIComponent(document.URL) + '&description=' +  encodeURIComponent(document.title)); return false;"><img alt="Pin it" src="~/images/flat_web_icon_set/color/Pinterest.png" width="50" height="50" /></a></li>
+                                <li><a href="https://getpocket.com/save?url=https%3A%2F%2Fimgur.com%2Fa%2FRfPVpdJ&title=" target="_blank" title="Agregar a Pocket" onclick="window.open('https://getpocket.com/save?url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title)); return false;"><img alt="Add to Pocket" src="~/images/flat_web_icon_set/color/Pocket.png" width="50" height="50" /></a></li>
+                                <li><a href="http://www.reddit.com/submit?url=https%3A%2F%2Fimgur.com%2Fa%2FRfPVpdJ&title=" target="_blank" title="Publicar en Reddit" onclick="window.open('http://www.reddit.com/submit?url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title)); return false;"><img alt="Submit to Reddit" src="~/images/flat_web_icon_set/color/Reddit.png" width="50" height="50" /></a></li>
+                                <li><a href="http://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fimgur.com%2Fa%2FRfPVpdJ&title=&summary=&source=https%3A%2F%2Fimgur.com%2Fa%2FRfPVpdJ" target="_blank" title="Compartir en LinkedIn" onclick="window.open('http://www.linkedin.com/shareArticle?mini=true&url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title)); return false;"><img alt="Share on LinkedIn" src="~/images/flat_web_icon_set/color/LinkedIn.png" width="50" height="50" /></a></li>
+                                <li><a href="http://wordpress.com/press-this.php?u=https%3A%2F%2Fimgur.com%2Fa%2FRfPVpdJ&quote=&s=" target="_blank" title="Publicar en WordPress" onclick="window.open('http://wordpress.com/press-this.php?u=' + encodeURIComponent(document.URL) + '&quote=' +  encodeURIComponent(document.title)); return false;"><img alt="Publish on WordPress" src="~/images/flat_web_icon_set/color/Wordpress.png" width="50" height="50" /></a></li>
+                                <li><a href="https://pinboard.in/popup_login/?url=https%3A%2F%2Fimgur.com%2Fa%2FRfPVpdJ&title=&description=" target="_blank" title="Guardar en Pinboard" onclick="window.open('https://pinboard.in/popup_login/?url=' + encodeURIComponent(document.URL) + '&title=' +  encodeURIComponent(document.title)); return false;"><img alt="Save to Pinboard" src="~/images/flat_web_icon_set/color/Pinboard.png" width="50" height="50" /></a></li>
+                                <li><a href="mailto:?subject=&body=:%20https%3A%2F%2Fimgur.com%2Fa%2FRfPVpdJ" target="_blank" title="Enviar por correo electrónico" onclick="window.open('mailto:?subject=' + encodeURIComponent(document.title) + '&body=' +  encodeURIComponent(document.URL)); return false;"><img alt="Send email" src="~/images/flat_web_icon_set/color/Email.png" width="50" height="50" /></a></li>
+                            </ul>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             @if (Request.IsAuthenticated)
             {
                 <div class="col col-md-4 col-sm-12">
@@ -119,6 +131,23 @@
                     )
                 </div>
             }
+
+        <div class="row">
+            <div class="col-3">
+                @Html.ActionLink("Comprar Entradas","ComprarEntradas", "Actividades", new { nombreDeLaActividad = ViewBag.actividad.NombreActividad }, new { @class = "btn btn-success"})
+            </div>
+            <div class="col-3">
+                @if (Request.IsAuthenticated)
+                {
+                    <div class="col col-md-4 col-sm-12">
+                        @Html.ActionLink("Ver facturas", "verFacturasDeActividad",
+                            new { actividadNombre = ViewBag.actividad.NombreActividad },
+                            new { @class = "btn btn-success", }
+                        )
+                    </div>
+                }
+            </div>
+
         </div>
 
         <div style="margin-top:75px"></div>
@@ -142,7 +171,7 @@
 
     </section>
 
-    <aside>
+    <aside style="width: 15%,">
         <span class="titulo">Actividades Similares:</span>
 
         @foreach (Planetario.Models.ActividadModel actividad in ViewBag.actividades)
@@ -151,7 +180,7 @@
             {
                 <div class="col">
                     <div class="card">
-                        <span class="titulo">
+                        <div class="card-header card-title">
                             @if (@actividad.Tipo == "Charla")
                             {
                                 <i class="fa fa-commenting" aria-hidden="true"></i>
@@ -160,27 +189,35 @@
                             {
                                 <i class="fa fa-book" aria-hidden="true"></i>
                             }
-                            <br />
-                            @Html.ActionLink(@actividad.NombreActividad, "verActividad", "Actividades", new { nombre = @actividad.NombreActividad.ToString() }, new { style = "font-size: 30px" })
-                        </span>
-                        <div class="detallesActividad" , style="text-align:center">
-                            <div>
-                                <i class="fa fa-angle-right" aria-hidden="true"></i>
-                                <b>Publico Dirigido: </b>@actividad.PublicoDirigido
-                            </div>
-                            <div>
-                                <i class="fa fa-angle-right" aria-hidden="true"></i>
-                                <b>Categoria: </b>@actividad.Categoria
-                            </div>
-                            <div>
-                                <i class="fa fa-angle-right" aria-hidden="true"></i>
-                                <b>Complejidad: </b>@actividad.Complejidad
-                            </div>
+                            @actividad.NombreActividad
                         </div>
+                        <div class="card-body">
+                            <p class="card-text"><strong>Categoria: </strong>@actividad.Categoria</p>
+                            <p class="card-text"><strong>Fecha: </strong>@actividad.Fecha</p>
+                            <p class="card-text"><strong>Precio: </strong>₡@actividad.PrecioAproximado</p>
+                        </div>
+                        <a class="hidden stretched-link" href="@Url.Action("verActividad","Actividades", new { nombreDeLaActividad = actividad.NombreActividad.ToString() })"></a>
                     </div>
                 </div>
             }
         }
     </aside>
+
+    <script>
+        let display = "";
+        display += `<input type="text" id="myInput" class="form-control" disabled=true value="` + document.URL + `"aria-label="Recipient's username" aria-describedby="basic-addon2">`;
+        document.getElementById("url").innerHTML = display;
+
+        function myFunction() {
+            var copyText = document.getElementById("myInput");
+            console.log(copyText.value);
+            navigator.clipboard.writeText(copyText.value);
+            setTimeout(function () {
+                alert("Texto copiado!");
+            }, 100);
+            
+        }
+    </script>
+
 </body>
 </html>

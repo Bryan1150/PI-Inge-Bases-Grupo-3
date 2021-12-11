@@ -11,167 +11,8 @@
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Utils/css")
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <style>
-        .navbar-nav > li > .dropdown-menu {
-            background-color: #133b5c;
-        }
+    <link rel="stylesheet" type="text/css" href="~/Utils/css/layout.css">
 
-            .navbar-nav > li > .dropdown-menu .dropdown-item {
-                color: #fcdab7;
-            }
-
-            .navbar-nav > li > .dropdown-menu :hover {
-                background-color: #1d2d50;
-            }
-
-            .navbar-nav > li > .dropdown-menu :focus {
-                background-color: #1d2d50;
-            }
-
-            .navbar-nav > li > .dropdown-menu a {
-                color: #fcdab7;
-            }
-
-        .navbar-nav > .nav-item > .nav-link {
-            color: #fcdab7;
-        }
-
-        .site-footer {
-            padding: 45px 0 20px;
-            font-size: 15px;
-            line-height: 24px;
-            color: #737373;
-        }
-
-            .site-footer hr {
-                border-top-color: #bbb;
-                opacity: 0.5
-            }
-
-                .site-footer hr.small {
-                    margin: 20px 0
-                }
-
-            .site-footer h6 {
-                color: #fff;
-                font-size: 16px;
-                text-transform: uppercase;
-                margin-top: 5px;
-                letter-spacing: 2px
-            }
-
-            .site-footer a {
-                color: #737373;
-            }
-
-                .site-footer a:hover {
-                    color: #3366cc;
-                    text-decoration: none;
-                }
-
-        .footer-links {
-            padding-left: 0;
-            list-style: none
-        }
-
-            .footer-links li {
-                display: block
-            }
-
-            .footer-links a {
-                color: #737373
-            }
-
-                .footer-links a:active, .footer-links a:focus, .footer-links a:hover {
-                    color: #3366cc;
-                    text-decoration: none;
-                }
-
-            .footer-links.inline li {
-                display: inline-block
-            }
-
-        .site-footer .social-icons {
-            text-align: right
-        }
-
-            .site-footer .social-icons a {
-                width: 40px;
-                height: 40px;
-                line-height: 40px;
-                margin-left: 6px;
-                margin-right: 0;
-                border-radius: 100%;
-                background-color: #33353d
-            }
-
-        .copyright-text {
-            margin: 0
-        }
-
-        .social-icons {
-            padding-left: 0;
-            margin-bottom: 0;
-            list-style: none
-        }
-
-            .social-icons li {
-                display: inline-block;
-                margin-bottom: 4px
-            }
-
-                .social-icons li.title {
-                    margin-right: 15px;
-                    text-transform: uppercase;
-                    color: #96a2b2;
-                    font-weight: 700;
-                    font-size: 13px
-                }
-
-            .social-icons a {
-                background-color: #eceeef;
-                color: #818a91;
-                font-size: 16px;
-                display: inline-block;
-                line-height: 44px;
-                width: 44px;
-                height: 44px;
-                text-align: center;
-                margin-right: 8px;
-                border-radius: 100%;
-                -webkit-transition: all .2s linear;
-                -o-transition: all .2s linear;
-                transition: all .2s linear
-            }
-
-                .social-icons a:active, .social-icons a:focus, .social-icons a:hover {
-                    color: #fff;
-                    background-color: #29aafe
-                }
-
-            .social-icons.size-sm a {
-                line-height: 34px;
-                height: 34px;
-                width: 34px;
-                font-size: 14px
-            }
-
-            .social-icons a.facebook:hover {
-                background-color: #3b5998
-            }
-
-            .social-icons a.twitter:hover {
-                background-color: #00aced
-            }
-
-            .social-icons a.linkedin:hover {
-                background-color: #007bb6
-            }
-
-            .social-icons a.dribbble:hover {
-                background-color: #ea4c89
-            }
-    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #133b5c;">
@@ -207,18 +48,43 @@
                     <li class="nav-item">
                         @Html.ActionLink("Cuestionarios", "ListaCuestionarios", "Cuestionario", new { area = "" }, new { @class = "nav-link" })
                     </li>
-                </ul>
-                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        @Html.ActionLink("Juegos", "Lista", "Juegos", new { area = "" }, new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Comparar cuerpos", "CompararCuerpos", "Home", new { area = "" }, new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Tienda", "ListaProductos", "Ventas", new { area = "" }, new { @class = "nav-link" })
+                    </li>
                     @if (Request.IsAuthenticated)
                     {
                         <li class="nav-item">
-                            @Html.ActionLink("Panel de administración", "PanelDeAdministracion", "Home", new { area = "" }, new { @class = "nav-link" })
+                            @Html.ActionLink("Membresias", "Comprar", "Membresias", new { area = "" }, new { @class = "nav-link" })
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="/Funcionarios/cerrarSesion"><i class="fa fa-sign-out"></i> Logout</a></li>
+
+                    }
+
+                </ul>
+                <ul class="navbar-nav ms-auto">
+
+                    @if (Request.IsAuthenticated)
+                    {
+                        if (((Context.User.Identity as FormsIdentity).Ticket.UserData) == "Funcionario")
+                        {                                             
+                            <li class="nav-item"><a class="nav-link" href="/Home/PanelDeAdministracion"><i class="fa fa-cogs"></i> Panel de administracion</a></li>
+                           
+                        }
+                        <li class="nav-item" id="membresia"></li>
+                        <li class="nav-item" id="carrito"></li>
+
+                        <li class="nav-item"><a class="nav-link" href="/Personas/CerrarSesion"><i class="fa fa-sign-out"></i> Logout</a></li>
                     }
                     else
                     {
-                        <li class="nav-item"><a class="nav-link" href="/Funcionarios/iniciarSesion"><span class="fa fa-sign-in"></span> Login</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/Clientes/Registro"><span class="fa fa-user-plus "></span> Registro</a></li>
+
+                        <li class="nav-item"><a class="nav-link" href="/Personas/IniciarSesion"><span class="fa fa-sign-in"></span> Login</a></li>
 
                     }
                 </ul>
@@ -241,16 +107,44 @@
 
                 <div class="col-md-4 col-sm-6 col-xs-12">
                     <ul class="social-icons">
-                        <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-                        <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-                        <li><a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a></li>
-                        <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
+                        <li><a class="facebook" href="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fimgur.com%2Fa%2FRfPVpdJ&layout=button_count&size=small&appId=175191305830549&width=99&height=20" title="Compartir en Facebook"><i class="fa fa-facebook"></i></a></li>
+                        <li><a class="twitter" href="https://twitter.com/intent/tweet?source=https%3A%2F%2Fimgur.com%2Fa%2FRfPVpdJ&text=:%20https%3A%2F%2Fimgur.com%2Fa%2FRfPVpdJ" title="Tweetear"><i class="fa fa-twitter"></i></a></li>
+                        <li><a class="linkedin" href="http://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fimgur.com%2Fa%2FRfPVpdJ&title=&summary=&source=https%3A%2F%2Fimgur.com%2Fa%2FRfPVpdJ" title="Compartir en LinkedIn"><i class="fa fa-linkedin"></i></a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        function obtenerMembresia() {
+            $.getJSON('/Ventas/ObtenerMembresia', function (data) {
+                if (data.membresia != "No Disponible") {
+                let content = "";
+                const membresia = document.getElementById('membresia');
+                    content += `<a class="nav-link" href="/Membresias/Comprar"><span class ="fa fa-address-book-o"</span> `
+                content += data.membresia;
+                content += `</a>`;
+                membresia.innerHTML = content;
+                }
+            });
+        }
 
+        function obtenerCantidadCarrito() {
+            $.getJSON('/Ventas/ObtenerCantidadCarrito', function (data) {              
+                let content = "";
+                console.log(data.cantidad);
+                const carrito = document.getElementById('carrito');
+                content += `<a class="nav-link" href="/Ventas/Carrito"><i class="fa fa-shopping-cart"></i> Carrito( `
+                content += data.cantidad;
+                content += ` )</a>`;
+                carrito.innerHTML = content;
+            });
+        }
+        obtenerMembresia();
+        obtenerCantidadCarrito();
+               
+    </script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

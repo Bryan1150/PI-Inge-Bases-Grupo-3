@@ -1,0 +1,61 @@
+﻿<body>
+    <span class="titulo">Juegos educativos</span>
+
+    <p class="text-center">¡Diviértete con juegos educativos y aprende de una forma no tradicional!</p>
+
+    <style>
+        .card {
+            border: 2px solid #133b5c;
+            box-shadow: 0px 0px 2px #133b5c;
+        }
+        .card:hover {
+            box-shadow: 0px 0px 12px #133b5c;
+        }
+    </style>
+
+    <div class="row rows-cols-md-3 g-4">
+        <div class="col">
+            <div class="card h-100">
+                <img src="~/Utils/images/Juegos/SpaceConnect.jpg" class="card-img-top" style="object-fit: cover; height: 240px;" />
+                <div class="card-body">
+                    <h5 class="card-title">Space Connect</h5>
+                    <p class="card-text">Conecte 2 de los mismos elementos con una ruta con no más de dos ángulos de 90 grados</p>
+                </div>
+                <div class="card-footer">
+                    <p>Dificultad: Fácil</p>
+                </div>
+                <a href="@Url.Action("SpaceConnect","Juegos")" class="hidden stretched-link"></a>
+            </div>
+
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <img src="~/Utils/images/Juegos/UFO2048.jpg" class="card-img-top" style="object-fit: cover; height: 240px;" />
+                <div class="card-body">
+                    <h5 class="card-title">2048 UFO</h5>
+                    <p class="card-text">Mueve todas las fichas hacia arriba, abajo, izquierda o derecha. 2 de las mismas baldosas vecinas aumentan de tamaño. Intenta alcanzar la meta indicada.</p>
+                </div>
+                <div class="card-footer">
+                    <p>Dificultad: Intermedio</p>
+                </div>
+                <a href="@Url.Action("UFO2048","Juegos")" class="hidden stretched-link"></a>
+            </div>
+
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <img src="~/Utils/images/Juegos/OuterSpaceArkanoid.jpg" class="card-img-top" style="object-fit: cover; height: 240px;" />
+                <div class="card-body">
+                    <h5 class="card-title">Outer Space Arkanoid</h5>
+                    <p class="card-text">Dispara la bola contra los ladrillos para eliminarlos. Retire todos los ladrillos para avanzar al siguiente nivel.</p>
+                </div>
+                <div class="card-footer">
+                    <p>Dificultad: Fácil</p>
+                </div>
+                <a href="@Url.Action("OuterSpaceArkanoid","Juegos")" class="hidden stretched-link"></a>
+            </div>
+
+        </div>
+    </div>
+
+</body>

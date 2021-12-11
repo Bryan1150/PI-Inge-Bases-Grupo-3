@@ -12,7 +12,7 @@ namespace Planetario.Controllers
         public ActionResult InformacionBasica()
         {
             ViewBag.Message = "La informacion basica del planetario.";
-            return View();
+            return View("InformacionBasica","_LayoutAlternativo");
         }
 
         public ActionResult HorariosParqueoTransporte()
@@ -25,6 +25,11 @@ namespace Planetario.Controllers
         public ActionResult PanelDeAdministracion()
         {
             return View();
+        }
+
+        public ActionResult CompararCuerpos()
+        {
+            return View("CompararCuerpos", "_LayoutAlternativo");
         }
     }
 }
