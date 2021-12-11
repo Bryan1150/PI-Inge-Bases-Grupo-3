@@ -162,29 +162,11 @@ namespace Planetario.Handlers
             return Convert.ToInt32(tablaResultado.Rows[0]["cantidad"]);
         }
 
-        public List<int> ObtenerCantidadRespuestasPorPregunta(int preguntaID)
-        {
-            string consulta = "SELECT COUNT(valorRespuesta) as 'Cantidad' FROM PreguntasEvaluacion P " +
-                "JOIN RespuestasEvaluacion R ON P.idPreguntaPK = R.idPreguntaFK " +
-                "WHERE P.idPreguntaPK = " + preguntaID +
-                "GROUP BY valorRespuesta " +
-                "ORDER BY valorRespuesta ";
-
-            DataTable tablaResultado = LeerBaseDeDatos(consulta);
-            List<int> respuestas = new List<int>();
-
-            foreach (DataRow fila in tablaResultado.Rows) 
-            {
-                respuestas.Add(Convert.ToInt32(fila["Cantidad"]));
-            }
-            return respuestas;
-        }
-
         public int ObtenerCantidadPersonas(string nombreCuestionario)
         {
             string consulta = "SELECT COUNT(DISTINCT R.correoFK) as cantidad FROM CuestionarioEvaluacion C " +
                 "JOIN PreguntasEvaluacion P ON C.nombreCuestionarioPK = P.nombreCuestionarioFK " +
-                "JOIN RespuestasEvaluacion R ON P.idPreguntaPK = R.idPreguntaFK " +
+                "JOIN RespuestasEvaluacion R ON P.idPreguntaPK = R.idPreguntaFK;" +
                 "WHERE C.nombreCuestionarioPK = '" + nombreCuestionario + "';";
 
             DataTable tablaResultado = LeerBaseDeDatos(consulta);
