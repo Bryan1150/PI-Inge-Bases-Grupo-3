@@ -42,7 +42,7 @@
         {
         <div class="col-4">
             <div class="cuadro">
-                <h5>@Html.ActionLink(actividad.NombreActividad.ToString(),"verActividad","Actividades",new { nombre = actividad.NombreActividad.ToString() }, new { @class="h5"})</h5>
+                <h5>@Html.ActionLink(actividad.NombreActividad.ToString(),"verActividad","Actividades",new { nombreDeLaActividad = actividad.NombreActividad.ToString() }, new { @class="h5"})</h5>
                 <p><strong>Categoria: </strong>@actividad.Categoria</p>
                 <p><strong>Fecha: </strong>@actividad.Fecha</p>
                 <p><strong>Precio: </strong>@actividad.PrecioAproximado colones</p>

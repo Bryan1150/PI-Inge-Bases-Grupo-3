@@ -7,9 +7,9 @@ namespace Planetario.Models
 {
     public class CompraModel
     {
-        public UsuarioModel participante { get; set; }
-        public TarjetaModel tarjeta { get; set; }
-        public List<string> productos { get; set; }
-        public FacturaModel factura { get; set; }
+        public ClienteModel Participante { get; set; }
+        public TarjetaModel Tarjeta { get; set; }
+        public List<ProductoModel> Productos { get; set; }
+        public FacturaModel Factura { get; set; }
     }
 }

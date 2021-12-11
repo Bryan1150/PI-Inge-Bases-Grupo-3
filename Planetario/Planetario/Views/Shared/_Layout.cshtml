@@ -31,7 +31,7 @@
             .navbar-nav > li > .dropdown-menu a {
                 color: #fcdab7;
             }
-
+            
         .navbar-nav > .nav-item > .nav-link {
             color: #fcdab7;
         }
@@ -206,19 +206,37 @@
 
                     <li class="nav-item">
                         @Html.ActionLink("Cuestionarios", "ListaCuestionarios", "Cuestionario", new { area = "" }, new { @class = "nav-link" })
+                    </li>                  
+                    
+                    <li class="nav-item">
+                        @Html.ActionLink("Tienda", "ListaProductos", "Ventas", new { area = "" }, new { @class = "nav-link" })
+                    </li>                   
+                    @if(Request.IsAuthenticated)
+                    {
+                    <li class="nav-item">
+                        @Html.ActionLink("Membresias", "Comprar", "Membresias", new { area = "" }, new { @class = "nav-link" })
                     </li>
+                    }
                 </ul>
                 <ul class="navbar-nav ms-auto">
+
                     @if (Request.IsAuthenticated)
                     {
-                        <li class="nav-item">
-                            @Html.ActionLink("Panel de administración", "PanelDeAdministracion", "Home", new { area = "" }, new { @class = "nav-link" })
-                        </li>
-                        <li class="nav-item"><a class="nav-link" href="/Funcionarios/cerrarSesion"><i class="fa fa-sign-out"></i> Logout</a></li>
+                        if (((Context.User.Identity as FormsIdentity).Ticket.UserData) == "Funcionario")
+                        {                                             
+                            <li class="nav-item"><a class="nav-link" href="/Home/PanelDeAdministracion"><i class="fa fa-cogs"></i> Panel de administracion</a></li>
+                           
+                        }
+                        <li class="nav-item" id="membresia"></li>
+                        <li class="nav-item" id="carrito"></li>
+
+                        <li class="nav-item"><a class="nav-link" href="/Personas/CerrarSesion"><i class="fa fa-sign-out"></i> Logout</a></li>
                     }
                     else
                     {
-                        <li class="nav-item"><a class="nav-link" href="/Funcionarios/iniciarSesion"><span class="fa fa-sign-in"></span> Login</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/Clientes/Registro"><span class="fa fa-user-plus "></span> Registro</a></li>
+
+                        <li class="nav-item"><a class="nav-link" href="/Personas/IniciarSesion"><span class="fa fa-sign-in"></span> Login</a></li>
 
                     }
                 </ul>
@@ -250,7 +268,36 @@
             </div>
         </div>
     </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        function obtenerMembresia() {
+            $.getJSON('/Ventas/ObtenerMembresia', function (data) {
+                if (data.membresia != "No Disponible") {
+                let content = "";
+                const membresia = document.getElementById('membresia');
+                    content += `<a class="nav-link" href="/Membresias/Comprar"><span class ="fa fa-address-book-o"</span> `
+                content += data.membresia;
+                content += `</a>`;
+                membresia.innerHTML = content;
+                }
+            });
+        }
 
+        function obtenerCantidadCarrito() {
+            $.getJSON('/Ventas/ObtenerCantidadCarrito', function (data) {              
+                let content = "";
+                console.log(data.cantidad);
+                const carrito = document.getElementById('carrito');
+                content += `<a class="nav-link" href="/Ventas/Carrito"><i class="fa fa-shopping-cart"></i> Carrito( `
+                content += data.cantidad;
+                content += ` )</a>`;
+                carrito.innerHTML = content;
+            });
+        }
+        obtenerMembresia();
+        obtenerCantidadCarrito();
+               
+    </script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

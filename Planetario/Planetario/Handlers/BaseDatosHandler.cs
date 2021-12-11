@@ -35,10 +35,12 @@ namespace Planetario.Handlers
             bool exito;
             SqlCommand comandoParaConsulta = new SqlCommand(consulta, conexion);
 
-            foreach (KeyValuePair<string, object> parejaValores in valoresParametros)
-            {
-                comandoParaConsulta.Parameters.AddWithValue(parejaValores.Key, parejaValores.Value);
-            }
+            if(valoresParametros != null)
+                foreach (KeyValuePair<string, object> parejaValores in valoresParametros)
+                {
+                    comandoParaConsulta.Parameters.AddWithValue(parejaValores.Key, parejaValores.Value);
+                }
+
             conexion.Open();
             try
             {
@@ -51,6 +53,53 @@ namespace Planetario.Handlers
                 exito = false;
             }
             conexion.Close();
+            return exito;
+        }
+
+        public bool EliminarEnBaseDatos(string consulta, Dictionary<string, object> valoresParametros)
+        {
+            bool exito;
+            SqlCommand comandoParaConsulta = new SqlCommand(consulta, conexion);
+
+            foreach (KeyValuePair<string, object> parejaValores in valoresParametros)
+            {
+                comandoParaConsulta.Parameters.AddWithValue(parejaValores.Key, parejaValores.Value);
+            }
+
+            conexion.Open();
+            
+            try
+            {
+                comandoParaConsulta.ExecuteNonQuery();
+                exito = true;
+            }
+            catch(System.Exception ex)
+            {
+                System.Console.WriteLine(ex.Message);
+                exito = false;
+            }
+
+            conexion.Close();
+            return exito;
+        }
+
+        public bool ActualizarEnBaseDatos(string consulta, Dictionary<string, object> valoresParametros)
+        {
+            bool exito;
+            SqlCommand comandoParaConsulta = new SqlCommand(consulta, conexion);
+
+            if(valoresParametros != null)
+            {
+                foreach (KeyValuePair<string, object> parejaValores in valoresParametros)
+                {
+                    comandoParaConsulta.Parameters.AddWithValue(parejaValores.Key, parejaValores.Value);
+                }
+            }
+
+            conexion.Open();
+            exito = comandoParaConsulta.ExecuteNonQuery() >= 1;
+            conexion.Close();
+
             return exito;
         }
 
