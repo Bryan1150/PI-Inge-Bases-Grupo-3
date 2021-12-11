@@ -1,5 +1,6 @@
 @{
     ViewBag.Title = "Actividades";
+    string funcionAgregarAlCarrito = Url.Content("~/Ventas/AgregarAlCarrito");
 }
 
 <!DOCTYPE html>
@@ -8,20 +9,24 @@
     <title>@ViewBag.actividad.NombreActividad</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
+    <link rel="stylesheet" type="text/css" href="~/Utils/css/verActividad.css">
     <style>
         header,
         section,
         aside {
             margin: 0 1.5% 24px 1.5%;
         }
+
         section {
             float: left;
             width: 63%;
         }
+
         aside {
             float: right;
             width: 30%;
         }
+
         row {
             text-align: center;
         }
@@ -37,6 +42,7 @@
             border-width: .15em;
             box-shadow: 3px 7px #133b5c;
         }
+
         .site-footer {
             display: none;
         }
@@ -98,27 +104,20 @@
         <div id="twitch-embed"></div>
 
         <div class="row">
-            <div class="col col-md-4 col-sm-12">
-                @Html.ActionLink("Inscribirme", "Inscribirme",
-                    new { titulo = ViewBag.actividad.NombreActividad },
-                    new
-                            {
-                            @class = "btn btn-success",
-                        }
-                )
+            <div class="col-3">
+                @Html.ActionLink("Comprar Entradas","ComprarEntradas", "Actividades", new { nombreDeLaActividad = ViewBag.actividad.NombreActividad }, new { @class = "btn btn-success"})
             </div>
-            @if (Request.IsAuthenticated)
-            {
-                <div class="col col-md-4 col-sm-12">
-                    @Html.ActionLink("Ver facturas", "verFacturasDeActividad",
-                        new { actividadNombre = ViewBag.actividad.NombreActividad },
-                        new
-                             {
-                                @class = "btn btn-success",
-                            }
-                    )
-                </div>
-            }
+            <div class="col-3">
+                @if (Request.IsAuthenticated)
+                {
+                    <div class="col col-md-4 col-sm-12">
+                        @Html.ActionLink("Ver facturas", "verFacturasDeActividad",
+                            new { actividadNombre = ViewBag.actividad.NombreActividad },
+                            new { @class = "btn btn-success", }
+                        )
+                    </div>
+                }
+            </div>
         </div>
 
         <div style="margin-top:75px"></div>
@@ -142,7 +141,7 @@
 
     </section>
 
-    <aside>
+    <aside style="width: 15%,">
         <span class="titulo">Actividades Similares:</span>
 
         @foreach (Planetario.Models.ActividadModel actividad in ViewBag.actividades)
@@ -182,5 +181,7 @@
             }
         }
     </aside>
+
+    
 </body>
 </html>

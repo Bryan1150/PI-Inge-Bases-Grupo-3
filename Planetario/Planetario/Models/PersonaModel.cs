@@ -12,7 +12,7 @@ namespace Planetario.Models
         [Display(Name = "Correo Electrónico")]
         [Required(ErrorMessage = "Es necesario que ingrese su correo electrónico")]
         [EmailAddress(ErrorMessage = "Formato incorrecto")]
-        public string correo { get; set; }
+        public string correo{ get; set; }
 
         [Display(Name = "Nombre")]
         [Required(ErrorMessage = "Es necesario que ingrese su nombre")]
@@ -36,5 +36,17 @@ namespace Planetario.Models
         [Display(Name = "Fecha de nacimiento")]
         [Required(ErrorMessage = "Es necesario que ingrese una fecha de nacimiento")]
         public string fechaNacimiento { get; set; }
+
+        [Display(Name = "Nivel Educativo")]
+        [Required(ErrorMessage = "Es necesario que ingrese su nivel educativo")]
+        public string nivelEducativo { get; set; }
+
+        public string membresia { get; set; }
+
+        [Display(Name = "Contraseña")]
+        [DataType(DataType.Password)]
+        [StringLength(150, MinimumLength = 6)]
+        [Required(ErrorMessage = "Es necesario que ingrese su contraseña")]
+        public string contrasena { get; set; }
     }
 }
