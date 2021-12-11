@@ -35,32 +35,15 @@ namespace Planetario.Controllers
             productosInterfaz = _servicio;
         }
 
-        public VentasController(VentasInterfaz ventas, ProductosInterfaz productos, CookiesInterfaz cookies)
+        public VentasController(DescuentosInterfaz _servicio)
         {
-            if(ventas != null)
-            {
-                ventasInterfaz = ventas;
-            }
-            else
-            {
-                ventasInterfaz = new VentasHandler();
-            }
-            if(productos != null)
-            {
-                productosInterfaz = productos;
-            }
-            else
-            {
-                productosInterfaz = new ProductosHandler();
-            }
-            if(cookies != null)
-            {
-                cookiesInterfaz = cookies;
-            }
-            else
-            {
-                cookiesInterfaz = new CookiesHandler();
-            }
+            descuentosInterfaz = _servicio;
+        }
+
+        public VentasController(VentasInterfaz ventas, CookiesInterfaz cookies)
+        {
+            ventasInterfaz = ventas;
+            cookiesInterfaz = cookies;
         }
 
         public ActionResult ListaProductos()

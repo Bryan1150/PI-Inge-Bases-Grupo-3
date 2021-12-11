@@ -60,7 +60,7 @@ namespace PruebasPlanetarios
         {
             Mock<VentasInterfaz> mockVentas = CrearMockDeVentas();
             Mock<CookiesInterfaz> mockCookies = CrearMockDeCookies();
-            VentasController ventasController = new VentasController(mockVentas.Object,null,mockCookies.Object);
+            VentasController ventasController = new VentasController(mockVentas.Object,mockCookies.Object);
 
             ViewResult vistaResultado = ventasController.Carrito() as ViewResult;
 
@@ -72,7 +72,7 @@ namespace PruebasPlanetarios
         {
             Mock<VentasInterfaz> mockVentas = CrearMockDeVentas();
             Mock<CookiesInterfaz> mockCookies = CrearMockDeCookies();
-            VentasController ventasController = new VentasController(mockVentas.Object,null,mockCookies.Object);
+            VentasController ventasController = new VentasController(mockVentas.Object,mockCookies.Object);
             double precioEsperado = 10;
 
             ViewResult vistaResultado = ventasController.Carrito() as ViewResult;
@@ -86,7 +86,7 @@ namespace PruebasPlanetarios
         {
             Mock<VentasInterfaz> mockVentas = CrearMockDeVentas();
             Mock<CookiesInterfaz> mockCookies = CrearMockDeCookies();
-            VentasController ventasController = new VentasController(mockVentas.Object,null,mockCookies.Object);
+            VentasController ventasController = new VentasController(mockVentas.Object,mockCookies.Object);
 
             ViewResult vistaResultado = ventasController.Carrito() as ViewResult;
             var listaProductos = vistaResultado.ViewBag.ListaProductos;
@@ -99,7 +99,7 @@ namespace PruebasPlanetarios
         {
             Mock<VentasInterfaz> mockVentas = CrearMockDeVentas();
             Mock<CookiesInterfaz> mockCookies = CrearMockDeCookies(); 
-            VentasController ventasController = new VentasController(mockVentas.Object,null,mockCookies.Object);
+            VentasController ventasController = new VentasController(mockVentas.Object,mockCookies.Object);
 
             ViewResult vistaResultado = ventasController.Carrito() as ViewResult;
             var listaEntradas = vistaResultado.ViewBag.ListaEntradas;
@@ -112,7 +112,7 @@ namespace PruebasPlanetarios
         {
             Mock<VentasInterfaz> mockVentas = CrearMockDeVentas();
             Mock<CookiesInterfaz> mockCookies = CrearMockDeCookies();
-            VentasController ventasController = new VentasController(mockVentas.Object,null,mockCookies.Object);
+            VentasController ventasController = new VentasController(mockVentas.Object,mockCookies.Object);
 
             ViewResult vistaResultado = ventasController.Carrito() as ViewResult;
             var total = vistaResultado.ViewBag.PrecioTotal;
@@ -125,7 +125,7 @@ namespace PruebasPlanetarios
         {
             Mock<VentasInterfaz> mockVentas = CrearMockDeVentas();
             Mock<CookiesInterfaz> mockCookies = CrearMockDeCookies();
-            VentasController ventasController = new VentasController(mockVentas.Object,null,mockCookies.Object);
+            VentasController ventasController = new VentasController(mockVentas.Object,mockCookies.Object);
 
             ViewResult vistaResultado = ventasController.Carrito() as ViewResult;
             var listaProductos = vistaResultado.ViewBag.ListaProductos;
@@ -138,7 +138,7 @@ namespace PruebasPlanetarios
         {
             Mock<VentasInterfaz> mockVentas = CrearMockDeVentas();
             Mock<CookiesInterfaz> mockCookies = CrearMockDeCookies();
-            VentasController ventasController = new VentasController(mockVentas.Object,null,mockCookies.Object);
+            VentasController ventasController = new VentasController(mockVentas.Object,mockCookies.Object);
 
             ViewResult vistaResultado = ventasController.Carrito() as ViewResult;
             var listaEntradas = vistaResultado.ViewBag.ListaEntradas;
@@ -151,7 +151,7 @@ namespace PruebasPlanetarios
         {
             Mock<VentasInterfaz> mockVentas = CrearMockDeVentas();
             Mock<CookiesInterfaz> mockCookies = CrearMockDeCookies();
-            VentasController ventasController = new VentasController(mockVentas.Object,null,mockCookies.Object) { };
+            VentasController ventasController = new VentasController(mockVentas.Object,mockCookies.Object) { };
 
             ViewResult vistaResultado = ventasController.Carrito() as ViewResult;
             var total = vistaResultado.ViewBag.PrecioTotal;
@@ -169,7 +169,7 @@ namespace PruebasPlanetarios
             var mockVentas = new Mock<VentasInterfaz>();
             int idComprable = 5;
             mockVentas.Setup(servicio => servicio.EliminarDelCarrito(correoUsuario,idComprable)).Returns(false);
-            VentasController ventasController = new VentasController(mockVentas.Object,null,mockCookies.Object);
+            VentasController ventasController = new VentasController(mockVentas.Object,mockCookies.Object);
 
             JsonResult resultado = ventasController.EliminarElementoDelCarritoDelUsuario(idComprable);
 
@@ -186,7 +186,7 @@ namespace PruebasPlanetarios
             var mockVentas = new Mock<VentasInterfaz>();
             int idComprable = 5;
             mockVentas.Setup(servicio => servicio.EliminarDelCarrito(correoUsuario, idComprable)).Returns(false);
-            VentasController ventasController = new VentasController(mockVentas.Object,null,mockCookies.Object);
+            VentasController ventasController = new VentasController(mockVentas.Object,mockCookies.Object);
 
             JsonResult resultado = ventasController.EliminarElementoDelCarritoDelUsuario(idComprable);
             JavaScriptSerializer serializer = new JavaScriptSerializer();
@@ -207,7 +207,7 @@ namespace PruebasPlanetarios
             var mockVentas = new Mock<VentasInterfaz>();
             int idComprable = 5;
             mockVentas.Setup(servicio => servicio.EliminarDelCarrito(correoUsuario, idComprable)).Returns(true);
-            VentasController ventasController = new VentasController(mockVentas.Object,null,mockCookies.Object);
+            VentasController ventasController = new VentasController(mockVentas.Object,mockCookies.Object);
 
             JsonResult resultado = ventasController.EliminarElementoDelCarritoDelUsuario(idComprable);
             JavaScriptSerializer serializer = new JavaScriptSerializer();
@@ -376,6 +376,36 @@ namespace PruebasPlanetarios
             string mensaje = vistaResultado.ViewBag.Mensaje;
 
             Assert.AreEqual(mensaje, "Hubo un error en el servidor");
+        }
+
+        [TestMethod]
+        public void ObtenerPorcentajeDescuentoNoEsNulo()
+        {
+            string codigo = "123";
+            int porcentaje = 40;
+            Mock<DescuentosInterfaz> mockDescuentos = new Mock<DescuentosInterfaz>();
+            mockDescuentos.Setup(servicio => servicio.ObtenerPorcentajeDescuento(codigo)).Returns(porcentaje);
+            VentasController ventasController = new VentasController();
+
+            JsonResult resultado = ventasController.ObtenerPorcentajeDescuento(codigo);
+
+            Assert.IsNotNull(resultado);
+        }
+
+        [TestMethod]
+        public void ObtenerPorcentajeDescuentoEsPorcentajeCorrecto()
+        {
+            string codigo = "123";
+            int porcentaje = 40;
+            Mock<DescuentosInterfaz> mockDescuentos = new Mock<DescuentosInterfaz>();
+            mockDescuentos.Setup(servicio => servicio.ObtenerPorcentajeDescuento(codigo)).Returns(porcentaje);
+            VentasController ventasController = new VentasController(mockDescuentos.Object);
+
+            JsonResult resultado = ventasController.ObtenerPorcentajeDescuento(codigo);
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            string dataRecibida = serializer.Serialize(resultado.Data);
+
+            Assert.AreEqual(dataRecibida,porcentaje.ToString());
         }
     }
 }
