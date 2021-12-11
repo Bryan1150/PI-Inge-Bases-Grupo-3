@@ -10,9 +10,7 @@
 </head>
 <body>
 
-    <span class="titulo">
-        Planetario Halley
-    </span>
+
 
     <style>
         .carousel-item {
@@ -50,7 +48,7 @@
                     <div class="carousel-caption">
                         <h3>Se encontró el primer planeta de la galaxia recien descubierta</h3>
                         <p style="color:white">El planeta será llamado Grupo-03</p>
-                        @Html.ActionLink("Ver noticia", "verNoticia", "Noticias", new { stringId = 3, style = "color:white"}, null)
+                        @Html.ActionLink("Ver noticia", "verNoticia", "Noticias", new { stringId = 3, style = "color:white" }, null)
                     </div>
                 </div>
             </div>
@@ -63,6 +61,10 @@
             </button>
         </div>
     </div>
+
+    <span class="titulo">
+        Planetario Halley
+    </span>
 
     <div class="row d-flex flex-wrap align-items-center">
         <div class="col-md-6">
@@ -87,17 +89,6 @@
                 a nivel local e internacional.
             </p>
         </div>
-    </div>
-
-    <div>
-
-        @if (Request.IsAuthenticated)
-            {
-        <p>@Context.User.Identity.Name</p>
-        <p>@((Context.User.Identity as FormsIdentity).Ticket.UserData)</p>
-            }
-
-
     </div>
 
     <div style="margin-top:100px"></div>

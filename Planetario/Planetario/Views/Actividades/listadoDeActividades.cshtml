@@ -12,6 +12,9 @@
     <link rel="stylesheet" type="text/css" href="~/Utils/css/botonesCompartir.css">
 </head>
 <body>
+
+    <span class="titulo">Actividades</span>
+
     <form method="post" class="navbar-form navbar-right" action="@Url.Action("buscarActividad", "Actividades")">
         <div class="row">
             <div class="col-3 col-md-3 col-sm-2">
@@ -27,12 +30,24 @@
         @foreach (Planetario.Models.ActividadModel actividad in ViewBag.actividades)
         {
             <div class="col-4">
-                <div class="cuadro">
-                    <h5>@Html.ActionLink(actividad.NombreActividad.ToString(), "verActividad", "Actividades", new { nombreDeLaActividad = actividad.NombreActividad.ToString() }, new { @class = "h5" })</h5>
-                    <p><strong>Categoria: </strong>@actividad.Categoria</p>
-                    <p><strong>Fecha: </strong>@actividad.Fecha</p>
-                    <p><strong>Precio: </strong>@actividad.PrecioAproximado colones</p>
-                    <br /><br /><br /><br />
+                <div class="card">
+                    <div class="card-header card-title">
+                        @if (@actividad.Tipo == "Charla")
+                        {
+                            <i class="fa fa-commenting" aria-hidden="true"></i>
+                        }
+                        else
+                        {
+                            <i class="fa fa-book" aria-hidden="true"></i>
+                        }
+                        @actividad.NombreActividad
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text"><strong>Categoria: </strong>@actividad.Categoria</p>
+                        <p class="card-text"><strong>Fecha: </strong>@actividad.Fecha</p>
+                        <p class="card-text"><strong>Precio: </strong>₡@actividad.PrecioAproximado</p>
+                    </div>
+                    <a class="hidden stretched-link" href="@Url.Action("verActividad","Actividades", new { nombreDeLaActividad = actividad.NombreActividad.ToString() })"></a>
                 </div>
             </div>
         }

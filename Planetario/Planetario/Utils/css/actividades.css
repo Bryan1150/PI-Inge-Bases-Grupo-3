@@ -34,14 +34,24 @@ row {
 .col {
     margin-bottom: 1em;
 }
-
-.card {
+/*
+    .card {
     margin: 1%;
     border-radius: 15%;
     border-color: #133b5c;
     border-width: .15em;
     box-shadow: 3px 7px #133b5c;
 }
+
+*/
+
+.card {
+    margin:1em;
+    box-shadow: 0px 0px 2px #133b5c;
+}
+    .card:hover {
+        box-shadow: 0px 0px 12px #133b5c;
+    }
 
 .site-footer {
     display: none;
