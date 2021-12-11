@@ -8,7 +8,7 @@
         new SelectListItem{Text="Tamaño (Ascendiente)",Value="tamano ASC"},
         new SelectListItem{Text="Tamaño (Descendiente)",Value="tamano DESC"},
         new SelectListItem{Text="Categoría (A - Z)",Value="categoria ASC"},
-        new SelectListItem{Text="Categoría (Z - A)",Value="categoría DESC"},
+        new SelectListItem{Text="Categoría (Z - A)",Value="categoria DESC"},
         new SelectListItem{Text="Precio (Ascendiente)",Value="precio ASC"},
         new SelectListItem{Text="Precio (Descendiente)",Value="precio DESC"}
     };
@@ -63,36 +63,59 @@
     <div class="row">
         <div id="columna-filtros" class="col-3">
             <h5>Filtros</h5>
-            <label for="filtroPrecioMin">Precio mínimo</label>
+            <label id="labelPrecioMinimo" for="filtroPrecioMin">Precio mínimo</label>
             <div class="row">
                 <div class="col-6">
                     <p>0</p>
                 </div>
                 <div class="col-6 texto-derecha">
-                    <p>100</p>
+                    <p>MAX</p>
                 </div>
             </div>
-            <input type="range" id="filtroPrecioMin" placeholder="" class="form-range" min="0" step="1000" max="1000000" onchange="obtenerProductos()"/>
-            <label for="filtroPrecioMax">Precio máximo (123)</label>
+            <input type="range" id="filtroPrecioMin" placeholder="" class="form-range" min="0" step="1000" max="100000" onchange="obtenerProductos();mostrarPrecioMinimo()"/>
+            <label id ="labelPrecioMaximo" for="filtroPrecioMax">Precio máximo</label>
             <div class="row">
                 <div class="col-6">
                     <p>0</p>
                 </div>
                 <div class="col-6 texto-derecha">
-                    <p>100</p>
+                    <p>MAX</p>
                 </div>
             </div>
-            <input type="range" id="filtroPrecioMax" placeholder="" class="form-range" min="0" step="1000" max="1000000" onchange="obtenerProductos()"/>
+            <input type="range" id="filtroPrecioMax" placeholder="" class="form-range" min="0" step="1000" max="100000" onchange="obtenerProductos();mostrarPrecioMaximo()"/>
             <br /><br />
             <label for="filtroCategoria">Categoría</label>
             <br />
-            @Html.DropDownList("categoria", categorias, "Todas", htmlAttributes: new { @class = "form-select", @onchange = "obtenerProductos()" })
+            @Html.DropDownList("categoria", categorias, "Todas", htmlAttributes: new { @class = "form-select", @onChange = "obtenerProductos()" })
             <br /><br />
             <a class="btn btn-outline-danger container-fluid" onclick="eliminarFiltros()">Eliminar filtros</a>
         </div>
         <div class="col-9">
             <div id="listaProductos" onload="obtenerProductos()">
 
+            </div>
+            <div id="cargando" style="display:none;">
+                <div class="spinner-grow text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow text-secondary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow text-success" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow text-danger" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow text-warning" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow text-info" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <div class="spinner-grow text-light" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
             </div>
         </div>
     </div>
@@ -119,8 +142,18 @@
         let urlProductos = crearUrlProductos()
         console.log(urlProductos);
         fetch(urlProductos)
-            .then(response => response.json())
-            .then(data => agregarProductos(data));
+            .then(response => { mostrarPantallaCargando(); return response.json() })
+            .then(data => { agregarProductos(data); mostrarListaProductos()});
+    }
+
+    function mostrarPantallaCargando() {
+        document.getElementById("cargando").style.display = "initial"
+        document.getElementById("listaProductos").style.display = "none"
+    }
+
+    function mostrarListaProductos() {
+        document.getElementById("cargando").style.display = "none"
+        document.getElementById("listaProductos").style.display = "initial"
     }
 
     function crearUrlProductos() {
@@ -156,5 +189,16 @@
         return divContenedor
     }
 
+    function mostrarPrecioMinimo() {
+        const value = document.getElementById("filtroPrecioMin").value
+        document.getElementById("labelPrecioMinimo").innerText = "Precio mínimo ( " + value + " )"
+    }
+
+    function mostrarPrecioMaximo() {
+        const value = document.getElementById("filtroPrecioMax").value
+        document.getElementById("labelPrecioMaximo").innerText = "Precio máximo ( " + value + " )"
+    }
+    mostrarPrecioMinimo()
+    mostrarPrecioMaximo()
     obtenerProductos();
 </script>
