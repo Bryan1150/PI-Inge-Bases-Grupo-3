@@ -112,7 +112,7 @@ namespace Planetario.Handlers
 
         public List<object> ConsultaPorCategoriasPersonaExtranjeras(string categoria)
         {
-            string consulta = "SELECT SUM(F.cantidadComprada) as 'cantidad', Pe.pais, C.nombre, C.precio" +
+            string consulta = "SELECT SUM(F.cantidadComprada) as 'cantidad', Pe.pais, C.nombre, C.precio " +
                               "FROM Producto Pr JOIN Comprable C " +
                               "ON C.idComprablePK = Pr.idComprableFK " +
                               "JOIN Factura F " +
