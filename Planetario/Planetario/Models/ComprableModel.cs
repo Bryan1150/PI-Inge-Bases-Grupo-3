@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Planetario.Models
 {
@@ -18,6 +14,7 @@ namespace Planetario.Models
         [Required(ErrorMessage = "Es necesario que ingrese un precio")]
         public double Precio { get; set; }
 
+        [RegularExpression(@"^-?[0-9]\d{0,2}(\.\d{0,1})?$", ErrorMessage = "El valor ingresado debe ser un número")]
         public int CantidadDisponible { get; set; }
     }
 }

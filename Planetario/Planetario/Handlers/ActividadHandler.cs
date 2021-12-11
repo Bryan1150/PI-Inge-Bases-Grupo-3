@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Data;
 using Planetario.Models;
 using System.Web;
+using Planetario.Interfaces;
 
 namespace Planetario.Handlers
 {
-    public class ActividadHandler : BaseDatosHandler
+    public class ActividadHandler : BaseDatosHandler, ActividadesInterfaz
     {
         private List<ActividadModel> ConvertirTablaALista(DataTable tabla)
         {
@@ -155,7 +156,7 @@ namespace Planetario.Handlers
             foreach (DataRow columna in tabla.Rows)
             {
                 cantidad = Convert.ToInt32(columna["cantidadDisponible"]);
-            };
+            };  
 
             return cantidad;
         }
@@ -191,6 +192,17 @@ namespace Planetario.Handlers
             return asientos;
         }
 
+        public List<AsientoModel> ObtenerAsientosOcupados(string nombreActividad)
+        {
+            string consulta = " SELECT * FROM Asientos A JOIN " +
+                "Entrada E on E.idComprableFK = A.idComprableFK " +
+                "WHERE E.nombreActividadFK = '" + nombreActividad + "' AND ( A.reservado = 1 OR A.vendido = 1 );";
+            DataTable tabla = LeerBaseDeDatos(consulta);
+
+            List<AsientoModel> asientos = ConvertirTablaAListaDeAsientos(tabla);
+            return asientos;
+        }
+
         public bool AñadirAsientos(int cantidadFilas, int cantidadColumnas)
         {
             string consulta = "DECLARE @identity int= IDENT_CURRENT('Entrada');";
@@ -207,15 +219,19 @@ namespace Planetario.Handlers
             return InsertarEnBaseDatos(consulta, null);
         }
 
-        public bool ActualizarReservarAsiento(int fila, int columna, string correo, bool reservado)
+        public bool ActualizarReservarAsiento(int fila, int columna, string correo, bool reservado, string nombreActividad)
         {
-            string consulta = "UPDATE Asientos SET reservado = @reservado, correoParticipanteFK = @correoParticipanteFK " +
-                "WHERE fila = @fila AND columna = @columna ;";
+            string consulta = "DECLARE @id INT;" +
+                "SET @id = (SELECT TOP 1 A.idComprableFK FROM Asientos A JOIN Entrada E on E.idComprableFK = A.idComprableFK " +
+                "WHERE E.nombreActividadFK = 'Analizar muestras de Marte');"+
+                "UPDATE Asientos SET reservado = @reservado, correoParticipanteFK = @correoParticipanteFK " +
+                "WHERE fila = @fila AND columna = @columna;";
 
             Dictionary<string, object> parametrosReserva = new Dictionary<string, object> {
+                {"@nombreActividad", nombreActividad },
                 {"@fila"   , fila },
                 {"@columna" , columna},
-                {"@correParticipanteFK", correo},
+                {"@correoParticipanteFK", correo},
                 {"@reservado", reservado }
             };
 
