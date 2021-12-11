@@ -1,8 +1,13 @@
 ﻿
 @{
-    string urlProductos = Url.Content("/Ventas/ListaProductosFiltrados");
-    List<SelectListItem> categorias = ViewBag.categorias;
-    List<SelectListItem> ordenarPor = new List<SelectListItem>()
+        string urlProductos = Url.Content("/Ventas/ListaProductosFiltrados");
+        List<SelectListItem> categorias = new List<SelectListItem>()
+        {
+            new SelectListItem(){ Text="Ropa", Value = "Ropa"},
+            new SelectListItem(){ Text="Accesorios", Value = "Accesorios"},
+            new SelectListItem(){ Text="Telescopio", Value = "Telescopios"},
+        };
+        List<SelectListItem> ordenarPor = new List<SelectListItem>()
 {
         new SelectListItem{Text="Más nuevos",Value="fechaIngreso DESC"},
         new SelectListItem{Text="Tamaño (Ascendiente)",Value="tamano ASC"},
@@ -12,7 +17,7 @@
         new SelectListItem{Text="Precio (Ascendiente)",Value="precio ASC"},
         new SelectListItem{Text="Precio (Descendiente)",Value="precio DESC"}
     };
-}
+            }
 
 <style>
     #columna-filtros {
@@ -20,13 +25,13 @@
         background: #f2f2f2;
     }
 
-    #fila-busqueda {
+#fila-busqueda {
         padding: 1em;
         background: #d9d9d9;
     }
 
     div.row {
-        margin: 0px;
+    margin: 0px;
     }
 
     .texto-derecha {
@@ -39,10 +44,10 @@
     }
     .card-con-imagen-izq img {
         border-radius: 0.5em;
-        width: 240px;
-        height: 240px;
+    width: 240px;
+    height: 240px;
         object-fit: cover;
-        margin: 8px auto auto 8px;
+    margin: 8px auto auto 8px;
         box-shadow: 0px 0px 2px black;
     }
 </style>
