@@ -6,6 +6,12 @@
         title: {
             text: graphInfo.title
         },
+        axisX: {
+            title: "Fechas"
+        },
+        axisY: {
+            title: "Cantidad vendida"
+        },
         data: [{
             type: "line",
             indexLabelFontSize: 16,

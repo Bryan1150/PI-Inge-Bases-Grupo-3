@@ -7,34 +7,26 @@ namespace Planetario.Handlers
 {
     public class ReportesHandler : BaseDatosHandler, IReportesService
     {
-        private List<ProductoModel> ObtenerProductosPorFiltro(string consulta)
+        private List<string> ObtenerLista(string consulta, string opcion)
         {
             DataTable tabla = LeerBaseDeDatos(consulta);
-            List<ProductoModel> productos = ConvertirTablaALista(tabla);
-            return productos;
+            List<string> lista = ConvertirTablaALista(tabla, opcion);
+            return lista;
         }
 
-        private List<ProductoModel> ConvertirTablaALista(DataTable tabla)
+        private List<string> ConvertirTablaALista(DataTable tabla, string opcion)
         {
-            List<ProductoModel> productos = new List<ProductoModel>();
+            List<string> lista = new List<string>();
             foreach (DataRow columna in tabla.Rows)
             {
-                productos.Add(
-                new ProductoModel
-                {
-                    Nombre = Convert.ToString(columna["nombre"]),
-                    Precio = Convert.ToDouble(columna["precio"]),
-                    FechaIngreso = Convert.ToString(columna["fechaIngreso"]),
-                    FechaUltimaVenta = Convert.ToString(columna["fechaUltimaVenta"]),
-                    CantidadVendidos = Convert.ToInt32(columna["cantidadVendidos"])
-                });
+                lista.Add(Convert.ToString(columna[opcion]));
             }
-            return productos;
+            return lista;
         }
 
-        public List<Object> ObtenerTodosLosProductosFiltradosPorRanking(int cantidadMostrar, string fechaInicio, string fechaFinal, string orden)
+        public List<Object> ObtenerTodosLosProductosFiltradosPorRanking(string fechaInicio, string fechaFinal, string orden)
         {
-            string consulta = "SELECT TOP " + cantidadMostrar + " nombre, precio, fechaIngreso, fechaUltimaVenta, cantidadVendidos " +
+            string consulta = "SELECT nombre, precio, fechaIngreso, fechaUltimaVenta, cantidadVendidos " +
                               "FROM Producto P JOIN Comprable C " +
                               "ON idComprablePK = idComprableFK " +
                               "WHERE DATEDIFF(MINUTE, '" + fechaInicio + "', fechaUltimaVenta) >= 0 " +
@@ -67,14 +59,8 @@ namespace Planetario.Handlers
                               "AND DATEDIFF(MINUTE, '" + fechaInicio + "', fechaUltimaVenta) >= 0 " + 
                               "AND DATEDIFF(MINUTE, '" + fechaFinal + "', fechaUltimaVenta ) <= 0 " +
                               "ORDER by F.fechaCompra ASC";
-
-            DataTable tabla = LeerBaseDeDatos(consulta);
-            List<string> fechas = new List<string>();
-            foreach (DataRow columna in tabla.Rows)
-            {
-                fechas.Add(Convert.ToString(columna["fechaCompra"]));
-            }
-            return fechas;
+            string opcion = "fechaCompra";
+            return ObtenerLista(consulta, opcion);
         }
 
         public List<int> ObtenerTodosLosProductosFiltradosPorCategoriaCantidadVentas(string nombre, string fechaInicio, string fechaFinal)
@@ -103,16 +89,8 @@ namespace Planetario.Handlers
                               "FROM Producto P JOIN Comprable C " +
                               "ON idComprablePK = idComprableFK " +
                               "ORDER BY categoria ASC;";
-
-            DataTable tablaResultados = LeerBaseDeDatos(consulta);
-            List<string> categorias = new List<string>();
-
-            foreach (DataRow fila in tablaResultados.Rows)
-            {
-                categorias.Add(Convert.ToString(fila["categoria"]));
-            }
-
-            return categorias;
+            string opcion = "categoria";
+            return ObtenerLista(consulta, opcion);
         }
 
         public List<string> ObtenerTodosLosProductos()
@@ -122,15 +100,8 @@ namespace Planetario.Handlers
                               "ON idComprablePK = idComprableFK " +
                               "ORDER BY C.nombre ASC;";
 
-            DataTable tablaResultados = LeerBaseDeDatos(consulta);
-            List<string> productos = new List<string>();
-
-            foreach (DataRow fila in tablaResultados.Rows)
-            {
-                productos.Add(Convert.ToString(fila["nombre"]));
-            }
-
-            return productos;
+            string opcion = "nombre";
+            return ObtenerLista(consulta, opcion);
         }
 
         public List<object> ConsultaPorCategoriasPersonaExtranjeras(string categoria)
@@ -177,8 +148,6 @@ namespace Planetario.Handlers
                               "AND Pe.genero = '" + genero + "' " +
                               "AND dbo.UFN_CategoriaPorEdad(DATEDIFF(YEAR, Pe.fechaNacimiento, GETDATE())) = '" + publico + "' " +
                               "GROUP BY C.nombre, C.precio;";
-
-            
 
             DataTable tablaResultados = LeerBaseDeDatos(consulta);
             List<object> info = new List<object>();

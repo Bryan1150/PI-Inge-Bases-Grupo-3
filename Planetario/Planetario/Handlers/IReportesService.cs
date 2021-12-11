@@ -9,7 +9,7 @@ namespace Planetario.Handlers
 
         List<string> ObtenerTodosLosProductos();
 
-        List<object> ObtenerTodosLosProductosFiltradosPorRanking(int cantidadMostrar, string fechaInicio, string fechaFinal, string orden);
+        List<object> ObtenerTodosLosProductosFiltradosPorRanking(string fechaInicio, string fechaFinal, string orden);
 
         List<string> ObtenerTodosLosProductosFiltradosPorCategoriaFechasVentas(string categoria, string fechaInicio, string fechaFinal);
 

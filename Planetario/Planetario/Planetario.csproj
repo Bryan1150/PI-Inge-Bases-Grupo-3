@@ -283,7 +283,7 @@
     <Content Include="Utils\js\formularioInscripcion.js" />
     <Content Include="Utils\js\main.js" />
     <Content Include="Utils\js\msfmultiselect.js" />
-    <Content Include="Utils\js\reportes.js" />
+    <Content Include="Utils\js\graficoReporteSimple.js" />
     <Content Include="Utils\js\tablasReporteSimple.js" />
     <Content Include="Utils\js\tablasReporteMercadeo.js" />
     <Content Include="Utils\vendor\animate\animate.css" />

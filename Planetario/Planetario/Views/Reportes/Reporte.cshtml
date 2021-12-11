@@ -37,7 +37,6 @@
                 <div class="col-2"><p>Orden</p></div>
                 <div class="col-2"><p>Fecha inicial</p></div>
                 <div class="col-2"><p>Fecha final</p></div>
-                <div class="col-2"><p>Cantidad de productos</p></div>
             </div>
             <div class="row">
                 <div class="col-2">@Html.DropDownList("orden", ListaOrden, new { @class = "form-control", @id = "orden", @onchange = "actualizarTablaPorRanking()" })</div>
@@ -46,9 +45,6 @@
                 </div>
                 <div class="col-2">
                     <input type="date" id="fechaFinal" name="fechaFinal" value = "2021-12-31" class="form-control" onchange="actualizarTablaPorRanking()">
-                </div>
-                <div class="col-2">
-                    <input type="number" id="cantidadMostrar" name="cantidadMostrar" min="1" value="1" class="form-control" onchange="actualizarTablaPorRanking()">
                 </div>
             </div>
         </div>
@@ -105,13 +101,12 @@
     {
         <div id="chart" style="height: 300px; width: 100%;"></div>
         <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-        <script src="~/Utils/js/reportes.js"></script>
+        <script src="~/Utils/js/graficoReporteSimple.js"></script>
         <script>
                 var fecha = @Html.Raw(Json.Encode(ViewBag.listaFechas));
                 var cantidad = @Html.Raw(Json.Encode(ViewBag.listaVentas));
         </script>
     }
-    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/gridjs/dist/gridjs.umd.js"></script>
     <script src="~/Utils/js/crearTabla.js"></script>
@@ -123,12 +118,10 @@
             const ordenEscogido = document.getElementById("orden").value
             const fechaInicialEscogida = document.getElementById("fechaInicial").value
             const fechaFinalEscogida = document.getElementById("fechaFinal").value
-            const cantidadMostrarEscogida = document.getElementById("cantidadMostrar").value
             const diccionarioParametros = {
                 orden: ordenEscogido,
                 fechaInicial: fechaInicialEscogida,
                 fechaFinal: fechaFinalEscogida,
-                cantidadMostrar: cantidadMostrarEscogida
             }
             actualizarDatosTabla(gridRanking, "@linkDatos", diccionarioParametros, data => data.map(p => [p.Nombre, p.Precio, p.FechaIngreso, p.FechaUltimaVenta, p.CantidadVendidos]))
         }

@@ -8,6 +8,7 @@ namespace Planetario.Controllers
         readonly IReportesService AccesoDatos;
         readonly DatosHandler AccesoDatosApp;
 
+        //Constructores
         public ReportesController()
         {
             AccesoDatos = new ReportesHandler();
@@ -20,6 +21,7 @@ namespace Planetario.Controllers
             AccesoDatosApp = new DatosHandler();
         }
 
+        //Vistas
         [HttpGet]
         public ActionResult Reporte()
         {
@@ -27,23 +29,6 @@ namespace Planetario.Controllers
             ViewBag.listaDeProductos = AccesoDatos.ObtenerTodosLosProductos();
             return View("Reporte");
         }
-
-        [HttpGet]
-        public ActionResult ObtenerFiltroPorRanking(string orden, string fechaInicial, string fechaFinal, int cantidadMostrar)
-        {
-            var resultadoJson = AccesoDatos.ObtenerTodosLosProductosFiltradosPorRanking(cantidadMostrar, fechaInicial, fechaFinal, orden);
-            return Json(resultadoJson, JsonRequestBehavior.AllowGet);
-        }
-
-        /**
-        [HttpPost]
-        public ActionResult Reporte(int cantidadMostrar, string fechaInicio, string fechaFinal, string orden)
-        {
-            ViewBag.listadoFiltroPorRanking = AccesoDatos.ObtenerTodosLosProductosFiltradosPorRanking(cantidadMostrar, fechaInicio, fechaFinal, orden);
-            ViewBag.listaDeCategorias = AccesoDatos.ObtenerTodasLasCategorias();
-            return View("Reporte");
-        }
-        */
 
         [HttpPost]
         public ActionResult Reporte(string nombre, string fechaInicio, string fechaFinal)
@@ -62,6 +47,14 @@ namespace Planetario.Controllers
             ViewBag.listaGeneros = AccesoDatosApp.SelectListGeneros();
             ViewBag.listaPublicos = AccesoDatosApp.SelectListPublicos();
             return View("ReporteMercadeo");
+        }
+
+        //Funciones
+        [HttpGet]
+        public JsonResult ObtenerFiltroPorRanking(string orden, string fechaInicial, string fechaFinal)
+        {
+            var resultadoJson = AccesoDatos.ObtenerTodosLosProductosFiltradosPorRanking(fechaInicial, fechaFinal, orden);
+            return Json(resultadoJson, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
