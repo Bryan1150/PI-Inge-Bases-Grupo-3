@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Text.RegularExpressions;
 using Planetario.Models;
 
 namespace Planetario.Handlers
@@ -89,6 +90,7 @@ namespace Planetario.Handlers
                               "FROM Producto P JOIN Comprable C " +
                               "ON idComprablePK = idComprableFK " +
                               "ORDER BY categoria ASC;";
+
             string opcion = "categoria";
             return ObtenerLista(consulta, opcion);
         }
@@ -126,9 +128,9 @@ namespace Planetario.Handlers
                 { 
                     Nombre = Convert.ToString(fila["nombre"]),
                     Pais = Convert.ToString(fila["pais"]),
-                    Precio = Convert.ToString(fila["precio"]),
+                    Precio = Convert.ToDouble(fila["precio"]),
                     Cantidad = Convert.ToString(fila["cantidad"]),
-                    Ingresos = (Convert.ToInt32(fila["precio"]) * Convert.ToInt32(fila["cantidad"]))
+                    Ingresos = (Convert.ToDouble(fila["precio"]) * Convert.ToDouble(fila["cantidad"]))
                 });
             }
 
@@ -157,9 +159,9 @@ namespace Planetario.Handlers
                 info.Add(new
                 {
                     Nombre = Convert.ToString(fila["nombre"]),
-                    Precio = Convert.ToString(fila["precio"]),
+                    Precio = Convert.ToDouble(fila["precio"]),
                     Cantidad = Convert.ToString(fila["cantidad"]),
-                    Ingresos = (Convert.ToInt32(fila["precio"]) * Convert.ToInt32(fila["cantidad"]))
+                    Ingresos = (Convert.ToDouble(fila["precio"]) * Convert.ToDouble(fila["cantidad"]))
                 });
             }
 
@@ -193,8 +195,8 @@ namespace Planetario.Handlers
             foreach (DataRow fila in tablaResultados.Rows)
             {
                 int vecesCompradosJuntos = Convert.ToInt32(fila["VecesCompradosJuntos"]);
-                int precioProducto = Convert.ToInt32(fila["PrecioProducto"]);
-                int precioCompradoCon = Convert.ToInt32(fila["PrecioCompradoCon"]);
+                double precioProducto = Convert.ToDouble(fila["PrecioProducto"]);
+                double precioCompradoCon = Convert.ToDouble(fila["PrecioCompradoCon"]);
                 info.Add(new
                 {
                     Producto = Convert.ToString(fila["Producto"]),
