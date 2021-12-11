@@ -31,13 +31,13 @@
     {
         <div class="cuadroFuncionario row d-flex flex-wrap align-items-center col-md-6">
             <div class="imagenFuncionario col-md-4">
-                <img src=@Url.Action("ObtenerImagen", "Funcionarios", new { correo = funcionario.CorreoContacto })>
+                <img src=@Url.Action("ObtenerImagen", "Funcionarios", new { correo = funcionario.correo })>
             </div>
             <div class="textoFuncionario col-md-8">
-                <h3>@funcionario.Nombre @funcionario.Apellido1 @funcionario.Apellido2</h3>
-                <p>@funcionario.CorreoContacto</p>
-                <p>@funcionario.AreaExpertis</p>
-                @Html.ActionLink("Ver más", "verFuncionario", "Funcionarios", new { correo = @funcionario.CorreoContacto.ToString() }, null)
+                <h3>@funcionario.nombre @funcionario.apellido1 @funcionario.apellido2</h3>
+                <p>@funcionario.correo</p>
+                <p>@funcionario.areaExpertis</p>
+                @Html.ActionLink("Ver más", "verFuncionario", "Funcionarios", new { correo = @funcionario.correo.ToString() }, null)
                 <br />
             </div>
         </div>

@@ -20,7 +20,7 @@ namespace Planetario.Controllers
         {
             List<object> resultado = new List<object>();
             ActividadHandler accesoDatos = new ActividadHandler();
-            List<ActividadModel> actividades = accesoDatos.obtenerTodasLasActividadesAprobadas();
+            List<ActividadModel> actividades = accesoDatos.ObtenerActividadesAprobadas();
             
             foreach (ActividadModel actividad in actividades)
             {

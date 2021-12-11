@@ -14,6 +14,12 @@ namespace Planetario
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "PorCategoria",
+                url: "Datos/Topicos/{categoria}",
+                defaults: new { controller = "Datos", action = "Topicos", categoria = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "InformacionBasica", id = UrlParameter.Optional }

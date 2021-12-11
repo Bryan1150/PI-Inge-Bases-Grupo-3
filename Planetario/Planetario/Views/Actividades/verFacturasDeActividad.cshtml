@@ -8,10 +8,10 @@
     @foreach (Planetario.Models.FacturaModel factura in ViewBag.facturas)
     {
         <div class="col-md-6">
-        <h4>@factura.CorreoParticipante</h4>
-        <p><strong>Id de la factura:</strong> @factura.ID</p>
-        <p><strong>Fecha:</strong> @factura.FechaCompra</p>
-        <p><strong>Pago: </strong>@factura.PagoTotal colones</p>
+        <h4>@factura.correoCliente</h4>
+        <p><strong>Id de la factura:</strong> @factura.id</p>
+        <p><strong>Fecha:</strong> @factura.fecha</p>
+        <p><strong>Pago: </strong>@factura.pago colones</p>
         <br><br>
         </div>
     }

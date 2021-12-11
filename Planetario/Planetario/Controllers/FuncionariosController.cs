@@ -13,8 +13,8 @@ namespace Planetario.Controllers
     {
         public ActionResult ListaFuncionarios()
         {
-            FuncionariosHandler AcessoDatos = new FuncionariosHandler();
-            ViewBag.ListaFuncionarios = AcessoDatos.obtenerFuncionariosSimple();
+            FuncionariosHandler AccesoDatos = new FuncionariosHandler();
+            ViewBag.ListaFuncionarios = AccesoDatos.ObtenerTodosLosFuncionarios();
             return View();
         }
 
@@ -29,62 +29,22 @@ namespace Planetario.Controllers
 
         public ActionResult VerFuncionario(string correo)
         {
-            FuncionariosHandler AcessoDatos = new FuncionariosHandler();
-            ViewBag.Funcionario = AcessoDatos.buscarFuncionario(correo);
-            ViewBag.Idiomas = AcessoDatos.obtenerIdiomasFuncionario(correo);
-            ViewBag.Titulos = AcessoDatos.obtenerTitulosFuncionario(correo);
-            ViewBag.Roles = AcessoDatos.obtenerRolesFuncionario(correo);
+            FuncionariosHandler AccesoDatos = new FuncionariosHandler();
+            ViewBag.Funcionario = AccesoDatos.ObtenerFuncionario(correo);
+            ViewBag.Idiomas = AccesoDatos.ObtenerIdiomasFuncionario(correo);
+            ViewBag.Titulos = AccesoDatos.ObtenerTitulosFuncionario(correo);
+            ViewBag.Roles = AccesoDatos.ObtenerRolesFuncionario(correo);
 
             return View();
         }
-
-        [HttpGet]
-        public ActionResult iniciarSesion()
-        {
-            String contrasena = " ";
-            ViewBag.contrasena = contrasena;
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult iniciarSesion(FuncionarioModel funcionario)
-        {
-            FuncionariosHandler funcionarioHandler = new FuncionariosHandler();
-
-
-            if (funcionarioHandler.esFuncionarioValido(funcionario.Contrasena, funcionario.CorreoContacto))
-            {
-                FormsAuthentication.SetAuthCookie(funcionario.CorreoContacto, false);
-                return RedirectToAction("InformacionBasica", "Home");
-
-            }
-            else
-            {
-                ModelState.AddModelError("", "El correo o la contraseña es incorrecta");
-                ViewBag.Message = "El correo o la contraseña es incorrecta.";
-            }
-            return View();
-        }
-
-        public ActionResult cerrarSesion()
-        {
-            FormsAuthentication.SignOut();
-            return RedirectToAction("InformacionBasica", "Home");
-        }
-
 
         [HttpGet]
         public ActionResult AgregarFuncionario()
         {
-            EstadisticasHandler accesoDatos = new EstadisticasHandler();
-
-            List<string> listaDeIdiomas = accesoDatos.obtenerListaIdiomas();
-
-            List<SelectListItem> opcionIdiomas = new List<SelectListItem>();
-            opcionIdiomas = obtenerIdiomas();
-            ViewBag.opcionIdiomas = opcionIdiomas;
-
+            DatosHandler dataHandler = new DatosHandler();
+            ViewBag.paises = dataHandler.SelectListPaises();
+            ViewBag.generos = dataHandler.SelectListGeneros();
+            ViewBag.opcionIdiomas = obtenerIdiomas();
             return View();
         }
 
@@ -105,13 +65,13 @@ namespace Planetario.Controllers
                     string[] idioma = idiomas.Split(';');
                     List<string> idiomasSelect = new List<string>(idioma);
 
-                    ViewBag.ExitoAlCrear = accesoDatos.insertarFuncionario(funcionario);
+                    ViewBag.ExitoAlCrear = accesoDatos.InsertarFuncionario(funcionario);
                     if (ViewBag.ExitoAlCrear)
                     {
-                        ViewBag.Message = "El funcionario "  + funcionario.Nombre + " fue agregado con éxito.";
+                        ViewBag.Message = "El funcionario "  + funcionario.nombre + " fue agregado con éxito.";
                         foreach(var variable in idiomasSelect)
                         {
-                            accesoDatos.insertarIdiomas(variable, funcionario.CorreoContacto);
+                            accesoDatos.InsertarIdiomas(variable, funcionario.correo);
                         }
                         ModelState.Clear();
                     }
