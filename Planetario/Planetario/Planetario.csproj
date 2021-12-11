@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -128,6 +128,9 @@
     <Compile Include="Controllers\JuegosController.cs" />
     <Compile Include="Controllers\ClientesController.cs" />
     <Compile Include="Controllers\DatosController.cs" />
+    <Compile Include="Controllers\EvaluacionController.cs" />
+    <Compile Include="Handlers\DatosHandler.cs" />
+    <Compile Include="Handlers\EvaluacionHandler.cs" />
     <Compile Include="Controllers\MembresiasController.cs" />
     <Compile Include="Controllers\PersonasController.cs" />
     <Compile Include="Controllers\ReportesController.cs" />
@@ -169,6 +172,9 @@
     <Compile Include="Models\AsientoModel.cs" />
     <Compile Include="Models\ComprableModel.cs" />
     <Compile Include="Models\CompraModel.cs" />
+    <Compile Include="Models\CuestionarioEvaluacionMostrarModel .cs" />
+    <Compile Include="Models\CuestionarioEvaluacionRecibirModel.cs" />
+    <Compile Include="Models\CuestionarioEvaluacionModel.cs" />
     <Compile Include="Models\DescuentoModel.cs" />
     <Compile Include="Models\EntradaModel.cs" />
     <Compile Include="Models\EventoModel.cs" />
@@ -266,6 +272,7 @@
     <Content Include="App_Data\TiposDeActividad.json" />
     <Content Include="App_Data\DiasDeLaSemana.json" />
     <Content Include="App_Data\NivelesEducativos.json" />
+    <Content Include="App_Data\OpcionesEvaluacion.json" />
     <Content Include="images\flat_web_icon_set\License for Flat Web Icon Set.rtf" />
     <Content Include="CreateWebApp\azuredeploy.json" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
@@ -375,6 +382,7 @@
     <Content Include="Utils\js\main.js" />
     <Content Include="Utils\js\mainComparador.js" />
     <Content Include="Utils\js\msfmultiselect.js" />
+    <Content Include="Utils\js\reportesEvaluacion.js" />
     <Content Include="Utils\js\graficoReporteSimple.js" />
     <Content Include="Utils\js\tablasReporteSimple.js" />
     <Content Include="Utils\js\tablasReporteMercadeo.js" />
@@ -516,6 +524,8 @@
     <Content Include="Views\Actividades\Inscribirme.cshtml" />
     <Content Include="Views\Actividades\VerFacturasDeActividad.cshtml" />
     <Content Include="Views\MaterialEducativo\verMaterial.cshtml" />
+    <Content Include="Views\Evaluacion\CuestionarioEvaluacion.cshtml" />
+    <Content Include="Views\Evaluacion\MostrarCuestionarioEvaluacion.cshtml" />
     <Content Include="Views\Home\CompararCuerpos.cshtml" />
     <Content Include="Views\Shared\_LayoutAlternativo.cshtml" />
     <Content Include="Views\Juegos\memoria.cshtml" />
