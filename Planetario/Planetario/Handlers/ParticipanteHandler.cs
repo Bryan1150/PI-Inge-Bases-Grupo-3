@@ -9,12 +9,12 @@ namespace Planetario.Handlers
 {
     public class ParticipanteHandler : BaseDatosHandler
     {
-        private List<UsuarioModel> ConvertirTablaALista(DataTable tabla)
+        private List<ClienteModel> ConvertirTablaALista(DataTable tabla)
         {
-            List<UsuarioModel> participantes = new List<UsuarioModel>();
+            List<ClienteModel> participantes = new List<ClienteModel>();
             foreach (DataRow columna in tabla.Rows)
             {
-                participantes.Add(new UsuarioModel
+                participantes.Add(new ClienteModel
                 {
                     correo = Convert.ToString(columna["correoParticipantePK"]),
                     nombre = Convert.ToString(columna["nombre"]),
@@ -29,20 +29,20 @@ namespace Planetario.Handlers
             return participantes;
         }
 
-        private List<UsuarioModel> ObtenerParticipantes(string consulta)
+        private List<ClienteModel> ObtenerParticipantes(string consulta)
         {
             DataTable tabla = LeerBaseDeDatos(consulta);
-            List<UsuarioModel> lista = ConvertirTablaALista(tabla);
+            List<ClienteModel> lista = ConvertirTablaALista(tabla);
             return lista;
         }
 
-        public UsuarioModel ObtenerParticipante(string correo)
+        public ClienteModel ObtenerParticipante(string correo)
         {
             string consulta = "SELECT * FROM Participante WHERE correoParticipantePK = '" + correo + "';";
             return (ObtenerParticipantes(consulta)[0]);
         }
 
-        public bool AlmacenarParticipante(UsuarioModel participante)
+        public bool AlmacenarParticipante(ClienteModel participante)
         {
             string consulta = "INSERT INTO Participante ";
             string columnas = "(  correoParticipantePK, nombre, apellido1, apellido2, genero, pais, fechaNacimiento, nivelEducativo )";
