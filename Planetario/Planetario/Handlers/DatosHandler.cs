@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace Planetario.Handlers
 {
-    public class DatosHandler
+    public class DatosHandler : IDataService
     {
         public List<string> paises;
         public List<string> generos;

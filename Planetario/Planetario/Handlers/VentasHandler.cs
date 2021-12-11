@@ -22,7 +22,16 @@ namespace Planetario.Handlers
                     Nombre = Convert.ToString(columna["nombre"]),
                     Precio = Convert.ToDouble(columna["precio"]),
                     CantidadDisponible = Convert.ToInt32(columna["cantidadDisponible"]),
+                    CantidadRebastecer = Convert.ToInt32(columna["cantidadRebastecer"]),
+                    Tamano = Convert.ToString(columna["tamano"]),
+                    Categoria = Convert.ToString(columna["categoria"]),
+                    Descripcion = Convert.ToString(columna["descripcion"]),
+                    FechaIngreso = Convert.ToString(columna["fechaIngreso"]),
+                    FechaUltimaVenta = Convert.ToString(columna["fechaUltimaVenta"]),
+                    CantidadVendidos = Convert.ToInt32(columna["cantidadVendidos"])
+
                     CantidadCarrito = Convert.ToInt32(columna["cantidadProductos"]),
+
                 });
             }
             return comprables;
@@ -33,6 +42,45 @@ namespace Planetario.Handlers
             DataTable tabla = LeerBaseDeDatos(consulta);
             List<ComprableModel> comprables = ConvertirTablaComprablesALista(tabla);
             return comprables;
+        }
+
+        public List<ProductoModel> ObtenerTodosLosProductos()
+        {
+            string consulta = "SELECT idComprablePK, nombre, precio, cantidadDisponible, cantidadRebastecer, tamano, categoria, descripcion, fechaIngreso, fechaUltimaVenta, cantidadVendidos " +
+                              "FROM Producto JOIN Comprable " +
+                              "ON idComprablePK = idComprableFK" +
+                              "WHERE cantidadDisponible > 0";
+            return (ObtenerProductos(consulta));
+        }
+
+        public bool InsertarProducto(ProductoModel producto)
+        {
+            string consultaTablaComprable = "INSERT INTO Comprable (nombre, precio, cantidadDisponible) " +
+                                            "VALUES (@nombre, @precio, @cantidadDisponible);";
+
+            string consultaTablaProducto = "DECLARE @identity int=IDENT_CURRENT('Comprable');" +
+                                           "INSERT INTO Producto (idComprableFK, cantidadRebastecer, tamano, categoria, descripcion, fechaIngreso, fechaUltimaVenta, fotoArchivo, fotoTipo, cantidadVendidos) " +
+                                           "VALUES ( @identity, @cantidadRebastecer, @tamano, @categoria, @descripcion, @fechaIngreso, NULL, @fotoArchivo, @fotoTipo, 0 ); ";
+
+            Dictionary<string, object> parametrosComprable = new Dictionary<string, object> {
+                {"@nombre", producto.Nombre },
+                {"@precio", producto.Precio },
+                {"@cantidadDisponible", producto.CantidadDisponible }
+            };
+
+            Dictionary<string, object> parametrosProducto = new Dictionary<string, object> {
+                {"@cantidadRebastecer", producto.CantidadRebastecer },
+                {"@tamano", producto.Tamano },
+                {"@categoria", producto.Categoria },
+                {"@descripcion", producto.Descripcion },
+                {"@fechaIngreso", producto.FechaIngreso },
+                {"@fotoTipo", producto.FotoArchivo.ContentType }
+            };
+
+            parametrosProducto.Add("@fotoArchivo", manejadorDeImagen.ConvertirArchivoABytes(producto.FotoArchivo));
+
+            return (InsertarEnBaseDatos(consultaTablaComprable, parametrosComprable) && InsertarEnBaseDatos(consultaTablaProducto, parametrosProducto));
+
         }
 
         public List<ComprableModel> ObtenerTodasLasEntradasDelCarrito(string correoUsuario) 
