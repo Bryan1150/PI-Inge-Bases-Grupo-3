@@ -130,6 +130,7 @@
     <Compile Include="Controllers\PersonasController.cs" />
     <Compile Include="Controllers\ReportesController.cs" />
     <Compile Include="Controllers\VentasController.cs" />
+    <Compile Include="Handlers\IDataService.cs" />
     <Compile Include="Handlers\IReportesService.cs" />
     <Compile Include="Handlers\ClientesHandler.cs" />
     <Compile Include="Handlers\DatosHandler.cs" />

@@ -64,6 +64,7 @@ namespace PruebasPlanetarios
             CollectionAssert.AllItemsAreNotNull(listaDeCategorias);
         }
 
+        /*
         [TestMethod]
         public void ReportesFiltradosPorRankingNoEsNulo()
         {
@@ -300,6 +301,85 @@ namespace PruebasPlanetarios
             var listadoFiltroPorCategoria = vistaResultado.ViewBag.listadoFiltroPorCategoria;
 
             CollectionAssert.AllItemsAreNotNull(listadoFiltroPorCategoria);
+        }
+        */
+
+        [TestMethod]
+        public void ReporteMercadeoNoEsNulo()
+        {
+            var mockReportes = new Mock<IReportesService>();
+            var mockReportesA = new Mock<IDataService>();
+            mockReportes.Setup(servicio => servicio.ObtenerTodasLasCategorias()).Returns(new List<string>());
+            mockReportesA.Setup(servicio => servicio.SelectListGeneros()).Returns(new List<SelectListItem>());
+            mockReportesA.Setup(servicio => servicio.SelectListPublicos()).Returns(new List<SelectListItem>());
+
+
+            ReportesController reportesController = new ReportesController(mockReportes.Object, mockReportesA.Object);
+
+            ViewResult vistaResultado = reportesController.ReporteMercadeo() as ViewResult;
+
+            Assert.IsNotNull(vistaResultado);
+        }
+
+        [TestMethod]
+        public void ObtenerParesProductosNoEsNulo()
+        {
+            string publico = "Adultos";
+            string membresia = "Lunar";
+            var mockReportes = new Mock<IReportesService>();
+            var mockReportesA = new Mock<IDataService>();
+            mockReportes.Setup(servicio => servicio.ConsultaProductosCompradosJuntos(publico, membresia)).Returns(new List<object>());
+            ReportesController reportesController = new ReportesController(mockReportes.Object, mockReportesA.Object);
+
+            JsonResult resultado = reportesController.ObtenerParesProductos(publico, membresia);
+
+            Assert.IsNotNull(resultado);
+        }
+
+        [TestMethod]
+        public void ObtenerDatosPorGeneroYEdadNoEsNulo()
+        {
+            string categoria = "Ropa";
+            string genero = "Femenino";
+            string publico = "Adulto";
+            var mockReportes = new Mock<IReportesService>();
+            var mockReportesA = new Mock<IDataService>();
+            mockReportes.Setup(servicio => servicio.ConsultaPorCategoriaProductoGeneroEdad(categoria, genero, publico)).Returns(new List<object>());
+            ReportesController reportesController = new ReportesController(mockReportes.Object, mockReportesA.Object);
+
+            JsonResult resultado = reportesController.ObtenerDatosPorGeneroYEdad(categoria, publico, genero);
+
+            Assert.IsNotNull(resultado);
+        }
+
+        [TestMethod]
+        public void ObtenerDatosExtranjerosNoEsNulo()
+        {
+            string categoria = "Ropa";
+            var mockReportes = new Mock<IReportesService>();
+            var mockReportesA = new Mock<IDataService>();
+            mockReportes.Setup(servicio => servicio.ConsultaPorCategoriasPersonaExtranjeras(categoria)).Returns(new List<object>());
+            ReportesController reportesController = new ReportesController(mockReportes.Object, mockReportesA.Object);
+
+            JsonResult resultado = reportesController.ObtenerDatosExtranjeros(categoria);
+
+            Assert.IsNotNull(resultado);
+        }
+
+        [TestMethod]
+        public void ObtenerFiltroPorRankingNoEsNulo()
+        {
+            string fechaInicial = "1998-01-01";
+            string fechaFinal = "2021-01-01";
+            string orden = "DESC";
+            var mockReportes = new Mock<IReportesService>();
+            var mockReportesA = new Mock<IDataService>();
+            mockReportes.Setup(servicio => servicio.ObtenerTodosLosProductosFiltradosPorRanking(fechaInicial, fechaFinal, orden)).Returns(new List<object>());
+            ReportesController reportesController = new ReportesController(mockReportes.Object, mockReportesA.Object);
+
+            JsonResult resultado = reportesController.ObtenerFiltroPorRanking(orden, fechaInicial, fechaFinal);
+
+            Assert.IsNotNull(resultado);
         }
     }
 }

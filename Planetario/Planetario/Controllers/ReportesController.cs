@@ -6,7 +6,7 @@ namespace Planetario.Controllers
     public class ReportesController : Controller
     {
         readonly IReportesService AccesoDatos;
-        readonly DatosHandler AccesoDatosApp;
+        readonly IDataService AccesoDatosApp;
 
         //Constructores
         public ReportesController()
@@ -19,6 +19,12 @@ namespace Planetario.Controllers
         {
             AccesoDatos = servicio;
             AccesoDatosApp = new DatosHandler();
+        }
+
+        public ReportesController(IReportesService servicio, IDataService servicioDatos)
+        {
+            AccesoDatos = servicio;
+            AccesoDatosApp = servicioDatos;
         }
 
         //Vistas
