@@ -4,8 +4,8 @@
 
 <body>
     <span class="titulo">Carrito</span>
-    @if(ViewBag.ListaProductos != null || ViewBag.ListaEntradas != null)
-        {
+    @if (ViewBag.ListaProductos != null || ViewBag.ListaEntradas != null)
+    {
         <div class="row">
             <div class="col-md-8">
                 @if (ViewBag.ListaProductos != null)
@@ -28,7 +28,7 @@
                                         <p class="card-text"><strong>Cantidad: </strong>@producto.CantidadCarrito</p>
                                     </div>
                                 </div>
-                                <input type="submit" onclick="EliminarElementoDelCarrito(@producto.Id)" class="btn btn-outline-danger" value="Eliminar"/>
+                                <input type="submit" onclick="EliminarElementoDelCarrito(@producto.Id)" class="btn btn-outline-danger" value="Eliminar" />
                             </div>
                         </div>
                         <br />
@@ -76,14 +76,36 @@
                 </div>
             </div>
         </div>
-        } else
-        {
-            <p class="text-center">No tienes artículos.</p>
-        }
-             
+    }
+    else
+    {
+        <p class="text-center">No tienes artículos.</p>
+    }
+
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalEliminarProducto" style="width: 100%;">
+        Confirmación
+    </button>
+    <div class="modal fade" id="ModalEliminarProducto" tabindex="-1" aria-labelledby="LabelModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="labelModal">Confirmación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ¿Está seguro qué quiere eliminar el producto?
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-success" value="Si" style="width: 100%;" />
+                    <input type="submit" class="btn btn-success" value="No" style="width: 100%;" />
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         function EliminarElementoDelCarrito(idComprable) {
-            $.getJSON('/Ventas/EliminarElementoDelCarritoDelUsuario', {idComprable: idComprable}, function (data) {
+            $.getJSON('/Ventas/EliminarElementoDelCarritoDelUsuario', { idComprable: idComprable }, function (data) {
                 console.log(data);
             });
             window.location.reload();
