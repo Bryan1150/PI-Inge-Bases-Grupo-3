@@ -138,16 +138,6 @@
 
     <script>
         document.getElementById("botonAbrirCerrar").click()
-        let cerrado = false;
-        function cerrarAbrirAcordeon() {
-            //if (cerrado) {
-            //    cerrado = false
-            //    document.getElementById("botonAbrirCerrar").innerHTML = "Abrir todos"
-            //} else {
-            //    cerrado = true
-            //    document.getElementById("botonAbrirCerrar").innerHTML = "Cerrar todos"
-            //}
-        }
 
         var opciones = @Html.Raw(Json.Encode(@ViewBag.Opciones));
 
