@@ -4,7 +4,7 @@
         {
             new SelectListItem(){ Text="Ropa", Value = "Ropa"},
             new SelectListItem(){ Text="Accesorios", Value = "Accesorios"},
-            new SelectListItem(){ Text="Telescopio", Value = "Telescopios"},
+            new SelectListItem(){ Text="Telescopios", Value = "Telescopio"},
         };
     List<SelectListItem> ordenarPor = new List<SelectListItem>()
 {
@@ -77,7 +77,7 @@
                     <p>MAX</p>
                 </div>
             </div>
-            <input type="range" id="filtroPrecioMin" placeholder="" class="form-range" min="0" step="1000" max="100000" onchange="obtenerProductos();mostrarPrecioMinimo()"/>
+            <input type="range" id="filtroPrecioMin" placeholder="" class="form-range" min="0" value="0" step="1000" max="100000" onchange="obtenerProductos();mostrarPrecioMinimo()"/>
             <label id ="labelPrecioMaximo" for="filtroPrecioMax">Precio máximo</label>
             <div class="row">
                 <div class="col-6">
@@ -87,7 +87,7 @@
                     <p>MAX</p>
                 </div>
             </div>
-            <input type="range" id="filtroPrecioMax" placeholder="" class="form-range" min="0" step="1000" max="100000" onchange="obtenerProductos();mostrarPrecioMaximo()"/>
+            <input type="range" id="filtroPrecioMax" placeholder="" class="form-range" min="0" value="100000" step="1000" max="100000" onchange="obtenerProductos();mostrarPrecioMaximo()"/>
             <br /><br />
             <label for="filtroCategoria">Categoría</label>
             <br />

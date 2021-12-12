@@ -38,7 +38,7 @@ namespace Planetario.Controllers
                         ModelState.Clear();
                     }
                 }
-                return RedirectToAction("InformacionBasica", "Home");
+                return RedirectToAction("IniciarSesion", "Personas");
             }
             catch
             {
