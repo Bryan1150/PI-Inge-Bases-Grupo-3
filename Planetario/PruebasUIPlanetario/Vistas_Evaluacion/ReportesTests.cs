@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
 
 namespace PruebasUIPlanetario.UITesting
 {
@@ -9,12 +10,23 @@ namespace PruebasUIPlanetario.UITesting
     {
         IWebDriver driver;
         string avanzadoURL = "https://localhost:44368/Reportes/ReporteMercadeo";
+        string simpleURL = "https://localhost:44368/Reportes/Reporte";
 
         private void ConfigurarDriver(string URL)
         {
             driver = new ChromeDriver();
             driver.Manage().Window.Maximize();
             driver.Url = URL;
+        }
+
+        [TestMethod]
+        public void ReporteDeVentasTituloEsCorrecto()
+        {
+            ConfigurarDriver(simpleURL);
+
+            IWebElement titulo = driver.FindElement(By.ClassName("titulo"));
+
+            Assert.AreEqual("Reporte de ventas simple", titulo.Text);
         }
 
         [TestMethod]
