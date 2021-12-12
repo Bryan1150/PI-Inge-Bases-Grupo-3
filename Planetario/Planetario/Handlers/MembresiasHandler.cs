@@ -12,12 +12,11 @@ namespace Planetario.Handlers
         {
             string consultaTablaPersona = "SELECT membresia " +
                                           "FROM Persona " +
-                                          "WHERE correoPersonaPK = '" + correo + "' ";
+                                          "WHERE correoPersonaPK = '" + correo + "' ;";
 
             DataTable tabla = LeerBaseDeDatos(consultaTablaPersona);
             DataRow columna = tabla.Rows[0];
             string membresia = Convert.ToString(columna["membresia"]);
-
             return membresia;
         }
 
@@ -26,7 +25,7 @@ namespace Planetario.Handlers
             string consultaTablaPersona = "UPDATE Persona " +
                                           "SET membresia = '" + membresia + "', " +
                                           "compraMembresia = GETDATE() " +
-                                          "WHERE correoPersonaPK = '" + correo + "' ";
+                                          "WHERE correoPersonaPK = '" + correo + "' ;";
 
             return (ActualizarEnBaseDatos(consultaTablaPersona, null));
         }
