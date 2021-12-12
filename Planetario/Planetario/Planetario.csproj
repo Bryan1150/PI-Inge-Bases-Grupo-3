@@ -550,12 +550,7 @@
     <Content Include="Views\Membresias\Satisfactorio.cshtml" />
     <Content Include="Views\Ventas\VerProducto.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Data\" />
-    <Folder Include="Views\Datos\" />
-    <Folder Include="Views\Persona\" />
-    <Folder Include="Views\Topicos\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
