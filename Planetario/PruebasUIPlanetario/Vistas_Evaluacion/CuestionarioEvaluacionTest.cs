@@ -5,7 +5,7 @@ using OpenQA.Selenium.Chrome;
 namespace PruebasUIPlanetario.UITesting
 {
     [TestClass]
-    public class CuestionarioEvalucionTest
+    public class CuestionarioEvaluacionTest
     {
         IWebDriver driver;
         
