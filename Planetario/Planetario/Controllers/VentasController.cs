@@ -72,8 +72,10 @@ namespace Planetario.Controllers
         {            
             ActionResult resultado;
             if (cookiesInterfaz.SesionIniciada()){
-                string correoUsuario;
-                correoUsuario = cookiesInterfaz.CorreoUsuario();
+                PersonaHandler personasHandler = new PersonaHandler();                          
+                string correoUsuario = cookiesInterfaz.CorreoUsuario();
+                string membresia = personasHandler.ObtenerMembresia(correoUsuario);
+                ViewBag.Membresia = membresia;
                 int cantidadEntradas = ventasInterfaz.ObtenerCantidadDeEntradasDelCarrito(correoUsuario);
                 int cantidadProductos = ventasInterfaz.ObtenerCantidadDeProductosDelCarrito(correoUsuario);
                 int cantidadItems = cantidadEntradas + cantidadProductos;
@@ -93,7 +95,7 @@ namespace Planetario.Controllers
                     ViewBag.ListaProductos = ventasInterfaz.ObtenerTodosLosProductosDelCarrito(correoUsuario);
                     total += ventasInterfaz.ObtenerPrecioTotalDeProductosDelCarrito(correoUsuario);
                 }
-
+                
                 ViewBag.Precio = total;
                 ViewBag.IVA = total * 0.13;
                 ViewBag.PrecioTotal = ViewBag.Precio + ViewBag.IVA;
@@ -112,7 +114,10 @@ namespace Planetario.Controllers
             ActionResult resultado;
             if (cookiesInterfaz.SesionIniciada())
             {
+                PersonaHandler personasHandler = new PersonaHandler();
                 string correoUsuario = cookiesInterfaz.CorreoUsuario();
+                string membresia = personasHandler.ObtenerMembresia(correoUsuario);
+                ViewBag.Membresia = membresia;
                 int cantidadEntradas = ventasInterfaz.ObtenerCantidadDeEntradasDelCarrito(correoUsuario);
                 int cantidadProductos = ventasInterfaz.ObtenerCantidadDeProductosDelCarrito(correoUsuario);
                 int cantidadItems = cantidadEntradas + cantidadProductos;
