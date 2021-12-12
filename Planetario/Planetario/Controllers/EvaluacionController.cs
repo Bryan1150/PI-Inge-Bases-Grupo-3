@@ -1,5 +1,6 @@
 ﻿using Planetario.Handlers;
 using Planetario.Models;
+using Planetario.Interfaces;
 using System.Collections.Generic;
 using System.Web.Mvc;
 
@@ -7,11 +8,16 @@ namespace Planetario.Controllers
 {
     public class EvaluacionController : Controller
     {
-        EvaluacionHandler accesoDatos;
+        readonly EvaluacionInterfaz accesoDatos;
 
         public EvaluacionController( )
         {
             accesoDatos = new EvaluacionHandler();
+        }
+
+        public EvaluacionController(EvaluacionInterfaz _servicio)
+        {
+            accesoDatos = _servicio;
         }
 
         public ActionResult CuestionarioEvaluacion()
