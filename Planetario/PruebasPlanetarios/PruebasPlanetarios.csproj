@@ -89,6 +89,7 @@
     <Compile Include="Controllers\MembresiasControllerTest.cs" />
     <Compile Include="Controllers\ReportesControllerTest.cs" />
     <Compile Include="Controllers\ActividadesControllerTest.cs" />
+    <Compile Include="Controllers\EvaluacionControllerTest.cs" />
     <Compile Include="Controllers\VentasControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
