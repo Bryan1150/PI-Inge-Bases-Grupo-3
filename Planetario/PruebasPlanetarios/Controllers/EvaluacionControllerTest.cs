@@ -4,9 +4,7 @@ using Planetario.Controllers;
 using System.Web.Mvc;
 using Moq;
 using System.Collections.Generic;
-using System.Web.Script.Serialization;
 using Planetario.Interfaces;
-using System.Web;
 
 namespace PruebasPlanetarios.Controllers
 {

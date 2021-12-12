@@ -1,11 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Planetario.Controllers;
-using Planetario.Models;
 using Planetario.Interfaces;
 using System.Web.Mvc;
 using Moq;
 using System.Collections.Generic;
-using System.Web.Script.Serialization;
 
 namespace PruebasPlanetarios.Controllers
 {

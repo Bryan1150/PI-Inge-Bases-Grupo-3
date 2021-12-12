@@ -2,9 +2,6 @@
 using Moq;
 using Planetario.Controllers;
 using Planetario.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Web.Mvc;
 
 namespace PruebasPlanetarios.Controllers

@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using Planetario.Interfaces;
-using System.Text.RegularExpressions;
-using Planetario.Models;
 
 namespace Planetario.Handlers
 {
