@@ -8,15 +8,19 @@ namespace PruebasUIPlanetario.UITesting
     public class CuestionarioEvaluacionTest
     {
         IWebDriver driver;
-        
+
+        private void ConfigurarDriver()
+        {
+            driver = new ChromeDriver();
+            driver.Manage().Window.Maximize();
+            driver.Url = "https://localhost:44368/Evaluacion/CuestionarioEvaluacion";
+        }
+
         [TestMethod]
         public void TituloVistaCuestionarioEsCorrecto()
         {
-            driver = new ChromeDriver();
-            string URL = "https://localhost:44368/Evaluacion/CuestionarioEvaluacion";
+            ConfigurarDriver();
             
-            
-            driver.Url = URL;
             IWebElement titulo = driver.FindElement(By.ClassName("titulo"));
             
             Assert.AreEqual("Califica tu experiencia", titulo.Text);
@@ -25,13 +29,10 @@ namespace PruebasUIPlanetario.UITesting
         [TestMethod]
         public void EnviarFormularioVacioDaError()
         {
-            driver = new ChromeDriver();
-            string URL = "https://localhost:44368/Evaluacion/CuestionarioEvaluacion";
-            
+            ConfigurarDriver();
 
-            driver.Url = URL;
-            IWebElement botonSubmit = driver.FindElement(By.CssSelector("input[type=submit]"));
-            botonSubmit.Click();
+            IWebElement botonSubmit = driver.FindElement(By.Id("botonEnviar"));
+            botonSubmit.Submit();
             IWebElement titulo = driver.FindElement(By.CssSelector(".alert.alert-warning"));
 
             Assert.AreEqual("El cuestionario tiene errores. Por favor revise sus respuestas.", titulo.Text);
@@ -41,11 +42,8 @@ namespace PruebasUIPlanetario.UITesting
         [TestMethod]
         public void EviarFormularioIncorrectoDaError()
         {
-            driver = new ChromeDriver();
-            string URL = "https://localhost:44368/Evaluacion/CuestionarioEvaluacion";
-            
+            ConfigurarDriver();
 
-            driver.Url = URL;
             IWebElement botonSubmit1 = driver.FindElement(By.CssSelector("input[type=radio]"));
             botonSubmit1.Click();
 
