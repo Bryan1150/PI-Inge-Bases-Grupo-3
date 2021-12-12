@@ -64,6 +64,11 @@ namespace PruebasUIPlanetario.UITesting
             IWebElement botonEliminar = driver.FindElement(By.Id("eliminar_18"));
             botonEliminar.Click();
 
+            Thread.Sleep(sleep);
+
+            IWebElement botonConfirmar = driver.FindElement(By.Id("BotonConfirmarSi"));
+            botonConfirmar.Click();
+
             Thread.Sleep(3000);
 
             IWebElement titulo = driver.FindElement(By.Id("vacio"));

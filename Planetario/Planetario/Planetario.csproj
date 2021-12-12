@@ -349,6 +349,7 @@
     <Content Include="Utils\images\imagenesComparador\umbriel.jpg" />
     <Content Include="Utils\images\imagenesComparador\uranus.jpg" />
     <Content Include="Utils\images\imagenesComparador\venus.jpg" />
+    <Content Include="Utils\images\img-01.png" />
     <Content Include="Utils\images\Juegos\conectaPlanetas.jpg" />
     <Content Include="Utils\images\Juegos\ETGame.jpg" />
     <Content Include="Utils\images\Juegos\MapaSistema.jpg" />
