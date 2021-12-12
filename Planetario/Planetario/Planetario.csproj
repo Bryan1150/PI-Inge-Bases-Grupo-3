@@ -411,7 +411,6 @@
     <Content Include="Views\MaterialEducativo\listadoDeMateriales.cshtml" />
     <Content Include="Views\Home\InformacionBasica.cshtml" />
     <Content Include="Views\Actividades\ListadoDeActividades.cshtml" />
-    <Content Include="Views\Actividades\VerActividad.cshtml" />
     <Content Include="Views\MaterialEducativo\buscarMaterialesEducativos.cshtml" />
     <Content Include="Views\Actividades\BuscarActividad.cshtml" />
     <Content Include="Utils\fonts\font-awesome-4.7.0\fonts\fontawesome-webfont.eot" />
@@ -528,6 +527,7 @@
     <Content Include="Views\Juegos\RapidMath.cshtml" />
     <Content Include="Views\Juegos\SistemaInteractivo.cshtml" />
     <Content Include="Views\Juegos\VideoQuiz.cshtml" />
+    <Content Include="Views\Actividades\VerActividad.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -1,4 +1,4 @@
-@{
+﻿@{
     ViewBag.Title = "Actividades";
     string funcionAgregarAlCarrito = Url.Content("~/Ventas/AgregarAlCarrito");
 }
@@ -17,13 +17,13 @@
     </div>
     <section>
         <div class="row">
-            <p class="card-title"> <b>Descripcion:</b> </p>
+            <p class="card-title"> <b>Descripción:</b> </p>
             <p class="card-text">@ViewBag.actividad.Descripcion</p>
         </div>
         <div class="container">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 text-center">
                 <div class="col">
-                    <p><span> <i class="fa fa-check"></i><b>Categoria</b> </span></p>
+                    <p><span> <i class="fa fa-check"></i><b>Categoría</b> </span></p>
                     <p> @ViewBag.actividad.Categoria </p>
                 </div>
                 <div class="col">
@@ -31,7 +31,7 @@
                     <p> @ViewBag.actividad.PublicoDirigido </p>
                 </div>
                 <div class="col">
-                    <p><span> <i class="fa fa-check"></i><b>Duracion</b> </span></p>
+                    <p><span> <i class="fa fa-check"></i><b>Duración</b> </span></p>
                     <p> @ViewBag.actividad.Duracion minutos</p>
                 </div>
                 <div class="col">
@@ -54,10 +54,10 @@
         </div>
 
         <div class="row">
-            <p><span> <i class="fa fa-check"></i><b>Topicos</b></span></p>
+            <p><span> <i class="fa fa-check"></i><b>Tópicos</b></span></p>
             @foreach (var topico in ViewBag.topicos)
             {
-                <p style="display:inline;">-@topico</p>
+                <p style="display:inline;">@topico</p>
             }
         </div>
         <div class="row">
@@ -73,7 +73,7 @@
                     </button>
                 </div>
                 <div class="col col-4">
-                        @Html.ActionLink("Comprar Entradas", "ComprarEntradas", "Actividades", new { nombreDeLaActividad = ViewBag.actividad.NombreActividad }, new { @class = "btn btn-success" })
+                    @Html.ActionLink("Comprar Entradas", "ComprarEntradas", "Actividades", new { nombreDeLaActividad = ViewBag.actividad.NombreActividad }, new { @class = "btn btn-success" })
                 </div>
             </div>
 
@@ -87,12 +87,12 @@
                         <div class="modal-body">
                             Link para compartir
                             <div class="input-group">
-                                <div id="url"></div>                               
+                                <div id="url"></div>
                                 <div class="input-group-append">
                                     <button type="button" class="btn btn-primary" onclick="myFunction()">Copiar al portapapeles</button>
                                 </div>
                             </div>
-                             &nbsp
+                            &nbsp
                             <ul class="share-buttons" data-source="simplesharingbuttons.com">
                                 <li><a href="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fimgur.com%2Fa%2FRfPVpdJ&layout=button_count&size=small&appId=175191305830549&width=99&height=20" title="Compartir en Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + 'https://imgur.com/a/RfPVpdJ' ); return false;"><img alt="Share on Facebook" src="~/images/flat_web_icon_set/color/Facebook.png" width="50" height="50" /></a></li>
                                 <li><a href="https://twitter.com/intent/tweet?source=https%3A%2F%2Fimgur.com%2Fa%2FRfPVpdJ&text=:%20https%3A%2F%2Fimgur.com%2Fa%2FRfPVpdJ" target="_blank" title="Tweetear" onclick="window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title) + ':%20'  + encodeURIComponent(document.URL) + ':%20' + 'https://imgur.com/a/RfPVpdJ'); return false;"><img alt="Tweet" src="~/images/flat_web_icon_set/color/Twitter.png" width="50" height="50" /></a></li>
@@ -156,9 +156,9 @@
                             @actividad.NombreActividad
                         </div>
                         <div class="card-body">
-                            <p class="card-text"><strong>Categoria: </strong>@actividad.Categoria</p>
+                            <p class="card-text"><strong>Categoría: </strong>@actividad.Categoria</p>
                             <p class="card-text"><strong>Fecha: </strong>@actividad.Fecha</p>
-                            <p class="card-text"><strong>Precio: </strong>₡ @actividad.PrecioAproximado</p>
+                            <p class="card-text"><strong>Precio: </strong>₡@actividad.PrecioAproximado</p>
                         </div>
                         <a class="hidden stretched-link" href="@Url.Action("verActividad","Actividades", new { nombreDeLaActividad = actividad.NombreActividad.ToString() })"></a>
                     </div>
@@ -179,7 +179,7 @@
             setTimeout(function () {
                 alert("Texto copiado!");
             }, 100);
-            
+
         }
     </script>
 
