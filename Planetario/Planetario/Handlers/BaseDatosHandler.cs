@@ -36,10 +36,12 @@ namespace Planetario.Handlers
             SqlCommand comandoParaConsulta = new SqlCommand(consulta, conexion);
 
             if(valoresParametros != null)
+            { 
                 foreach (KeyValuePair<string, object> parejaValores in valoresParametros)
                 {
                     comandoParaConsulta.Parameters.AddWithValue(parejaValores.Key, parejaValores.Value);
                 }
+            }
 
             conexion.Open();
             try

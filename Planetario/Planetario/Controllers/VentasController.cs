@@ -47,15 +47,12 @@ namespace Planetario.Controllers
 
         public ActionResult ListaProductos()
         {
-            //DatosHandler datosHandler = new DatosHandler();
-            //ViewBag.categorias = datosHandler.SelectListCategorias();
-
             List<SelectListItem> categorias = new List<SelectListItem>()
             {
                 new SelectListItem(){Text="Telescopios",Value="Telescopios"}
             };
             ViewBag.categorias = categorias;
-            return View();
+            return View("ListaProductos","_LayoutAlternativo");
         }
 
         [HttpGet]
@@ -147,6 +144,29 @@ namespace Planetario.Controllers
             return resultado;
         }
 
+        [HttpPost]
+        public ActionResult Pago(InscripcionModel datos)
+        {
+            ViewBag.exito = false;
+            ActionResult resultado = View();
+            try
+            {
+                if(ModelState.IsValid)
+                {
+
+                    resultado = RedirectToAction("InformacionBasica", "Home");
+                }
+                else
+                {
+
+                }
+            }
+            catch
+            {
+
+            }
+            return resultado;
+        }
 
         [HttpGet]
         public JsonResult EliminarElementoDelCarritoDelUsuario(int idComprable)
