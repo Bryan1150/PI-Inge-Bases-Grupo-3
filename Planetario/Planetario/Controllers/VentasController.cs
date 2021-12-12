@@ -56,7 +56,7 @@ namespace Planetario.Controllers
                 new SelectListItem(){Text="Telescopios",Value="Telescopios"}
             };
             ViewBag.categorias = categorias;
-            return View();
+            return View("ListaProductos","_LayoutAlternativo");
         }
 
         [HttpGet]
