@@ -8,7 +8,9 @@ namespace Planetario.Handlers
 {
     public class EvaluacionHandler : BaseDatosHandler
     {
-        
+
+        private List<string> listaDeOpciones = new List<string> { "Muy en desacuerdo", "En desacuerdo", "Neutro", "De acuerdo", "Muy de acuerdo" };
+
         public CuestionarioEvaluacionRecibirModel ObtenerCuestionarioRecibir(string nombreCuestionario)
         {
             string consulta = "SELECT * FROM CuestionarioEvaluacion WHERE nombreCuestionarioPK = '" + nombreCuestionario + "';";
@@ -23,21 +25,27 @@ namespace Planetario.Handlers
             };
             return evaluacion;
         }
+
+        private List<string> ConsultaYCrearListaString(string consulta, string columna)
+        {
+            DataTable tablaResultados = LeerBaseDeDatos(consulta);
+            List<string> lista = new List<string>();
+
+            foreach (DataRow fila in tablaResultados.Rows)
+            {
+                lista.Add(Convert.ToString(fila[columna]));
+            }
+
+            return lista;
+        }
         
         public List<string> ObtenerPreguntasDeCuestionario(string nombreCuestionario)
         {
             string consulta = "SELECT pregunta FROM PreguntasEvaluacion " +
                 "WHERE nombreCuestionarioFK = '" + nombreCuestionario + "';";
 
-            DataTable tablaResultados = LeerBaseDeDatos(consulta);
-            List<string> preguntas = new List<string>();
-
-            foreach (DataRow fila in tablaResultados.Rows)
-            {
-                preguntas.Add(Convert.ToString(fila["pregunta"]));
-            }
-
-            return preguntas;
+            string columna = "pregunta";
+            return ConsultaYCrearListaString(consulta, columna);
         }
 
         public bool InsertarRespuestas(CuestionarioEvaluacionRecibirModel evaluacion)
@@ -109,15 +117,8 @@ namespace Planetario.Handlers
         public List<string> ObtenerComentariosDeCuestionario(string nombreCuestionario)
         {
             string consulta = "SELECT comentario FROM ComentariosEvaluacion WHERE nombreCuestionarioFK = '" + nombreCuestionario + "';";
-            DataTable tablaResultados = LeerBaseDeDatos(consulta);
-            List<string> comentarios = new List<string>();
-
-            foreach (DataRow fila in tablaResultados.Rows)
-            {
-                comentarios.Add(Convert.ToString(fila["comentario"]));
-            }
-
-            return comentarios;
+            string columna = "comentario";
+            return ConsultaYCrearListaString(consulta, columna);
         }
 
         public CuestionarioEvaluacionMostrarModel ObtenerCuestionarioMostrar(string nombreCuestionario)
@@ -125,10 +126,9 @@ namespace Planetario.Handlers
             List<int> preguntas = ObtenerLasPreguntasDelCuestionario(nombreCuestionario);
             List < List<int> > matriz = new List<List<int>>();
             List<int> respuestas = new List<int>();
-            List<string> opciones = new List<string> { "Muy en desacuerdo", "En desacuerdo", "Neutro", "De acuerdo", "Muy de acuerdo" };
             foreach (int pregunta in preguntas)
             {
-                foreach(string opcion in opciones)
+                foreach(string opcion in this.listaDeOpciones)
                 {
                     respuestas.Add(ObtenerCantidadRespuestas(pregunta, opcion));
                 }
@@ -158,7 +158,8 @@ namespace Planetario.Handlers
 
         public List<int> ObtenerCantidadRespuestasPorPregunta(int preguntaID)
         {
-            string consulta = "SELECT COUNT(valorRespuesta) as 'Cantidad' FROM PreguntasEvaluacion P " +
+            string consulta = "SELECT COUNT(valorRespuesta) as 'Cantidad', valorRespuesta " +
+                "FROM PreguntasEvaluacion P " +
                 "JOIN RespuestasEvaluacion R ON P.idPreguntaPK = R.idPreguntaFK " +
                 "WHERE P.idPreguntaPK = " + preguntaID +
                 "GROUP BY valorRespuesta " +
@@ -169,35 +170,57 @@ namespace Planetario.Handlers
                               "WHEN valorRespuesta  = 'Muy de acuerdo' THEN 5 " +
                          "END ASC";
 
-            DataTable tablaResultado = LeerBaseDeDatos(consulta);
-            List<int> respuestas = new List<int>();
-
-            foreach (DataRow fila in tablaResultado.Rows)
-            {
-                respuestas.Add(Convert.ToInt32(fila["Cantidad"]));
-            }
-            return respuestas;
+            return ObtenerListaCantidadRespuestasFiltrada(consulta);
         }
 
 
         public List<int> ObtenerCantidadRespuestasPorPreguntaYFecha(int preguntaID, string fechaInicio, string fechaFinal)
         {
-            string consulta = "SELECT COUNT(valorRespuesta) as 'Cantidad' FROM PreguntasEvaluacion P " +
+            string consulta = "SELECT COUNT(valorRespuesta) as 'Cantidad', valorRespuesta " +
+                "FROM PreguntasEvaluacion P " +
                 "JOIN RespuestasEvaluacion R ON P.idPreguntaPK = R.idPreguntaFK " +
                 "WHERE P.idPreguntaPK = " + preguntaID + " " +
                 "AND R.fechaRespuesta >= '" + fechaInicio + "' " +
                 "AND R.fechaRespuesta <= DATEADD(day, 1, '" + fechaFinal + "') " +
                 "GROUP BY valorRespuesta " +
-                "ORDER BY valorRespuesta ";
+                "ORDER BY CASE WHEN valorRespuesta  = 'Muy en desacuerdo' THEN 1 " +
+                              "WHEN valorRespuesta  = 'En desacuerdo' THEN 2 " +
+                              "WHEN valorRespuesta  = 'Neutro' THEN 3 " +
+                              "WHEN valorRespuesta  = 'De acuerdo' THEN 4 " +
+                              "WHEN valorRespuesta  = 'Muy de acuerdo' THEN 5 " +
+                         "END ASC";
 
+            return ObtenerListaCantidadRespuestasFiltrada(consulta);
+        }
+
+        private List<int> ObtenerListaCantidadRespuestasFiltrada(string consulta)
+        {
             DataTable tablaResultado = LeerBaseDeDatos(consulta);
             List<int> respuestas = new List<int>();
-
-            foreach (DataRow fila in tablaResultado.Rows)
+            int contador = 0;
+            for (int fila = 0; fila < 5; fila++)
             {
-                respuestas.Add(Convert.ToInt32(fila["Cantidad"]));
+                if (SeEncuentraOpcion(tablaResultado, this.listaDeOpciones[fila]))
+                {
+                    respuestas.Add(Convert.ToInt32(tablaResultado.Rows[contador]["Cantidad"]));
+                    contador++;
+                }
+                else
+                {
+                    respuestas.Add(0);
+                }
             }
             return respuestas;
+        }
+
+        private bool SeEncuentraOpcion(DataTable tablaResultado, string opcion)
+        {
+            foreach (DataRow fila in tablaResultado.Rows)
+            {
+                if (opcion == Convert.ToString(fila["valorRespuesta"]))
+                    return true;
+            }
+            return false;
         }
 
         public int ObtenerCantidadPersonas(string nombreCuestionario)
@@ -261,6 +284,5 @@ namespace Planetario.Handlers
 
             return respuesta;
         }
-
     }
 }
