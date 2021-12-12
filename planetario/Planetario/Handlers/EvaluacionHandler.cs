@@ -42,7 +42,6 @@ namespace Planetario.Handlers
 
         public bool InsertarRespuestas(CuestionarioEvaluacionRecibirModel evaluacion)
         {
-            bool exito = false;
             string correo = HttpContext.Current.User.Identity.Name;
 
             string consulta = "INSERT INTO [dbo].[RespuestasEvaluacion] VALUES ";
@@ -56,13 +55,11 @@ namespace Planetario.Handlers
                 consulta += "(" + idPregunta + ", '" + correo + "', '" + respuesta + "', GETDATE()),";
             }
             consulta = consulta.Remove(consulta.Length - 1);
-            exito = InsertarEnBaseDatos(consulta, null);
-            return exito;
+            return InsertarEnBaseDatos(consulta, null);
         }
 
         public bool InsertarComentario(CuestionarioEvaluacionRecibirModel evaluacion)
         {
-            bool exito = false;
             string correo = HttpContext.Current.User.Identity.Name;
 
             string consulta = "INSERT INTO ComentariosEvaluacion VALUES (@nombreCuestionarioFK, @comentario, @correoPersonaFK, GETDATE())";
@@ -73,13 +70,11 @@ namespace Planetario.Handlers
                 {"@comentario", evaluacion.Comentario[0] }
             };
 
-            exito = InsertarEnBaseDatos(consulta, valoresParametros);
-            return exito;
+            return InsertarEnBaseDatos(consulta, valoresParametros);
         }
 
         public bool InsertarFuncionalidadesEvaluadas(CuestionarioEvaluacionRecibirModel evaluacion)
         {
-            bool exito = false;
             string correo = HttpContext.Current.User.Identity.Name;
 
             string consulta = "INSERT INTO FuncionalidadEvaluada VALUES ";
@@ -91,8 +86,7 @@ namespace Planetario.Handlers
                 consulta += "('" + nombreCuestionario + "', '" + correo + "', '" + funcionalidad + "', GETDATE()),";
             }
             consulta = consulta.Remove(consulta.Length - 1);
-            exito = InsertarEnBaseDatos(consulta, null);
-            return exito;
+            return InsertarEnBaseDatos(consulta, null);
         }
 
         public List<int> ObtenerLasPreguntasDelCuestionario(string nombreCuestionario)
