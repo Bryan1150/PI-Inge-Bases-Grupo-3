@@ -11,7 +11,7 @@ namespace Planetario.Models
     {
         public int CantidadRebastecer { get; set; }
 
-        public int CantidadCarrito { get; set; }
+        
 
         public string Tamano { get; set; }
 

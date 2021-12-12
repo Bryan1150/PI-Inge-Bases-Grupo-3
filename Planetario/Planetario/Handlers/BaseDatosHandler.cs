@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System;
+using System.Diagnostics;
 
 namespace Planetario.Handlers
 {
@@ -34,12 +35,14 @@ namespace Planetario.Handlers
         {
             bool exito;
             SqlCommand comandoParaConsulta = new SqlCommand(consulta, conexion);
+            Debug.WriteLine(consulta);
 
             if(valoresParametros != null)
             { 
                 foreach (KeyValuePair<string, object> parejaValores in valoresParametros)
                 {
                     comandoParaConsulta.Parameters.AddWithValue(parejaValores.Key, parejaValores.Value);
+                    Debug.WriteLine(parejaValores.Key + "\t\t" + parejaValores.Value);
                 }
             }
 
@@ -48,10 +51,13 @@ namespace Planetario.Handlers
             {
                 comandoParaConsulta.ExecuteNonQuery();
                 exito = true;
+                Debug.WriteLine("exito");
             }
             catch(System.Exception ex)
             {
+                Debug.WriteLine("error");
                 System.Console.WriteLine(ex.Message);
+                Debug.WriteLine(ex.Message);
                 exito = false;
             }
             conexion.Close();
