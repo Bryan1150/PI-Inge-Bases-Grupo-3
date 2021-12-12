@@ -55,7 +55,7 @@
                         @Html.ActionLink("Comparar cuerpos", "CompararCuerpos", "Home", new { area = "" }, new { @class = "nav-link" })
                     </li>
 
-                    <li class="nav-item"><a class="nav-link" href="/Ventas/ListaProductos" id="tienda">Tienda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/Ventas/ListaProductos" id="navTienda">Tienda</a></li>
 
                 </ul>
                 <ul class="navbar-nav ms-auto">
@@ -252,7 +252,7 @@
                 if (data.membresia != "No Disponible") {
                     let content = "";
                     const membresia = document.getElementById('membresia');
-                    content += `<a class="nav-link" href="/Membresias/Comprar"><span class ="fa fa-address-book-o"</span> `
+                    content += `<a class="nav-link" href="/Membresias/Comprar"><i class ="fa fa-address-book-o"></i> `
                     content += data.membresia;
                     content += `</a>`;
                     membresia.innerHTML = content;

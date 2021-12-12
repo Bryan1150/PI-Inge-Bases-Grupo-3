@@ -41,7 +41,7 @@ namespace PruebasUIPlanetario.UITesting
             LogInCliente();
             int sleep = 1000;
 
-            IWebElement navbar = driver.FindElement(By.Id("tienda"));
+            IWebElement navbar = driver.FindElement(By.Id("navTienda"));
             navbar.Click();
 
             Thread.Sleep(6000);
@@ -80,7 +80,7 @@ namespace PruebasUIPlanetario.UITesting
             LogInCliente();
             int sleep = 1000;
 
-            IWebElement navbar = driver.FindElement(By.Id("tienda"));
+            IWebElement navbar = driver.FindElement(By.Id("navTienda"));
             navbar.Click();
 
             Thread.Sleep(6000);
@@ -104,7 +104,7 @@ namespace PruebasUIPlanetario.UITesting
             LogInCliente();
             int sleep = 1000;
 
-            IWebElement navbar = driver.FindElement(By.Id("tienda"));
+            IWebElement navbar = driver.FindElement(By.Id("navTienda"));
             navbar.Click();
 
             Thread.Sleep(6000);
