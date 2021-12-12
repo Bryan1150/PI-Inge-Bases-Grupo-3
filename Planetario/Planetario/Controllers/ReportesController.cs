@@ -56,7 +56,6 @@ namespace Planetario.Controllers
             return View("ReporteMercadeo");
         }
 
-        //Funciones
         [HttpGet]
         public JsonResult ObtenerFiltroPorRanking(string orden, string fechaInicial, string fechaFinal)
         {

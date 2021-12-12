@@ -30,10 +30,33 @@ namespace Planetario.Handlers
                     FechaUltimaVenta = Convert.ToString(columna["fechaUltimaVenta"]),
                     CantidadVendidos = Convert.ToInt32(columna["cantidadVendidos"]),
                     CantidadCarrito = Convert.ToInt32(columna["cantidadProductos"]),
-
                 });
             }
             return comprables;
+        }
+
+        private List<ComprableModel> ConvertirTablaEntradasALista(DataTable tabla)
+        {
+            List<ComprableModel> comprables = new List<ComprableModel>();
+            foreach (DataRow columna in tabla.Rows)
+            {
+                comprables.Add(
+                new ProductoModel
+                {
+                    Id = Convert.ToInt32(columna["idComprablePK"]),
+                    Nombre = Convert.ToString(columna["nombre"]),
+                    Precio = Convert.ToDouble(columna["precio"]),
+                    CantidadCarrito = Convert.ToInt32(columna["cantidadProductos"])
+                });
+            }
+            return comprables;
+        }
+
+        private List<ComprableModel> ObtenerEntradas(string consulta)
+        {
+            DataTable tabla = LeerBaseDeDatos(consulta);
+            List<ComprableModel> entradas = ConvertirTablaEntradasALista(tabla);
+            return entradas;
         }
 
         private List<ComprableModel> ObtenerComprables(string consulta)
@@ -60,7 +83,7 @@ namespace Planetario.Handlers
                               "JOIN Comprable CO " +
                               "ON E.idComprableFK = CO.idComprablePK " + 
                               "WHERE correoPersonaFK = '" + correoUsuario + "' ";
-            return (ObtenerComprables(consulta));
+            return (ObtenerEntradas(consulta));
         }
 
         public List<ComprableModel> ObtenerTodosLosProductosDelCarrito(string correoUsuario) 
