@@ -135,6 +135,7 @@
     <Compile Include="Controllers\PersonasController.cs" />
     <Compile Include="Controllers\ReportesController.cs" />
     <Compile Include="Controllers\VentasController.cs" />
+    <Compile Include="Interfaces\EvaluacionInterfaz.cs" />
     <Compile Include="Interfaces\DatosInterfaz.cs" />
     <Compile Include="Interfaces\ReportesInterfaz.cs" />
     <Compile Include="Handlers\ClientesHandler.cs" />
@@ -522,12 +523,7 @@
     <Content Include="Views\Juegos\ConectaPlanetas.cshtml" />
     <Content Include="Views\Juegos\ETBrain.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Data\" />
-    <Folder Include="Views\Datos\" />
-    <Folder Include="Views\Persona\" />
-    <Folder Include="Views\Topicos\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

@@ -1,4 +1,5 @@
 ﻿using Planetario.Models;
+using Planetario.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Web;
@@ -6,7 +7,7 @@ using System.Data;
 
 namespace Planetario.Handlers
 {
-    public class EvaluacionHandler : BaseDatosHandler
+    public class EvaluacionHandler : BaseDatosHandler, EvaluacionInterfaz
     {
 
         private List<string> listaDeOpciones = new List<string> { "Muy en desacuerdo", "En desacuerdo", "Neutro", "De acuerdo", "Muy de acuerdo" };
