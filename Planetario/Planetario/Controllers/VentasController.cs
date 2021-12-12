@@ -11,7 +11,6 @@ namespace Planetario.Controllers
 {
     public class VentasController : Controller
     {
-
         readonly VentasInterfaz ventasInterfaz;
         readonly ProductosInterfaz productosInterfaz;
         readonly CookiesInterfaz cookiesInterfaz;

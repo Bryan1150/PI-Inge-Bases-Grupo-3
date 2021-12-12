@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Data;
 using Planetario.Models;
+using Planetario.Interfaces;
 
 namespace Planetario.Handlers
 {
-    public class MembresiasHandler : BaseDatosHandler
+    public class MembresiasHandler : BaseDatosHandler , MembresiasInterfaz
     {
         public string ObtenerMembresia(string correo)
         {

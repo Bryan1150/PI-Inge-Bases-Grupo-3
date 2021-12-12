@@ -158,6 +158,7 @@
     <Compile Include="Handlers\EventosHandler.cs" />
     <Compile Include="Handlers\MembresiasHandler.cs" />
     <Compile Include="Interfaces\ActividadesInterfaz.cs" />
+    <Compile Include="Interfaces\MembresiasInterfaz.cs" />
     <Compile Include="Interfaces\CookiesInterfaz.cs" />
     <Compile Include="Interfaces\DescuentosInterfaz.cs" />
     <Compile Include="Interfaces\ProductosInterfaz.cs" />
@@ -322,7 +323,6 @@
     <Content Include="Utils\images\donde.png" />
     <Content Include="Utils\images\fin.jpg" />
     <Content Include="Utils\images\assets\icons\bin.svg" />
-
     <Content Include="Utils\images\icons\favicon.ico" />
     <Content Include="Utils\images\imagenesComparador\ariel.jpg" />
     <Content Include="Utils\images\imagenesComparador\callisto.jpg" />

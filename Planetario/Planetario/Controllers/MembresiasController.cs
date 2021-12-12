@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Planetario.Handlers;
 using Planetario.Interfaces;
 
@@ -10,10 +6,23 @@ namespace Planetario.Controllers
 {
     public class MembresiasController : Controller
     {
-        public ActionResult Comprar()
+        readonly MembresiasInterfaz membresiasInterfaz;
+        readonly CookiesInterfaz cookiesInterfaz;
+
+        public MembresiasController()
         {
-            CookiesInterfaz cookiesInterfaz;
+            membresiasInterfaz = new MembresiasHandler();
             cookiesInterfaz = new CookiesHandler();
+        }
+
+        public MembresiasController(MembresiasInterfaz ventas, CookiesInterfaz cookies)
+        {
+            membresiasInterfaz = ventas;
+            cookiesInterfaz = cookies;
+        }
+
+        public ActionResult Comprar()
+        {          
             PersonaHandler personasHandler = new PersonaHandler();
             string correoUsuario = cookiesInterfaz.CorreoUsuario();
             string membresia = personasHandler.ObtenerMembresia(correoUsuario);
@@ -42,8 +51,7 @@ namespace Planetario.Controllers
 
         public ActionResult Satisfactorio(string membresia)
         {
-            CookiesHandler correoHandler = new CookiesHandler();
-            string correo = correoHandler.CorreoUsuario();
+            string correo = cookiesInterfaz.CorreoUsuario();
             MembresiasHandler membresiaHandler = new MembresiasHandler();
 
             ViewBag.ExitoAlActualizar = false;
