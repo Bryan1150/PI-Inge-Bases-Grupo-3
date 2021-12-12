@@ -315,6 +315,7 @@
     <Content Include="Utils\fonts\font-awesome-4.7.0\HELP-US-OUT.txt" />
     <Content Include="Utils\fonts\montserrat\OFL.txt" />
     <Content Include="Utils\images\assets\icons\bin.svg" />
+    <Content Include="Utils\images\assets\membresias.jpg" />
     <Content Include="Utils\images\icons\favicon.ico" />
     <Content Include="Utils\images\imagenesComparador\ariel.jpg" />
     <Content Include="Utils\images\imagenesComparador\callisto.jpg" />
