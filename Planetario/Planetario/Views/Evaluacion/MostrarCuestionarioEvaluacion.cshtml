@@ -1,6 +1,4 @@
-﻿@{ }
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <head>
     <title>Reportes Satisfacción</title>
     <meta charset="utf-8" />
@@ -11,8 +9,43 @@
         Reportes de satisfacción
     </span>
 
-    <p>En total @ViewBag.Cantidad personas han respondido el cuestionario de satisfacción.</p>
+    @using (Html.BeginForm("MostrarCuestionarioEvaluacion", "Evaluacion", FormMethod.Post, new { id = "formularioGeneral", enctype = "multipart/form-data" }))
+    {
+        <div class="form-horizontal">
 
+            <div class="row">
+                <div class="col">
+                    <p>Fecha Inicio</p>
+                    @Html.TextBox("fechaInicio", "", new { @type = "date", @class = "form-control" })
+                </div>
+                <div class="col">
+                    <p>Fecha Final</p>
+                    @Html.TextBox("fechaFin", "", new { @type = "date", @class = "form-control" })
+                </div>
+                <div class="col">
+                    <br />
+                    <input type="submit" class="btn btn-primary align-bottom" value="Filtrar por fecha" />
+                    <button class="btn btn-success" type="button" onclick="cerrarAbrirAcordeon()" id="botonAbrirCerrar"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#panelsStayOpen-collapseOne,
+                                #panelsStayOpen-collapseTwo,
+                                #panelsStayOpen-collapseThree,
+                                #panelsStayOpen-collapseFour,
+                                #panelsStayOpen-collapseFive,
+                                #panelsStayOpen-collapseSix"
+                            aria-expanded="false"
+                            aria-controls="panelsStayOpen-collapseOne panelsStayOpen-collapseTwo">
+                        <i class="fa fa-dot-circle-o" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+
+    <hr />
+    <div class="row text-center">
+        <h4>En total <strong>@ViewBag.Cantidad personas</strong> han respondido el cuestionario de satisfacción.</h4>
+    </div>
     <div class="accordion" id="accordionPanelsStayOpenExample">
         <div class="accordion-item">
             <h2 class="accordion-header" id="panelsStayOpen-headingOne">
@@ -69,7 +102,7 @@
         <div class="accordion-item">
             <h2 class="accordion-header" id="panelsStayOpen-headingFive">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="false" aria-controls="panelsStayOpen-collapseFive">
-                    <p class="p-2">Estoy satisfhecho con mi experiencia en el sitio.</p>
+                    <p class="p-2">Estoy satisfecho con mi experiencia en el sitio.</p>
                 </button>
             </h2>
             <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingFive">
@@ -82,25 +115,19 @@
         <div class="accordion-item">
             <h2 class="accordion-header" id="panelsStayOpen-headingSix">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseSix" aria-expanded="false" aria-controls="panelsStayOpen-collapseSix">
-                    <p class="p-2">Estoy satisfhecho con mi experiencia en el sitio.</p>
+                    <p class="p-2">Resultados Importantes</p>
                 </button>
             </h2>
             <div id="panelsStayOpen-collapseSix" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingSix">
                 <div class="accordion-body">
-                    <p>Cruce de Info</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="panelsStayOpen-headingSeven">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseSeven" aria-expanded="false" aria-controls="panelsStayOpen-collapseSeven">
-                    <p class="p-2">Estoy satisfhecho con mi experiencia en el sitio.</p>
-                </button>
-            </h2>
-            <div id="panelsStayOpen-collapseSeven" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingSeven">
-                <div class="accordion-body">
-                    <p>Cruce de Info</p>
+                    <p>@ViewBag.Fechas</p>
+                    <div class="row">
+                        <div class="col"> <p>@ViewBag.Navegacion</p> </div>
+                    </div>
+                    <div class="row">
+                        <div class="col"> <p>@ViewBag.Compras</p> </div>
+                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -110,6 +137,18 @@
     <script src="~/Utils/js/reportesEvaluacion.js"></script>
 
     <script>
+        document.getElementById("botonAbrirCerrar").click()
+        let cerrado = false;
+        function cerrarAbrirAcordeon() {
+            //if (cerrado) {
+            //    cerrado = false
+            //    document.getElementById("botonAbrirCerrar").innerHTML = "Abrir todos"
+            //} else {
+            //    cerrado = true
+            //    document.getElementById("botonAbrirCerrar").innerHTML = "Cerrar todos"
+            //}
+        }
+
         var opciones = @Html.Raw(Json.Encode(@ViewBag.Opciones));
 
         var respuestasAgradable = @Html.Raw(Json.Encode(@ViewBag.RespuestasEsteticamente));
@@ -117,7 +156,6 @@
         var respuestasComprar = @Html.Raw(Json.Encode(@ViewBag.RespuestasComprar));
         var respuestasPrecios = @Html.Raw(Json.Encode(@ViewBag.RespuestasPrecios));
         var respuestasSatisfecho = @Html.Raw(Json.Encode(@ViewBag.RespuestasSatisfecho));
-
     </script>
 
 </body>

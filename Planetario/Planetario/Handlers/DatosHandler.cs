@@ -41,7 +41,6 @@ namespace Planetario.Handlers
         {
             string jsonString = File.ReadAllText(ObtenerRutaDocumento(nombreDocumento));
             List<string> lista = JsonConvert.DeserializeObject<List<string>>(jsonString);
-            lista.Sort();
             return (lista);
         }
 

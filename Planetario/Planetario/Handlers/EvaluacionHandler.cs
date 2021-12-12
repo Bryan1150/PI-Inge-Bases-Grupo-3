@@ -168,6 +168,32 @@ namespace Planetario.Handlers
                 "JOIN RespuestasEvaluacion R ON P.idPreguntaPK = R.idPreguntaFK " +
                 "WHERE P.idPreguntaPK = " + preguntaID +
                 "GROUP BY valorRespuesta " +
+                "ORDER BY CASE WHEN valorRespuesta  = 'Muy en desacuerdo' THEN 1 " +
+                              "WHEN valorRespuesta  = 'En desacuerdo' THEN 2 " +
+                              "WHEN valorRespuesta  = 'Neutro' THEN 3 " +
+                              "WHEN valorRespuesta  = 'De acuerdo' THEN 4 " +
+                              "WHEN valorRespuesta  = 'Muy de acuerdo' THEN 5 " +
+                         "END ASC";
+
+            DataTable tablaResultado = LeerBaseDeDatos(consulta);
+            List<int> respuestas = new List<int>();
+
+            foreach (DataRow fila in tablaResultado.Rows)
+            {
+                respuestas.Add(Convert.ToInt32(fila["Cantidad"]));
+            }
+            return respuestas;
+        }
+
+
+        public List<int> ObtenerCantidadRespuestasPorPreguntaYFecha(int preguntaID, string fechaInicio, string fechaFinal)
+        {
+            string consulta = "SELECT COUNT(valorRespuesta) as 'Cantidad' FROM PreguntasEvaluacion P " +
+                "JOIN RespuestasEvaluacion R ON P.idPreguntaPK = R.idPreguntaFK " +
+                "WHERE P.idPreguntaPK = " + preguntaID + " " +
+                "AND R.fechaRespuesta >= '" + fechaInicio + "' " +
+                "AND R.fechaRespuesta <= DATEADD(day, 1, '" + fechaFinal + "') " +
+                "GROUP BY valorRespuesta " +
                 "ORDER BY valorRespuesta ";
 
             DataTable tablaResultado = LeerBaseDeDatos(consulta);
@@ -191,30 +217,56 @@ namespace Planetario.Handlers
             return Convert.ToInt32(tablaResultado.Rows[0]["cantidad"]);
         }
 
-        public string ObtenerRelaciones(string nombreCuestionario, List<string> preguntas, List<string> opciones)
+        public int ObtenerCantidadPersonasPorFecha(string nombreCuestionario, string fechaInicio, string fechaFinal)
+        {
+            string consulta = "SELECT COUNT(DISTINCT R.correoFK) as cantidad FROM CuestionarioEvaluacion C " +
+                "JOIN PreguntasEvaluacion P ON C.nombreCuestionarioPK = P.nombreCuestionarioFK " +
+                "JOIN RespuestasEvaluacion R ON P.idPreguntaPK = R.idPreguntaFK " +
+                "WHERE C.nombreCuestionarioPK = '" + nombreCuestionario + "'" +
+                "AND R.fechaRespuesta >= '" + fechaInicio + "' " +
+                "AND R.fechaRespuesta <= DATEADD(day, 1, '" + fechaFinal + "') ";
+
+            DataTable tablaResultado = LeerBaseDeDatos(consulta);
+            return Convert.ToInt32(tablaResultado.Rows[0]["cantidad"]);
+        }
+
+        public int ObtenerCantidadPersonasEnCruceRespuestas(string nombreCuestionario, List<string> preguntas, List<string> opciones, string fechaInicio, string fechaFinal)
         {
             if (preguntas.Count != opciones.Count || preguntas.Count <= 0)
             {
-                return "error";
+                return -1;
             }
             string consulta = "SELECT COUNT(DISTINCT R.correoFK) as cantidad FROM CuestionarioEvaluacion C " +
-                 "JOIN PreguntasEvaluacion P ON C.nombreCuestionarioPK = P.nombreCuestionarioFK " +
-                 "JOIN RespuestasEvaluacion R ON P.idPreguntaPK = R.idPreguntaFK " +
-                 "WHERE C.nombreCuestionarioPK = '" + nombreCuestionario + "' AND (" +
-                 "(P.pregunta = " + preguntas[0] + " AND R.valorRespuesta = " + opciones[0] + ";";
+                              "JOIN PreguntasEvaluacion P ON C.nombreCuestionarioPK = P.nombreCuestionarioFK " +
+                              "JOIN RespuestasEvaluacion R ON P.idPreguntaPK = R.idPreguntaFK " +
+                              "WHERE C.nombreCuestionarioPK = '" + nombreCuestionario + "' " +
+                              "AND R.fechaRespuesta >= '" + fechaInicio + "' " +
+                              "AND R.fechaRespuesta <= DATEADD(day, 1, '" + fechaFinal + "') " +
+                              "AND ( (P.pregunta = '" + preguntas[0] + "' AND R.valorRespuesta = '" + opciones[0] + "')";
             for (int index = 0; index < preguntas.Count; ++index)
             {
-                consulta += " OR (P.pregunta = " + preguntas[index] + " AND R.valorRespuesta = " + opciones[index] + ")";
-            }    
+                consulta += " OR (P.pregunta = '" + preguntas[index] + "' AND R.valorRespuesta = '" + opciones[index] + "')";
+            }
             consulta += ");";
             DataTable tablaResultado = LeerBaseDeDatos(consulta);
             int cantidad = Convert.ToInt32(tablaResultado.Rows[0]["cantidad"]);
-            string respuesta = "Unas " + cantidad + " personas están " + opciones[0].ToLower() + " que " + preguntas[0].ToLower();
-            for (int index = 0; index < preguntas.Count; ++index)
+            
+            return cantidad;
+        }
+
+        public string ObtenerRelaciones(string nombreCuestionario, List<string> preguntas, List<string> opciones, string fechaInicio, string fechaFin)
+        {
+            int cantidad = ObtenerCantidadPersonasEnCruceRespuestas(nombreCuestionario, preguntas, opciones, fechaInicio, fechaFin);
+
+            string respuesta = "En total " + cantidad + " personas están " + opciones[0].ToLower() + " que " + preguntas[0].ToLower();
+            for (int index = 1; index < preguntas.Count; ++index)
             {
                 respuesta += " y están " + opciones[index].ToLower() + " que " + preguntas[index].ToLower();
             }
+            respuesta += ".";
+
             return respuesta;
         }
+
     }
 }
