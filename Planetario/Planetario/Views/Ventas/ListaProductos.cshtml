@@ -56,7 +56,7 @@
             <input type="text" id="busqueda" placeholder="Buscar productos..." class="form-control" />
         </div>
         <div class="col-2">
-            <button class="btn btn-outline-primary" onclick="textoParaBuscar= busqueda.value; obtenerProductos()">Buscar</button>
+            <button class="btn btn-outline-primary" onclick="textoParaBuscar= busqueda.value; obtenerProductos()" id="buscar">Buscar</button>
         </div>
         <div class="col-2 text-center">
             @Html.DropDownList("orden", ordenarPor, htmlAttributes: new { @class = "form-select" })
@@ -134,11 +134,11 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <h3>Producto agregado al carrito!</h3>
+                <h3 id="agregado">Producto agregado al carrito!</h3>
             </div>
             <div class="modal-footer">
                 @Html.ActionLink("Ir al carrito", "Carrito", "Ventas", new { }, null)
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Seguir Comprando</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close" id="seguirComprando">Seguir Comprando</button>
             </div>
         </div>
     </div>
@@ -206,12 +206,12 @@
         divContenedor.className = "col-md-6"
         divContenedor.innerHTML = `
                 <div class="card card-con-imagen-izq card-con-margen bg-light">
-                <a href="/Ventas/VerProducto/${producto["Id"]}"><img class="border" src="/Ventas/ObtenerImagen/${producto["Id"]}"></a>
+                <a href="/Ventas/VerProducto/${producto["Id"]}"><img class="border" src="/Ventas/ObtenerImagen/${producto["Id"]}" id="${producto["Id"]}"></a>
                 <div class="card-body">
                     <a href="/Ventas/VerProducto/${producto["Id"]}" class="h3 card-title">${producto["Nombre"]}</a>
                     <p class="card-text">${producto["Descripcion"]}</p>
                     <p class="card-text"><strong>Precio: </strong>₡${producto["Precio"]}</p>
-                    <input type="submit" onclick="agregarAlCarrito(${producto["Id"]})" class="btn btn-success btn-lg btn-lg" value="Agregar al carrito" data-bs-toggle="modal" data-bs-target="#exampleModal" />
+                    <input type="submit" onclick="agregarAlCarrito(${producto["Id"]})" class="btn btn-success btn-lg btn-lg" value="Agregar al carrito" data-bs-toggle="modal" data-bs-target="#exampleModal" id="agregar_${producto["Id"]}"/>
                 </div>
                 </div>
         `

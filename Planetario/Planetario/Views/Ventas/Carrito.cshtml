@@ -17,7 +17,7 @@
                             <a href="@Url.Action("VerProducto","Ventas",new { producto.Id})"><img class="border" src="@Url.Action("ObtenerImagen", "Ventas", new { id = producto.Id })"></a>
                             <div class="card-body">
 
-                                <a href="@Url.Action("VerProducto","Ventas",new { producto.Id})" class="h3 card-title">@producto.Nombre</a>
+                                <a href="@Url.Action("VerProducto","Ventas",new { producto.Id})" class="h3 card-title" id="@producto.Id">@producto.Nombre</a>
                                 <p class="card-text">@producto.Descripcion</p>
 
                                 <div class="row" style="margin-top: 0;">
@@ -28,7 +28,7 @@
                                         <p class="card-text"><strong>Cantidad: </strong>@producto.CantidadCarrito</p>
                                     </div>
                                 </div>
-                                <input type="submit" onclick="EliminarElementoDelCarrito(@producto.Id)" class="btn btn-outline-danger" value="Eliminar"/>
+                                <input type="submit" onclick="EliminarElementoDelCarrito(@producto.Id)" class="btn btn-outline-danger" value="Eliminar" id="eliminar_@producto.Id"/>
                             </div>
                         </div>
                         <br />
@@ -51,7 +51,7 @@
                                         <p class="card-text"><strong>Cantidad: </strong>@entrada.CantidadCarrito</p>
                                     </div>
                                 </div>
-                                <input type="submit" onclick="EliminarElementoDelCarrito(@entrada.Id)" class="btn btn-outline-danger" value="Eliminar" />
+                                <input type="submit" onclick="EliminarElementoDelCarrito(@entrada.Id)" class="btn btn-outline-danger" value="Eliminar"/>
                             </div>
                         </div>
                         <br />
@@ -78,7 +78,7 @@
         </div>
         } else
         {
-            <p class="text-center">No tienes artículos.</p>
+            <p class="text-center" id="vacio">No tienes artículos.</p>
         }
              
     <script>

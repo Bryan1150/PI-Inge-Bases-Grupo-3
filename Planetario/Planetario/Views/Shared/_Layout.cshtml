@@ -54,9 +54,8 @@
                     <li class="nav-item">
                         @Html.ActionLink("Comparar cuerpos", "CompararCuerpos", "Home", new { area = "" }, new { @class = "nav-link" })
                     </li>
-                    <li class="nav-item">
-                        @Html.ActionLink("Tienda", "ListaProductos", "Ventas", new { area = "" }, new { @class = "nav-link" })
-                    </li>
+
+                    <li class="nav-item"><a class="nav-link" href="/Ventas/ListaProductos" id="tienda">Tienda</a></li>
 
                 </ul>
                 <ul class="navbar-nav ms-auto">
@@ -77,7 +76,7 @@
                     {
                         <li class="nav-item"><a class="nav-link" href="/Clientes/Registro"><span class="fa fa-user-plus "></span> Registro</a></li>
 
-                        <li class="nav-item"><a class="nav-link" href="/Personas/IniciarSesion"><span class="fa fa-sign-in"></span> Login</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/Personas/IniciarSesion" id="login"><span class="fa fa-sign-in"></span> Login</a></li>
 
                     }
                 </ul>
@@ -128,7 +127,7 @@
                 let content = "";
                 console.log(data.cantidad);
                 const carrito = document.getElementById('carrito');
-                content += `<a class="nav-link" href="/Ventas/Carrito"><i class="fa fa-shopping-cart"></i> Carrito( `
+                content += `<a class="nav-link" href="/Ventas/Carrito" id="carrito"><i class="fa fa-shopping-cart"></i> Carrito( `
                 content += data.cantidad;
                 content += ` )</a>`;
                 carrito.innerHTML = content;
