@@ -8,32 +8,8 @@ namespace Planetario.Controllers
 {
     public class JuegosController : Controller
     {
-        public ActionResult principalJuegos()
-        {
-            return View();
-        }
 
         public ActionResult Lista()
-        {
-            return View();
-        }
-
-        public ActionResult SpaceConnect()
-        {
-            return View();
-        }
-
-        public ActionResult memoria()
-        {
-            return View();
-        }
-
-        public ActionResult ahorcado()
-        {
-            return View();
-        }
-
-        public ActionResult rompecabezas()
         {
             return View();
         }
@@ -43,7 +19,12 @@ namespace Planetario.Controllers
             return View();
         }
 
-        public ActionResult OuterSpaceArkanoid()
+        public ActionResult ETBrain()
+        {
+            return View();
+        }
+
+        public ActionResult ConectaPlanetas()
         {
             return View();
         }

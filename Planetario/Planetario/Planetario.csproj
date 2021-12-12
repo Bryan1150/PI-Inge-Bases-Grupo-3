@@ -295,9 +295,6 @@
     <Content Include="Scripts\jquery-3.6.0.min.map" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Utils\css\actividades.css" />
-    <Content Include="Utils\css\rompecabezas.css" />
-    <Content Include="Utils\css\memoria.css" />
-    <Content Include="Utils\css\ahorcado.css" />
     <Content Include="Utils\css\background.css" />
     <Content Include="Utils\css\botonesCompartir.css" />
     <Content Include="Utils\css\fonts.css" />
@@ -316,19 +313,6 @@
     <Content Include="Utils\fonts\font-awesome-4.7.0\fonts\fontawesome-webfont.svg" />
     <Content Include="Utils\fonts\font-awesome-4.7.0\HELP-US-OUT.txt" />
     <Content Include="Utils\fonts\montserrat\OFL.txt" />
-    <Content Include="Utils\images\01.png" />
-    <Content Include="Utils\images\02.png" />
-    <Content Include="Utils\images\03.png" />
-    <Content Include="Utils\images\04.png" />
-    <Content Include="Utils\images\05.png" />
-    <Content Include="Utils\images\06.png" />
-    <Content Include="Utils\images\07.png" />
-    <Content Include="Utils\images\08.png" />
-    <Content Include="Utils\images\09.png" />
-    <Content Include="Utils\images\ahorcado.png" />
-    <Content Include="Utils\images\cobertura.png" />
-    <Content Include="Utils\images\donde.png" />
-    <Content Include="Utils\images\fin.jpg" />
     <Content Include="Utils\images\assets\icons\bin.svg" />
     <Content Include="Utils\images\icons\favicon.ico" />
     <Content Include="Utils\images\imagenesComparador\ariel.jpg" />
@@ -363,16 +347,9 @@
     <Content Include="Utils\images\imagenesComparador\umbriel.jpg" />
     <Content Include="Utils\images\imagenesComparador\uranus.jpg" />
     <Content Include="Utils\images\imagenesComparador\venus.jpg" />
-    <Content Include="Utils\images\img-01.png" />
+    <Content Include="Utils\images\Juegos\conectaPlanetas.jpg" />
+    <Content Include="Utils\images\Juegos\ETGame.jpg" />
     <Content Include="Utils\js\cuerposComparador.js" />
-    <Content Include="Utils\images\imagenSistemaSolar.png" />
-    <Content Include="Utils\images\img-01.png" />
-    <Content Include="Utils\images\Juegos\OuterSpaceArkanoid.jpg" />
-    <Content Include="Utils\images\Juegos\SpaceConnect.jpg" />
-    <Content Include="Utils\images\Juegos\UFO2048.jpg" />
-    <Content Include="Utils\images\memoria.png" />
-    <Content Include="Utils\js\memoria.js" />
-    <Content Include="Utils\js\ahorcado.js" />
     <Content Include="Utils\images\assets\icons\shoppingcart.svg" />
     <Content Include="Utils\js\bootstrap-input-spinner.js" />
     <Content Include="Utils\js\crearTabla.js" />
@@ -386,7 +363,6 @@
     <Content Include="Utils\js\graficoReporteSimple.js" />
     <Content Include="Utils\js\tablasReporteSimple.js" />
     <Content Include="Utils\js\tablasReporteMercadeo.js" />
-    <Content Include="Utils\js\rompecabezas.js" />
     <Content Include="Utils\js\SelectorAsientos.js" />
     <Content Include="Utils\vendor\animate\animate.css" />
     <Content Include="Utils\vendor\bootstrap\css\bootstrap-grid.css" />
@@ -528,14 +504,8 @@
     <Content Include="Views\Evaluacion\MostrarCuestionarioEvaluacion.cshtml" />
     <Content Include="Views\Home\CompararCuerpos.cshtml" />
     <Content Include="Views\Shared\_LayoutAlternativo.cshtml" />
-    <Content Include="Views\Juegos\memoria.cshtml" />
-    <Content Include="Views\Juegos\ahorcado.cshtml" />
-    <Content Include="Views\Juegos\rompecabezas.cshtml" />
-    <Content Include="Views\Juegos\principalJuegos.cshtml" />
-    <Content Include="Views\Juegos\SpaceConnect.cshtml" />
     <Content Include="Views\Juegos\Lista.cshtml" />
     <Content Include="Views\Juegos\UFO2048.cshtml" />
-    <Content Include="Views\Juegos\OuterSpaceArkanoid.cshtml" />
     <Content Include="Views\Personas\IniciarSesion.cshtml" />
     <Content Include="Views\Ventas\AgregarProducto.cshtml" />
     <Content Include="Views\Reportes\Reporte.cshtml" />
@@ -549,6 +519,8 @@
     <Content Include="Views\Membresias\Pago.cshtml" />
     <Content Include="Views\Membresias\Satisfactorio.cshtml" />
     <Content Include="Views\Ventas\VerProducto.cshtml" />
+    <Content Include="Views\Juegos\ConectaPlanetas.cshtml" />
+    <Content Include="Views\Juegos\ETBrain.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Data\" />
