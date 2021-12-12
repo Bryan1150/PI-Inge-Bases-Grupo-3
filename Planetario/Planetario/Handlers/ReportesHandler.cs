@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using Planetario.Interfaces;
 using System.Text.RegularExpressions;
 using Planetario.Models;
 
 namespace Planetario.Handlers
 {
-    public class ReportesHandler : BaseDatosHandler, IReportesService
+    public class ReportesHandler : BaseDatosHandler, ReportesInterfaz
     {
         private List<string> ObtenerLista(string consulta, string opcion)
         {

@@ -3,10 +3,11 @@ using System.Web;
 using System.Web.Mvc;
 using System.IO;
 using Newtonsoft.Json;
+using Planetario.Interfaces;
 
 namespace Planetario.Handlers
 {
-    public class DatosHandler : IDataService
+    public class DatosHandler : DatosInterfaz
     {
         public List<string> paises;
         public List<string> generos;

@@ -8,7 +8,7 @@ using System.Web.Script.Serialization;
 using Planetario.Interfaces;
 using System.Web;
 
-namespace PruebasPlanetarios
+namespace PruebasPlanetarios.Controllers
 {
     [TestClass]
     public class VentasControllerTest

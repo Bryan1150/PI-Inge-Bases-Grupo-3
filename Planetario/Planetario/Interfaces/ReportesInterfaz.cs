@@ -1,9 +1,9 @@
 ﻿using Planetario.Models;
 using System.Collections.Generic;
 
-namespace Planetario.Handlers
+namespace Planetario.Interfaces
 {
-    public interface IReportesService
+    public interface ReportesInterfaz
     {
         List<string> ObtenerTodasLasCategorias();
 
