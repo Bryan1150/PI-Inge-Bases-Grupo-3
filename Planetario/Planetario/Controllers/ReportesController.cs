@@ -1,12 +1,13 @@
 ﻿using System.Web.Mvc;
+using Planetario.Interfaces;
 using Planetario.Handlers;
 
 namespace Planetario.Controllers
 {
     public class ReportesController : Controller
     {
-        readonly IReportesService AccesoDatos;
-        readonly IDataService AccesoDatosApp;
+        readonly ReportesInterfaz AccesoDatos;
+        readonly DatosInterfaz AccesoDatosApp;
 
         //Constructores
         public ReportesController()
@@ -15,13 +16,13 @@ namespace Planetario.Controllers
             AccesoDatosApp = new DatosHandler();
         }
 
-        public ReportesController(IReportesService servicio)
+        public ReportesController(ReportesInterfaz servicio)
         {
             AccesoDatos = servicio;
             AccesoDatosApp = new DatosHandler();
         }
 
-        public ReportesController(IReportesService servicio, IDataService servicioDatos)
+        public ReportesController(ReportesInterfaz servicio, DatosInterfaz servicioDatos)
         {
             AccesoDatos = servicio;
             AccesoDatosApp = servicioDatos;

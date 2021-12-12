@@ -7,9 +7,9 @@
 <html>
 <head>
     <title>@ViewBag.actividad.NombreActividad</title>
-    <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
     <link rel="stylesheet" type="text/css" href="~/Utils/css/actividades.css">
+    <link rel="stylesheet" type="text/css" href="~/Utils/css/botonesCompartir.css">
 </head>
 <body>
     <div class="row text-center">
@@ -27,7 +27,7 @@
                     <p> @ViewBag.actividad.Categoria </p>
                 </div>
                 <div class="col">
-                    <p><span> <i class="fa fa-check"></i><b>Publico Dirigido</b> </span></p>
+                    <p><span> <i class="fa fa-check"></i><b>Público Dirigido</b> </span></p>
                     <p> @ViewBag.actividad.PublicoDirigido </p>
                 </div>
                 <div class="col">
@@ -68,18 +68,12 @@
         <div>
             <div class="row">
                 <div class="col col-md-4 col-sm-12">
-                    @Html.ActionLink("Inscribirme", "Inscribirme",
-                        new { titulo = ViewBag.actividad.NombreActividad },
-                        new
-                                {
-                                @class = "btn btn-success",
-                            }
-                    )
-                </div>
-                <div class="col col-md-4 col-sm-12">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Compartir
                     </button>
+                </div>
+                <div class="col col-4">
+                        @Html.ActionLink("Comprar Entradas", "ComprarEntradas", "Actividades", new { nombreDeLaActividad = ViewBag.actividad.NombreActividad }, new { @class = "btn btn-success" })
                 </div>
             </div>
 
@@ -118,36 +112,6 @@
                     </div>
                 </div>
             </div>
-
-            @if (Request.IsAuthenticated)
-            {
-                <div class="col col-md-4 col-sm-12">
-                    @Html.ActionLink("Ver facturas", "verFacturasDeActividad",
-                        new { actividadNombre = ViewBag.actividad.NombreActividad },
-                        new
-                             {
-                                @class = "btn btn-success",
-                            }
-                    )
-                </div>
-            }
-
-        <div class="row">
-            <div class="col-3">
-                @Html.ActionLink("Comprar Entradas","ComprarEntradas", "Actividades", new { nombreDeLaActividad = ViewBag.actividad.NombreActividad }, new { @class = "btn btn-success"})
-            </div>
-            <div class="col-3">
-                @if (Request.IsAuthenticated)
-                {
-                    <div class="col col-md-4 col-sm-12">
-                        @Html.ActionLink("Ver facturas", "verFacturasDeActividad",
-                            new { actividadNombre = ViewBag.actividad.NombreActividad },
-                            new { @class = "btn btn-success", }
-                        )
-                    </div>
-                }
-            </div>
-
         </div>
 
         <div style="margin-top:75px"></div>
@@ -194,7 +158,7 @@
                         <div class="card-body">
                             <p class="card-text"><strong>Categoria: </strong>@actividad.Categoria</p>
                             <p class="card-text"><strong>Fecha: </strong>@actividad.Fecha</p>
-                            <p class="card-text"><strong>Precio: </strong>₡@actividad.PrecioAproximado</p>
+                            <p class="card-text"><strong>Precio: </strong>₡ @actividad.PrecioAproximado</p>
                         </div>
                         <a class="hidden stretched-link" href="@Url.Action("verActividad","Actividades", new { nombreDeLaActividad = actividad.NombreActividad.ToString() })"></a>
                     </div>

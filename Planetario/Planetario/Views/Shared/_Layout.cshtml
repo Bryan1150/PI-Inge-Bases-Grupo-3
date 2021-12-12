@@ -57,13 +57,6 @@
                     <li class="nav-item">
                         @Html.ActionLink("Tienda", "ListaProductos", "Ventas", new { area = "" }, new { @class = "nav-link" })
                     </li>
-                    @if (Request.IsAuthenticated)
-                    {
-                        <li class="nav-item">
-                            @Html.ActionLink("Membresias", "Comprar", "Membresias", new { area = "" }, new { @class = "nav-link" })
-                        </li>
-
-                    }
 
                 </ul>
                 <ul class="navbar-nav ms-auto">
@@ -122,7 +115,7 @@
                 if (data.membresia != "No Disponible") {
                 let content = "";
                 const membresia = document.getElementById('membresia');
-                    content += `<a class="nav-link" href="/Membresias/Comprar"><span class ="fa fa-address-book-o"</span> `
+                    content += `<a class="nav-link" href="/Membresias/Comprar"><i class ="fa fa-address-book-o"></i> `
                 content += data.membresia;
                 content += `</a>`;
                 membresia.innerHTML = content;

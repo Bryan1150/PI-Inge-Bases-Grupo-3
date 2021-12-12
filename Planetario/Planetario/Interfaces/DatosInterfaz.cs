@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Web.Mvc;
 
-namespace Planetario.Handlers
+namespace Planetario.Interfaces
 {
-    public interface IDataService
+    public interface DatosInterfaz
     {
         string ObtenerRutaDocumento(string nombreDocumento);
 

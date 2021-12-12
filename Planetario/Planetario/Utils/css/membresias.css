@@ -115,9 +115,9 @@ thead th p.promo {
     color: #fff;
     position: absolute;
     top: 9em;
-    left: -17px;
+    left: -12px;
     z-index: 1000;
-    width: 110%;
+    width: 108%;
     margin: 0;
     padding: .625em 17px .75em;
     background: #c00;

@@ -1,24 +1,48 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Planetario.Models;
 using Planetario.Controllers;
-using Planetario.Handlers;
 using Planetario.Models;
+using Planetario.Interfaces;
 using System.Web.Mvc;
 using Moq;
 using System.Collections.Generic;
 using System.Web.Script.Serialization;
 
-namespace PruebasPlanetarios
+namespace PruebasPlanetarios.Controllers
 {
     [TestClass]
     public class ReportesControllerTest
     {
+        private Mock<DatosInterfaz> CrearMockDeDatos()
+        {
+            var mockDatos = new Mock<DatosInterfaz>();
+
+            mockDatos.Setup(servicio => servicio.SelectListGeneros()).Returns(new List<SelectListItem>());
+            mockDatos.Setup(servicio => servicio.SelectListPublicos()).Returns(new List<SelectListItem>());
+
+            return mockDatos;
+        }
+
+        private Mock<ReportesInterfaz> CrearMockDeReportes()
+        {
+            var mockReportes = new Mock<ReportesInterfaz>();
+
+            mockReportes.Setup(servicio => servicio.ObtenerTodasLasCategorias()).Returns(new List<string>());
+
+            string fechaInicio = "2021/01/01";
+            string fechaFinal = "2021/12/31";
+            string orden = "ASC";
+            mockReportes.Setup(servicio => servicio.ObtenerTodosLosProductosFiltradosPorRanking(fechaInicio, fechaFinal, orden)).Returns(new List<object>());
+
+            return mockReportes;
+        }
+
         [TestMethod]
         public void ReportesSinFiltrosNoEsNulo()
         {
-            var mockReportes = new Mock<IReportesService>();
-            mockReportes.Setup(servicio => servicio.ObtenerTodasLasCategorias()).Returns(new List<string>());
-            ReportesController reportesController = new ReportesController(mockReportes.Object);
+            var mockReportes = CrearMockDeReportes();
+            var mockDatos = CrearMockDeDatos();
+
+            ReportesController reportesController = new ReportesController(mockReportes.Object, mockDatos.Object);
 
             ViewResult vistaResultado = reportesController.Reporte() as ViewResult;
 
@@ -28,9 +52,10 @@ namespace PruebasPlanetarios
         [TestMethod]
         public void ReportesSinFiltrosListaDeCategoriasNoEsNulo()
         {
-            var mockReportes = new Mock<IReportesService>();
-            mockReportes.Setup(servicio => servicio.ObtenerTodasLasCategorias()).Returns(new List<string>());
-            ReportesController reportesController = new ReportesController(mockReportes.Object);
+            var mockReportes = CrearMockDeReportes();
+            var mockDatos = CrearMockDeDatos();
+
+            ReportesController reportesController = new ReportesController(mockReportes.Object, mockDatos.Object);
 
             ViewResult vistaResultado = reportesController.Reporte() as ViewResult;
             var listaDeCategorias = vistaResultado.ViewBag.listaDeCategorias;
@@ -41,9 +66,10 @@ namespace PruebasPlanetarios
         [TestMethod]
         public void ReportesSinFiltrosListaDeCategoriasEsTipoLista()
         {
-            var mockReportes = new Mock<IReportesService>();
-            mockReportes.Setup(servicio => servicio.ObtenerTodasLasCategorias()).Returns(new List<string>());
-            ReportesController reportesController = new ReportesController(mockReportes.Object);
+            var mockReportes = CrearMockDeReportes();
+            var mockDatos = CrearMockDeDatos();
+
+            ReportesController reportesController = new ReportesController(mockReportes.Object, mockDatos.Object);
 
             ViewResult vistaResultado = reportesController.Reporte() as ViewResult;
             var listaDeCategorias = vistaResultado.ViewBag.listaDeCategorias;
@@ -54,9 +80,10 @@ namespace PruebasPlanetarios
         [TestMethod]
         public void ReportesSinFiltrosListaDeCategoriasNoTieneNulos()
         {
-            var mockReportes = new Mock<IReportesService>();
-            mockReportes.Setup(servicio => servicio.ObtenerTodasLasCategorias()).Returns(new List<string>());
-            ReportesController reportesController = new ReportesController(mockReportes.Object);
+            var mockReportes = CrearMockDeReportes();
+            var mockDatos = CrearMockDeDatos();
+
+            ReportesController reportesController = new ReportesController(mockReportes.Object, mockDatos.Object);
 
             ViewResult vistaResultado = reportesController.Reporte() as ViewResult;
             var listaDeCategorias = vistaResultado.ViewBag.listaDeCategorias;
@@ -64,20 +91,18 @@ namespace PruebasPlanetarios
             CollectionAssert.AllItemsAreNotNull(listaDeCategorias);
         }
 
-        /*
         [TestMethod]
         public void ReportesFiltradosPorRankingNoEsNulo()
         {
-            int cantidad = 0;
+            var mockReportes = CrearMockDeReportes();
+            var mockDatos = CrearMockDeDatos();
             string fechaInicio = "2021/01/01";
             string fechaFinal = "2021/12/31";
             string orden = "ASC";
-            var mockReportes = new Mock<IReportesService>();
-            mockReportes.Setup(servicio => servicio.ObtenerTodasLasCategorias()).Returns(new List<string>());
-            mockReportes.Setup(servicio => servicio.ObtenerTodosLosProductosFiltradosPorRanking(cantidad, fechaInicio, fechaFinal, orden)).Returns(new List<ProductoModel>());
-            ReportesController reportesController = new ReportesController(mockReportes.Object);
 
-            ViewResult vistaResultado = reportesController.Reporte(cantidad, fechaInicio, fechaFinal, orden) as ViewResult;
+            ReportesController reportesController = new ReportesController(mockReportes.Object, mockDatos.Object);
+
+            ViewResult vistaResultado = reportesController.Reporte(fechaInicio, fechaFinal, orden) as ViewResult;
 
             Assert.IsNotNull(vistaResultado);
         }
@@ -85,34 +110,33 @@ namespace PruebasPlanetarios
         [TestMethod]
         public void ReportesFiltradosPorRankingListaDeCategoriasNoEsNulo()
         {
-            int cantidad = 0;
+            var mockReportes = CrearMockDeReportes();
+            var mockDatos = CrearMockDeDatos();
             string fechaInicio = "2021/01/01";
             string fechaFinal = "2021/12/31";
             string orden = "ASC";
-            var mockReportes = new Mock<IReportesService>();
-            mockReportes.Setup(servicio => servicio.ObtenerTodasLasCategorias()).Returns(new List<string>());
-            mockReportes.Setup(servicio => servicio.ObtenerTodosLosProductosFiltradosPorRanking(cantidad, fechaInicio, fechaFinal, orden)).Returns(new List<ProductoModel>());
-            ReportesController reportesController = new ReportesController(mockReportes.Object);
 
-            ViewResult vistaResultado = reportesController.Reporte(cantidad, fechaInicio, fechaFinal, orden) as ViewResult;
+            ReportesController reportesController = new ReportesController(mockReportes.Object, mockDatos.Object);
+
+            ViewResult vistaResultado = reportesController.Reporte(fechaInicio, fechaFinal, orden) as ViewResult;
             var listaDeCategorias = vistaResultado.ViewBag.listaDeCategorias;
 
             Assert.IsNotNull(listaDeCategorias);
         }
 
+  
         [TestMethod]
         public void ReportesFiltradosPorRankingListaDeCategoriasEsTipoLista()
         {
-            int cantidad = 0;
+            var mockReportes = CrearMockDeReportes();
+            var mockDatos = CrearMockDeDatos();
             string fechaInicio = "2021/01/01";
             string fechaFinal = "2021/12/31";
             string orden = "ASC";
-            var mockReportes = new Mock<IReportesService>();
-            mockReportes.Setup(servicio => servicio.ObtenerTodasLasCategorias()).Returns(new List<string>());
-            mockReportes.Setup(servicio => servicio.ObtenerTodosLosProductosFiltradosPorRanking(cantidad, fechaInicio, fechaFinal, orden)).Returns(new List<ProductoModel>());
-            ReportesController reportesController = new ReportesController(mockReportes.Object);
 
-            ViewResult vistaResultado = reportesController.Reporte(cantidad, fechaInicio, fechaFinal, orden) as ViewResult;
+            ReportesController reportesController = new ReportesController(mockReportes.Object, mockDatos.Object);
+
+            ViewResult vistaResultado = reportesController.Reporte(fechaInicio, fechaFinal, orden) as ViewResult;
             var listaDeCategorias = vistaResultado.ViewBag.listaDeCategorias;
 
             Assert.IsInstanceOfType(listaDeCategorias, typeof(List<string>));
@@ -121,85 +145,30 @@ namespace PruebasPlanetarios
         [TestMethod]
         public void ReportesFiltradosPorRankingListaDeCategoriasNoTieneNulos()
         {
-            int cantidad = 0;
+            var mockReportes = CrearMockDeReportes();
+            var mockDatos = CrearMockDeDatos();
             string fechaInicio = "2021/01/01";
             string fechaFinal = "2021/12/31";
             string orden = "ASC";
-            var mockReportes = new Mock<IReportesService>();
-            mockReportes.Setup(servicio => servicio.ObtenerTodasLasCategorias()).Returns(new List<string>());
-            mockReportes.Setup(servicio => servicio.ObtenerTodosLosProductosFiltradosPorRanking(cantidad, fechaInicio, fechaFinal, orden)).Returns(new List<ProductoModel>());
-            ReportesController reportesController = new ReportesController(mockReportes.Object);
 
-            ViewResult vistaResultado = reportesController.Reporte(cantidad, fechaInicio, fechaFinal, orden) as ViewResult;
+            ReportesController reportesController = new ReportesController(mockReportes.Object, mockDatos.Object);
+
+            ViewResult vistaResultado = reportesController.Reporte(fechaInicio, fechaFinal, orden) as ViewResult;
             var listaDeCategorias = vistaResultado.ViewBag.listaDeCategorias;
 
             CollectionAssert.AllItemsAreNotNull(listaDeCategorias);
-        }
-
-        [TestMethod]
-        public void ReportesFiltradosPorRankingListadoFiltroPorRankingNoEsNulo()
-        {
-            int cantidad = 0;
-            string fechaInicio = "2021/01/01";
-            string fechaFinal = "2021/12/31";
-            string orden = "ASC";
-            var mockReportes = new Mock<IReportesService>();
-            mockReportes.Setup(servicio => servicio.ObtenerTodasLasCategorias()).Returns(new List<string>());
-            mockReportes.Setup(servicio => servicio.ObtenerTodosLosProductosFiltradosPorRanking(cantidad, fechaInicio, fechaFinal, orden)).Returns(new List<ProductoModel>());
-            ReportesController reportesController = new ReportesController(mockReportes.Object);
-
-            ViewResult vistaResultado = reportesController.Reporte(cantidad, fechaInicio, fechaFinal, orden) as ViewResult;
-            var listadoFiltroPorRanking = vistaResultado.ViewBag.listadoFiltroPorRanking;
-
-            Assert.IsNotNull(listadoFiltroPorRanking);
-        }
-
-        [TestMethod]
-        public void ReportesFiltradosPorRankingListadoFiltroPorRankingEsTipoLista()
-        {
-            int cantidad = 0;
-            string fechaInicio = "2021/01/01";
-            string fechaFinal = "2021/12/31";
-            string orden = "ASC";
-            var mockReportes = new Mock<IReportesService>();
-            mockReportes.Setup(servicio => servicio.ObtenerTodasLasCategorias()).Returns(new List<string>());
-            mockReportes.Setup(servicio => servicio.ObtenerTodosLosProductosFiltradosPorRanking(cantidad, fechaInicio, fechaFinal, orden)).Returns(new List<ProductoModel>());
-            ReportesController reportesController = new ReportesController(mockReportes.Object);
-
-            ViewResult vistaResultado = reportesController.Reporte(cantidad, fechaInicio, fechaFinal, orden) as ViewResult;
-            var listadoFiltroPorRanking = vistaResultado.ViewBag.listadoFiltroPorRanking;
-
-            Assert.IsInstanceOfType(listadoFiltroPorRanking, typeof(List<ProductoModel>));
-        }
-
-        [TestMethod]
-        public void ReportesFiltradosPorRankingListadoFiltroPorRankingNoTieneNulos()
-        {
-            int cantidad = 0;
-            string fechaInicio = "2021/01/01";
-            string fechaFinal = "2021/12/31";
-            string orden = "ASC";
-            var mockReportes = new Mock<IReportesService>();
-            mockReportes.Setup(servicio => servicio.ObtenerTodasLasCategorias()).Returns(new List<string>());
-            mockReportes.Setup(servicio => servicio.ObtenerTodosLosProductosFiltradosPorRanking(cantidad, fechaInicio, fechaFinal, orden)).Returns(new List<ProductoModel>());
-            ReportesController reportesController = new ReportesController(mockReportes.Object);
-
-            ViewResult vistaResultado = reportesController.Reporte(cantidad, fechaInicio, fechaFinal, orden) as ViewResult;
-            var listadoFiltroPorRanking = vistaResultado.ViewBag.listadoFiltroPorRanking;
-
-            CollectionAssert.AllItemsAreNotNull(listadoFiltroPorRanking);
-        }
+        }     
 
         [TestMethod]
         public void ReportesFiltradosPorCategoriaNoEsNulo()
         {
             string categoria = "Telescopio";
+            var mockReportes = CrearMockDeReportes();
+            var mockDatos = CrearMockDeDatos();
             string fechaInicio = "2021/01/01";
             string fechaFinal = "2021/12/31";
-            var mockReportes = new Mock<IReportesService>();
-            mockReportes.Setup(servicio => servicio.ObtenerTodasLasCategorias()).Returns(new List<string>());
-            mockReportes.Setup(servicio => servicio.ObtenerTodosLosProductosFiltradosPorCategoria(categoria, fechaInicio, fechaFinal)).Returns(new List<ProductoModel>());
-            ReportesController reportesController = new ReportesController(mockReportes.Object);
+
+            ReportesController reportesController = new ReportesController(mockReportes.Object, mockDatos.Object);
 
             ViewResult vistaResultado = reportesController.Reporte(categoria, fechaInicio, fechaFinal) as ViewResult;
 
@@ -210,12 +179,12 @@ namespace PruebasPlanetarios
         public void ReportesFiltradosPorCategoriaListaDeCategoriasNoEsNulo()
         {
             string categoria = "Telescopio";
+            var mockReportes = CrearMockDeReportes();
+            var mockDatos = CrearMockDeDatos();
             string fechaInicio = "2021/01/01";
             string fechaFinal = "2021/12/31";
-            var mockReportes = new Mock<IReportesService>();
-            mockReportes.Setup(servicio => servicio.ObtenerTodasLasCategorias()).Returns(new List<string>());
-            mockReportes.Setup(servicio => servicio.ObtenerTodosLosProductosFiltradosPorCategoria(categoria, fechaInicio, fechaFinal)).Returns(new List<ProductoModel>());
-            ReportesController reportesController = new ReportesController(mockReportes.Object);
+
+            ReportesController reportesController = new ReportesController(mockReportes.Object, mockDatos.Object);
 
             ViewResult vistaResultado = reportesController.Reporte(categoria, fechaInicio, fechaFinal) as ViewResult;
             var listaDeCategorias = vistaResultado.ViewBag.listaDeCategorias;
@@ -226,12 +195,12 @@ namespace PruebasPlanetarios
         public void ReportesFiltradosPorCategoriaListaDeCategoriasEstipoLista()
         {
             string categoria = "Telescopio";
+            var mockReportes = CrearMockDeReportes();
+            var mockDatos = CrearMockDeDatos();
             string fechaInicio = "2021/01/01";
             string fechaFinal = "2021/12/31";
-            var mockReportes = new Mock<IReportesService>();
-            mockReportes.Setup(servicio => servicio.ObtenerTodasLasCategorias()).Returns(new List<string>());
-            mockReportes.Setup(servicio => servicio.ObtenerTodosLosProductosFiltradosPorCategoria(categoria, fechaInicio, fechaFinal)).Returns(new List<ProductoModel>());
-            ReportesController reportesController = new ReportesController(mockReportes.Object);
+
+            ReportesController reportesController = new ReportesController(mockReportes.Object, mockDatos.Object);
 
             ViewResult vistaResultado = reportesController.Reporte(categoria, fechaInicio, fechaFinal) as ViewResult;
             var listaDeCategorias = vistaResultado.ViewBag.listaDeCategorias;
@@ -242,12 +211,12 @@ namespace PruebasPlanetarios
         public void ReportesFiltradosPorCategoriaListaDeCategoriasNotieneNulos()
         {
             string categoria = "Telescopio";
+            var mockReportes = CrearMockDeReportes();
+            var mockDatos = CrearMockDeDatos();
             string fechaInicio = "2021/01/01";
             string fechaFinal = "2021/12/31";
-            var mockReportes = new Mock<IReportesService>();
-            mockReportes.Setup(servicio => servicio.ObtenerTodasLasCategorias()).Returns(new List<string>());
-            mockReportes.Setup(servicio => servicio.ObtenerTodosLosProductosFiltradosPorCategoria(categoria, fechaInicio, fechaFinal)).Returns(new List<ProductoModel>());
-            ReportesController reportesController = new ReportesController(mockReportes.Object);
+
+            ReportesController reportesController = new ReportesController(mockReportes.Object, mockDatos.Object);
 
             ViewResult vistaResultado = reportesController.Reporte(categoria, fechaInicio, fechaFinal) as ViewResult;
             var listaDeCategorias = vistaResultado.ViewBag.listaDeCategorias;
@@ -258,12 +227,12 @@ namespace PruebasPlanetarios
         public void ReportesFiltradosPorCategoriaListadoFiltroPorCategoriaNoEsNulo()
         {
             string categoria = "Telescopio";
+            var mockReportes = CrearMockDeReportes();
+            var mockDatos = CrearMockDeDatos();
             string fechaInicio = "2021/01/01";
             string fechaFinal = "2021/12/31";
-            var mockReportes = new Mock<IReportesService>();
-            mockReportes.Setup(servicio => servicio.ObtenerTodasLasCategorias()).Returns(new List<string>());
-            mockReportes.Setup(servicio => servicio.ObtenerTodosLosProductosFiltradosPorCategoria(categoria, fechaInicio, fechaFinal)).Returns(new List<ProductoModel>());
-            ReportesController reportesController = new ReportesController(mockReportes.Object);
+
+            ReportesController reportesController = new ReportesController(mockReportes.Object, mockDatos.Object);
 
             ViewResult vistaResultado = reportesController.Reporte(categoria, fechaInicio, fechaFinal) as ViewResult;
             var listadoFiltroPorCategoria = vistaResultado.ViewBag.listadoFiltroPorCategoria;
@@ -274,12 +243,12 @@ namespace PruebasPlanetarios
         public void ReportesFiltradosPorCategoriaListadoFiltroPorCategoriaEstipoLista()
         {
             string categoria = "Telescopio";
+            var mockReportes = CrearMockDeReportes();
+            var mockDatos = CrearMockDeDatos();
             string fechaInicio = "2021/01/01";
             string fechaFinal = "2021/12/31";
-            var mockReportes = new Mock<IReportesService>();
-            mockReportes.Setup(servicio => servicio.ObtenerTodasLasCategorias()).Returns(new List<string>());
-            mockReportes.Setup(servicio => servicio.ObtenerTodosLosProductosFiltradosPorCategoria(categoria, fechaInicio, fechaFinal)).Returns(new List<ProductoModel>());
-            ReportesController reportesController = new ReportesController(mockReportes.Object);
+
+            ReportesController reportesController = new ReportesController(mockReportes.Object, mockDatos.Object);
 
             ViewResult vistaResultado = reportesController.Reporte(categoria, fechaInicio, fechaFinal) as ViewResult;
             var listadoFiltroPorCategoria = vistaResultado.ViewBag.listadoFiltroPorCategoria;
@@ -290,29 +259,28 @@ namespace PruebasPlanetarios
         public void ReportesFiltradosPorCategoriaListadoFiltroPorCategoriaNotieneNulos()
         {
             string categoria = "Telescopio";
+            var mockReportes = CrearMockDeReportes();
+            var mockDatos = CrearMockDeDatos();
             string fechaInicio = "2021/01/01";
             string fechaFinal = "2021/12/31";
-            var mockReportes = new Mock<IReportesService>();
-            mockReportes.Setup(servicio => servicio.ObtenerTodasLasCategorias()).Returns(new List<string>());
-            mockReportes.Setup(servicio => servicio.ObtenerTodosLosProductosFiltradosPorCategoria(categoria, fechaInicio, fechaFinal)).Returns(new List<ProductoModel>());
-            ReportesController reportesController = new ReportesController(mockReportes.Object);
+            string orden = "ASC";
+
+            ReportesController reportesController = new ReportesController(mockReportes.Object, mockDatos.Object);
 
             ViewResult vistaResultado = reportesController.Reporte(categoria, fechaInicio, fechaFinal) as ViewResult;
             var listadoFiltroPorCategoria = vistaResultado.ViewBag.listadoFiltroPorCategoria;
 
             CollectionAssert.AllItemsAreNotNull(listadoFiltroPorCategoria);
         }
-        */
 
         [TestMethod]
         public void ReporteMercadeoNoEsNulo()
         {
-            var mockReportes = new Mock<IReportesService>();
-            var mockReportesA = new Mock<IDataService>();
+            var mockReportes = new Mock<ReportesInterfaz>();
+            var mockReportesA = new Mock<DatosInterfaz>();
             mockReportes.Setup(servicio => servicio.ObtenerTodasLasCategorias()).Returns(new List<string>());
             mockReportesA.Setup(servicio => servicio.SelectListGeneros()).Returns(new List<SelectListItem>());
             mockReportesA.Setup(servicio => servicio.SelectListPublicos()).Returns(new List<SelectListItem>());
-
 
             ReportesController reportesController = new ReportesController(mockReportes.Object, mockReportesA.Object);
 
@@ -326,8 +294,8 @@ namespace PruebasPlanetarios
         {
             string publico = "Adultos";
             string membresia = "Lunar";
-            var mockReportes = new Mock<IReportesService>();
-            var mockReportesA = new Mock<IDataService>();
+            var mockReportes = new Mock<ReportesInterfaz>();
+            var mockReportesA = new Mock<DatosInterfaz>();
             mockReportes.Setup(servicio => servicio.ConsultaProductosCompradosJuntos(publico, membresia)).Returns(new List<object>());
             ReportesController reportesController = new ReportesController(mockReportes.Object, mockReportesA.Object);
 
@@ -342,8 +310,8 @@ namespace PruebasPlanetarios
             string categoria = "Ropa";
             string genero = "Femenino";
             string publico = "Adulto";
-            var mockReportes = new Mock<IReportesService>();
-            var mockReportesA = new Mock<IDataService>();
+            var mockReportes = new Mock<ReportesInterfaz>();
+            var mockReportesA = new Mock<DatosInterfaz>();
             mockReportes.Setup(servicio => servicio.ConsultaPorCategoriaProductoGeneroEdad(categoria, genero, publico)).Returns(new List<object>());
             ReportesController reportesController = new ReportesController(mockReportes.Object, mockReportesA.Object);
 
@@ -356,8 +324,8 @@ namespace PruebasPlanetarios
         public void ObtenerDatosExtranjerosNoEsNulo()
         {
             string categoria = "Ropa";
-            var mockReportes = new Mock<IReportesService>();
-            var mockReportesA = new Mock<IDataService>();
+            var mockReportes = new Mock<ReportesInterfaz>();
+            var mockReportesA = new Mock<DatosInterfaz>();
             mockReportes.Setup(servicio => servicio.ConsultaPorCategoriasPersonaExtranjeras(categoria)).Returns(new List<object>());
             ReportesController reportesController = new ReportesController(mockReportes.Object, mockReportesA.Object);
 
@@ -372,8 +340,8 @@ namespace PruebasPlanetarios
             string fechaInicial = "1998-01-01";
             string fechaFinal = "2021-01-01";
             string orden = "DESC";
-            var mockReportes = new Mock<IReportesService>();
-            var mockReportesA = new Mock<IDataService>();
+            var mockReportes = new Mock<ReportesInterfaz>();
+            var mockReportesA = new Mock<DatosInterfaz>();
             mockReportes.Setup(servicio => servicio.ObtenerTodosLosProductosFiltradosPorRanking(fechaInicial, fechaFinal, orden)).Returns(new List<object>());
             ReportesController reportesController = new ReportesController(mockReportes.Object, mockReportesA.Object);
 
