@@ -81,6 +81,7 @@
     <Compile Include="Vistas_Evaluacion\CuestionarioEvaluacionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Vistas_Evaluacion\ReportesTests.cs" />
+    <Compile Include="Vistas_Evaluacion\CarritoTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

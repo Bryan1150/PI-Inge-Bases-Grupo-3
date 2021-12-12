@@ -40,7 +40,7 @@ namespace Planetario.Controllers
                 ViewBag.IVA = 650;
                 ViewBag.PrecioTotal = 5650;
             }
-            if (membresia == "Solar")
+            else if (membresia == "Solar")
             {
                 ViewBag.Precio = 10000;
                 ViewBag.IVA = 1300;
@@ -52,12 +52,10 @@ namespace Planetario.Controllers
         public ActionResult Satisfactorio(string membresia)
         {
             string correo = cookiesInterfaz.CorreoUsuario();
-            MembresiasHandler membresiaHandler = new MembresiasHandler();
-
             ViewBag.ExitoAlActualizar = false;
             try
             {
-                ViewBag.ExitoAlCrear = membresiaHandler.ActualizarMembresia(correo, membresia);
+                ViewBag.ExitoAlCrear = membresiasInterfaz.ActualizarMembresia(correo, membresia);
                 if (ViewBag.ExitoAlCrear)
                 {
                     ViewBag.Mensaje = "Su membresía ahora es: " + membresia + "!";
@@ -66,7 +64,6 @@ namespace Planetario.Controllers
                 {
                     ViewBag.Mensaje = "Hubo un error en el servidor";
                 }
-
                 return View();
             }
             catch

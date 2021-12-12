@@ -490,7 +490,6 @@
     <Content Include="Utils\vendor\bootstrap\css\bootstrap.min.css.map" />
     <Content Include="Views\Actividades\CrearActividad.cshtml" />
     <Content Include="Views\Funcionarios\VerFuncionario.cshtml" />
-    <Content Include="Views\Home\PanelDeAdministracion.cshtml" />
     <Content Include="Views\Funcionarios\iniciarSesion.cshtml" />
     <Content Include="Views\Estadisticas\verInvolucramiento.cshtml" />
     <Content Include="Views\Estadisticas\verIdiomas.cshtml" />
