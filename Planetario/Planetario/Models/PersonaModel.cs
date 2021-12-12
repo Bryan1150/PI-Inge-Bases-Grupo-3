@@ -37,6 +37,12 @@ namespace Planetario.Models
         [Required(ErrorMessage = "Es necesario que ingrese una fecha de nacimiento")]
         public string fechaNacimiento { get; set; }
 
+        [Display(Name = "Nivel Educativo")]
+        [Required(ErrorMessage = "Es necesario que ingrese su nivel educativo")]
+        public string nivelEducativo { get; set; }
+
+        public string membresia { get; set; }
+
         [Display(Name = "Contraseña")]
         [DataType(DataType.Password)]
         [StringLength(150, MinimumLength = 6)]

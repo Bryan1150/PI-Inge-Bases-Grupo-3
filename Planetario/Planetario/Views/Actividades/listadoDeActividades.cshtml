@@ -8,24 +8,10 @@
     <title>Actividades</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="~/Utils/css/main.css">
-    <style>
-        .cuadro {
-            border-radius: 0.3em;
-            border: 1px solid #aaa;
-            margin: 1em;
-            padding: 1em;
-            height: 12em;
-            box-shadow: 7px 7px 0px 0px #aaa;
-        }
-            .cuadro:hover {
-                box-shadow: 10px 10px 0px 0px #aaa;
-            }
-
-    </style>
+    <link rel="stylesheet" type="text/css" href="~/Utils/css/actividades.css">
+    <link rel="stylesheet" type="text/css" href="~/Utils/css/botonesCompartir.css">
 </head>
 <body>
-    <span class="titulo"> Actividades </span>
-
     <form method="post" class="navbar-form navbar-right" action="@Url.Action("buscarActividad", "Actividades")">
         <div class="row">
             <div class="col-3 col-md-3 col-sm-2">
@@ -40,15 +26,15 @@
     <div class="row d-flex flex-wrap align-items-center">
         @foreach (Planetario.Models.ActividadModel actividad in ViewBag.actividades)
         {
-        <div class="col-4">
-            <div class="cuadro">
-                <h5>@Html.ActionLink(actividad.NombreActividad.ToString(),"verActividad","Actividades",new { nombreDeLaActividad = actividad.NombreActividad.ToString() }, new { @class="h5"})</h5>
-                <p><strong>Categoria: </strong>@actividad.Categoria</p>
-                <p><strong>Fecha: </strong>@actividad.Fecha</p>
-                <p><strong>Precio: </strong>@actividad.PrecioAproximado colones</p>
-                <br /><br /><br /><br />
+            <div class="col-4">
+                <div class="cuadro">
+                    <h5>@Html.ActionLink(actividad.NombreActividad.ToString(), "verActividad", "Actividades", new { nombre = actividad.NombreActividad.ToString() }, new { @class = "h5" })</h5>
+                    <p><strong>Categoria: </strong>@actividad.Categoria</p>
+                    <p><strong>Fecha: </strong>@actividad.Fecha</p>
+                    <p><strong>Precio: </strong>@actividad.PrecioAproximado colones</p>
+                    <br /><br /><br /><br />
+                </div>
             </div>
-        </div>
         }
     </div>
     <br /><br /><br />

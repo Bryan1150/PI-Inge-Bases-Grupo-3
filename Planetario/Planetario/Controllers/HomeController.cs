@@ -26,5 +26,10 @@ namespace Planetario.Controllers
         {
             return View();
         }
+
+        public ActionResult CompararCuerpos()
+        {
+            return View("CompararCuerpos", "_LayoutAlternativo");
+        }
     }
 }
