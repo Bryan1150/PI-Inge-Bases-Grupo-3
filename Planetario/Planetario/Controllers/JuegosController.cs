@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Planetario.Handlers;
+using Planetario.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +10,13 @@ namespace Planetario.Controllers
 {
     public class JuegosController : Controller
     {
+        readonly CookiesInterfaz cookiesInterfaz;
+
+        public JuegosController()
+        {
+            cookiesInterfaz = new CookiesHandler();
+        }
+
         public ActionResult principalJuegos()
         {
             return View();
@@ -15,6 +24,10 @@ namespace Planetario.Controllers
 
         public ActionResult Lista()
         {
+            PersonaHandler personasHandler = new PersonaHandler();
+            string correoUsuario = cookiesInterfaz.CorreoUsuario();
+            string membresia = personasHandler.ObtenerMembresia(correoUsuario);
+            ViewBag.Membresia = membresia;
             return View();
         }
 

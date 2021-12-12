@@ -24,7 +24,7 @@
                 <div class="card-footer">
                     <p>Dificultad: Fácil</p>
                 </div>
-                <a href="@Url.Action("SpaceConnect","Juegos")" class="hidden stretched-link"></a>
+                <a href="@Url.Action("SpaceConnect", "Juegos")" class="hidden stretched-link"></a>
             </div>
 
         </div>
@@ -38,7 +38,17 @@
                 <div class="card-footer">
                     <p>Dificultad: Intermedio</p>
                 </div>
-                <a href="@Url.Action("UFO2048","Juegos")" class="hidden stretched-link"></a>
+                @if (ViewBag.Membresia == "Lunar" || ViewBag.Membresia == "Solar")
+                {
+                    <a href="@Url.Action("UFO2048","Juegos")" class="hidden stretched-link"></a>
+                }
+                else
+                {
+                <div class="card-footer">                 
+                    <h6><a href="/Membresias/Comprar"><strong>Solo disponible con membresía Lunar o Solar.</strong></a></h6>
+                </div>
+                <a href="@Url.Action("UFO2048","Juegos")"></a>
+                }
             </div>
 
         </div>
@@ -52,10 +62,19 @@
                 <div class="card-footer">
                     <p>Dificultad: Fácil</p>
                 </div>
-                <a href="@Url.Action("OuterSpaceArkanoid","Juegos")" class="hidden stretched-link"></a>
+                @if (ViewBag.Membresia == "Solar")
+                {
+                    <a href="@Url.Action("OuterSpaceArkanoid","Juegos")" class="hidden stretched-link"></a>
+                }
+                else
+                {
+                    <div class="card-footer">
+                        <h6 ><a href="/Membresias/Comprar"><strong>Solo disponible con membresía Solar.</strong></a></h6>
+                    </div>
+                    <a href="@Url.Action("OuterSpaceArkanoid","Juegos")"></a>
+                }
+                
             </div>
-
         </div>
     </div>
-
 </body>
