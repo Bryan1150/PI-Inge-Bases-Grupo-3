@@ -98,9 +98,20 @@
             <div class="card-body">
                 <div class="card-text">
                     <h4>Subtotal: (@ViewBag.CantidadItems items)</h4>
-                    <h5><strong>Precio: </strong>₡@ViewBag.Precio</h5>
+                    <h5><strong>Precio Base: </strong>₡@ViewBag.Precio</h5>
                     <h5><strong>IVA: </strong>₡@ViewBag.IVA</h5>
-                    <h5 id="precioTotal"><strong>Precio Total: </strong>₡@ViewBag.PrecioTotal</h5>
+                  
+                    @if (ViewBag.Membresia == "Lunar")
+                    {
+                        <h5 id="precioTotal"><strong>Precio Total: </strong>₡@(ViewBag.PrecioTotal*0.95)</h5>
+                        <h6>Descuento de 5% aplicado por membresía <strong>Lunar.</strong></h6>
+                    }
+                    else if (ViewBag.Membresia == "Solar")
+                    {
+                        <h5 id="precioTotal"><strong>Precio Total: </strong>₡@(ViewBag.PrecioTotal*0.9)</h5>
+                        <h5>Descuento de 10% aplicado por membresía <strong>Solar.</strong></h5>
+                    }
+
                     <h5 id="precioConDescuento"></h5>
                 </div>
             </div>
@@ -129,7 +140,6 @@
             }
 
         }
-
 
 <script>
                 var entradaDescuento = document.getElementById("entradaDescuento");
@@ -173,8 +183,5 @@
                 }
 
 </script>
-
-            
-
 
 </body>
