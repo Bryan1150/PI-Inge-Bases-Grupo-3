@@ -54,9 +54,11 @@ namespace Planetario.Handlers
         public List<string> ObtenerTodosLosProductosFiltradosPorCategoriaFechasVentas(string nombre, string fechaInicio, string fechaFinal)
         {
             string consulta = "SELECT FORMAT(F.fechaCompra, 'd') as 'fechaCompra', sum(FC.cantidadComprada) as 'cantidadComprada' " +
-                              "FROM Producto P JOIN Comprable C ON C.idComprablePK = P.idComprableFK " +
+                              "FROM Producto P JOIN Comprable C " +
+                              "ON C.idComprablePK = P.idComprableFK " +
                               "JOIN FacturaComprables FC ON C.idComprablePK = FC.idComprableFK " +
-                              "JOIN Factura F ON FC.idFacturaFK = F.idFacturaPK " +
+                              "JOIN Factura F " +
+                              "ON FC.idFacturaFK = F.idFacturaPK " +
                               "WHERE C.nombre = '" + nombre + "' " +
                               "AND DATEDIFF(MINUTE, '" + fechaInicio + "', F.fechaCompra) >= 0 " + 
                               "AND DATEDIFF(MINUTE, '" + fechaFinal + "', F.fechaCompra) <= 0 " +
@@ -71,8 +73,10 @@ namespace Planetario.Handlers
         {
             string consulta = "SELECT FORMAT(F.fechaCompra, 'd') as 'fechaCompra', sum(FC.cantidadComprada) as 'cantidadComprada' " +
                               "FROM Producto P JOIN Comprable C ON C.idComprablePK = P.idComprableFK " +
-                              "JOIN FacturaComprables FC ON C.idComprablePK = FC.idComprableFK " +
-                              "JOIN Factura F ON FC.idFacturaFK = F.idFacturaPK " +
+                              "JOIN FacturaComprables FC " +
+                              "ON C.idComprablePK = FC.idComprableFK " +
+                              "JOIN Factura F " +
+                              "ON FC.idFacturaFK = F.idFacturaPK " +
                               "WHERE C.nombre = '" + nombre + "' " +
                               "AND DATEDIFF(MINUTE, '" + fechaInicio + "', F.fechaCompra) >= 0 " +
                               "AND DATEDIFF(MINUTE, '" + fechaFinal + "', F.fechaCompra) <= 0 " +
@@ -112,11 +116,13 @@ namespace Planetario.Handlers
 
         public List<object> ConsultaPorCategoriasPersonaExtranjeras(string categoria)
         {
-            string consulta = "SELECT SUM(F.cantidadComprada) as 'cantidad', Pe.pais, C.nombre, C.precio " +
+            string consulta = "SELECT SUM(FC.cantidadComprada) as 'cantidad', Pe.pais, C.nombre, C.precio " +
                               "FROM Producto Pr JOIN Comprable C " +
                               "ON C.idComprablePK = Pr.idComprableFK " +
+                              "JOIN FacturaComprables FC " +
+                              "ON C.idComprablePK = FC.idComprableFK " +
                               "JOIN Factura F " +
-                              "ON F.idComprableFk = C.idComprablePK " +
+                              "ON FC.idFacturaFK = F.idFacturaPK " +
                               "JOIN Persona Pe " +
                               "ON F.correoPersonaFK = Pe.correoPersonaPK " +
                               "WHERE Pr.categoria = '" + categoria + "' " +
@@ -143,11 +149,13 @@ namespace Planetario.Handlers
 
         public List<object> ConsultaPorCategoriaProductoGeneroEdad(string categoria, string genero, string publico)
         {
-            string consulta = "SELECT SUM(F.cantidadComprada) as 'cantidad', C.nombre, C.precio " +
+            string consulta = "SELECT SUM(FC.cantidadComprada) as 'cantidad', C.nombre, C.precio " +
                               "FROM Producto Pr JOIN Comprable C " +
                               "ON C.idComprablePK = Pr.idComprableFK " +
+                              "JOIN FacturaComprables FC " +
+                              "ON C.idComprablePK = FC.idComprableFK " +
                               "JOIN Factura F " +
-                              "ON F.idComprableFk = C.idComprablePK " +
+                              "ON FC.idFacturaFK = F.idFacturaPK " +
                               "JOIN Persona Pe " +
                               "ON F.correoPersonaFK = Pe.correoPersonaPK " +
                               "WHERE Pr.categoria = '" + categoria + "' " +
@@ -192,7 +200,6 @@ namespace Planetario.Handlers
                     Ingresos = (vecesCompradosJuntos * (precioProducto+precioCompradoCon))
                 });
             }
-
             return info;
         }
     }
