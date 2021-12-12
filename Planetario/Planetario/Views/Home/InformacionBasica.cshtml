@@ -16,6 +16,22 @@
         .carousel-item {
             height: 40em;
         }
+        .blockquote-custom {
+            position: relative;
+            font-size: 1.1rem;
+        }
+
+        .blockquote-custom-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: -40px;
+            left: 19px;
+        }
     </style>
 
     <div class="col-md-12">
@@ -66,30 +82,67 @@
         Planetario Halley
     </span>
 
-    <div class="row d-flex flex-wrap align-items-center">
-        <div class="col-md-6">
-            <span class="titulo">Misión</span>
-            <p align="justify" class="parrafo">
-                Construir comunidades alrededor del
-                conocimiento científico, artístico y tecnológico,
-                donde la diversidad de saberes y la comunicación con
-                nuestros públicos incidan en la transformación de la
-                sociedad por medio de un diálogo horizontal e incluyente.
-                <br /><br />
-            </p>
+    <div class="row rows-cols-md-3 g-4">
+        <div class="col">
+            <div class="card h-100">
+                <img src="~/Utils/images/Juegos/ETGame.jpg" class="card-img-top" style="object-fit: cover; height: 240px;" />
+                <div class="card-body">
+                    <h5 class="card-title">Juegos en Planetario Halley</h5>
+                    <p class="card-text">Ahora el Planetario Halley cuenta con diversos juegos para divertirse mientras aprendes!</p>
+                </div>
+                <a href="/Juegos/Lista" class="hidden stretched-link"></a>
+            </div>
+
         </div>
-        <div class="col-sm-6 col-md-6">
-            <span class="titulo">Visión</span>
-            <p align="justify" class="parrafo">
-                Estimular el interés por el quehacer científico,
-                a través de la exploración de diversos lenguajes de comunicación.
-                Construir una red interdisciplinaria
-                en las áreas de divulgación y educación a través del fortalecimiento
-                de los espacios que posibilitan el diálogo y el intercambio
-                a nivel local e internacional.
-            </p>
+        <div class="col">
+            <div class="card h-100">
+                <img src="~/Utils/images/assets/membresias.jpg" class="card-img-top" style="object-fit: cover; height: 240px;" />
+                <div class="card-body">
+                    <h5 class="card-title">Beneficios para nuestros Socios</h5>
+                    <p class="card-text">Ahora, al adquirir una membresía, puedes obtener beneficios, visita la página de membresias para aprender más.</p>
+                </div>
+                <a href="/Membresias/Comprar" class="hidden stretched-link"></a>
+            </div>
+
+        </div>
+
+        <div class="col">
+            <div class="card h-100">
+                <img src="~/Utils/images/Juegos/MapaSistema.jpg" class="card-img-top" style="object-fit: cover; height: 240px;" />
+                <div class="card-body">
+                    <h5 class="card-title">Compara cuerpos celestes dentro del Planetario</h5>
+                    <p class="card-text">Ahora puedes tener una idea de las dimensiones de los planetas comparandolos en nuestra nueva sección para comprarar.</p>
+                </div>
+                <a href="/Home/CompararCuerpos" class="hidden stretched-link"></a>
+            </div>
+
         </div>
     </div>
+
+    <div class="container py-5">
+        <div class="row d-flex justify-content-center align-items-center">
+            <div class="col col-md-9 col-lg-7 col-xl-5">
+                <div class="card">
+                    <div class="card-body">
+                        <blockquote class="blockquote blockquote-custom bg-white px-3 pt-4">
+                            <div class="blockquote-custom-icon bg-info shadow-1-strong">
+                                <i class="fa fa-quote-left text-white"></i>
+                            </div>
+                            <p class="mb-0 mt-2 font-italic">
+                                "El planetario me parece interesante, su uso es fácil y tiene bastantes funcionalidades, me gustó mucho que ahora puedo jugar mientras aprendo y puedo comprar artículos interesantes
+                                <a class="text-info">Carl Sagan</a>."
+                            </p>
+                            <footer class="blockquote-footer pt-4 mt-4 border-top">
+                                <a href="Evaluacion/CuestionarioEvaluacion" class="btn btn-primary">Dejanos tú opinión.</a>
+                            </footer>
+                        </blockquote>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 
     <div style="margin-top:100px"></div>
 
