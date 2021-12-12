@@ -45,5 +45,10 @@ namespace Planetario.Controllers
         {
             return View();
         }
+
+        public ActionResult RapidMath()
+        {
+            return View();
+        }
     }
 }
