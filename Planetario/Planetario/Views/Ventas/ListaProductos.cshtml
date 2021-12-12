@@ -137,7 +137,7 @@
                 <h3 id="agregado">Producto agregado al carrito!</h3>
             </div>
             <div class="modal-footer">
-                @Html.ActionLink("Ir al carrito", "Carrito", "Ventas", new { }, null)
+                <button type="button" onclick="location.href = '/Ventas/Carrito'" class="btn btn-outline-primary" href= id="seguirComprando">Ir al Carrito</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close" id="seguirComprando">Seguir Comprando</button>
             </div>
         </div>

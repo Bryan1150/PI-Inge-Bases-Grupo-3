@@ -28,7 +28,7 @@
                                         <p class="card-text"><strong>Cantidad: </strong>@producto.CantidadCarrito</p>
                                     </div>
                                 </div>
-                                <input type="submit" onclick="EliminarElementoDelCarrito(@producto.Id)" class="btn btn-outline-danger" value="Eliminar" id="eliminar_@producto.Id"/>
+                                <input type="submit" onclick="MostrarModalConfirmacion(@producto.Id)" class="btn btn-outline-danger" value="Eliminar" id="eliminar_@producto.Id"/>
                             </div>
                         </div>
                         <br />
@@ -51,7 +51,7 @@
                                         <p class="card-text"><strong>Cantidad: </strong>@entrada.CantidadCarrito</p>
                                     </div>
                                 </div>
-                                <input type="submit" onclick="EliminarElementoDelCarrito(@entrada.Id)" class="btn btn-outline-danger" value="Eliminar"/>
+                                <input type="submit" onclick="MostrarModalConfirmacion(@entrada.Id)" class="btn btn-outline-danger" value="Eliminar"/>
                             </div>
                         </div>
                         <br />
@@ -82,9 +82,6 @@
         <p class="text-center">No tienes artículos.</p>
     }
 
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalEliminarProducto" style="width: 100%;">
-        Confirmación
-    </button>
     <div class="modal fade" id="ModalEliminarProducto" tabindex="-1" aria-labelledby="LabelModal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -96,19 +93,25 @@
                     ¿Está seguro qué quiere eliminar el producto?
                 </div>
                 <div class="modal-footer">
-                    <input type="submit" class="btn btn-success" value="Si" style="width: 100%;" />
-                    <input type="submit" class="btn btn-success" value="No" style="width: 100%;" />
+                    <input type="submit" id="BotonConfirmarSi" onclick="EliminarElementoDelCarrito()" class="btn btn-success" value="Si" />
+                    <button type="button" class="btn btn-secondary"data-bs-dismiss="modal">No</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        function EliminarElementoDelCarrito(idComprable) {
-            $.getJSON('/Ventas/EliminarElementoDelCarritoDelUsuario', { idComprable: idComprable }, function (data) {
+        var idUltimoBorrar;
+        function EliminarElementoDelCarrito() {                      
+            $.getJSON('/Ventas/EliminarElementoDelCarritoDelUsuario', { idComprable: idUltimoBorrar }, function (data) {
                 console.log(data);
             });
             window.location.reload();
+        }
+
+        function MostrarModalConfirmacion(idComprable) {
+            $("#ModalEliminarProducto").modal('show');
+            idUltimoBorrar = idComprable
         }
     </script>
 </body>
