@@ -350,7 +350,9 @@
     <Content Include="Utils\images\imagenesComparador\venus.jpg" />
     <Content Include="Utils\images\Juegos\conectaPlanetas.jpg" />
     <Content Include="Utils\images\Juegos\ETGame.jpg" />
+    <Content Include="Utils\images\Juegos\MapaSistema.jpg" />
     <Content Include="Utils\images\Juegos\RapidMath.jpg" />
+    <Content Include="Utils\images\Juegos\VideoQuiz.jpg" />
     <Content Include="Utils\js\cuerposComparador.js" />
     <Content Include="Utils\images\assets\icons\shoppingcart.svg" />
     <Content Include="Utils\js\bootstrap-input-spinner.js" />
@@ -524,6 +526,8 @@
     <Content Include="Views\Juegos\ConectaPlanetas.cshtml" />
     <Content Include="Views\Juegos\ETBrain.cshtml" />
     <Content Include="Views\Juegos\RapidMath.cshtml" />
+    <Content Include="Views\Juegos\SistemaInteractivo.cshtml" />
+    <Content Include="Views\Juegos\VideoQuiz.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

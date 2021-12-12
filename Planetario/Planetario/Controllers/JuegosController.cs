@@ -17,11 +17,6 @@ namespace Planetario.Controllers
             cookiesInterfaz = new CookiesHandler();
         }
 
-        public ActionResult principalJuegos()
-        {
-            return View();
-        }
-
         public ActionResult Lista()
         {
             PersonaHandler personasHandler = new PersonaHandler();
@@ -47,6 +42,16 @@ namespace Planetario.Controllers
         }
 
         public ActionResult RapidMath()
+        {
+            return View();
+        }
+
+        public ActionResult SistemaInteractivo()
+        {
+            return View();
+        }
+
+        public ActionResult VideoQuiz()
         {
             return View();
         }
