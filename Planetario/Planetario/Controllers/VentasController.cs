@@ -427,5 +427,11 @@ namespace Planetario.Controllers
             int cantidadProductos = ventasHandler.ObtenerCantidadDeProductosDelCarrito(correoUsuario);
             return Json(new { cantidad = cantidadProductos }, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public ActionResult CompraExitosa()
+        {
+            return View();
+        }
     }
 }
