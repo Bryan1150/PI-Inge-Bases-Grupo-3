@@ -530,6 +530,7 @@
     <Content Include="Views\Juegos\SistemaInteractivo.cshtml" />
     <Content Include="Views\Juegos\VideoQuiz.cshtml" />
     <Content Include="Views\Actividades\VerActividad.cshtml" />
+    <Content Include="Views\Ventas\ComprarAhora.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

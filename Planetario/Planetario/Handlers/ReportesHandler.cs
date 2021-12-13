@@ -30,8 +30,8 @@ namespace Planetario.Handlers
                               "FROM Producto P JOIN Comprable C ON idComprablePK = idComprableFK " +
                               "JOIN FacturaComprables FC ON C.idComprablePK = FC.idComprableFK " +
                               "JOIN Factura F ON FC.idFacturaFK = F.idFacturaPK " +
-                              "WHERE DATEDIFF(MINUTE, '" + fechaInicio + "', F.fechaCompra) >= 0 " +
-                              "AND DATEDIFF(MINUTE, '" + fechaFinal + "', F.fechaCompra ) <= 0 " +
+                              "WHERE DATEDIFF(DAY, '" + fechaInicio + "', F.fechaCompra) >= 0 " +
+                              "AND DATEDIFF(DAY, '" + fechaFinal + "', F.fechaCompra ) <= 0 " +
                               "GROUP BY nombre, idComprablePK, precio, fechaIngreso, fechaUltimaVenta, cantidadVendidos " +
                               "ORDER BY SUM(FC.cantidadComprada) " + orden + ";";
 
@@ -53,17 +53,7 @@ namespace Planetario.Handlers
 
         public List<string> ObtenerTodosLosProductosFiltradosPorCategoriaFechasVentas(string nombre, string fechaInicio, string fechaFinal)
         {
-            string consulta = "SELECT FORMAT(F.fechaCompra, 'd') as 'fechaCompra', sum(FC.cantidadComprada) as 'cantidadComprada' " +
-                              "FROM Producto P JOIN Comprable C " +
-                              "ON C.idComprablePK = P.idComprableFK " +
-                              "JOIN FacturaComprables FC ON C.idComprablePK = FC.idComprableFK " +
-                              "JOIN Factura F " +
-                              "ON FC.idFacturaFK = F.idFacturaPK " +
-                              "WHERE C.nombre = '" + nombre + "' " +
-                              "AND DATEDIFF(MINUTE, '" + fechaInicio + "', F.fechaCompra) >= 0 " + 
-                              "AND DATEDIFF(MINUTE, '" + fechaFinal + "', F.fechaCompra) <= 0 " +
-                              "GROUP BY F.fechaCompra " +
-                              "ORDER by F.fechaCompra ASC";
+            string consulta = consultaProductosFiltradosPorCategoria(nombre, fechaInicio, fechaFinal);
 
             string opcion = "fechaCompra";
             return ObtenerLista(consulta, opcion);
@@ -71,17 +61,7 @@ namespace Planetario.Handlers
 
         public List<int> ObtenerTodosLosProductosFiltradosPorCategoriaCantidadVentas(string nombre, string fechaInicio, string fechaFinal)
         {
-            string consulta = "SELECT FORMAT(F.fechaCompra, 'd') as 'fechaCompra', sum(FC.cantidadComprada) as 'cantidadComprada' " +
-                              "FROM Producto P JOIN Comprable C ON C.idComprablePK = P.idComprableFK " +
-                              "JOIN FacturaComprables FC " +
-                              "ON C.idComprablePK = FC.idComprableFK " +
-                              "JOIN Factura F " +
-                              "ON FC.idFacturaFK = F.idFacturaPK " +
-                              "WHERE C.nombre = '" + nombre + "' " +
-                              "AND DATEDIFF(MINUTE, '" + fechaInicio + "', F.fechaCompra) >= 0 " +
-                              "AND DATEDIFF(MINUTE, '" + fechaFinal + "', F.fechaCompra) <= 0 " +
-                              "GROUP BY F.fechaCompra " +
-                              "ORDER by F.fechaCompra ASC";
+            string consulta = consultaProductosFiltradosPorCategoria(nombre, fechaInicio, fechaFinal);
 
             DataTable tabla = LeerBaseDeDatos(consulta);
             List<int> ventas = new List<int>();
@@ -90,6 +70,25 @@ namespace Planetario.Handlers
                 ventas.Add(Convert.ToInt32(columna["cantidadComprada"]));
             }
             return ventas;
+        }
+
+        private string consultaProductosFiltradosPorCategoria(string nombre, string fechaInicio, string fechaFinal)
+        {
+            string consulta = "WITH TABLA_FECHAS AS (" +
+                              "SELECT FORMAT(F.fechaCompra, 'd') as 'fechaCompra', FC.cantidadComprada " +
+                              "FROM Producto P JOIN Comprable C ON C.idComprablePK = P.idComprableFK " +
+                              "JOIN FacturaComprables FC " +
+                              "ON C.idComprablePK = FC.idComprableFK " +
+                              "JOIN Factura F " +
+                              "ON FC.idFacturaFK = F.idFacturaPK " +
+                              "WHERE C.nombre = '" + nombre + "' " +
+                              "AND DATEDIFF(DAY, '" + fechaInicio + "', F.fechaCompra) >= 0 " +
+                              "AND DATEDIFF(DAY, '" + fechaFinal + "', F.fechaCompra) <= 0)" +
+                              "SELECT sum(cantidadComprada) as 'cantidadComprada', fechaCompra " +
+                              "FROM TABLA_FECHAS " +
+                              "GROUP BY fechaCompra " +
+                              "ORDER BY CAST(fechaCompra as date) ASC";
+            return consulta;
         }
 
         public List<string> ObtenerTodasLasCategorias()
