@@ -1,7 +1,7 @@
 ﻿@{
     string urlProductos = Url.Content("/Ventas/ListaProductosFiltrados");
     List<SelectListItem> categorias = new List<SelectListItem>()
-        {
+{
             new SelectListItem(){ Text="Ropa", Value = "Ropa"},
             new SelectListItem(){ Text="Accesorios", Value = "Accesorios"},
             new SelectListItem(){ Text="Telescopios", Value = "Telescopio"},
@@ -16,32 +16,37 @@
         new SelectListItem{Text="Precio (Ascendente)",Value="precio ASC"},
         new SelectListItem{Text="Precio (Descendente)",Value="precio DESC"}
     };
-            }
+}
 
 <head>
     <link rel="stylesheet" type="text/css" href="~/Utils/css/ventas.css" />
 </head>
 
 <style>
-    #tienda{
-        padding:0;
-        margin-top:10px;
+    #tienda {
+        padding: 0;
+        margin-top: 10px;
     }
+
     .titulo {
-        padding-bottom:10px;
+        padding-bottom: 10px;
     }
+
     div.col {
-        margin-top:0;
+        margin-top: 0;
     }
-    input{
-        max-width:none;
+
+    input {
+        max-width: none;
     }
+
     .row > * {
         padding-right: 0;
         padding-left: 0;
     }
+
     .card {
-        margin:1em;
+        margin: 1em;
     }
      
     #columna-filtros{
@@ -52,7 +57,7 @@
 
 <div id="tienda" class="container-fluid">
     <div class="row align-items-center" id="fila-busqueda">
-        
+
         <div class="col-2">
             <span class="h5">Tienda de souveniers</span>
         </div>
@@ -81,8 +86,8 @@
                     <p>MAX</p>
                 </div>
             </div>
-            <input type="range" id="filtroPrecioMin" placeholder="" class="form-range" min="0" value="0" step="1000" max="100000" onchange="obtenerProductos();mostrarPrecioMinimo()"/>
-            <label id ="labelPrecioMaximo" for="filtroPrecioMax">Precio máximo</label>
+            <input type="range" id="filtroPrecioMin" placeholder="" class="form-range" min="0" value="0" step="1000" max="100000" onchange="obtenerProductos();mostrarPrecioMinimo()" />
+            <label id="labelPrecioMaximo" for="filtroPrecioMax">Precio máximo</label>
             <div class="row">
                 <div class="col-6">
                     <p>0</p>
@@ -91,7 +96,7 @@
                     <p>MAX</p>
                 </div>
             </div>
-            <input type="range" id="filtroPrecioMax" placeholder="" class="form-range" min="0" value="100000" step="1000" max="100000" onchange="obtenerProductos();mostrarPrecioMaximo()"/>
+            <input type="range" id="filtroPrecioMax" placeholder="" class="form-range" min="0" value="100000" step="1000" max="100000" onchange="obtenerProductos();mostrarPrecioMaximo()" />
             <br /><br />
             <label for="filtroCategoria">Categoría</label>
             <br />
@@ -147,6 +152,25 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="ModalCompra" tabindex="-1" aria-labelledby="LabelModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="labelModal">Modo de envío</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿De qué manera desea recibir el producto?
+            </div>
+            <div class="modal-footer">
+                <a id="botonComprarAhoraExpress"  class="btn btn-secondary container-fluid">Express</a>
+                <a id="botonComprarAhora"  class="btn btn-success container-fluid">Recoger en el planetario</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script>
 
@@ -218,8 +242,8 @@
                     <p class="card-text"><strong>Precio: </strong>₡${producto["Precio"]}</p>
                     <div class="row">
                        <div class="col"><input type="submit" onclick="agregarAlCarrito(${producto["Id"]})" class="btn btn-outline-success" value="Agregar al carrito" data-bs-toggle="modal" data-bs-target="#exampleModal" id="agregar_${producto["Id"]}"/></div>
-                       <div class="col"><a href="/Ventas/ComprarAhora?id=${producto["Id"]}&cantidad=1" class="btn btn-outline-success ">Comprar ahora</a></div>
-                    </div> 
+                       <div class="col"><a onclick="MostrarModalCompra(${producto["Id"]})" class="btn btn-outline-success ">Comprar ahora</a></div>
+                    </div>
                 </div>
                 </div>
         `
@@ -240,6 +264,18 @@
         $.getJSON('/Ventas/AgregarAlCarrito', { idComprable: id, cantidad: 1 }, function (data) {
             console.log(data);
         });
+    }
+    function MostrarModalCompra(id) {
+        document.getElementById("botonComprarAhora").setAttribute("onclick", "comprarAhora("+id+")");
+        document.getElementById("botonComprarAhoraExpress").setAttribute("onclick", "comprarAhoraExpress("+id+")");
+        $("#ModalCompra").modal('show');
+        
+    }
+    function comprarAhora(id) {
+        window.location.href = '/Ventas/ComprarAhora?id=' + id + '&cantidad=1' + "&formaDeCompra=Recoger";
+    }
+    function comprarAhoraExpress(id) {
+        window.location.href = '/Ventas/ComprarAhora?id=' + id + '&cantidad=1' + "&formaDeCompra=Express";
     }
 
     mostrarPrecioMinimo()

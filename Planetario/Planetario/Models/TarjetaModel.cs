@@ -16,8 +16,6 @@ namespace Planetario.Models
 
         [Display(Name = "Expiración (mm/aa)")]
         [Required(ErrorMessage = "Es necesario que ingrese una fecha")]
-        [MaxLength(6, ErrorMessage = "Máximo de 4 cáracteres")]
-        [MinLength(4, ErrorMessage = "Minimo de 4 cáracteres")]
         public string FechaExpiracion { get; set; }
 
         [Display(Name = "CVV")]

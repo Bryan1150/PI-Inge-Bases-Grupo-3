@@ -99,10 +99,13 @@
             <input type="hidden" id="Funcionalidades" name="Funcionalidades" value="">
         </div>
         </div>
-        <div class="row text-center justify-content-center">
-            <p>Opcionalmente, déjenos un comentario adicional</p>
-            @Html.TextAreaFor(model => model.Comentario, new { @class = "form-control-lg", @placeholder = "Comentario" })
-            @Html.ValidationMessageFor(model => model.Comentario, "", new { @class = "text-danger" })
+
+        <div class="card p-4 bg-light" style="padding-top: 0.2rem !important;">
+            <div class="row text-center justify-content-center" >
+                <p>Opcionalmente, déjenos un comentario adicional</p>
+                @Html.TextAreaFor(model => model.Comentario, new { @class = "form-control-lg", @placeholder = "Comentario" })
+                @Html.ValidationMessageFor(model => model.Comentario, "", new { @class = "text-danger" })
+            </div>
         </div>
 
         <div class="row justify-content-center">

@@ -47,7 +47,7 @@
                                 @Html.ActionLink("Documentos", "listadoDeMateriales", "MaterialEducativo", new { area = "" }, new { @class = "dropdown-item" })
                             </li>
                             <li class="nav-item">
-                                @Html.ActionLink("Compardor de cuerpos celestes", "CompararCuerpos", "Home", new { area = "" }, new { @class = "dropdown-item" })
+                                @Html.ActionLink("Comparador de cuerpos celestes", "CompararCuerpos", "Home", new { area = "" }, new { @class = "dropdown-item" })
                             </li>
                             <li class="nav-item">
                                 @Html.ActionLink("Cuestionarios", "ListaCuestionarios", "Cuestionario", new { area = "" }, new { @class = "dropdown-item" })
@@ -249,6 +249,7 @@
                         </a>
                     </div>
                     <div class="collapse" id="collapseEstadisticas">
+                        <p class="card-text">@Html.ActionLink("Agregar Cupones", "AgregarCupon", "Ventas", new { area = "" }, new { @class = "" })</p>
                         <p class="card-text">@Html.ActionLink("Estadísticas de Idiomas", "verIdiomas", "Estadisticas", new { area = "" }, new { @class = "" })</p>
                         <p class="card-text">@Html.ActionLink("Estadísticas de Involucramiento", "verInvolucramiento", "Estadisticas", new { area = "" }, new { @class = "" })</p>
                         <p class="card-text">@Html.ActionLink("Reporte de ventas", "Reporte", "Reportes", new { area = "" }, new { @class = "" })</p>
