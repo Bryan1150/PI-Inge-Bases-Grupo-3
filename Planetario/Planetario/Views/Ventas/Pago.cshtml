@@ -130,7 +130,7 @@
                 <div class="card-text">
                     <h4>Subtotal: (@ViewBag.CantidadItems items)</h4>
                     <h5><strong>Precio Base: </strong>₡@ViewBag.Precio</h5>
-                    <h5><strong>IVA: </strong>₡@ViewBag.IVA</h5>
+                    <h5 id="iva"><strong>IVA: </strong>₡@ViewBag.IVA</h5>
 
                     @if (ViewBag.FormaDeCompra == "Express" && ViewBag.Membresia != "Solar")
                     {
@@ -186,11 +186,13 @@
         }
 
 <script>
-                var entradaDescuento = document.getElementById("entradaDescuento");
+    var entradaDescuento = document.getElementById("entradaDescuento");
     var mensaje = document.getElementById("mensaje");
     var porcentajeDescuento = 0;
-    var precioSinDescuento = @ViewBag.PrecioTotal;
-    var precioConDescuento = precioSinDescuento;
+    var subTotal = @ViewBag.Precio;
+    var iva = subTotal * 0.13;
+    var precioConDescuento = subTotal;
+    var precioFinal = subTotal + iva;
 
                 function obtenerPorcentajeDescuento() {
                     let urlProductos = "@urlDescuentos?codigo=" + entradaDescuento.value;
@@ -211,9 +213,12 @@
                                             </div></p>`;
                         document.getElementById("descuentos").innerHTML = "";
                         porcentajeDescuento = porcentaje;
-                        precioConDescuento = (precioSinDescuento - precioSinDescuento * porcentaje / 100).toFixed(2);
+                        precioConDescuento = (subTotal - subTotal * porcentaje / 100).toFixed(2);
+                        iva = precioConDescuento * 0.13;
+                        precioFinal = precioConDescuento + iva;
                         document.getElementById("precioConDescuento").innerHTML = `<strong>Precio con descuento: </strong>₡${precioConDescuento}`;
-                        document.getElementById("precioTotal").innerHTML = `<strong>Precio sin descuento: </strong>₡${precioSinDescuento}`;
+                        document.getElementById("precioTotal").innerHTML = `<strong>Precio sin descuento: </strong>₡${subTotal}`;
+                        
                     }
                     else {
                         mensaje.innerHTML = `<div class="card bg-danger bg-opacity-25 border">
