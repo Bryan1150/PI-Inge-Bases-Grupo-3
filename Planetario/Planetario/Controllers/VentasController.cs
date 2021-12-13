@@ -225,11 +225,12 @@ namespace Planetario.Controllers
         }
 
         [HttpGet]
-        public ActionResult ComprarAhora(int id,int cantidad)
+        public ActionResult ComprarAhora(int id,int cantidad,string formaDeCompra)
         {
             ActionResult resultado = RedirectToAction("IniciarSesion", "Personas");
             if(cookiesInterfaz.SesionIniciada())
             {
+                ViewBag.FormaDeCompra = formaDeCompra;
                 string correoUsuario = cookiesInterfaz.CorreoUsuario();
                 PersonaHandler personaHandler = new PersonaHandler();
                 ViewBag.membresia = personaHandler.ObtenerMembresia(correoUsuario);
