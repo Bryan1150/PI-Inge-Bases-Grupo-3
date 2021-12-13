@@ -1,9 +1,7 @@
 ﻿using System.Web.Mvc;
-using System.Configuration;
 using Planetario.Handlers;
 using Planetario.Models;
 using Planetario.Interfaces;
-using System.Diagnostics;
 using System;
 using System.Collections.Generic;
 
