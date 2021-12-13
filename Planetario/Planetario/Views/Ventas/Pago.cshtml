@@ -191,7 +191,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button id="btnCerrarModalDescuento" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                    <button type="button" class="btn btn-primary" onclick="obtenerPorcentajeDescuento();">Aplicar cupón</button>
+                                    <button type="button" class="btn btn-primary" onclick="obtenerPorcentajeDescuento()">Aplicar cupón</button>
                                 </div>
                             </div>
                         </div>
@@ -211,7 +211,7 @@
     }
     @Html.Hidden("formaDeCompra", (object)ViewBag.FormaDeCompra)
 
-    <script>
+<script>
     var entradaDescuento = document.getElementById("entradaDescuento");
     var mensaje = document.getElementById("mensaje");
     var porcentajeDescuento = 0;
@@ -219,9 +219,6 @@
     var iva = subTotal * 0.13;
     var precioConDescuento = subTotal;
     var precioFinal = subTotal + iva;
-
-        document.getElementById("comprable").value = @ViewBag.Id;
-        document.getElementById("cantidad").value = @ViewBag.cantidad;
 
     function obtenerPorcentajeDescuento() {
         let urlProductos = "@urlDescuentos?codigo=" + entradaDescuento.value;
@@ -247,7 +244,7 @@
             precioFinal = 1*(precioConDescuento) + 1*(iva);
             document.getElementById("precioConDescuento").innerHTML = `<strong>Precio con descuento: </strong>₡${precioConDescuento}`;
             document.getElementById("precioFinal").innerHTML = `<strong>Precio + IVA: </strong>₡${precioFinal}`;
-            document.getElementById("iva").innerHTML = `<strong>IVA: </strong>₡${iva}`            
+            document.getElementById("iva").innerHTML = `<strong>IVA: </strong>₡${iva}`
         }
         else {
             mensaje.innerHTML = `<div class="card bg-danger bg-opacity-25 border">
@@ -260,6 +257,6 @@
         }
     }
 
-    </script>
+</script>
 
 </body>
