@@ -62,7 +62,14 @@ namespace Planetario.Handlers
         public ComprableModel ObtenerComprable(int id)
         {
             string consulta = "SELECT * FROM Comprable WHERE idComprablePK = '" + id.ToString() + "';";
-            return (ObtenerComprables(consulta)[0]);
+            DataRow columna = LeerBaseDeDatos(consulta).Rows[0];
+            ComprableModel comprable = new ComprableModel
+            {
+                Id = Convert.ToInt32(columna["idComprablePK"]),
+                Nombre = Convert.ToString(columna["nombre"]),
+                Precio = Convert.ToDouble(columna["precio"]),
+            };
+            return comprable;
         }
 
         public List<ComprableModel> ObtenerTodosLosProductos()
