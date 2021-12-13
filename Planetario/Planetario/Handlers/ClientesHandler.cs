@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Text;
 using Planetario.Models;
-using Planetario.Handlers;
-using System.Data.SqlClient;
-using System.Web.Security;
-using System.Data.SqlTypes;
 
 namespace Planetario.Handlers
 {
@@ -52,31 +47,58 @@ namespace Planetario.Handlers
             return (ObtenerClientes(consulta)[0]);
         }
 
-        public bool InsertarCliente(ClienteModel cliente)
+        public bool InsertarCliente(PersonaModel persona)
         {
-            string consultaTablaPersona = "INSERT INTO Persona ( correoPersonaPK, nombre, apellido1, apellido2, genero, pais, fechaNacimiento) "
-                + "VALUES ( @correo, @nombre, @apellido1, @apellido2, @genero, @pais, @fechaNacimiento,);";
-            string consultaTablaCliente = "INSERT INTO Cliente ( correoClientePK, nivelEducativo) "
-                + "VALUES ( @correoCliente, @nivelEducativo);";
 
-            Dictionary<string, object> parametrosParaTablaPersona = new Dictionary<string, object> 
-            {
-                {"@correo", cliente.correo },
-                {"@nombre", cliente.nombre },
-                {"@apellido1", cliente.apellido1 },
-                {"@apellido2", cliente.apellido2 },
-                {"@genero", cliente.genero },
-                {"@pais", cliente.pais },
-                {"@fechaNacimiento", cliente.pais }
+            string consultaTablaPersona = "INSERT INTO Persona ( correoPersonaPK, nombre, apellido1, apellido2, genero, pais, fechaNacimiento, membresia ) "
+                + "VALUES ( @correo, @nombre, @apellido1, @apellido2, @genero, @pais, @nacimiento, @membresia );";
+
+            Dictionary<string, object> parametrosPersona = new Dictionary<string, object> {
+                {"@correo", persona.correo },
+                {"@nombre", persona.nombre },
+                {"@apellido1", persona.apellido1 },
+                {"@apellido2", persona.apellido2 },
+                {"@genero", persona.genero },
+                {"@pais", persona.pais },
+                {"@nacimiento", persona.fechaNacimiento},
+                {"@membresia", "Terrestre" }
             };
 
-            Dictionary<string, object> parametrosParaTablaCliente = new Dictionary<string, object>
+            if (persona.apellido2 == null)
             {
-                {"@correoCliente", cliente.correo },
-                {"@nivelEducativo", cliente.nivelEducativo }
+                consultaTablaPersona = "INSERT INTO Persona ( correoPersonaPK, nombre, apellido1, genero, pais, fechaNacimiento, membresia ) "
+                + "VALUES ( @correo, @nombre, @apellido1, @genero, @pais, @nacimiento, @membresia );";
+
+                parametrosPersona = new Dictionary<string, object> {
+                {"@correo", persona.correo },
+                {"@nombre", persona.nombre },
+                {"@apellido1", persona.apellido1 },
+                {"@genero", persona.genero },
+                {"@pais", persona.pais },
+                {"@nacimiento", persona.fechaNacimiento},
+                {"@membresia", "Terrestre" }
+            };
+            }
+
+
+            string consultaTablaCliente = "INSERT INTO Cliente ( correoClientePK, nivelEducativo ) "
+                + "VALUES ( @correo, @nivelEducativo );";
+
+            string consultaTablaCredencial = "INSERT INTO Credenciales (correoPersonaFK, contraseña) VALUES (@correo, PWDENCRYPT(@contrasena))";
+
+            Dictionary<string, object> parametrosCliente = new Dictionary<string, object>
+            {
+                {"@correo", persona.correo },
+                {"@nivelEducativo", persona.nivelEducativo },
             };
 
-            return (InsertarEnBaseDatos(consultaTablaPersona, parametrosParaTablaPersona) && InsertarEnBaseDatos(consultaTablaCliente, parametrosParaTablaCliente));
+            Dictionary<string, object> parametrosCredencial = new Dictionary<string, object>
+            {
+                {"@correo", persona.correo },
+                {"@contrasena", persona.contrasena },
+            };
+
+            return (InsertarEnBaseDatos(consultaTablaPersona, parametrosPersona) && InsertarEnBaseDatos(consultaTablaCliente, parametrosCliente) && InsertarEnBaseDatos(consultaTablaCredencial, parametrosCredencial));
         }
     }
 }

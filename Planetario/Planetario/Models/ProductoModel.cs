@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Web;
 using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
 
 namespace Planetario.Models
 {
@@ -11,7 +7,7 @@ namespace Planetario.Models
     {
         public int CantidadRebastecer { get; set; }
 
-        public int CantidadCarrito { get; set; }
+        
 
         public string Tamano { get; set; }
 
@@ -24,6 +20,8 @@ namespace Planetario.Models
         public string FechaIngreso { get; set; }
 
         public string FechaUltimaVenta { get; set; }
+
+        public int CantidadVendidos { get; set; }
 
         [Display(Name = "Foto del Producto")]
         public HttpPostedFileBase FotoArchivo { get; set; }

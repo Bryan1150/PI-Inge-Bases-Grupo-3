@@ -16,5 +16,7 @@ namespace Planetario.Models
 
         [RegularExpression(@"^-?[0-9]\d{0,2}(\.\d{0,1})?$", ErrorMessage = "El valor ingresado debe ser un número")]
         public int CantidadDisponible { get; set; }
+
+        public int CantidadCarrito { get; set; }
     }
 }

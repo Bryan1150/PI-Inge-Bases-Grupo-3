@@ -1,10 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Planetario.Handlers;
 using Planetario.Controllers;
 using Planetario.Models;
 using Moq;
 using System.Web.Mvc;
 using System.Collections.Generic;
+using Planetario.Interfaces;
 
 namespace PruebasPlanetarios.Controllers
 {
@@ -14,7 +14,7 @@ namespace PruebasPlanetarios.Controllers
         [TestMethod]
         public void CrearActividadNoDevuelveVistaNula()
         {
-            var mockActividades = new Mock<IActividadesService>();
+            var mockActividades = new Mock<ActividadesInterfaz>();
             
             ActividadesController actividadesController = new ActividadesController(mockActividades.Object);
 
@@ -26,7 +26,7 @@ namespace PruebasPlanetarios.Controllers
         [TestMethod]
         public void CrearActividadNoDevuelveVistaNulaCuandoRecibeUnModelo()
         {
-            var mockActividades = new Mock<IActividadesService>();
+            var mockActividades = new Mock<ActividadesInterfaz>();
             var actividad = new ActividadModel();
             string topicos = "Topico,Topico";
 
@@ -43,7 +43,7 @@ namespace PruebasPlanetarios.Controllers
         [TestMethod]
         public void CrearActividadDevuelveMensajeCorrectoCuandoInsercionCorrecto()
         {
-            var mockActividades = new Mock<IActividadesService>();
+            var mockActividades = new Mock<ActividadesInterfaz>();
             var actividad = new ActividadModel() { NombreActividad = "Nombre" };
             string topicos = "Topico,Topico";
 
@@ -59,7 +59,7 @@ namespace PruebasPlanetarios.Controllers
         [TestMethod]
         public void CrearActividadDevuelveMensajeCorrectoCuandoInsercionIncorrecto()
         {
-            var mockActividades = new Mock<IActividadesService>();
+            var mockActividades = new Mock<ActividadesInterfaz>();
             var actividad = new ActividadModel() { NombreActividad = "Nombre" };
             string topicos = "Topico,Topico";
 
@@ -75,7 +75,7 @@ namespace PruebasPlanetarios.Controllers
         [TestMethod]
         public void CrearActividadDevuelveMensajeCorrectoCuandoModeloEsInvalido()
         {
-            var mockActividades = new Mock<IActividadesService>();
+            var mockActividades = new Mock<ActividadesInterfaz>();
             var actividad = new ActividadModel() { NombreActividad = "Nombre" };
             string topicos = "Topico,Topico";
 
@@ -92,7 +92,7 @@ namespace PruebasPlanetarios.Controllers
         [TestMethod]
         public void ListadoDeActividadesDevuelveVistaNoNula()
         {
-            var mockActividades = new Mock<IActividadesService>();
+            var mockActividades = new Mock<ActividadesInterfaz>();
             var actividad = new ActividadModel() { NombreActividad = "Nombre" };
             List<ActividadModel> listaActividades = new List<ActividadModel>()
             {
@@ -111,7 +111,7 @@ namespace PruebasPlanetarios.Controllers
         [TestMethod]
         public void ListadoDeActividadesDevuelveListaActividadesNoNula()
         {
-            var mockActividades = new Mock<IActividadesService>();
+            var mockActividades = new Mock<ActividadesInterfaz>();
             var actividad = new ActividadModel() { NombreActividad = "Nombre" };
             List<ActividadModel> listaActividades = new List<ActividadModel>()
             {
@@ -130,7 +130,7 @@ namespace PruebasPlanetarios.Controllers
         [TestMethod]
         public void VerActividadDevuelveVistaNoNula()
         {
-            var mockActividades = new Mock<IActividadesService>();
+            var mockActividades = new Mock<ActividadesInterfaz>();
             var actividad = new ActividadModel() { NombreActividad = "Nombre" };
             var nombreActividad = "Nombre";
             var topicos  = new List<string>();
@@ -152,7 +152,7 @@ namespace PruebasPlanetarios.Controllers
         [TestMethod]
         public void VerActividadDevuelveActividadNoNula()
         {
-            var mockActividades = new Mock<IActividadesService>();
+            var mockActividades = new Mock<ActividadesInterfaz>();
             var actividad = new ActividadModel() { NombreActividad = "Nombre" };
             var nombreActividad = "Nombre";
             var topicos = new List<string>();
@@ -174,7 +174,7 @@ namespace PruebasPlanetarios.Controllers
         [TestMethod]
         public void ComprarEntradasDevuelveVistaNoNula()
         {
-            var mockActividades = new Mock<IActividadesService>();
+            var mockActividades = new Mock<ActividadesInterfaz>();
             var actividad = new ActividadModel() { NombreActividad = "Nombre" };
             var nombreActividad = "Nombre";
             var topicos = new List<string>();
@@ -196,7 +196,7 @@ namespace PruebasPlanetarios.Controllers
         [TestMethod]
         public void BuscarActividadNoDevuelveVistaNulaCuandoNoRecibePalabra()
         {
-            var mockActividades = new Mock<IActividadesService>();
+            var mockActividades = new Mock<ActividadesInterfaz>();
 
             ActividadesController actividadesController = new ActividadesController(mockActividades.Object);
 
@@ -208,7 +208,7 @@ namespace PruebasPlanetarios.Controllers
         [TestMethod]
         public void BuscarActividadNoDevuelveVistaNula()
         {
-            var mockActividades = new Mock<IActividadesService>();
+            var mockActividades = new Mock<ActividadesInterfaz>();
             var actividad = new ActividadModel() { NombreActividad = "Nombre" };
             var palabra = "Nombre";
             var listaActividades = new List<ActividadModel>();
@@ -224,7 +224,7 @@ namespace PruebasPlanetarios.Controllers
         [TestMethod]
         public void BuscarActividadNoDevuelveListaSinActividadesNulas()
         {
-            var mockActividades = new Mock<IActividadesService>();
+            var mockActividades = new Mock<ActividadesInterfaz>();
             var actividad = new ActividadModel() { NombreActividad = "Nombre" };
             var palabra = "Nombre";
             var listaActividades = new List<ActividadModel>();

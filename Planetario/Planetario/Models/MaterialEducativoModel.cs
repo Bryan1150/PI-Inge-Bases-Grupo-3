@@ -1,6 +1,5 @@
 ﻿using System.Web;
 using System.ComponentModel.DataAnnotations;
-using System.Collections.Generic;
 
 namespace Planetario.Models
 {

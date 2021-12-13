@@ -1,4 +1,5 @@
-    (function umd(root, factory) {
+
+(function umd(root, factory) {
         /* eslint-disable no-undef, no-param-reassign */
         if (typeof define === 'function' && define.amd) {
             define([], factory);
@@ -255,7 +256,7 @@
             */
             this.getCart = function getCart() {
                 return cart;
-            };
+            };          
 
             /**
              * A string containing all the letters of the english alphabet.
@@ -303,6 +304,10 @@
              */
             var cartDict = {};
 
+
+            this.getCartDict = function getCartDict() {
+                return cartDict;
+            };
             /**
              * Adds a seat to the shopping cart dictionary.
              * @param {string} id - The dom id of the seat in the seatmap.
@@ -1901,3 +1906,4 @@
 
         return Seatchart;
     })));
+

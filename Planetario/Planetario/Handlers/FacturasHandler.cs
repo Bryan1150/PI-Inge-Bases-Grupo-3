@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Text;
 using Planetario.Models;
-using System.Data.SqlClient;
-using System.Web.Security;
-using System.Data.SqlTypes;
-using System.Web;
 
 namespace Planetario.Handlers
 {
@@ -53,6 +48,33 @@ namespace Planetario.Handlers
         {
             string consulta = "SELECT * FROM Factura WHERE idFacturaPK ='" + id.ToString() + "';";
             return (ObtenerFacturas(consulta)[0]);
+        }
+
+        // funciones nuevas
+
+        public void InsertarFactura(string correo,Dictionary<int,int> comprables)
+        {
+            string consultaFactura = "INSERT INTO Factura(correoPersonaFK,fechaCompra) VALUES(@correo,@fecha);";
+            Dictionary<string, object> parametros = new Dictionary<string, object>()
+            {
+                {"@correo",correo },
+                {"@fecha",DateTime.Now }
+            };
+            InsertarEnBaseDatosConIsolación(consultaFactura, parametros);
+
+            string consultaFacturaComprables = "DECLARE @identity int=IDENT_CURRENT('Factura'); " +
+                "INSERT INTO FacturaComprables VALUES(@identity,@idComprableFK,@cantidad);";
+
+            Dictionary<string, object> parametrosFacturaComprables;
+            foreach(KeyValuePair<int,int> comprable in comprables)
+            {
+                parametrosFacturaComprables = new Dictionary<string, object>()
+                {
+                    {"@idComprableFK", comprable.Key },
+                    {"@cantidad", comprable.Value }
+                };
+                InsertarEnBaseDatosConIsolación(consultaFacturaComprables, parametrosFacturaComprables);
+            }
         }
     }
 }

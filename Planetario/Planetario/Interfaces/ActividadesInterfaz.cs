@@ -2,9 +2,9 @@
 using Planetario.Models;
 using System.Collections.Generic;
 
-namespace Planetario.Handlers
+namespace Planetario.Interfaces
 {
-    public interface IActividadesService
+    public interface ActividadesInterfaz
     {
         List<ActividadModel> ObtenerTodasLasActividades();
 

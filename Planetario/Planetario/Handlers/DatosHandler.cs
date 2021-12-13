@@ -3,10 +3,11 @@ using System.Web;
 using System.Web.Mvc;
 using System.IO;
 using Newtonsoft.Json;
+using Planetario.Interfaces;
 
 namespace Planetario.Handlers
 {
-    public class DatosHandler
+    public class DatosHandler : DatosInterfaz
     {
         public List<string> paises;
         public List<string> generos;
@@ -17,6 +18,7 @@ namespace Planetario.Handlers
         public List<string> diasDeLaSemana;
         public List<string> nivelesEducativos;
         public Dictionary<string, List<string>> topicosPorCategoria;
+        public List<string> evaluacion;
 
         public DatosHandler()
         {
@@ -27,6 +29,7 @@ namespace Planetario.Handlers
             tiposDeActividad = CargarListaDeStringsDesdeArchivo("TiposDeActividad.json");
             diasDeLaSemana = CargarListaDeStringsDesdeArchivo("DiasDeLaSemana.json");
             nivelesEducativos = CargarListaDeStringsDesdeArchivo("NivelesEducativos.json");
+            evaluacion = CargarListaDeStringsDesdeArchivo("OpcionesEvaluacion.json");
             CargarCategoriasYTopicosDesdeArchivo();
         }
 
@@ -39,7 +42,6 @@ namespace Planetario.Handlers
         {
             string jsonString = File.ReadAllText(ObtenerRutaDocumento(nombreDocumento));
             List<string> lista = JsonConvert.DeserializeObject<List<string>>(jsonString);
-            lista.Sort();
             return (lista);
         }
 

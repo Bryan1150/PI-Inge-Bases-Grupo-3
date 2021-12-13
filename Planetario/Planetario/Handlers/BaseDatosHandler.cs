@@ -2,8 +2,8 @@
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.IO;
 using System;
+using System.Diagnostics;
 
 namespace Planetario.Handlers
 {
@@ -34,22 +34,29 @@ namespace Planetario.Handlers
         {
             bool exito;
             SqlCommand comandoParaConsulta = new SqlCommand(consulta, conexion);
+            Debug.WriteLine(consulta);
 
             if(valoresParametros != null)
+            { 
                 foreach (KeyValuePair<string, object> parejaValores in valoresParametros)
                 {
                     comandoParaConsulta.Parameters.AddWithValue(parejaValores.Key, parejaValores.Value);
+                    Debug.WriteLine(parejaValores.Key + "\t\t" + parejaValores.Value);
                 }
+            }
 
             conexion.Open();
             try
             {
                 comandoParaConsulta.ExecuteNonQuery();
                 exito = true;
+                Debug.WriteLine("exito");
             }
             catch(System.Exception ex)
             {
+                Debug.WriteLine("error");
                 System.Console.WriteLine(ex.Message);
+                Debug.WriteLine(ex.Message);
                 exito = false;
             }
             conexion.Close();
@@ -61,17 +68,17 @@ namespace Planetario.Handlers
             bool exito;
             SqlCommand comandoParaConsulta = new SqlCommand(consulta, conexion);
 
-            foreach (KeyValuePair<string, object> parejaValores in valoresParametros)
-            {
-                comandoParaConsulta.Parameters.AddWithValue(parejaValores.Key, parejaValores.Value);
-            }
+            if(valoresParametros != null)
+                foreach (KeyValuePair<string, object> parejaValores in valoresParametros)
+                {
+                    comandoParaConsulta.Parameters.AddWithValue(parejaValores.Key, parejaValores.Value);
+                }
 
             conexion.Open();
             
             try
             {
-                comandoParaConsulta.ExecuteNonQuery();
-                exito = true;
+                exito = comandoParaConsulta.ExecuteNonQuery() >= 1;
             }
             catch(System.Exception ex)
             {
@@ -88,9 +95,12 @@ namespace Planetario.Handlers
             bool exito;
             SqlCommand comandoParaConsulta = new SqlCommand(consulta, conexion);
 
-            foreach (KeyValuePair<string, object> parejaValores in valoresParametros)
+            if(valoresParametros != null)
             {
-                comandoParaConsulta.Parameters.AddWithValue(parejaValores.Key, parejaValores.Value);
+                foreach (KeyValuePair<string, object> parejaValores in valoresParametros)
+                {
+                    comandoParaConsulta.Parameters.AddWithValue(parejaValores.Key, parejaValores.Value);
+                }
             }
 
             conexion.Open();
@@ -98,6 +108,13 @@ namespace Planetario.Handlers
             conexion.Close();
 
             return exito;
+        }
+
+        public bool InsertarEnBaseDatosConIsolación(string consulta, Dictionary<string, object> valoresParametros)
+        {
+            consulta.Insert(0, "SET TRANSACTION ISOLATION LEVEL REPEATABLE READ; BEGIN TRANSACTION ");
+            consulta += " COMMIT TRANSACTION";
+            return InsertarEnBaseDatos(consulta, valoresParametros);
         }
 
         public Tuple<byte[],string> ObtenerArchivo (string consulta, KeyValuePair<string,object> parametro, string columnaContenido, string columnaTipo)

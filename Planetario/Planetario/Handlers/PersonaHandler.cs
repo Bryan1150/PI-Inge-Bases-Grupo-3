@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using Planetario.Models;
 
 namespace Planetario.Handlers
 {
@@ -46,6 +44,35 @@ namespace Planetario.Handlers
                 tipoUsuario = "Cliente";
             }
             return tipoUsuario;
+        }
+
+        public string ObtenerMembresia(string correo) 
+        {
+            string consultaTablaPersona = "SELECT membresia " +
+                                          "FROM Persona " +
+                                          "WHERE correoPersonaPK = '" + correo + "' ";
+            string membresia;
+            DataTable tabla = LeerBaseDeDatos(consultaTablaPersona);
+            try { 
+            DataRow columna = tabla.Rows[0];
+            membresia = Convert.ToString(columna["membresia"]);
+            }
+            catch
+            {
+                membresia = "No Disponible";
+            }
+
+            return membresia;
+        }
+
+        public bool ActualizarMembresia(string correo, string membresia)
+        {
+            string consultaTablaPersona = "UPDATE Persona " +
+                                          "SET membresia = '" + membresia + "', " +
+                                          "compraMembresia = GETDATE() " +
+                                          "WHERE correoPersonaPK = '" + correo + "' ";
+
+            return (ActualizarEnBaseDatos(consultaTablaPersona, null));
         }
     }
 }

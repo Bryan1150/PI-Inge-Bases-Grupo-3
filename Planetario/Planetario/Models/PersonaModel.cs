@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Planetario.Models
 {
@@ -36,6 +31,12 @@ namespace Planetario.Models
         [Display(Name = "Fecha de nacimiento")]
         [Required(ErrorMessage = "Es necesario que ingrese una fecha de nacimiento")]
         public string fechaNacimiento { get; set; }
+
+        [Display(Name = "Nivel Educativo")]
+        [Required(ErrorMessage = "Es necesario que ingrese su nivel educativo")]
+        public string nivelEducativo { get; set; }
+
+        public string membresia { get; set; }
 
         [Display(Name = "Contraseña")]
         [DataType(DataType.Password)]
