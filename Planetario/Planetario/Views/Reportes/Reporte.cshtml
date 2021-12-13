@@ -123,7 +123,7 @@
                 fechaInicial: fechaInicialEscogida,
                 fechaFinal: fechaFinalEscogida,
             }
-            actualizarDatosTabla(gridRanking, "@linkDatos", diccionarioParametros, data => data.map(p => [p.Nombre, p.Precio, p.FechaIngreso, p.FechaUltimaVenta, p.CantidadVendidos]))
+            actualizarDatosTabla(gridRanking, "@linkDatos", diccionarioParametros, data => data.map(p => [p.Nombre, p.Precio, p.FechaIngreso.split(" ")[0], p.FechaUltimaVenta, p.CantidadVendidos]))
         }
     </script>
 
