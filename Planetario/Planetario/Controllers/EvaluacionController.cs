@@ -46,7 +46,7 @@ namespace Planetario.Controllers
                     }
                     else
                     {
-                        ViewBag.Message = "Hubo un error al insertar las respuestas.";
+                        ViewBag.Message = "Usted ya ha respondido éste cuestionario.";
                     }
                 }
                 else
