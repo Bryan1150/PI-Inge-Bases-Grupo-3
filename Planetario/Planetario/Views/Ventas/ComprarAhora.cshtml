@@ -23,6 +23,7 @@
     {
         @Html.HiddenFor(model => model.comprable)
         @Html.HiddenFor(model => model.cantidadCompra)
+        @Html.Hidden("formaDeCompra", (object)ViewBag.FormaDeCompra)
         <div class="row">
             <div class="col-md-8">
                 <div class="card p-4 bg-light">
@@ -195,11 +196,7 @@
                 </div>
             </div>
         </div>
-        @Html.Hidden("id", (object)ViewBag.Id)
-        @Html.Hidden("cantidad", (object)ViewBag.cantidad)
-        @Html.Hidden("formaDeCompra", (object)ViewBag.FormaDeCompra)
     }
-
 
     <script>
     var entradaDescuento = document.getElementById("entradaDescuento");
@@ -209,6 +206,8 @@
     var iva = subTotal * 0.13;
     var precioConDescuento = subTotal;
     var precioFinal = subTotal + iva;
+    document.getElementById("comprable").value = @ViewBag.Id;
+    document.getElementById("cantidadCompra").value = @ViewBag.cantidad;
 
                 function obtenerPorcentajeDescuento() {
                     let urlProductos = "@urlDescuentos?codigo=" + entradaDescuento.value;

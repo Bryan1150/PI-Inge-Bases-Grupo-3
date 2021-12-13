@@ -251,9 +251,16 @@ namespace Planetario.Controllers
         [HttpPost]
         public ActionResult ComprarAhora(PagoModel datos)
         {
-            int id = Convert.ToInt32(Request.Form["id"]);
-            int cantidad = Convert.ToInt32(Request.Form["cantidad"]);
+            if (datos.Direccion == null)
+                datos.Direccion = "Sin direccion";
+            if (datos.Telefono == null)
+                datos.Telefono = "0";
+            if (datos.Nombre == null)
+                datos.Nombre = "Sin nombre";
+            int id = datos.comprable;
+            int cantidad = datos.cantidadCompra;
             string formaDeCompra = Request.Form["formaDeCompra"];
+            ViewBag.FormaDeCompra = formaDeCompra;
             string correoUsuario = cookiesInterfaz.CorreoUsuario();
             PersonaHandler personaHandler = new PersonaHandler();
             ViewBag.membresia = personaHandler.ObtenerMembresia(correoUsuario);
@@ -268,25 +275,25 @@ namespace Planetario.Controllers
             ActionResult resultado = View();
             try
             {
-                if(ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
                     string correo = cookiesInterfaz.CorreoUsuario();
                     Dictionary<int, int> diccionario = new Dictionary<int, int>();
                     diccionario.Add(datos.comprable, datos.cantidadCompra);
-                    Debug.WriteLine(datos.comprable + "\t\t"+ datos.cantidadCompra);
+                    Debug.WriteLine(datos.comprable + "\t\t" + datos.cantidadCompra);
                     FacturasHandler facturasHandler = new FacturasHandler();
                     facturasHandler.InsertarFactura(correo, diccionario);
-                    resultado = RedirectToAction("InformacionBasica", "Home");
-                    Debug.WriteLine("redirect");
+                    resultado = RedirectToAction("CompraExitosa", "Ventas");
                 }
                 else
                 {
-                    return ComprarAhora(id,cantidad,formaDeCompra);
+                    resultado = ComprarAhora(id, cantidad, formaDeCompra);
                 }
             }
             catch
             {
-                return ComprarAhora(id, cantidad, formaDeCompra);
+                ViewBag.Mensaje = "Error con el servidor";
+                resultado = ComprarAhora(id, cantidad, formaDeCompra);
             }
             return resultado;
         }
