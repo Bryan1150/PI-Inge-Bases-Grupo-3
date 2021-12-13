@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using Planetario.Models;
 using Planetario.Interfaces;
 
 namespace Planetario.Handlers
