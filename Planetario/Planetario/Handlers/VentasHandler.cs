@@ -21,7 +21,8 @@ namespace Planetario.Handlers
                     Id = Convert.ToInt32(columna["idComprablePK"]),
                     Nombre = Convert.ToString(columna["nombre"]),
                     Precio = Convert.ToDouble(columna["precio"]),
-                    CantidadDisponible = Convert.ToInt32(columna["cantidadDisponible"])
+                    CantidadDisponible = Convert.ToInt32(columna["cantidadDisponible"]),
+                    CantidadCarrito = Convert.ToInt32(columna["cantidadProductos"])
                 });
             }
             return comprables;
