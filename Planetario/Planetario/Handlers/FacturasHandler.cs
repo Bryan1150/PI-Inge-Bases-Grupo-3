@@ -60,7 +60,7 @@ namespace Planetario.Handlers
                 {"@correo",correo },
                 {"@fecha",DateTime.Now }
             };
-            InsertarEnBaseDatos(consultaFactura, parametros);
+            InsertarEnBaseDatosConIsolación(consultaFactura, parametros);
 
             string consultaFacturaComprables = "DECLARE @identity int=IDENT_CURRENT('Factura'); " +
                 "INSERT INTO FacturaComprables VALUES(@identity,@idComprableFK,@cantidad);";
@@ -73,7 +73,7 @@ namespace Planetario.Handlers
                     {"@idComprableFK", comprable.Key },
                     {"@cantidad", comprable.Value }
                 };
-                InsertarEnBaseDatos(consultaFacturaComprables, parametrosFacturaComprables);
+                InsertarEnBaseDatosConIsolación(consultaFacturaComprables, parametrosFacturaComprables);
             }
         }
     }
