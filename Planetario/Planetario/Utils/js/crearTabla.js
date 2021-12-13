@@ -12,7 +12,7 @@
         showing: "Mostrando ", of: "de", to: "a", results: "resultados totales"
     },
     loading: "Cargando...",
-    noRecordsFound: "Nigún resultado encontrado",
+    noRecordsFound: "Ningún resultado encontrado",
     error: "Se produjo un error al recuperar datos"
 };
 
