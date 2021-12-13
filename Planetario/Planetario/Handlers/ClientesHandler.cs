@@ -49,13 +49,9 @@ namespace Planetario.Handlers
 
         public bool InsertarCliente(PersonaModel persona)
         {
+
             string consultaTablaPersona = "INSERT INTO Persona ( correoPersonaPK, nombre, apellido1, apellido2, genero, pais, fechaNacimiento, membresia ) "
                 + "VALUES ( @correo, @nombre, @apellido1, @apellido2, @genero, @pais, @nacimiento, @membresia );";
-
-            string consultaTablaCliente = "INSERT INTO Cliente ( correoClientePK, nivelEducativo ) "
-                + "VALUES ( @correo, @nivelEducativo );";
-
-            string consultaTablaCredencial = "INSERT INTO Credenciales (correoPersonaFK, contraseña) VALUES (@correo, PWDENCRYPT(@contrasena))";
 
             Dictionary<string, object> parametrosPersona = new Dictionary<string, object> {
                 {"@correo", persona.correo },
@@ -67,6 +63,28 @@ namespace Planetario.Handlers
                 {"@nacimiento", persona.fechaNacimiento},
                 {"@membresia", "Terrestre" }
             };
+
+            if (persona.apellido2 == null)
+            {
+                consultaTablaPersona = "INSERT INTO Persona ( correoPersonaPK, nombre, apellido1, genero, pais, fechaNacimiento, membresia ) "
+                + "VALUES ( @correo, @nombre, @apellido1, @genero, @pais, @nacimiento, @membresia );";
+
+                parametrosPersona = new Dictionary<string, object> {
+                {"@correo", persona.correo },
+                {"@nombre", persona.nombre },
+                {"@apellido1", persona.apellido1 },
+                {"@genero", persona.genero },
+                {"@pais", persona.pais },
+                {"@nacimiento", persona.fechaNacimiento},
+                {"@membresia", "Terrestre" }
+            };
+            }
+
+
+            string consultaTablaCliente = "INSERT INTO Cliente ( correoClientePK, nivelEducativo ) "
+                + "VALUES ( @correo, @nivelEducativo );";
+
+            string consultaTablaCredencial = "INSERT INTO Credenciales (correoPersonaFK, contraseña) VALUES (@correo, PWDENCRYPT(@contrasena))";
 
             Dictionary<string, object> parametrosCliente = new Dictionary<string, object>
             {
