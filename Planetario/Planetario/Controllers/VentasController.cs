@@ -251,15 +251,26 @@ namespace Planetario.Controllers
         [HttpPost]
         public ActionResult ComprarAhora(PagoModel datos)
         {
-            Debug.WriteLine("hice post");
+            int id = Convert.ToInt32(Request.Form["id"]);
+            int cantidad = Convert.ToInt32(Request.Form["cantidad"]);
+            string formaDeCompra = Request.Form["formaDeCompra"];
+            string correoUsuario = cookiesInterfaz.CorreoUsuario();
+            PersonaHandler personaHandler = new PersonaHandler();
+            ViewBag.membresia = personaHandler.ObtenerMembresia(correoUsuario);
+            ViewBag.cantidad = cantidad;
+            ViewBag.Id = id;
+            ComprableModel comprable = ventasInterfaz.ObtenerComprable(id);
+            ViewBag.Precio = comprable.Precio;
+            ViewBag.IVA = comprable.Precio * 0.13;
+            ViewBag.PrecioTotal = ViewBag.Precio + ViewBag.IVA;
+            ViewBag.Nombre = comprable.Nombre;
+
             ActionResult resultado = View();
             try
             {
                 if(ModelState.IsValid)
                 {
-                    Debug.WriteLine("estoy aqui");
                     string correo = cookiesInterfaz.CorreoUsuario();
-                    Debug.WriteLine("correo: "+correo);
                     Dictionary<int, int> diccionario = new Dictionary<int, int>();
                     diccionario.Add(datos.comprable, datos.cantidadCompra);
                     Debug.WriteLine(datos.comprable + "\t\t"+ datos.cantidadCompra);
@@ -270,12 +281,12 @@ namespace Planetario.Controllers
                 }
                 else
                 {
-                    Debug.WriteLine("model state invalido");
+                    return ComprarAhora(id,cantidad,formaDeCompra);
                 }
             }
             catch
             {
-
+                return ComprarAhora(id, cantidad, formaDeCompra);
             }
             return resultado;
         }
