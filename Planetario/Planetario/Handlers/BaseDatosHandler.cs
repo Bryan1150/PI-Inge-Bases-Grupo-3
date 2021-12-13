@@ -68,17 +68,17 @@ namespace Planetario.Handlers
             bool exito;
             SqlCommand comandoParaConsulta = new SqlCommand(consulta, conexion);
 
-            foreach (KeyValuePair<string, object> parejaValores in valoresParametros)
-            {
-                comandoParaConsulta.Parameters.AddWithValue(parejaValores.Key, parejaValores.Value);
-            }
+            if(valoresParametros != null)
+                foreach (KeyValuePair<string, object> parejaValores in valoresParametros)
+                {
+                    comandoParaConsulta.Parameters.AddWithValue(parejaValores.Key, parejaValores.Value);
+                }
 
             conexion.Open();
             
             try
             {
-                comandoParaConsulta.ExecuteNonQuery();
-                exito = true;
+                exito = comandoParaConsulta.ExecuteNonQuery() >= 1;
             }
             catch(System.Exception ex)
             {

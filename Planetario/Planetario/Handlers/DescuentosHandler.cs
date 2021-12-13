@@ -58,11 +58,8 @@ namespace Planetario.Handlers
 
         public bool EliminarDescuento(string codigo)
         {
-            string consulta = "DELETE FROM Descuento WHERE codigoDescuentoPK = '@codigo';";
-            Dictionary<string, object> parametrosProducto = new Dictionary<string, object> {
-                {"@codigo"   , codigo }
-            };
-            return EliminarEnBaseDatos(consulta, parametrosProducto);
+            string consulta = "DELETE FROM Descuento WHERE codigoDescuentoPK = '"+codigo+"';";
+            return EliminarEnBaseDatos(consulta, null);
         }
     }
 }
