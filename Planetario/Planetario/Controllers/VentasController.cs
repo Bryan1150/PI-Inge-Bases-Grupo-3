@@ -172,9 +172,6 @@ namespace Planetario.Controllers
                     }
                     FacturasHandler facturasHandler = new FacturasHandler();
                     facturasHandler.InsertarFactura(correo,comprables);
-
-
-
                     resultado = RedirectToAction("InformacionBasica", "Home");
                 }
                 else
@@ -198,13 +195,42 @@ namespace Planetario.Controllers
                 string correoUsuario = cookiesInterfaz.CorreoUsuario();
                 PersonaHandler personaHandler = new PersonaHandler();
                 ViewBag.membresia = personaHandler.ObtenerMembresia(correoUsuario);
+                ViewBag.cantidad = cantidad;
                 ComprableModel comprable = ventasInterfaz.ObtenerComprable(id);
-                comprable.CantidadCarrito = cantidad;
-                ViewBag.comprable = comprable;
+                ViewBag.Precio = comprable.Precio;
+                ViewBag.IVA = comprable.Precio * 0.13;
+                ViewBag.PrecioTotal = ViewBag.Precio + ViewBag.IVA;
+                ViewBag.Nombre = comprable.Nombre;
                 resultado = View();
             }
             return resultado;
+        }
 
+        [HttpPost]
+        public ActionResult ComprarAhora(InscripcionModel datos)
+        {
+            ActionResult resultado = View();
+            try
+            {
+                if(ModelState.IsValid)
+                {
+                    string correo = cookiesInterfaz.CorreoUsuario();
+                    Dictionary<int, int> diccionario = new Dictionary<int, int>();
+                    diccionario.Add(id, cantidad);
+                    FacturasHandler facturasHandler = new FacturasHandler();
+                    facturasHandler.InsertarFactura(correo, diccionario);
+                    resultado = RedirectToAction("InformacionBasica", "Home");
+                }
+                else
+                {
+
+                }
+            }
+            catch
+            {
+
+            }
+            return resultado;
         }
 
         [HttpGet]
