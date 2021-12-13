@@ -12,7 +12,7 @@
 
     <style>
         .carousel-item {
-            height: 40em;
+            height: 500px;
         }
 
         .blockquote-custom {
@@ -32,11 +32,11 @@
             left: 19px;
         }
 
-            .card {
-        margin:1em;
-        box-shadow: 0px 0px 2px #133b5c;
+        .card {
+            margin:1em;
+            box-shadow: 0px 0px 2px #133b5c;
         }
-        .card:hover {
+        .card-clickeable:hover {
             box-shadow: 0px 0px 12px #133b5c;
         }
     </style>
@@ -85,14 +85,10 @@
         </div>
     </div>
 
-    <span class="titulo">
-        Planetario Halley
-    </span>
-
     <div class="col-md-8 offset-md-2">
         <div class="row rows-cols-md-3 g-4">
             <div class="col">
-                <div class="card h-100">
+                <div class="card h-100 card-clickeable">
                     <img src="~/Utils/images/Juegos/ETGame.jpg" class="card-img-top" style="object-fit: cover; height: 240px;" />
                     <div class="card-body">
                         <h5 class="card-title">Juegos en Planetario Halley</h5>
@@ -103,7 +99,7 @@
 
             </div>
             <div class="col">
-                <div class="card h-100">
+                <div class="card h-100 card-clickeable">
                     <img src="~/Utils/images/assets/membresias.jpg" class="card-img-top" style="object-fit: cover; height: 240px;" />
                     <div class="card-body">
                         <h5 class="card-title">Beneficios para nuestros Socios</h5>
@@ -115,7 +111,7 @@
             </div>
 
             <div class="col">
-                <div class="card h-100">
+                <div class="card h-100 card-clickeable">
                     <img src="~/Utils/images/Juegos/MapaSistema.jpg" class="card-img-top" style="object-fit: cover; height: 240px;" />
                     <div class="card-body">
                         <h5 class="card-title">Compara cuerpos celestes dentro del Planetario</h5>
