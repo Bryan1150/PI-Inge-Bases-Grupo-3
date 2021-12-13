@@ -3,6 +3,7 @@
     var chart = new CanvasJS.Chart(graphInfo.element, {
         animationEnabled: true,
         theme: "light2",
+        zoomEnabled: true,
         title: {
             text: graphInfo.title
         },
