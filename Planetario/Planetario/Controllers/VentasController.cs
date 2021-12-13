@@ -192,6 +192,24 @@ namespace Planetario.Controllers
         }
 
         [HttpGet]
+        public ActionResult ComprarAhora(int id,int cantidad)
+        {
+            ActionResult resultado = RedirectToAction("IniciarSesion", "Personas");
+            if(cookiesInterfaz.SesionIniciada())
+            {
+                string correoUsuario = cookiesInterfaz.CorreoUsuario();
+                PersonaHandler personaHandler = new PersonaHandler();
+                ViewBag.membresia = personaHandler.ObtenerMembresia(correoUsuario);
+                ComprableModel comprable = ventasInterfaz.ObtenerComprable(id);
+                comprable.CantidadCarrito = cantidad;
+                ViewBag.comprable = comprable;
+                resultado = View();
+            }
+            return resultado;
+
+        }
+
+        [HttpGet]
         public JsonResult EliminarElementoDelCarritoDelUsuario(int idComprable)
         {
             bool exito = false;

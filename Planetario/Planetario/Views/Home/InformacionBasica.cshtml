@@ -13,6 +13,7 @@
     <style>
         .carousel-item {
             height: 500px;
+            
         }
 
         .blockquote-custom {
@@ -39,6 +40,9 @@
         .card-clickeable:hover {
             box-shadow: 0px 0px 12px #133b5c;
         }
+        .card-clickeable2:hover {
+            box-shadow: 0px 0px 22px #133b5c;
+        }
     </style>
 
     <div class="col-md-12">
@@ -50,13 +54,23 @@
             </div>
 
             <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi0.wp.com%2Finsurgentepress.com.mx%2Fwp-content%2Fuploads%2F2020%2F05%2FApophisAsteroid.jpg%3Ffit%3D1600%252C900%26ssl%3D1&f=1&nofb=1" alt="Asteroide" class="d-block w-100">
+                <div  class="carousel-item active">
+                    <img src="https://i.huffpost.com/gen/1729981/images/o-ASTEROID-IMPACT-facebook.jpg" alt="Asteroide" class="d-block w-100">
                     <div class="carousel-caption">
-                        <h3>Asteroide en dirección hacia la Tierra</h3>
-                        <p style="color:white">Un asteroide de 500 toneladas esta en dirección de colisión a la Tierra en los próximos 100 años</p>
-                        @Html.ActionLink("Ver noticia", "verNoticia", "Noticias", new { stringId = 1, style = "color:white" }, null)
+                        <div class="row">
+                            <div class="col-8 offset-2">
+                                <div class="card bg-dark bg-opacity-75 card-clickeable2 border">
+                                    <h3 class="card-header ">Asteroide en dirección hacia la Tierra</h3>
+                                    <div class="card-body ">
+                                        <p style="color:white;" class="card-text">Un asteroide de 500 toneladas esta en dirección de colisión a la Tierra en los próximos 100 años</p>
+                                    </div>
+                                    <a href="/Noticias/verNoticia?stringId=1" class="hidden stretched-link"></a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    
+                    
                 </div>
                 <div class="carousel-item">
                     <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwallup.net%2Fwp-content%2Fuploads%2F2019%2F09%2F865267-galaxia-andromeda-estrella-espacio.jpg&f=1&nofb=1" alt="Galaxia" class="d-block w-100">
