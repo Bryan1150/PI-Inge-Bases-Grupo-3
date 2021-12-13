@@ -1,9 +1,7 @@
 ﻿using System.Web.Mvc;
-using System.Configuration;
 using Planetario.Handlers;
 using Planetario.Models;
 using Planetario.Interfaces;
-using System.Diagnostics;
 using System;
 using System.Collections.Generic;
 
@@ -174,9 +172,53 @@ namespace Planetario.Controllers
                     }
                     FacturasHandler facturasHandler = new FacturasHandler();
                     facturasHandler.InsertarFactura(correo,comprables);
+                    resultado = RedirectToAction("InformacionBasica", "Home");
+                }
+                else
+                {
 
+                }
+            }
+            catch
+            {
 
+            }
+            return resultado;
+        }
 
+        [HttpGet]
+        public ActionResult ComprarAhora(int id,int cantidad)
+        {
+            ActionResult resultado = RedirectToAction("IniciarSesion", "Personas");
+            if(cookiesInterfaz.SesionIniciada())
+            {
+                string correoUsuario = cookiesInterfaz.CorreoUsuario();
+                PersonaHandler personaHandler = new PersonaHandler();
+                ViewBag.membresia = personaHandler.ObtenerMembresia(correoUsuario);
+                ViewBag.cantidad = cantidad;
+                ComprableModel comprable = ventasInterfaz.ObtenerComprable(id);
+                ViewBag.Precio = comprable.Precio;
+                ViewBag.IVA = comprable.Precio * 0.13;
+                ViewBag.PrecioTotal = ViewBag.Precio + ViewBag.IVA;
+                ViewBag.Nombre = comprable.Nombre;
+                resultado = View();
+            }
+            return resultado;
+        }
+
+        [HttpPost]
+        public ActionResult ComprarAhora(InscripcionModel datos)
+        {
+            ActionResult resultado = View();
+            try
+            {
+                if(ModelState.IsValid)
+                {
+                    string correo = cookiesInterfaz.CorreoUsuario();
+                    Dictionary<int, int> diccionario = new Dictionary<int, int>();
+                    diccionario.Add(id, cantidad);
+                    FacturasHandler facturasHandler = new FacturasHandler();
+                    facturasHandler.InsertarFactura(correo, diccionario);
                     resultado = RedirectToAction("InformacionBasica", "Home");
                 }
                 else

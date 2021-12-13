@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 
-
 namespace Planetario.Models
 {
     public class CuestionarioEvaluacionMostrarModel: CuestionarioEvaluacionModel

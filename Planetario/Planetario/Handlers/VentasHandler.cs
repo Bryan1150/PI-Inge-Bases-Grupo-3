@@ -21,15 +21,7 @@ namespace Planetario.Handlers
                     Id = Convert.ToInt32(columna["idComprablePK"]),
                     Nombre = Convert.ToString(columna["nombre"]),
                     Precio = Convert.ToDouble(columna["precio"]),
-                    CantidadDisponible = Convert.ToInt32(columna["cantidadDisponible"]),
-                    CantidadRebastecer = Convert.ToInt32(columna["cantidadRebastecer"]),
-                    Tamano = Convert.ToString(columna["tamano"]),
-                    Categoria = Convert.ToString(columna["categoria"]),
-                    Descripcion = Convert.ToString(columna["descripcion"]),
-                    FechaIngreso = Convert.ToString(columna["fechaIngreso"]),
-                    FechaUltimaVenta = Convert.ToString(columna["fechaUltimaVenta"]),
-                    CantidadVendidos = Convert.ToInt32(columna["cantidadVendidos"]),
-                    CantidadCarrito = Convert.ToInt32(columna["cantidadProductos"]),
+                    CantidadDisponible = Convert.ToInt32(columna["cantidadDisponible"])
                 });
             }
             return comprables;
@@ -64,6 +56,12 @@ namespace Planetario.Handlers
             DataTable tabla = LeerBaseDeDatos(consulta);
             List<ComprableModel> comprables = ConvertirTablaComprablesALista(tabla);
             return comprables;
+        }
+
+        public ComprableModel ObtenerComprable(int id)
+        {
+            string consulta = "SELECT * FROM Comprable WHERE idComprablePK = '" + id.ToString() + "';";
+            return (ObtenerComprables(consulta)[0]);
         }
 
         public List<ComprableModel> ObtenerTodosLosProductos()

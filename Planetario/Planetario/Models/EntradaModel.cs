@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-
-namespace Planetario.Models
+﻿namespace Planetario.Models
 {
     public class EntradaModel: ComprableModel
     {

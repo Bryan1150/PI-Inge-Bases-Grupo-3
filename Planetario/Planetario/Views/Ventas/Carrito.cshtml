@@ -28,7 +28,7 @@
                                         <p class="card-text"><strong>Cantidad: </strong>@producto.CantidadCarrito</p>
                                     </div>
                                 </div>
-                                <input type="submit" onclick="MostrarModalConfirmacion(@producto.Id)" class="btn btn-outline-danger" value="Eliminar" id="eliminar_@producto.Id"/>
+                                <input type="submit" onclick="MostrarModalConfirmacion(@producto.Id)" class="btn btn-outline-danger" value="Eliminar" id="eliminar_@producto.Id" />
                             </div>
                         </div>
                         <br />
@@ -51,7 +51,7 @@
                                         <p class="card-text"><strong>Cantidad: </strong>@entrada.CantidadCarrito</p>
                                     </div>
                                 </div>
-                                <input type="submit" onclick="MostrarModalConfirmacion(@entrada.Id)" class="btn btn-outline-danger" value="Eliminar"/>
+                                <input type="submit" onclick="MostrarModalConfirmacion(@entrada.Id)" class="btn btn-outline-danger" value="Eliminar" />
                             </div>
                         </div>
                         <br />
@@ -71,7 +71,7 @@
                         </div>
                     </div>
                     <div class="card-footer text-center">
-                        <a href="@Url.Action("Pago","Ventas")" class="btn btn-success container-fluid">Pagar</a>
+                        <input type="submit" onclick="MostrarModalCompra()" class="btn btn-success container-fluid" value="Pagar" />                        
                     </div>
                 </div>
             </div>
@@ -93,8 +93,26 @@
                     ¿Está seguro qué quiere eliminar el producto?
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
                     <input type="submit" id="BotonConfirmarSi" onclick="EliminarElementoDelCarrito()" class="btn btn-success" value="Si" />
-                    <button type="button" class="btn btn-secondary"data-bs-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="ModalCompra" tabindex="-1" aria-labelledby="LabelModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="labelModal">Modo de envío</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ¿De qué manera desea recibir los productos?
+                </div>
+                <div class="modal-footer">
+                    <a href="@Url.Action("Pago","Ventas")" class="btn btn-secondary container-fluid">Express</a>
+                    <a href="@Url.Action("Pago","Ventas")" class="btn btn-success container-fluid">Recoger en el planetario</a>
                 </div>
             </div>
         </div>
@@ -102,7 +120,7 @@
 
     <script>
         var idUltimoBorrar;
-        function EliminarElementoDelCarrito() {                      
+        function EliminarElementoDelCarrito() {
             $.getJSON('/Ventas/EliminarElementoDelCarritoDelUsuario', { idComprable: idUltimoBorrar }, function (data) {
                 console.log(data);
             });
@@ -112,6 +130,10 @@
         function MostrarModalConfirmacion(idComprable) {
             $("#ModalEliminarProducto").modal('show');
             idUltimoBorrar = idComprable
+        }
+
+        function MostrarModalCompra(idComprable) {
+            $("#ModalCompra").modal('show');
         }
     </script>
 </body>

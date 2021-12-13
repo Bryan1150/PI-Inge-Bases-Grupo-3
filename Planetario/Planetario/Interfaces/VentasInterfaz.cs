@@ -16,5 +16,7 @@ namespace Planetario.Interfaces
         double ObtenerPrecioTotalDeEntradasDelCarrito(string correoUsuario);
         int ObtenerCantidadDeProductosDelCarrito(string correoUsuario);
         int ObtenerCantidadDeEntradasDelCarrito(string correoUsuario);
+
+        ComprableModel ObtenerComprable(int id);
     }
 }

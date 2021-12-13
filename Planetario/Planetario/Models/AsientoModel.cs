@@ -1,5 +1,4 @@
-﻿
-namespace Planetario.Models
+﻿namespace Planetario.Models
 {
     public class AsientoModel
     {
