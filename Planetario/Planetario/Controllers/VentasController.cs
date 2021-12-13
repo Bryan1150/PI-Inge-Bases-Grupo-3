@@ -160,6 +160,8 @@ namespace Planetario.Controllers
         [HttpPost]
         public ActionResult Pago(InscripcionModel datos)
         {
+            ViewBag.FormaDeCompra = Request.Form["formaDeCompra"];
+            string forma = ViewBag.FormaDeCompra;
             ViewBag.exito = false;
             ActionResult resultado = View();
             try
@@ -186,12 +188,12 @@ namespace Planetario.Controllers
                 }
                 else
                 {
-
+                    return Pago(forma);
                 }
             }
             catch
             {
-
+                return Pago(forma);
             }
             return resultado;
         }
