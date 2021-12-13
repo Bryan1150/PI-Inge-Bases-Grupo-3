@@ -110,6 +110,13 @@ namespace Planetario.Handlers
             return exito;
         }
 
+        public bool InsertarEnBaseDatosConIsolación(string consulta, Dictionary<string, object> valoresParametros)
+        {
+            consulta.Insert(0, "SET TRANSACTION ISOLATION LEVEL REPEATABLE READ; BEGIN TRANSACTION ");
+            consulta += " COMMIT TRANSACTION";
+            return InsertarEnBaseDatos(consulta, valoresParametros);
+        }
+
         public Tuple<byte[],string> ObtenerArchivo (string consulta, KeyValuePair<string,object> parametro, string columnaContenido, string columnaTipo)
         {
             SqlCommand comandoParaConsulta = new SqlCommand(consulta, conexion);
