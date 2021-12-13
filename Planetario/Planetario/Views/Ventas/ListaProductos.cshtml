@@ -213,7 +213,7 @@
                     <p class="card-text"><strong>Precio: </strong>₡${producto["Precio"]}</p>
                     <div class="row">
                        <div class="col"><input type="submit" onclick="agregarAlCarrito(${producto["Id"]})" class="btn btn-outline-success" value="Agregar al carrito" data-bs-toggle="modal" data-bs-target="#exampleModal" id="agregar_${producto["Id"]}"/></div>
-                       <div class="col"><a href="/Ventas/ComprarAhora/${producto["Id"]}" class="btn btn-outline-success ">Comprar ahora</a></div>
+                       <div class="col"><a href="/Ventas/ComprarAhora?id=${producto["Id"]}&cantidad=1" class="btn btn-outline-success ">Comprar ahora</a></div>
                     </div> 
                 </div>
                 </div>
