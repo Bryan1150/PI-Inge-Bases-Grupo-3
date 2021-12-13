@@ -74,25 +74,5 @@ namespace PruebasPlanetarios.Controllers
             ViewResult vistaResultado = membresiasController.Pago("Solar") as ViewResult;
             Assert.AreEqual(vistaResultado.ViewBag.Precio , 10000);
         }
-
-        [TestMethod]
-        public void SatisfactorioDevulveMensajeSolar()
-        {
-            Mock<CookiesInterfaz> mockCookies = CrearMockDeCookies();
-            var mockMembresias = new Mock<MembresiasInterfaz>();
-            MembresiasController membresiasController = new MembresiasController(mockMembresias.Object, mockCookies.Object);
-            ViewResult vistaResultado = membresiasController.Satisfactorio("Solar") as ViewResult;
-            Assert.AreEqual(vistaResultado.ViewBag.Mensaje, "Su membresía ahora es: Solar!");
-        }
-
-        [TestMethod]
-        public void SatisfactorioDevulveMensajeLunar()
-        {
-            Mock<CookiesInterfaz> mockCookies = CrearMockDeCookies();
-            var mockMembresias = new Mock<MembresiasInterfaz>();
-            MembresiasController membresiasController = new MembresiasController(mockMembresias.Object, mockCookies.Object);
-            ViewResult vistaResultado = membresiasController.Satisfactorio("Lunar") as ViewResult;
-            Assert.AreEqual(vistaResultado.ViewBag.Mensaje, "Su membresía ahora es: Lunar!");
-        }
     }
 }

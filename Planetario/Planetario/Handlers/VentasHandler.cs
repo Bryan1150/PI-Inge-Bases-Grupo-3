@@ -155,6 +155,18 @@ namespace Planetario.Handlers
             return (InsertarEnBaseDatos(consulta, valoresParametros));
         }
 
+        public int ObtenerCantidadDeProductoEspecifico(int idProducto)
+        {
+            string correoUsuario = HttpContext.Current.User.Identity.Name;
+            string consulta = "SELECT COUNT(*) AS 'Cantidad' FROM Carrito C " +
+            "JOIN Producto P ON C.idComprableFK = P.idComprableFK " +
+            "JOIN Comprable CO ON P.idComprableFK = CO.idComprablePK WHERE correoPersonaFK = '" + correoUsuario + "' " +
+            "AND P.idComprableFK = '" + idProducto + "' ";
+            DataTable resultadoConsulta = LeerBaseDeDatos(consulta);
+            int total = Convert.ToInt32(resultadoConsulta.Rows[0]["Cantidad"]);
+            return total;
+        }
+
         public double ObtenerPrecioTotalDeProductosDelCarrito(string correoUsuario)
         {
             string consulta = "SELECT SUM(CO.precio * C.cantidadProductos) AS 'Total' " +
