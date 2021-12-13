@@ -17,6 +17,8 @@
 
 <body>
     <span class="titulo">Pago</span>
+        @using (Html.BeginForm("Pago", "Membresias", FormMethod.Post))
+        {
             <div class="row">
                 <div class="col-md-8">
                     <div class="card p-4 bg-light">
@@ -38,7 +40,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    @Html.TextBoxFor(model => model.infoTarjeta.FechaExpiracion, new { @class = "form-control input-lg", @placeholder = "", @type = "number", @maxLength = "5" })
+                                    @Html.TextBoxFor(model => model.infoTarjeta.FechaExpiracion, new { @class = "form-control input-lg", @placeholder = "", @type = "month", @maxLength = "5" })
                                     @Html.LabelFor(model => model.infoTarjeta.FechaExpiracion, htmlAttributes: new { @class = "" })
                                     @Html.ValidationMessageFor(model => model.infoTarjeta.FechaExpiracion, "", new { @class = "text-danger" })
                                 </div>
@@ -55,38 +57,38 @@
 
                         <h6 class="text-uppercase">Dirección de cobro</h6>
 
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-floating">
-                                        @Html.TextBoxFor(model => model.infoTarjeta.provincia, new { @class = "form-control input-lg", @placeholder = "" })
-                                        @Html.LabelFor(model => model.infoTarjeta.provincia, htmlAttributes: new { @class = "" })
-                                        @Html.ValidationMessageFor(model => model.infoTarjeta.provincia, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="form-floating">
-                                        @Html.TextBoxFor(model => model.infoTarjeta.ciudad, new { @class = "form-control input-lg", @placeholder = "" })
-                                        @Html.LabelFor(model => model.infoTarjeta.ciudad, htmlAttributes: new { @class = "" })
-                                        @Html.ValidationMessageFor(model => model.infoTarjeta.ciudad, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="form-floating">
-                                        @Html.TextBoxFor(model => model.infoTarjeta.codigoPostal, new { @class = "form-control input-lg", @placeholder = "", @type = "number", @maxLength = "5" })
-                                        @Html.LabelFor(model => model.infoTarjeta.codigoPostal, htmlAttributes: new { @class = "" })
-                                        @Html.ValidationMessageFor(model => model.infoTarjeta.codigoPostal, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
+                        <div class="row">
+                            <div class="col-md-4">
                                 <div class="form-floating">
-                                    @Html.TextBoxFor(model => model.infoTarjeta.detallesDireccion, new { @class = "form-control input-lg", @placeholder = "" })
-                                    @Html.LabelFor(model => model.infoTarjeta.detallesDireccion, htmlAttributes: new { @class = "" })
-                                    @Html.ValidationMessageFor(model => model.infoTarjeta.detallesDireccion, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(model => model.infoTarjeta.provincia, new { @class = "form-control input-lg", @placeholder = "" })
+                                    @Html.LabelFor(model => model.infoTarjeta.provincia, htmlAttributes: new { @class = "" })
+                                    @Html.ValidationMessageFor(model => model.infoTarjeta.provincia, "", new { @class = "text-danger" })
                                 </div>
                             </div>
+
+                            <div class="col-md-4">
+                                <div class="form-floating">
+                                    @Html.TextBoxFor(model => model.infoTarjeta.ciudad, new { @class = "form-control input-lg", @placeholder = "" })
+                                    @Html.LabelFor(model => model.infoTarjeta.ciudad, htmlAttributes: new { @class = "" })
+                                    @Html.ValidationMessageFor(model => model.infoTarjeta.ciudad, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-floating">
+                                    @Html.TextBoxFor(model => model.infoTarjeta.codigoPostal, new { @class = "form-control input-lg", @placeholder = "", @type = "number", @maxLength = "5" })
+                                    @Html.LabelFor(model => model.infoTarjeta.codigoPostal, htmlAttributes: new { @class = "" })
+                                    @Html.ValidationMessageFor(model => model.infoTarjeta.codigoPostal, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-floating">
+                                @Html.TextBoxFor(model => model.infoTarjeta.detallesDireccion, new { @class = "form-control input-lg", @placeholder = "" })
+                                @Html.LabelFor(model => model.infoTarjeta.detallesDireccion, htmlAttributes: new { @class = "" })
+                                @Html.ValidationMessageFor(model => model.infoTarjeta.detallesDireccion, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-3 offset-md-1">
@@ -101,31 +103,31 @@
                             </div>
                         </div>
                         <div class="card-footer text-center">
-                            <a href="@Url.Action("Satisfactorio", "Membresias", new { membresia = @ViewBag.Membresia})" class="btn btn-success container-fluid">Pagar</a>
+                            <input type="submit" class="btn btn-success container-fluid" value="Pagar" />
                         </div>
                     </div>
                     <br />
-                            <div id="descuentos">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <input form="text" id="entradaDescuento" placeholder="Código de descuento" class="form-control" />
-                                    </div>
-                                    <div class="card-footer text-center">
-                                        <a class="btn btn-primary container-fluid" onclick="obtenerPorcentajeDescuento();">Aplicar descuento</a>
-                                    </div>
-                                </div>
-                            </div> 
+                    <div id="descuentos">
+                        <div class="card">
+                            <div class="card-body">
+                                <input form="text" id="entradaDescuento" placeholder="Código de descuento" class="form-control" />
+                            </div>
+                            <div class="card-footer text-center">
+                                <a class="btn btn-primary container-fluid" onclick="obtenerPorcentajeDescuento();">Aplicar descuento</a>
+                            </div>
+                        </div>
+                    </div>
                     <br />
                     <div id="mensaje">
-                            
-                            
+
+
                     </div>
                 </div>
             </div>
+            @Html.Hidden("membresia", (object)ViewBag.Membresia)
 
-
-
-<script>
+        }
+            <script>
                 var entradaDescuento = document.getElementById("entradaDescuento");
     var mensaje = document.getElementById("mensaje");
     var porcentajeDescuento = 0;
@@ -166,9 +168,9 @@
                     }
                 }
 
-</script>
-
-            
+            </script>
 
 
-</body>
+
+
+        </body>
