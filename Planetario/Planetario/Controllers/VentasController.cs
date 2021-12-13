@@ -4,6 +4,7 @@ using Planetario.Models;
 using Planetario.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Planetario.Controllers
 {
@@ -196,6 +197,7 @@ namespace Planetario.Controllers
                 PersonaHandler personaHandler = new PersonaHandler();
                 ViewBag.membresia = personaHandler.ObtenerMembresia(correoUsuario);
                 ViewBag.cantidad = cantidad;
+                ViewBag.Id = id;
                 ComprableModel comprable = ventasInterfaz.ObtenerComprable(id);
                 ViewBag.Precio = comprable.Precio;
                 ViewBag.IVA = comprable.Precio * 0.13;
@@ -207,23 +209,28 @@ namespace Planetario.Controllers
         }
 
         [HttpPost]
-        public ActionResult ComprarAhora(InscripcionModel datos)
+        public ActionResult ComprarAhora(PagoModel datos)
         {
+            Debug.WriteLine("hice post");
             ActionResult resultado = View();
             try
             {
                 if(ModelState.IsValid)
                 {
+                    Debug.WriteLine("estoy aqui");
                     string correo = cookiesInterfaz.CorreoUsuario();
+                    Debug.WriteLine("correo: "+correo);
                     Dictionary<int, int> diccionario = new Dictionary<int, int>();
-                    diccionario.Add(id, cantidad);
+                    diccionario.Add(datos.comprable.Id, datos.comprable.CantidadCarrito);
+                    Debug.WriteLine(datos.comprable.Id +"\t\t"+datos.comprable.CantidadCarrito);
                     FacturasHandler facturasHandler = new FacturasHandler();
                     facturasHandler.InsertarFactura(correo, diccionario);
                     resultado = RedirectToAction("InformacionBasica", "Home");
+                    Debug.WriteLine("redirect");
                 }
                 else
                 {
-
+                    Debug.WriteLine("model state invalido");
                 }
             }
             catch

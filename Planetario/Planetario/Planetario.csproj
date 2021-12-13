@@ -188,6 +188,7 @@
     <Compile Include="Models\CuestionarioModel.cs" />
     <Compile Include="Models\FacturaModel.cs" />
     <Compile Include="Models\InscripcionModel.cs" />
+    <Compile Include="Models\PagoModel.cs" />
     <Compile Include="Models\PersonaModel.cs" />
     <Compile Include="Models\ClienteModel.cs" />
     <Compile Include="Models\PreguntasFrecuentesModel.cs" />
