@@ -8,11 +8,9 @@
     input, select, textarea {
         max-width: none;
     }
-
     #infoTarjeta_detallesDireccion {
         height: 5em;
     }
-
     .form-floating label {
         left: auto;
     }
@@ -103,21 +101,40 @@
                         <div class="card-text">
                             <h4>@ViewBag.Nombre</h4>
                             <h5><strong>Cantidad: </strong>@ViewBag.cantidad</h5>
-                            <h5><strong>Precio Base: </strong>₡@ViewBag.Precio</h5>
-                            <h5><strong>IVA: </strong>₡@ViewBag.IVA</h5>
+                            @{ 
+                                ViewBag.Precio = ViewBag.Precio * ViewBag.cantidad;
+                            }
+                            <h5><strong>Precio base: </strong>₡@ViewBag.Precio</h5>
+
+
+                            @if (ViewBag.FormaDeCompra == "Express" && ViewBag.Membresia != "Solar")
+                            {
+                                <h5><strong>Costo de envío: </strong>₡2000</h5>
+                            }
+                            else if (ViewBag.FormaDeCompra == "Express" && ViewBag.Membresia == "Solar")
+                            {
+                                <h5><strong>Costo de envío: ¡Gratuito!</strong></h5>
+                            }
 
                             @if (ViewBag.Membresia == "Lunar")
                             {
-                                <h5 id="precioTotal"><strong>Precio Total: </strong>₡@(ViewBag.PrecioTotal*0.95)</h5>
+                                {
+                                    ViewBag.Precio = ViewBag.Precio * 0.95;
+                                }
+                                <h5 id="precioConDescuento"><strong>Precio con descuento: </strong>₡@(ViewBag.Precio)</h5>
                                 <h6>Descuento de 5% aplicado por membresía <strong>Lunar.</strong></h6>
                             }
                             else if (ViewBag.Membresia == "Solar")
                             {
-                                <h5 id="precioTotal"><strong>Precio Total: </strong>₡@(ViewBag.PrecioTotal*0.9)</h5>
+                                {
+                                    ViewBag.Precio = ViewBag.Precio * 0.9;
+                                }
+                                <h5 id="precioConDescuento"><strong>Precio con descuento: </strong>₡@(ViewBag.Precio)</h5>
                                 <h5>Descuento de 10% aplicado por membresía <strong>Solar.</strong></h5>
                             }
 
-                            <h5 id="precioConDescuento"></h5>
+                            <h5 id="iva"><strong>IVA: </strong>₡@(ViewBag.Precio*0.13)</h5>
+                            <h5 id="precioFinal"><strong>Precio + IVA: </strong>@(ViewBag.Precio + ViewBag.Precio*0.13)</h5>
                         </div>
                     </div>
                     <div class="card-footer text-center">
@@ -144,15 +161,14 @@
         </div>
     }
 
-    <script>
-        document.getElementById("comprable").value = @ViewBag.Id;
-        document.getElementById("cantidadCompra").value = @ViewBag.cantidad;
-
-        var entradaDescuento = document.getElementById("entradaDescuento");
-        var mensaje = document.getElementById("mensaje");
-        var porcentajeDescuento = 0;
-        var precioSinDescuento = @ViewBag.PrecioTotal;
-        var precioConDescuento = precioSinDescuento;
+<script>
+    var entradaDescuento = document.getElementById("entradaDescuento");
+    var mensaje = document.getElementById("mensaje");
+    var porcentajeDescuento = 0;
+    var subTotal = 1*(@ViewBag.Precio);
+    var iva = subTotal * 0.13;
+    var precioConDescuento = subTotal;
+    var precioFinal = subTotal + iva;
 
                 function obtenerPorcentajeDescuento() {
                     let urlProductos = "@urlDescuentos?codigo=" + entradaDescuento.value;
@@ -173,9 +189,13 @@
                                             </div></p>`;
                         document.getElementById("descuentos").innerHTML = "";
                         porcentajeDescuento = porcentaje;
-                        precioConDescuento = (precioSinDescuento - precioSinDescuento * porcentaje / 100).toFixed(2);
+                        precioConDescuento = (subTotal - subTotal * porcentaje / 100).toFixed(2);
+                        iva = precioConDescuento * 0.13;
+                        precioFinal = 1*(precioConDescuento) + 1*(iva);
                         document.getElementById("precioConDescuento").innerHTML = `<strong>Precio con descuento: </strong>₡${precioConDescuento}`;
-                        document.getElementById("precioTotal").innerHTML = `<strong>Precio sin descuento: </strong>₡${precioSinDescuento}`;
+                        document.getElementById("precioFinal").innerHTML = `<strong>Precio + IVA: </strong>₡${precioFinal}`;
+                        document.getElementById("iva").innerHTML = `<strong>IVA: </strong>₡${iva}`
+
                     }
                     else {
                         mensaje.innerHTML = `<div class="card bg-danger bg-opacity-25 border">
@@ -188,6 +208,6 @@
                     }
                 }
 
-    </script>
+</script>
 
 </body>
