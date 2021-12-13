@@ -117,10 +117,24 @@ namespace Planetario.Handlers
 
         public List<string> ObtenerComentariosDeCuestionario(string nombreCuestionario)
         {
-            string consulta = "SELECT comentario FROM ComentariosEvaluacion WHERE nombreCuestionarioFK = '" + nombreCuestionario + "';";
+            string consulta = "SELECT comentario FROM ComentariosEvaluacion WHERE nombreCuestionarioFK = '" + nombreCuestionario + "' AND comentario != '' ORDER BY fechaComentario DESC;";
             string columna = "comentario";
             return ConsultaYCrearListaString(consulta, columna);
         }
+
+        public List<string> ObtenerComentariosDeCuestionarioPorFecha(string nombreCuestionario, string fechaInicio, string fechaFinal)
+        {
+            string consulta =   "SELECT TOP 10 comentario FROM ComentariosEvaluacion " +
+                                "WHERE nombreCuestionarioFK = '" + nombreCuestionario + "' " +
+                                "AND fechaComentario >= '" + fechaInicio + "' " +
+                                "AND fechaComentario <= DATEADD(day, 1, '" + fechaFinal + "') " +
+                                "AND comentario != '' " +
+                                "ORDER BY fechaComentario DESC;";
+
+            string columna = "comentario";
+            return ConsultaYCrearListaString(consulta, columna);
+        }
+
 
         public CuestionarioEvaluacionMostrarModel ObtenerCuestionarioMostrar(string nombreCuestionario)
         {

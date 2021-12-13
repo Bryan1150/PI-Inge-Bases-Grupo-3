@@ -160,6 +160,8 @@ namespace Planetario.Controllers
         [HttpPost]
         public ActionResult Pago(InscripcionModel datos)
         {
+            ViewBag.FormaDeCompra = Request.Form["formaDeCompra"];
+            string forma = ViewBag.FormaDeCompra;
             ViewBag.exito = false;
             ActionResult resultado = View();
             try
@@ -186,12 +188,12 @@ namespace Planetario.Controllers
                 }
                 else
                 {
-
+                    return Pago(forma);
                 }
             }
             catch
             {
-
+                return Pago(forma);
             }
             return resultado;
         }
@@ -355,7 +357,29 @@ namespace Planetario.Controllers
         [HttpGet]
         public JsonResult AgregarAlCarrito(int idComprable, int cantidad)
         {
-            var exito = ventasInterfaz.AgregarAlCarrito(idComprable, cantidad);
+            int cantidadProducto = 0;
+            var exito = false;
+            try
+            {
+                string correoUsuario = cookiesInterfaz.CorreoUsuario();
+                cantidadProducto = ventasInterfaz.ObtenerCantidadDeProductoEspecifico(idComprable);
+                if(cantidadProducto != 0) { 
+                    for(int i = 0; i < cantidad; i++)
+                    {
+                        ventasInterfaz.AumentarLaCantidadDelElementoDelCarrito(correoUsuario, idComprable);
+                    }
+                    exito = true;
+                }
+                else
+                {
+                    exito = ventasInterfaz.AgregarAlCarrito(idComprable, cantidad);
+                }
+            }
+            catch
+            {
+                exito = ventasInterfaz.AgregarAlCarrito(idComprable, cantidad);
+            }
+            
             return Json(new { Exito = exito }, JsonRequestBehavior.AllowGet);
         }
 

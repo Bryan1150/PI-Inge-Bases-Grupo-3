@@ -48,6 +48,10 @@
     .card {
         margin: 1em;
     }
+     
+    #columna-filtros{
+        min-height: 950px;
+    }
 </style>
 
 
@@ -64,7 +68,7 @@
             <button class="btn btn-outline-primary" onclick="textoParaBuscar= busqueda.value; obtenerProductos()" id="buscar">Buscar</button>
         </div>
         <div class="col-2 text-center">
-            @Html.DropDownList("orden", ordenarPor, htmlAttributes: new { @class = "form-select" })
+            @Html.DropDownList("orden", ordenarPor, htmlAttributes: new { @class = "form-select", @onchange = "obtenerProductos()" })
         </div>
     </div>
 
@@ -96,7 +100,7 @@
             <br /><br />
             <label for="filtroCategoria">Categoría</label>
             <br />
-            @Html.DropDownList("categoria", categorias, "Todas", htmlAttributes: new { @class = "form-select", @onChange = "obtenerProductos()" })
+            @Html.DropDownList("categoria", categorias, "Todas", htmlAttributes: new { @class = "form-select", @onchange = "obtenerProductos()" })
             <br /><br />
             <a class="btn btn-outline-danger container-fluid" onclick="eliminarFiltros()">Eliminar filtros</a>
         </div>
@@ -184,7 +188,8 @@
         categoria.value = "";
         orden.value = "fechaIngreso DESC";
         precioMin.value = 0;
-        precioMax.value = 1000000;
+        precioMax.value = 100000;
+        obtenerProductos();
     }
 
     function obtenerProductos() {

@@ -24,5 +24,9 @@ namespace Planetario.Interfaces
         int ObtenerCantidadPersonasPorFecha(string nombreCuestionario, string fechaInicio, string fechaFinal);
 
         string ObtenerRelaciones(string nombreCuestionario, List<string> preguntas, List<string> opciones, string fechaInicio, string fechaFin);
+
+        List<string> ObtenerComentariosDeCuestionario(string nombreCuestionario);
+
+        List<string> ObtenerComentariosDeCuestionarioPorFecha(string nombreCuestionario, string fechaInicio, string fechaFinal);
     }
 }
