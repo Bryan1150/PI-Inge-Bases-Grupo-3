@@ -19,7 +19,6 @@ namespace Planetario.Handlers
                 {
                     Codigo = Convert.ToString(columna["codigoDescuentoPK"]),
                     Descuento = Convert.ToInt32(columna["porcentajeDescuento"]),
-                    Membresia = Convert.ToString(columna["membresia"]),
                 });
             }
             return productos;
@@ -48,12 +47,11 @@ namespace Planetario.Handlers
 
         public bool InsertarDescuento(DescuentoModel descuento)
         {
-            string consulta = "INSERT INTO Descuento (codigoDescuentoPK, porcentajeDescuento, membresia) " +
-                                "VALUES (@codigo, @porcentaje, @membresia)";
+            string consulta = "INSERT INTO Descuento (codigoDescuentoPK, porcentajeDescuento) " +
+                                "VALUES (@codigo, @porcentaje)";
             Dictionary<string, object> parametrosProducto = new Dictionary<string, object> {
                 {"@codigo"   , descuento.Codigo },
-                {"@porcentaje"   , descuento.Descuento },
-                {"@membresia"   , descuento.Membresia }
+                {"@porcentaje"   , descuento.Descuento }
             };
             return (InsertarEnBaseDatos(consulta, parametrosProducto));
         }

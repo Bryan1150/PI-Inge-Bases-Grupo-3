@@ -197,6 +197,34 @@ namespace Planetario.Controllers
         }
 
         [HttpGet]
+        public ActionResult AgregarCupon()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AgregarCupon(DescuentoModel cupon)
+        {
+            ViewBag.ExitoAlCrear = false;
+            try
+            {
+                DescuentosHandler descuentoHandler = new DescuentosHandler();
+                ViewBag.ExitoAlCrear = descuentoHandler.InsertarDescuento(cupon);
+                if (ViewBag.ExitoAlCrear)
+                {
+                    ViewBag.Message = "El cupón " + cupon.Codigo + " fue creado con éxito";
+                }
+
+                return View();
+            }
+            catch
+            {
+                ViewBag.Message = "Algo salió mal y no fue posible crear el cupón.";
+                return View();
+            }
+        }
+
+        [HttpGet]
         public ActionResult ComprarAhora(int id,int cantidad)
         {
             ActionResult resultado = RedirectToAction("IniciarSesion", "Personas");
