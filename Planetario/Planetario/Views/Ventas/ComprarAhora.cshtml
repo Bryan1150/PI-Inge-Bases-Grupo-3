@@ -23,8 +23,8 @@
 
     @using (Html.BeginForm("ComprarAhora", "Ventas", FormMethod.Post))
     {
-        @Html.HiddenFor(model => model.comprable.Id)
-        @Html.HiddenFor(model => model.comprable.CantidadCarrito)
+        @Html.HiddenFor(model => model.comprable)
+        @Html.HiddenFor(model => model.cantidadCompra)
         <div class="row">
             <div class="col-md-8">
                 <div class="card p-4 bg-light">
@@ -145,8 +145,8 @@
     }
 
     <script>
-        document.getElementById("comprable_Id").value = @ViewBag.Id;
-        document.getElementById("comprable_CantidadCarrito").value = @ViewBag.cantidad;
+        document.getElementById("comprable").value = @ViewBag.Id;
+        document.getElementById("cantidadCompra").value = @ViewBag.cantidad;
 
         var entradaDescuento = document.getElementById("entradaDescuento");
         var mensaje = document.getElementById("mensaje");

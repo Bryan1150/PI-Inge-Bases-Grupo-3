@@ -230,8 +230,8 @@ namespace Planetario.Controllers
                     string correo = cookiesInterfaz.CorreoUsuario();
                     Debug.WriteLine("correo: "+correo);
                     Dictionary<int, int> diccionario = new Dictionary<int, int>();
-                    diccionario.Add(datos.comprable.Id, datos.comprable.CantidadCarrito);
-                    Debug.WriteLine(datos.comprable.Id +"\t\t"+datos.comprable.CantidadCarrito);
+                    diccionario.Add(datos.comprable, datos.cantidadCompra);
+                    Debug.WriteLine(datos.comprable + "\t\t"+ datos.cantidadCompra);
                     FacturasHandler facturasHandler = new FacturasHandler();
                     facturasHandler.InsertarFactura(correo, diccionario);
                     resultado = RedirectToAction("InformacionBasica", "Home");

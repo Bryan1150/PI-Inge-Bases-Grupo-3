@@ -8,6 +8,7 @@ namespace Planetario.Models
     public class PagoModel
     {
         public TarjetaModel infoTarjeta { get; set; }
-        public ComprableModel comprable { get; set; }
+        public int comprable { get; set; }
+        public int cantidadCompra { get; set; }
     }
 }
