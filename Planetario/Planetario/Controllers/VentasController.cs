@@ -405,7 +405,9 @@ namespace Planetario.Controllers
         [HttpGet]
         public JsonResult ObtenerPorcentajeDescuento(string codigo)
         {
-            return Json(descuentosInterfaz.ObtenerPorcentajeDescuento(codigo),JsonRequestBehavior.AllowGet);
+            var resultado = Json(descuentosInterfaz.ObtenerPorcentajeDescuento(codigo), JsonRequestBehavior.AllowGet);
+            descuentosInterfaz.EliminarDescuento(codigo);
+            return resultado;
         }
 
         [HttpGet]
