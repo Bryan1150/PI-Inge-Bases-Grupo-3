@@ -158,6 +158,24 @@ namespace Planetario.Controllers
             {
                 if(ModelState.IsValid)
                 {
+                    string correo = cookiesInterfaz.CorreoUsuario();
+                    List<ComprableModel> listaProductos = ventasInterfaz.ObtenerTodosLosProductosDelCarrito(correo);
+                    List<ComprableModel> listaEntradas = ventasInterfaz.ObtenerTodasLasEntradasDelCarrito(correo);
+                    Dictionary<int, int> comprables = new Dictionary<int, int>();
+                    foreach(ComprableModel producto in listaProductos)
+                    {
+                        comprables.Add(producto.Id, producto.CantidadCarrito);
+                        EliminarElementoDelCarritoDelUsuario(producto.Id);
+                    }
+                    foreach (ComprableModel entrada in listaEntradas)
+                    {
+                        comprables.Add(entrada.Id, entrada.CantidadCarrito);
+                        EliminarElementoDelCarritoDelUsuario(entrada.Id);
+                    }
+                    FacturasHandler facturasHandler = new FacturasHandler();
+                    facturasHandler.InsertarFactura(correo,comprables);
+
+
 
                     resultado = RedirectToAction("InformacionBasica", "Home");
                 }
