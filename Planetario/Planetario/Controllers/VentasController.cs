@@ -184,7 +184,7 @@ namespace Planetario.Controllers
                     }
                     FacturasHandler facturasHandler = new FacturasHandler();
                     facturasHandler.InsertarFactura(correo,comprables);
-                    resultado = RedirectToAction("InformacionBasica", "Home");
+                    resultado = RedirectToAction("CompraExitosa", "Ventas");
                 }
                 else
                 {
