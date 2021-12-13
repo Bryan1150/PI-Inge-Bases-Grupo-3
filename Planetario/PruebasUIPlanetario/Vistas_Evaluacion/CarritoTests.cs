@@ -21,8 +21,13 @@ namespace PruebasUIPlanetario.UITesting
         public void TestIngresoACarritoComoFuncionario()
         {
             ConfigurarDriver();
-
             LogInFuncionario();
+            int sleep = 1000;
+
+            Thread.Sleep(sleep);
+
+            IWebElement botonPerfil = driver.FindElement(By.Id("navbarDropdownMenuSettings"));
+            botonPerfil.Click();
 
             IWebElement navbar = driver.FindElement(By.Id("carrito"));
             navbar.Click();
@@ -53,6 +58,11 @@ namespace PruebasUIPlanetario.UITesting
 
             IWebElement botonSeguir = driver.FindElement(By.Id("seguirComprando"));
             botonSeguir.Click();
+
+            Thread.Sleep(sleep);
+
+            IWebElement botonPerfil = driver.FindElement(By.Id("navbarDropdownMenuSettings"));
+            botonPerfil.Click();
 
             Thread.Sleep(sleep);
 
