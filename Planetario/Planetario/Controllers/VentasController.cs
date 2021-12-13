@@ -107,11 +107,12 @@ namespace Planetario.Controllers
         }
 
         [HttpGet]
-        public ActionResult Pago()
+        public ActionResult Pago(string formaDeCompra)
         {
             ActionResult resultado;
             if (cookiesInterfaz.SesionIniciada())
             {
+                ViewBag.FormaDeCompra = formaDeCompra;
                 PersonaHandler personasHandler = new PersonaHandler();
                 string correoUsuario = cookiesInterfaz.CorreoUsuario();
                 string membresia = personasHandler.ObtenerMembresia(correoUsuario);
@@ -137,7 +138,15 @@ namespace Planetario.Controllers
 
                 ViewBag.Precio = total;
                 ViewBag.IVA = total * 0.13;
-                ViewBag.PrecioTotal = ViewBag.Precio + ViewBag.IVA;
+                if(formaDeCompra == "Express")
+                {
+                    ViewBag.PrecioTotal = ViewBag.Precio + ViewBag.IVA + 2000;
+                }
+                else
+                {
+                    ViewBag.PrecioTotal = ViewBag.Precio + ViewBag.IVA;
+                }
+                
                 resultado = View();
             }
             else

@@ -111,8 +111,8 @@
                     ¿De qué manera desea recibir los productos?
                 </div>
                 <div class="modal-footer">
-                    <a href="@Url.Action("Pago","Ventas")" class="btn btn-secondary container-fluid">Express</a>
-                    <a href="@Url.Action("Pago","Ventas")" class="btn btn-success container-fluid">Recoger en el planetario</a>
+                    <a href="@Url.Action("Pago","Ventas", new { formaDeCompra = "Express" })" class="btn btn-secondary container-fluid">Express</a>
+                    <a href="@Url.Action("Pago","Ventas", new { formaDeCompra = "Recoger" }))" class="btn btn-success container-fluid">Recoger en el planetario</a>
                 </div>
             </div>
         </div>

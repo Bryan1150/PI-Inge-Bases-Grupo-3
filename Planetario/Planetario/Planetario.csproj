@@ -201,6 +201,7 @@
     <Compile Include="Models\ProductoModel.cs" />
     <Compile Include="Models\RSSFeedModel.cs" />
     <Compile Include="Models\TarjetaModel.cs" />
+    <Compile Include="Models\UbicacionModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
