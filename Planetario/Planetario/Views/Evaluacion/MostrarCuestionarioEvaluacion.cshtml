@@ -32,7 +32,8 @@
                                 #panelsStayOpen-collapseThree,
                                 #panelsStayOpen-collapseFour,
                                 #panelsStayOpen-collapseFive,
-                                #panelsStayOpen-collapseSix"
+                                #panelsStayOpen-collapseSix,
+                                #panelsStayOpen-collapseSeven"
                             aria-expanded="false"
                             aria-controls="panelsStayOpen-collapseOne panelsStayOpen-collapseTwo">
                         <i class="fa fa-dot-circle-o" aria-hidden="true"></i>
@@ -127,7 +128,25 @@
                     <div class="row">
                         <div class="col"> <p>@ViewBag.Compras</p> </div>
                     </div>
-                    
+
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="panelsStayOpen-headingSeven">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseSeven" aria-expanded="false" aria-controls="panelsStayOpen-collapseSeven">
+                    <p class="p-2">Últimos comentarios</p>
+                </button>
+            </h2>
+            <div id="panelsStayOpen-collapseSeven" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingSeven">
+                <div class="accordion-body">
+                    <div id="comentarios"></div>
+                        @foreach(var item in ViewBag.Comentarios)
+                        { 
+                            <p>@item</p>
+                        }
+                    </div>
                 </div>
             </div>
         </div>

@@ -104,6 +104,8 @@ namespace Planetario.Controllers
             ViewBag.RespuestasPrecios = accesoDatos.ObtenerCantidadRespuestasPorPregunta(4);
             ViewBag.RespuestasSatisfecho = accesoDatos.ObtenerCantidadRespuestasPorPregunta(5);
 
+            ViewBag.Comentarios = accesoDatos.ObtenerComentariosDeCuestionario("Califica tu experiencia");
+
             ObtenerResumenesEvaluaciones("2021-01-01", "2021-12-31");
 
             ViewBag.Fechas = "En general se obtienen los siguientes resultados:";
@@ -125,6 +127,8 @@ namespace Planetario.Controllers
             ViewBag.RespuestasComprar = accesoDatos.ObtenerCantidadRespuestasPorPreguntaYFecha(3, fechaInicio, fechaFin);
             ViewBag.RespuestasPrecios = accesoDatos.ObtenerCantidadRespuestasPorPreguntaYFecha(4, fechaInicio, fechaFin);
             ViewBag.RespuestasSatisfecho = accesoDatos.ObtenerCantidadRespuestasPorPreguntaYFecha(5, fechaInicio, fechaFin);
+
+            ViewBag.Comentarios = accesoDatos.ObtenerComentariosDeCuestionarioPorFecha("Califica tu experiencia", fechaInicio, fechaFin);
 
             ObtenerResumenesEvaluaciones(fechaInicio, fechaFin);
 
