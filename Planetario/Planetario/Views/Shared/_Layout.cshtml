@@ -152,7 +152,7 @@
 
                 <div class="col">
                     <div class="card" style="border: none;">
-                        <a class="stretched-link" data-bs-toggle="collapse" href="#collapseMateriales" role="button" aria-expanded="false" aria-controls="collapseMateriales">
+                        <a class="stretched-link" data-bs-toggle="collapse" href="#collapseNoticias" role="button" aria-expanded="false" aria-controls="collapseNoticias">
                             <h3>
                                 <i class="fa fa-newspaper-o" aria-hidden="true"></i>
                                 <br />
@@ -160,7 +160,7 @@
                             </h3>
                         </a>
                     </div>
-                    <div class="card-body collapse" id="collapseMateriales">
+                    <div class="card-body collapse" id="collapseNoticias">
                         <p class="card-text">@Html.ActionLink("Agregar Noticia", "crearNoticia", "Noticias", new { area = "" }, new { @class = "" })</p>
                     </div>
                 </div>
@@ -251,13 +251,15 @@
                         </a>
                     </div>
                     <div class="collapse" id="collapseEstadisticas">
+                        <p class="card-text">@Html.ActionLink("Agregar Cupones", "AgregarCupon", "Ventas", new { area = "" }, new { @class = "" })</p>
                         <p class="card-text">@Html.ActionLink("Estadísticas de Idiomas", "verIdiomas", "Estadisticas", new { area = "" }, new { @class = "" })</p>
                         <p class="card-text">@Html.ActionLink("Estadísticas de Involucramiento", "verInvolucramiento", "Estadisticas", new { area = "" }, new { @class = "" })</p>
                         <p class="card-text">@Html.ActionLink("Reporte de ventas", "Reporte", "Reportes", new { area = "" }, new { @class = "" })</p>
                         <p class="card-text">@Html.ActionLink("Reporte de mercadeo", "ReporteMercadeo", "Reportes", new { area = "" }, new { @class = "" })</p>
+                        <p class="card-text">@Html.ActionLink("Reporte de Feedback", "MostrarCuestionarioEvaluacion", "Evaluacion", new { area = "" }, new { @class = "" })</p>
                     </div>
                 </div>
-                    
+
             </div>
             
         </div>

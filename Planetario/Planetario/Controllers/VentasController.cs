@@ -4,6 +4,7 @@ using Planetario.Models;
 using Planetario.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Planetario.Controllers
 {
@@ -107,11 +108,12 @@ namespace Planetario.Controllers
         }
 
         [HttpGet]
-        public ActionResult Pago()
+        public ActionResult Pago(string formaDeCompra)
         {
             ActionResult resultado;
             if (cookiesInterfaz.SesionIniciada())
             {
+                ViewBag.FormaDeCompra = formaDeCompra;
                 PersonaHandler personasHandler = new PersonaHandler();
                 string correoUsuario = cookiesInterfaz.CorreoUsuario();
                 string membresia = personasHandler.ObtenerMembresia(correoUsuario);
@@ -137,7 +139,15 @@ namespace Planetario.Controllers
 
                 ViewBag.Precio = total;
                 ViewBag.IVA = total * 0.13;
-                ViewBag.PrecioTotal = ViewBag.Precio + ViewBag.IVA;
+                if(formaDeCompra == "Express")
+                {
+                    ViewBag.PrecioTotal = ViewBag.Precio + ViewBag.IVA + 2000;
+                }
+                else
+                {
+                    ViewBag.PrecioTotal = ViewBag.Precio + ViewBag.IVA;
+                }
+                
                 resultado = View();
             }
             else
@@ -172,14 +182,92 @@ namespace Planetario.Controllers
                     }
                     FacturasHandler facturasHandler = new FacturasHandler();
                     facturasHandler.InsertarFactura(correo,comprables);
-
-
-
                     resultado = RedirectToAction("InformacionBasica", "Home");
                 }
                 else
                 {
 
+                }
+            }
+            catch
+            {
+
+            }
+            return resultado;
+        }
+
+        [HttpGet]
+        public ActionResult AgregarCupon()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AgregarCupon(DescuentoModel cupon)
+        {
+            ViewBag.ExitoAlCrear = false;
+            try
+            {
+                DescuentosHandler descuentoHandler = new DescuentosHandler();
+                ViewBag.ExitoAlCrear = descuentoHandler.InsertarDescuento(cupon);
+                if (ViewBag.ExitoAlCrear)
+                {
+                    ViewBag.Message = "El cupón " + cupon.Codigo + " fue creado con éxito";
+                }
+
+                return View();
+            }
+            catch
+            {
+                ViewBag.Message = "Algo salió mal y no fue posible crear el cupón.";
+                return View();
+            }
+        }
+
+        [HttpGet]
+        public ActionResult ComprarAhora(int id,int cantidad)
+        {
+            ActionResult resultado = RedirectToAction("IniciarSesion", "Personas");
+            if(cookiesInterfaz.SesionIniciada())
+            {
+                string correoUsuario = cookiesInterfaz.CorreoUsuario();
+                PersonaHandler personaHandler = new PersonaHandler();
+                ViewBag.membresia = personaHandler.ObtenerMembresia(correoUsuario);
+                ViewBag.cantidad = cantidad;
+                ViewBag.Id = id;
+                ComprableModel comprable = ventasInterfaz.ObtenerComprable(id);
+                ViewBag.Precio = comprable.Precio;
+                ViewBag.IVA = comprable.Precio * 0.13;
+                ViewBag.PrecioTotal = ViewBag.Precio + ViewBag.IVA;
+                ViewBag.Nombre = comprable.Nombre;
+                resultado = View();
+            }
+            return resultado;
+        }
+
+        [HttpPost]
+        public ActionResult ComprarAhora(PagoModel datos)
+        {
+            Debug.WriteLine("hice post");
+            ActionResult resultado = View();
+            try
+            {
+                if(ModelState.IsValid)
+                {
+                    Debug.WriteLine("estoy aqui");
+                    string correo = cookiesInterfaz.CorreoUsuario();
+                    Debug.WriteLine("correo: "+correo);
+                    Dictionary<int, int> diccionario = new Dictionary<int, int>();
+                    diccionario.Add(datos.comprable, datos.cantidadCompra);
+                    Debug.WriteLine(datos.comprable + "\t\t"+ datos.cantidadCompra);
+                    FacturasHandler facturasHandler = new FacturasHandler();
+                    facturasHandler.InsertarFactura(correo, diccionario);
+                    resultado = RedirectToAction("InformacionBasica", "Home");
+                    Debug.WriteLine("redirect");
+                }
+                else
+                {
+                    Debug.WriteLine("model state invalido");
                 }
             }
             catch

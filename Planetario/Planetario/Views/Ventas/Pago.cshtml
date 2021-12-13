@@ -1,4 +1,4 @@
-﻿@model Planetario.Models.InscripcionModel
+﻿@model Planetario.Models.UbicacionModel
 @{ 
     ViewBag.Title = "Pago";
     string urlDescuentos = Url.Content("/Ventas/ObtenerPorcentajeDescuento");
@@ -48,7 +48,7 @@
                     </div>
                     <br />
                     <div class="form-floating">
-                        @Html.TextBoxFor(model => model.infoTarjeta.CVV, new { @class = "form-control input-lg", @placeholder = "", @type = "number", @maxLength = "3" })
+                        @Html.TextBoxFor(model => model.infoTarjeta.CVV, new { @class = "form-control input-lg", @placeholder = "", @type = "month", @maxLength = "3" })
                         @Html.LabelFor(model => model.infoTarjeta.CVV, htmlAttributes: new { @class = "" })
                         @Html.ValidationMessageFor(model => model.infoTarjeta.CVV, "", new { @class = "text-danger" })
                     </div>
@@ -56,6 +56,7 @@
                 </div>
 
             </div>
+
 
             <h6 class="text-uppercase">Dirección de cobro</h6>
 
@@ -91,6 +92,36 @@
                     @Html.ValidationMessageFor(model => model.infoTarjeta.detallesDireccion, "", new { @class = "text-danger" })
                 </div>
             </div>
+            @if (ViewBag.FormaDeCompra == "Express")
+            {
+            <br />
+            <h6 class="text-uppercase">Dirección de envio</h6>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-floating">
+                        @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control input-lg", @placeholder = "" })
+                        @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "" })
+                        @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-floating">
+                        @Html.TextBoxFor(model => model.Telefono, new { @class = "form-control input-lg", @placeholder = "" })
+                        @Html.LabelFor(model => model.Telefono, htmlAttributes: new { @class = "" })
+                        @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-floating">
+                    @Html.TextBoxFor(model => model.Direccion, new { @class = "form-control input-lg", @placeholder = "" })
+                    @Html.LabelFor(model => model.Direccion, htmlAttributes: new { @class = "" })
+                    @Html.ValidationMessageFor(model => model.Direccion, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            }
         </div>
     </div>
     <div class="col-md-3 offset-md-1">
@@ -99,20 +130,41 @@
                 <div class="card-text">
                     <h4>Subtotal: (@ViewBag.CantidadItems items)</h4>
                     <h5><strong>Precio Base: </strong>₡@ViewBag.Precio</h5>
-                    <h5><strong>IVA: </strong>₡@ViewBag.IVA</h5>
-                  
+
+
+                    @if (ViewBag.FormaDeCompra == "Express" && ViewBag.Membresia != "Solar")
+                    {
+                        <h5><strong>Costo de envío: </strong>₡2000</h5>
+                    }
+                    else if (ViewBag.FormaDeCompra == "Express" && ViewBag.Membresia == "Solar")
+                    {
+                        <h5><strong>Costo de envío: ¡Gratuito!</strong></h5>
+                    }
+
                     @if (ViewBag.Membresia == "Lunar")
                     {
-                        <h5 id="precioTotal"><strong>Precio Total: </strong>₡@(ViewBag.PrecioTotal*0.95)</h5>
+                        {
+                            ViewBag.Precio = ViewBag.Precio * 0.95;
+                        }
+                        <h5 id="precioConDescuento"><strong>Precio con descuento: </strong>₡@(ViewBag.Precio)</h5>
                         <h6>Descuento de 5% aplicado por membresía <strong>Lunar.</strong></h6>
                     }
                     else if (ViewBag.Membresia == "Solar")
                     {
-                        <h5 id="precioTotal"><strong>Precio Total: </strong>₡@(ViewBag.PrecioTotal*0.9)</h5>
+                        {
+                            ViewBag.Precio = ViewBag.Precio * 0.9;
+                        }
+                        <h5 id="precioConDescuento"><strong>Precio con descuento: </strong>₡@(ViewBag.Precio)</h5>
                         <h5>Descuento de 10% aplicado por membresía <strong>Solar.</strong></h5>
                     }
+                    else
+                    {/*
+                        <h5 id="precioTotal"><strong>Precio Total: </strong>₡@ViewBag.PrecioTotal</h5>
+                        */
+                    }
 
-                    <h5 id="precioConDescuento"></h5>
+                    <h5 id="iva"><strong>IVA: </strong>₡@(ViewBag.Precio*0.13)</h5>
+                    <h5 id="precioFinal"><strong>Precio + IVA: </strong>@(ViewBag.Precio + ViewBag.Precio*0.13)</h5>
                 </div>
             </div>
             <div class="card-footer text-center">
@@ -142,11 +194,13 @@
         }
 
 <script>
-                var entradaDescuento = document.getElementById("entradaDescuento");
+    var entradaDescuento = document.getElementById("entradaDescuento");
     var mensaje = document.getElementById("mensaje");
     var porcentajeDescuento = 0;
-    var precioSinDescuento = @ViewBag.PrecioTotal;
-    var precioConDescuento = precioSinDescuento;
+    var subTotal = 1*(@ViewBag.Precio);
+    var iva = subTotal * 0.13;
+    var precioConDescuento = subTotal;
+    var precioFinal = subTotal + iva;
 
                 function obtenerPorcentajeDescuento() {
                     let urlProductos = "@urlDescuentos?codigo=" + entradaDescuento.value;
@@ -167,9 +221,13 @@
                                             </div></p>`;
                         document.getElementById("descuentos").innerHTML = "";
                         porcentajeDescuento = porcentaje;
-                        precioConDescuento = (precioSinDescuento - precioSinDescuento * porcentaje / 100).toFixed(2);
+                        precioConDescuento = (subTotal - subTotal * porcentaje / 100).toFixed(2);
+                        iva = precioConDescuento * 0.13;
+                        precioFinal = 1*(precioConDescuento) + 1*(iva);
                         document.getElementById("precioConDescuento").innerHTML = `<strong>Precio con descuento: </strong>₡${precioConDescuento}`;
-                        document.getElementById("precioTotal").innerHTML = `<strong>Precio sin descuento: </strong>₡${precioSinDescuento}`;
+                        document.getElementById("precioFinal").innerHTML = `<strong>Precio + IVA: </strong>₡${precioFinal}`;
+                        document.getElementById("iva").innerHTML = `<strong>IVA: </strong>₡${iva}`
+                        
                     }
                     else {
                         mensaje.innerHTML = `<div class="card bg-danger bg-opacity-25 border">
