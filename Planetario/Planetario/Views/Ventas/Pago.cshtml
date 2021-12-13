@@ -91,12 +91,14 @@
                     @Html.LabelFor(model => model.infoTarjeta.detallesDireccion, htmlAttributes: new { @class = "" })
                     @Html.ValidationMessageFor(model => model.infoTarjeta.detallesDireccion, "", new { @class = "text-danger" })
                 </div>
+                <br /><br />
             </div>
             @if (ViewBag.FormaDeCompra == "Express")
             {
-            <br />
+        <p>ㅤ</p>
             <h6 class="text-uppercase">Dirección de envio</h6>
             <div class="row">
+                
                 <div class="col-md-6">
                     <div class="form-floating">
                         @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control input-lg", @placeholder = "" })
@@ -129,7 +131,7 @@
             <div class="card-body">
                 <div class="card-text">
                     <h4>Subtotal: (@ViewBag.CantidadItems items)</h4>
-                    <h5><strong>Precio Base: </strong>₡@ViewBag.Precio</h5>
+                    <h5><strong>Precio base: </strong>₡@ViewBag.Precio</h5>
 
 
                     @if (ViewBag.FormaDeCompra == "Express" && ViewBag.Membresia != "Solar")
