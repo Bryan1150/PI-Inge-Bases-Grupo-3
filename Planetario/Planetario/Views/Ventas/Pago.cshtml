@@ -220,6 +220,9 @@
     var precioConDescuento = subTotal;
     var precioFinal = subTotal + iva;
 
+        document.getElementById("comprable").value = @ViewBag.Id;
+        document.getElementById("cantidad").value = @ViewBag.cantidad;
+
     function obtenerPorcentajeDescuento() {
         let urlProductos = "@urlDescuentos?codigo=" + entradaDescuento.value;
         console.log(urlProductos);
