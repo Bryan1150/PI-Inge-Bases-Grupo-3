@@ -1,13 +1,12 @@
-# ASP.NET
-# Build and test ASP.NET projects.
-# Add steps that publish symbols, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
+#Grupo de variables, en el que se incluye el web app, y la base de datos.
 variables: 
 - group: AzureResourcesVariableGroup
 
+#El trigger, en este caso es cuando se hace un commit al master.
 trigger:
 - master
 
+#Stage de compilar el repositorio, agregandole todos los paquetes necesarios con Nugget.
 stages:
 - stage: Build
   jobs: 
@@ -34,17 +33,18 @@ stages:
         msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
-    # Pruebas comentadas para pos probar
-    #- task: VSTest@2
-    #  inputs:
-    #    platform: '$(buildPlatform)'
-    #    configuration: '$(buildConfiguration)'
+
+    # Task de ejecutar las pruebas
+    - task: VSTest@2
+      inputs:
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
     - task: PublishBuildArtifacts@1
       inputs:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
         ArtifactName: 'drop'
         publishLocation: 'Container'
-
+#Stage para hacerle deploy a los recursos de azure.
 - stage: DeployAzureResources
   jobs: 
   - job: DeployAzureResources
@@ -60,15 +60,15 @@ stages:
           # create a resource group
           az group create -l $LOCATION -n $RESOURCEGROUPNAME
           
-          # create and configure Azure SQL logical server and Azure SQL database
+          # Crear y configuar un servidor Azure SQL con una base de datos Azure SQL
           az sql server create -l $LOCATION -g $RESOURCEGROUPNAME -n $SQLSRVNAME -u $(USERNAME) -p $(PASSWORD)
           az sql db create -g $RESOURCEGROUPNAME -s $SQLSRVNAME -n $DBNAME --service-objective Basic
           az sql server firewall-rule create -g $RESOURCEGROUPNAME -s $SQLSRVNAME -n allowazure --start-ip-address 0.0.0.0 --end-ip-address 0.0.0.0
           
-          # create and configure an Azure App Service plan and an Azure web app
+          # Crear y configurar un plan de servicio de azure, y un web app.
           az appservice plan create -g $RESOURCEGROUPNAME -n $SVCPLANNAME --sku FREE
           az webapp create -g $RESOURCEGROUPNAME -p $SVCPLANNAME -n $WEBAPPNAME
-        
+  #Stage de deploy del asp.net a la web app, basicamente montarlo en la pagina web.
 - stage: DeployASPNETApp
   jobs: 
   - job: DeployASPNETApp
