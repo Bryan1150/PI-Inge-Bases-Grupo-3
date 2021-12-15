@@ -39,9 +39,7 @@ stages:
       inputs:
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
-        #**\*test*.dll
         searchFolder: '$(System.DefaultWorkingDirectory)'
-        testFiltercriteria: '/Tests:VerySpecificNameOfTest'
         uiTests: true
         runTestsInIsolation: true
         codeCoverageEnabled: true
